@@ -348,7 +348,6 @@ p {
 	margin-top: 15px;
 	word-wrap: break-word;
 }
-
 .tile-box{
   background-image: none;
   width: 467px;
@@ -376,10 +375,17 @@ p {
 	margin: 0 5px 5px 10px;
 	font-size: 15px;
 	height:	100%;
-	overflow-y: scroll;
+	width: 100%;
+	overflow-y: auto;
 }
 .tile-h{
 	font-size: 18px;
+}
+.no-underline{
+  text-decoration: none;
+}
+.underline{
+  text-decoration: underline;
 }
 .tile-line-box{
 	min-height: 40px;
