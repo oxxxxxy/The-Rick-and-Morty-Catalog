@@ -2,6 +2,7 @@ The Rick and Morty Catalog
 
 It's several web apps based on link https://rickandmortyapi.com with the same functionality to search characters and their data. It's an educational project for the purpose of learning a lot of frontend frameworks, lol, wait for flutter.
 
+Primarily programming paradigms/principles/architectures/etc: REST, OOP, SOLID, YAGNI, KISS, DRY, APO.
 
 Svelte version
     git internal link
