@@ -1,6 +1,6 @@
 Svelte version of The Rick and Morty Catalog.
 
-The web app implementation is based primarily on Svelte, JavaScript, Axios.
+The web app implementation is based primarily on Svelte, JavaScript.
 
 Primarily programming paradigms/principles/architectures/etc: OOP, FP, SOLID, YAGNI, KISS, DRY, APO.
 
@@ -12,6 +12,5 @@ Tech stack:
     - Formatter: Prettier
     - Browser compatibility testing: Playwright
     - Unit testing: Vitest
-    - HTTP client for API: Axios
 
 
