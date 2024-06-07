@@ -1,0 +1,16 @@
+import {
+	URL__RICKANDMORTYAPI_API,
+
+	API_CHARACTERS__PATH,
+	API_CHARACTERS__PARAM_LIST,
+
+	API_EPISODES__PATH,
+	API_EPISODES__PARAM_LIST,
+
+	API_LOCATIONS__PATH,
+	API_EPISODES__PARAM_LIST
+	
+} from '../../global-components-entry.js';
+
+export const ass = '';
+
