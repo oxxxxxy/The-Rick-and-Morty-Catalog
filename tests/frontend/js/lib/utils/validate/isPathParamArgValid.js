@@ -1,6 +1,6 @@
 import { expect, test, describe } from 'vitest';
 
-import { V } from '../../global-lib-entry.js';
+import { V } from '../../global-lib-exit.js';
 
 
 

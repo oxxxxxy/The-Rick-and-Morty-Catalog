@@ -7,4 +7,4 @@
 // can u suggest a some more neat solution? if u can than welcome to issues/PR/etc. THANK YOU.
 
 
-export * from '../../../components/js/global-components-entry.js';
+export * from '../../../components/frontend/js/global-components-entry.js';

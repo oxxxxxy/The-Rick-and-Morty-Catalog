@@ -1,4 +1,4 @@
-import { FP } from './global-lib-entry.js';
+import { FP } from './global-lib-exit.js';
 
 export const get__server_status_icon_OKorERR = boolean => 
 	boolean 

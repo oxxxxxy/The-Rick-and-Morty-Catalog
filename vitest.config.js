@@ -6,7 +6,8 @@ export default defineConfig( _ => ({
 		dir: 'tests',
 		exclude: [
 			...configDefaults.exclude,
-			'**/*-entry.js'
+			'**/*-entry.*s',
+			'**/*-exit.*s'
 		]
 	}
 }));

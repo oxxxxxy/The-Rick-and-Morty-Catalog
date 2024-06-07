@@ -7,14 +7,16 @@
 
 	import {
 		get__server_status_icon_OKorERR,
-		handleStatus
-	} from '$lib/global-components-entry.js';
+		fapi
+	} from '$lib/global-components-exit.js';
 
+
+	async function a(){console.log(await fapi.get('episodes', 1))};
+
+	// a();
 
 	let server_status_icon_OKorERR = get__server_status_icon_OKorERR(false);
 
-	setInterval(()=> console.log('asdf'), 2000)
-	console.log('asdf', handleStatus(200))
 
 </script>
 
