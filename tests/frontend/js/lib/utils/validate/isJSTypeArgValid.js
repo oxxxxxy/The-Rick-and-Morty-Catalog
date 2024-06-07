@@ -12,7 +12,7 @@ const exact_arg_for_PARAM_TYPE__JUST_STRING = 'any string characters... JOPA[]12
 
 describe('Test #1. PARAM_TYPE__JUST_STRING.', ()=>{
 	test('Should be true with any string characters.', () => {
-		const result_of_exact_arg = V.isPathParamArgValid(
+		const result_of_exact_arg = V.isJSTypeArgValid(
 			PARAM_TYPE__JUST_STRING,
 			exact_arg_for_PARAM_TYPE__JUST_STRING
 		);
@@ -31,7 +31,7 @@ const exact_arg_for_PARAM_TYPE__STRING_WITH_MATCH = 'S01E03';
 
 describe('Test #2. PARAM_TYPE__STRING_WITH_MATCH.', ()=>{
 	test('Should be true with exact arg.', () => {
-		const result_of_exact_arg = V.isPathParamArgValid(
+		const result_of_exact_arg = V.isJSTypeArgValid(
 			PARAM_TYPE__STRING_WITH_MATCH,
 			exact_arg_for_PARAM_TYPE__STRING_WITH_MATCH
 		);
@@ -45,7 +45,7 @@ describe('Test #3. PARAM_TYPE__STRING_WITH_MATCH.', ()=>{
 
 		const non_exact_arg = 'S001E9';
 
-		const result_of_exact_arg = V.isPathParamArgValid(
+		const result_of_exact_arg = V.isJSTypeArgValid(
 			PARAM_TYPE__STRING_WITH_MATCH,
 			non_exact_arg
 		);
@@ -66,7 +66,7 @@ const exact_arg_for_PARAM_TYPE__OPTIONS = 'dead';
 
 describe('Test #4. PARAM_TYPE__OPTIONS.', ()=>{
 	test('Should be true with exact arg.', () => {
-		const result_of_exact_arg = V.isPathParamArgValid(
+		const result_of_exact_arg = V.isJSTypeArgValid(
 			PARAM_TYPE__OPTIONS,
 			exact_arg_for_PARAM_TYPE__OPTIONS
 		);
@@ -80,7 +80,7 @@ describe('Test #5. PARAM_TYPE__OPTIONS.', ()=>{
 		
 		const non_exact_arg = 'alIva';
 
-		const result_of_exact_arg = V.isPathParamArgValid(
+		const result_of_exact_arg = V.isJSTypeArgValid(
 			PARAM_TYPE__OPTIONS,
 			non_exact_arg
 		);
