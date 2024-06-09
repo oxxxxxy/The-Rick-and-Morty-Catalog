@@ -1,1 +1,0 @@
-I realized right now that I was spending time on reinventing the wheel... TypeScript's implementation of type checking for JS, validation decorator and error handling first steps are the only things that make sence.

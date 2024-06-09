@@ -1,0 +1,43 @@
+{
+	"compilerOptions": {
+    "strict": true,
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
+		"resolveJsonModule": true,
+    "target": "es6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "allowImportingTsExtensions": true,
+    "paths": {
+			"@lib": ["lib/ts"],
+			"@lib/*": ["lib/ts/*"],
+
+      "@Flib": ["lib/ts/frontend"],
+      "@Flib/*": ["lib/ts/frontend/*"],
+
+      "@Blib": ["lib/ts/backend"],
+      "@Blib/*": ["lib/ts/backend/*"],
+
+      "@Fcomps": ["components/ts/frontend"],
+      "@Fcomps/*": ["components/ts/frontend/*"],
+
+      "@Bcomps": ["components/ts/backend"],
+      "@Bcomps/*": ["components/ts/backend/*"],
+
+      "@tests/*": ["tests/*"]
+    }
+  }
+}
