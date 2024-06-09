@@ -10,6 +10,10 @@ const config = {
 		,files: {
 			assets: '../static/'
 		}
+		,alias: {
+			"@lib": "../lib/js/frontend/global-lib-entry.js",
+			"@comps": "../components/js/frontend/global-components-entry.js"
+		}
 	}
 };
 

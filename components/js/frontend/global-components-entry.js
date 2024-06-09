@@ -8,4 +8,4 @@ export * from './constants/urls.js';
 export * from './Header.js';
 
 
-export * from './api-service/fetch/index.js';
+export * from './api-service/fetch-to-external/index.js';

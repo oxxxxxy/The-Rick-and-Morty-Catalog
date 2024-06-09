@@ -8,12 +8,18 @@
 	import {
 		get__server_status_icon_OKorERR,
 		fapi
-	} from '$lib/global-components-exit.js';
+	} from '@comps';
 
 
-	async function a(){console.log(await fapi.get('episodes', 1))};
+	async function a(){
+		console.log(
 
-	// a();
+			await fapi.get('characters'),
+			await fapi.get('episodes', 1)
+		)
+	};
+
+	//a();
 
 	let server_status_icon_OKorERR = get__server_status_icon_OKorERR(false);
 

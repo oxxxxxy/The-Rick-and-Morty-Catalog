@@ -7,4 +7,4 @@
 // can u suggest a some more neat solution? if u can than welcome to issues/PR/etc. THANK YOU.
 
 
-export * from '../../../lib/frontend/js/global-lib-entry.js';
+//export * from '../../../lib/js/frontend/global-lib-entry.js';
