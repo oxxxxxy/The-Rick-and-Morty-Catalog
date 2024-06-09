@@ -9,18 +9,7 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"moduleResolution": "bundler",
-		
-		"paths": {
-			"@lib": ["../lib/frontend/ts"],
-			"@lib/*": ["../lib/frontend/ts/*"],
-
-			"@comps": ["../components/frontend/ts"],
-			"@comps/*": ["../components/frontend/ts/*"],
-
-			"$comps": ["src/components"],
-			"$comps/*": ["src/components/*"]
-		}
+		"moduleResolution": "bundler"
 
 	}
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
