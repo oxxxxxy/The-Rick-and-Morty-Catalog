@@ -1,0 +1,31 @@
+import {
+	URL__RICKANDMORTYAPI_API,
+
+	API_CHARACTERS__PATH,
+	API_CHARACTERS__PARAM_LIST,
+
+	API_EPISODES__PATH,
+	API_EPISODES__PARAM_LIST,
+
+	API_LOCATIONS__PATH,
+	API_LOCATIONS__PARAM_LIST
+	
+} from '../../global-components-entry.js';
+import { FetchApiService } from '../../global-lib-exit.js';
+
+
+export const fapi = new FetchApiService({ BASE_URL: URL__RICKANDMORTYAPI_API });
+
+fapi.createApiPath({
+		API_PATH: API_CHARACTERS__PATH,
+		API_PATH__PARAM_LIST: API_CHARACTERS__PARAM_LIST
+	})
+	.createApiPath({
+		API_PATH: API_EPISODES__PATH,
+		API_PATH__PARAM_LIST: API_EPISODES__PARAM_LIST
+	})
+	.createApiPath({
+		API_PATH: API_LOCATIONS__PATH,
+		API_PATH__PARAM_LIST: API_LOCATIONS__PARAM_LIST
+	});
+
