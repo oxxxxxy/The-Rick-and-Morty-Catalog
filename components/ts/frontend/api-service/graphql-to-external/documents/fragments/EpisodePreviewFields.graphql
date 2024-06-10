@@ -1,0 +1,6 @@
+fragment EpisodePreviewFields on Episode{
+  id
+  name
+  air_date
+  episode
+}

@@ -4,16 +4,19 @@ import _urlJoin from 'url-join';
 
 
 
+
 export const U: LooseObject = {};
+
 
 const urlJoin = (...args: string[] ): string => urlJoin(...args);
 U.urlJoin = urlJoin;
+
 
 const log = (...args: any): void => console.log(...args);
 U.log = log;
 
 
-const clearEmptyURLSearchParams = urlSP => {
+const clearEmptyURLSearchParams = (urlSP: URLSearchParams): URLSearchParams => {
 	const keys = [...urlSP.keys()];
 	
 	const obj = {};

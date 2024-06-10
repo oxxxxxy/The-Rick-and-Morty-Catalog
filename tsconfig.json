@@ -31,6 +31,9 @@
       "@Blib": ["lib/ts/backend"],
       "@Blib/*": ["lib/ts/backend/*"],
 
+      "@comps": ["components/ts"],
+      "@comps/*": ["components/ts/*"],
+
       "@Fcomps": ["components/ts/frontend"],
       "@Fcomps/*": ["components/ts/frontend/*"],
 

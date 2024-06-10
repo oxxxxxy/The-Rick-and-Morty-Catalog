@@ -1,0 +1,6 @@
+fragment LocationPreviewFields on Location{
+	id
+	name
+	type
+	dimension
+}

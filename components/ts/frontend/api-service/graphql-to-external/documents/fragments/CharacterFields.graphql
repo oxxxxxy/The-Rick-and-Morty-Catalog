@@ -1,0 +1,8 @@
+fragment CharacterFields on Character {
+	
+	...CharacterPreviewFields
+
+  episode{
+  	...EpisodePreviewFields
+  }
+}

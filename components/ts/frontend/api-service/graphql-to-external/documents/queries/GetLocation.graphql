@@ -1,0 +1,5 @@
+query GetLocation($id: ID!) {
+	location(id: $id){
+		...LocationFields
+	}
+}

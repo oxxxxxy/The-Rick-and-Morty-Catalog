@@ -1,0 +1,7 @@
+fragment LocationFields on Location{
+ 	...LocationPreviewFields
+
+	residents{
+		...CharacterPreviewFields
+	}
+}
