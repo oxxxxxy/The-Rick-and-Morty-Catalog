@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
     "paths": {
-			"@Glib": ["lib/ts"],
-			"@Glib/*": ["lib/ts/*"],
+			"@Glib": ["ts/lib"],
+			"@Glib/*": ["ts/lib/*"],
 
-      "@Gcomps": ["components/ts"],
-      "@Gcomps/*": ["components/ts/*"],
+      "@Gcomps": ["ts/components"],
+      "@Gcomps/*": ["ts/components/*"],
 
-      "@tests/*": ["tests/*"]
+      "@tests/*": ["ts/tests/*"]
     }
 	}
 }

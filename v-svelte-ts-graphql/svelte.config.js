@@ -14,11 +14,11 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter(),
 		alias: {
-			"@lib": "../lib/ts",
-			"@lib/*": "../lib/ts/*",
+			"@lib": "../ts/lib",
+			"@lib/*": "../ts/lib/*",
 
-			"@comps": "../components/ts",
-			"@comps/*": "../components/ts/*",
+			"@comps": "../ts/components/",
+			"@comps/*": "../ts/components/*",
 
 			"$comps": "src/components",
 			"$comps/*": "src/components/*"
