@@ -1,7 +1,7 @@
 import {
 	QueryParamCompatibleList,
 	QueryParamCompatible_Form_TextInput,
-} from '@Flib/types';
+} from '@Glib/frontend/types';
 
 
 

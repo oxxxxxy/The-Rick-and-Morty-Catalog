@@ -2,12 +2,10 @@
 
 	import {U} from '@lib/utils';
 	import {
-		GetCharacterDocument,
-		sdf
-	} from '@comps/api-service';
+		urqlClient
+	} from '@comps/frontend/api-service';
 
-	U.log(sdf)
-
+	U.log(urqlClient)
 	U.log('asdf----');
 	U.log(new Date());
 	U.log('asdf');
