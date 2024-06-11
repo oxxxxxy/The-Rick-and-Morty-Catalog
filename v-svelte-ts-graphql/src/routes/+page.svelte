@@ -1,14 +1,17 @@
 <script lang="ts">
 
 	import {U} from '@lib/utils';
-	import { GetCharacterDocument } from '@comps/api-service';
+	import {
+		GetCharacterDocument,
+		sdf
+	} from '@comps/api-service';
 
-	/* a.U.log('asdf');
-	a.U.log('asdf');
-	a.U.log('asdf'); */
-	U.log('asdf');
+	U.log(sdf)
+
+	U.log('asdf----');
 	U.log(new Date());
 	U.log('asdf');
+
 
 </script>
 

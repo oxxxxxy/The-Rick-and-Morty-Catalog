@@ -1,0 +1,6 @@
+fragment InfoFields on Info{
+	count
+	pages
+	next
+	prev
+}

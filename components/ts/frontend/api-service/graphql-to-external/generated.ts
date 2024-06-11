@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import gql from "graphql-tag";
+import * as Urql from "urql";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -20,7 +20,7 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
-const defaultOptions = {} as const;
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -304,6 +304,14 @@ export type EpisodePreviewFieldsFragment = {
   episode?: string | null;
 };
 
+export type InfoFieldsFragment = {
+  __typename?: "Info";
+  count?: number | null;
+  pages?: number | null;
+  next?: number | null;
+  prev?: number | null;
+};
+
 export type LocationFieldsFragment = {
   __typename?: "Location";
   id?: string | null;
@@ -383,6 +391,49 @@ export type GetCharacterQuery = {
   } | null;
 };
 
+export type GetCharactersQueryVariables = Exact<{
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  filter?: InputMaybe<FilterCharacter>;
+}>;
+
+export type GetCharactersQuery = {
+  __typename?: "Query";
+  characters?: {
+    __typename?: "Characters";
+    info?: {
+      __typename?: "Info";
+      count?: number | null;
+      pages?: number | null;
+      next?: number | null;
+      prev?: number | null;
+    } | null;
+    results?: Array<{
+      __typename?: "Character";
+      id?: string | null;
+      name?: string | null;
+      status?: string | null;
+      species?: string | null;
+      type?: string | null;
+      gender?: string | null;
+      image?: string | null;
+      origin?: {
+        __typename?: "Location";
+        id?: string | null;
+        name?: string | null;
+        type?: string | null;
+        dimension?: string | null;
+      } | null;
+      location?: {
+        __typename?: "Location";
+        id?: string | null;
+        name?: string | null;
+        type?: string | null;
+        dimension?: string | null;
+      } | null;
+    } | null> | null;
+  } | null;
+};
+
 export type GetEpisodeQueryVariables = Exact<{
   id: Scalars["ID"]["input"];
 }>;
@@ -422,6 +473,32 @@ export type GetEpisodeQuery = {
   } | null;
 };
 
+export type GetEpisodesQueryVariables = Exact<{
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  filter?: InputMaybe<FilterEpisode>;
+}>;
+
+export type GetEpisodesQuery = {
+  __typename?: "Query";
+  episodes?: {
+    __typename?: "Episodes";
+    info?: {
+      __typename?: "Info";
+      count?: number | null;
+      pages?: number | null;
+      next?: number | null;
+      prev?: number | null;
+    } | null;
+    results?: Array<{
+      __typename?: "Episode";
+      id?: string | null;
+      name?: string | null;
+      air_date?: string | null;
+      episode?: string | null;
+    } | null> | null;
+  } | null;
+};
+
 export type GetLocationQueryVariables = Exact<{
   id: Scalars["ID"]["input"];
 }>;
@@ -458,6 +535,32 @@ export type GetLocationQuery = {
         dimension?: string | null;
       } | null;
     } | null>;
+  } | null;
+};
+
+export type GetLocationsQueryVariables = Exact<{
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  filter?: InputMaybe<FilterLocation>;
+}>;
+
+export type GetLocationsQuery = {
+  __typename?: "Query";
+  locations?: {
+    __typename?: "Locations";
+    info?: {
+      __typename?: "Info";
+      count?: number | null;
+      pages?: number | null;
+      next?: number | null;
+      prev?: number | null;
+    } | null;
+    results?: Array<{
+      __typename?: "Location";
+      id?: string | null;
+      name?: string | null;
+      type?: string | null;
+      dimension?: string | null;
+    } | null> | null;
   } | null;
 };
 
@@ -515,6 +618,14 @@ export const EpisodeFieldsFragmentDoc = gql`
   ${EpisodePreviewFieldsFragmentDoc}
   ${CharacterPreviewFieldsFragmentDoc}
 `;
+export const InfoFieldsFragmentDoc = gql`
+  fragment InfoFields on Info {
+    count
+    pages
+    next
+    prev
+  }
+`;
 export const LocationFieldsFragmentDoc = gql`
   fragment LocationFields on Location {
     ...LocationPreviewFields
@@ -534,75 +645,37 @@ export const GetCharacterDocument = gql`
   ${CharacterFieldsFragmentDoc}
 `;
 
-/**
- * __useGetCharacterQuery__
- *
- * To run a query within a React component, call `useGetCharacterQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCharacterQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCharacterQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
 export function useGetCharacterQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetCharacterQuery,
-    GetCharacterQueryVariables
-  > &
-    (
-      | { variables: GetCharacterQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
+  options: Omit<Urql.UseQueryArgs<GetCharacterQueryVariables>, "query">,
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetCharacterQuery, GetCharacterQueryVariables>(
-    GetCharacterDocument,
-    options,
-  );
+  return Urql.useQuery<GetCharacterQuery, GetCharacterQueryVariables>({
+    query: GetCharacterDocument,
+    ...options,
+  });
 }
-export function useGetCharacterLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCharacterQuery,
-    GetCharacterQueryVariables
-  >,
+export const GetCharactersDocument = gql`
+  query GetCharacters($page: Int, $filter: FilterCharacter) {
+    characters(page: $page, filter: $filter) {
+      info {
+        ...InfoFields
+      }
+      results {
+        ...CharacterPreviewFields
+      }
+    }
+  }
+  ${InfoFieldsFragmentDoc}
+  ${CharacterPreviewFieldsFragmentDoc}
+`;
+
+export function useGetCharactersQuery(
+  options?: Omit<Urql.UseQueryArgs<GetCharactersQueryVariables>, "query">,
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetCharacterQuery, GetCharacterQueryVariables>(
-    GetCharacterDocument,
-    options,
-  );
+  return Urql.useQuery<GetCharactersQuery, GetCharactersQueryVariables>({
+    query: GetCharactersDocument,
+    ...options,
+  });
 }
-export function useGetCharacterSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetCharacterQuery,
-    GetCharacterQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetCharacterQuery, GetCharacterQueryVariables>(
-    GetCharacterDocument,
-    options,
-  );
-}
-export type GetCharacterQueryHookResult = ReturnType<
-  typeof useGetCharacterQuery
->;
-export type GetCharacterLazyQueryHookResult = ReturnType<
-  typeof useGetCharacterLazyQuery
->;
-export type GetCharacterSuspenseQueryHookResult = ReturnType<
-  typeof useGetCharacterSuspenseQuery
->;
-export type GetCharacterQueryResult = Apollo.QueryResult<
-  GetCharacterQuery,
-  GetCharacterQueryVariables
->;
 export const GetEpisodeDocument = gql`
   query GetEpisode($id: ID!) {
     episode(id: $id) {
@@ -612,73 +685,37 @@ export const GetEpisodeDocument = gql`
   ${EpisodeFieldsFragmentDoc}
 `;
 
-/**
- * __useGetEpisodeQuery__
- *
- * To run a query within a React component, call `useGetEpisodeQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetEpisodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetEpisodeQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
 export function useGetEpisodeQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetEpisodeQuery,
-    GetEpisodeQueryVariables
-  > &
-    (
-      | { variables: GetEpisodeQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
+  options: Omit<Urql.UseQueryArgs<GetEpisodeQueryVariables>, "query">,
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetEpisodeQuery, GetEpisodeQueryVariables>(
-    GetEpisodeDocument,
-    options,
-  );
+  return Urql.useQuery<GetEpisodeQuery, GetEpisodeQueryVariables>({
+    query: GetEpisodeDocument,
+    ...options,
+  });
 }
-export function useGetEpisodeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEpisodeQuery,
-    GetEpisodeQueryVariables
-  >,
+export const GetEpisodesDocument = gql`
+  query GetEpisodes($page: Int, $filter: FilterEpisode) {
+    episodes(page: $page, filter: $filter) {
+      info {
+        ...InfoFields
+      }
+      results {
+        ...EpisodePreviewFields
+      }
+    }
+  }
+  ${InfoFieldsFragmentDoc}
+  ${EpisodePreviewFieldsFragmentDoc}
+`;
+
+export function useGetEpisodesQuery(
+  options?: Omit<Urql.UseQueryArgs<GetEpisodesQueryVariables>, "query">,
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetEpisodeQuery, GetEpisodeQueryVariables>(
-    GetEpisodeDocument,
-    options,
-  );
+  return Urql.useQuery<GetEpisodesQuery, GetEpisodesQueryVariables>({
+    query: GetEpisodesDocument,
+    ...options,
+  });
 }
-export function useGetEpisodeSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetEpisodeQuery,
-    GetEpisodeQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetEpisodeQuery, GetEpisodeQueryVariables>(
-    GetEpisodeDocument,
-    options,
-  );
-}
-export type GetEpisodeQueryHookResult = ReturnType<typeof useGetEpisodeQuery>;
-export type GetEpisodeLazyQueryHookResult = ReturnType<
-  typeof useGetEpisodeLazyQuery
->;
-export type GetEpisodeSuspenseQueryHookResult = ReturnType<
-  typeof useGetEpisodeSuspenseQuery
->;
-export type GetEpisodeQueryResult = Apollo.QueryResult<
-  GetEpisodeQuery,
-  GetEpisodeQueryVariables
->;
 export const GetLocationDocument = gql`
   query GetLocation($id: ID!) {
     location(id: $id) {
@@ -688,73 +725,37 @@ export const GetLocationDocument = gql`
   ${LocationFieldsFragmentDoc}
 `;
 
-/**
- * __useGetLocationQuery__
- *
- * To run a query within a React component, call `useGetLocationQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetLocationQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetLocationQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
 export function useGetLocationQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetLocationQuery,
-    GetLocationQueryVariables
-  > &
-    (
-      | { variables: GetLocationQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    ),
+  options: Omit<Urql.UseQueryArgs<GetLocationQueryVariables>, "query">,
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetLocationQuery, GetLocationQueryVariables>(
-    GetLocationDocument,
-    options,
-  );
+  return Urql.useQuery<GetLocationQuery, GetLocationQueryVariables>({
+    query: GetLocationDocument,
+    ...options,
+  });
 }
-export function useGetLocationLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetLocationQuery,
-    GetLocationQueryVariables
-  >,
+export const GetLocationsDocument = gql`
+  query GetLocations($page: Int, $filter: FilterLocation) {
+    locations(page: $page, filter: $filter) {
+      info {
+        ...InfoFields
+      }
+      results {
+        ...LocationPreviewFields
+      }
+    }
+  }
+  ${InfoFieldsFragmentDoc}
+  ${LocationPreviewFieldsFragmentDoc}
+`;
+
+export function useGetLocationsQuery(
+  options?: Omit<Urql.UseQueryArgs<GetLocationsQueryVariables>, "query">,
 ) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetLocationQuery, GetLocationQueryVariables>(
-    GetLocationDocument,
-    options,
-  );
+  return Urql.useQuery<GetLocationsQuery, GetLocationsQueryVariables>({
+    query: GetLocationsDocument,
+    ...options,
+  });
 }
-export function useGetLocationSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetLocationQuery,
-    GetLocationQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetLocationQuery, GetLocationQueryVariables>(
-    GetLocationDocument,
-    options,
-  );
-}
-export type GetLocationQueryHookResult = ReturnType<typeof useGetLocationQuery>;
-export type GetLocationLazyQueryHookResult = ReturnType<
-  typeof useGetLocationLazyQuery
->;
-export type GetLocationSuspenseQueryHookResult = ReturnType<
-  typeof useGetLocationSuspenseQuery
->;
-export type GetLocationQueryResult = Apollo.QueryResult<
-  GetLocationQuery,
-  GetLocationQueryVariables
->;
 
 export interface PossibleTypesResultData {
   possibleTypes: {

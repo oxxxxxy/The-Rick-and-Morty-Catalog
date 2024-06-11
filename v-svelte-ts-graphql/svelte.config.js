@@ -23,6 +23,14 @@ const config = {
 			"$comps": "src/components",
 			"$comps/*": "src/components/*"
 		}
+		/* ,typescript:{
+			config: config => {
+
+				config.extends = '../../tsconfig.paths.json';
+
+				return config;
+			}
+		} */
 	}
 };
 

@@ -1,0 +1,10 @@
+query GetLocations($page: Int $filter: FilterLocation) {
+	locations(page: $page filter: $filter){
+		info{
+			...InfoFields
+		}
+		results{
+		...LocationPreviewFields
+		}
+	}
+}

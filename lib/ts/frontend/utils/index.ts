@@ -1,4 +1,4 @@
-import { LooseObject } from '@lib/types';
+import { LooseObject } from '@Glib/types';
 
 import _urlJoin from 'url-join';
 

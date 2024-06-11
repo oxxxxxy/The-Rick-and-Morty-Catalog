@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+    "paths": {
+			"@Glib": ["lib/ts"],
+			"@Glib/*": ["lib/ts/*"],
+
+      "@GFlib": ["lib/ts/frontend"],
+      "@GFlib/*": ["lib/ts/frontend/*"],
+
+      "@GBlib": ["lib/ts/backend"],
+      "@GBlib/*": ["lib/ts/backend/*"],
+
+      "@Gcomps": ["components/ts"],
+      "@Gcomps/*": ["components/ts/*"],
+
+      "@GFcomps": ["components/ts/frontend"],
+      "@GFcomps/*": ["components/ts/frontend/*"],
+
+      "@GBcomps": ["components/ts/backend"],
+      "@GBcomps/*": ["components/ts/backend/*"],
+
+      "@tests/*": ["tests/*"]
+    }
+	}
+}

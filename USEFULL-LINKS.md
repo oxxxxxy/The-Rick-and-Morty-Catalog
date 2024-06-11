@@ -1,3 +1,9 @@
 https://github.com/Sairyss/domain-driven-hexagon
 https://github.com/Ch4mpl00/real-world-app-cqrs-es
 https://github.com/bitloops/ddd-hexagonal-cqrs-es-eda
+https://github.com/heyxyz/hey
+https://www.apollographql.com/docs
+https://the-guild.dev/graphql/codegen
+https://graphql.org/
+https://github.com/apollographql/apollo-client/
+https://commerce.nearform.com/open-source/urql/docs/
