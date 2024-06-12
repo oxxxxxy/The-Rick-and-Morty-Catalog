@@ -1,0 +1,14 @@
+{
+  "name": "@tsL/types",
+  "version": "2.2.8",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+
+  },
+  "workspaces": ["../*"],
+  "devDependencies": {
+
+  }
+}

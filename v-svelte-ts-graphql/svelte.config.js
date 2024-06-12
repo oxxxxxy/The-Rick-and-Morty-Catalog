@@ -14,22 +14,8 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter(),
 		alias: {
-			"@lib": "../ts/lib",
-			"@lib/*": "../ts/lib/*",
-
-			"@comps": "../ts/components/",
-			"@comps/*": "../ts/components/*",
-
 			"$comps": "src/components",
 			"$comps/*": "src/components/*"
-		}
-		,typescript:{
-			config: config => {
-
-				config.extends = '../../tsconfig.paths.json';
-
-				return config;
-			}
 		}
 	}
 };

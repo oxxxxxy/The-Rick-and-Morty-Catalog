@@ -10,10 +10,10 @@
 	U.log(new Date());
 	U.log('asdf'); */
 
-	import { TStest } from "@testik/one";
-	import { TtTtStest } from "@testik/two";
+	import { U } from '@tsL/utils';
 
-	console.log(TStest(), TtTtStest());
+	U.log('asdf345')
+
 
 </script>
 

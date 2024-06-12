@@ -1,0 +1,10 @@
+{
+  "name": "@tsL/utils",
+  "version": "2.2.8",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "../*"
+  ]
+}
