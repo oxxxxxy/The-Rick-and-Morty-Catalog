@@ -7,3 +7,4 @@ https://the-guild.dev/graphql/codegen
 https://graphql.org/
 https://github.com/apollographql/apollo-client/
 https://commerce.nearform.com/open-source/urql/docs/
+https://docs.npmjs.com/cli/v7/using-npm/workspaces

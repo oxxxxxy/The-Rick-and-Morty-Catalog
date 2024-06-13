@@ -14,6 +14,24 @@
 
 	U.log('asdf345')
 
+	import { urqlDClient } from '@tsC/api-graphql';
+
+	async function mmmm(){
+	
+		const res = await urqlDClient.q.GetCharacters({
+filter: {
+	name: 'a'
+}
+			})
+
+		console.log(
+			res,
+			res.data.characters
+		);
+
+} 
+
+mmmm()
 
 </script>
 
