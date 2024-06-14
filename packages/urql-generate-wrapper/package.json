@@ -1,5 +1,5 @@
 {
-  "name": "@urql/generateDecorator",
+  "name": "@urql/generateWrapper",
   "version": "2.2.8",
   "private": true,
   "license": "MIT",

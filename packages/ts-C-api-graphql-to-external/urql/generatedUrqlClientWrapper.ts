@@ -14,7 +14,7 @@ interface GeneratedQueries {
 	readonly GetLocations: (options?: GT.GetLocationsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsQuery,UT.AnyVariables>>;
 }
 
-export class UrqlClientDecorator {
+export class UrqlClientWrapper {
 	private urqlClient: UT.Client;
 	private generatedQueries: GeneratedQueries;
 
@@ -102,4 +102,4 @@ export class UrqlClientDecorator {
 	}
 }
 
-export default UrqlClientDecorator;
+export default UrqlClientWrapper;

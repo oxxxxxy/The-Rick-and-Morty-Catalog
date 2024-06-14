@@ -1,24 +1,14 @@
 <script lang="ts">
 
-	/* import {U} from '@lib/utils';
-	import {
-		urqlClient
-	} from '@comps/frontend/api-service';
-
-	U.log(urqlClient)
-	U.log('asdf----');
-	U.log(new Date());
-	U.log('asdf'); */
-
 	import { U } from '@tsL/utils';
 
 	U.log('asdf345')
 
-	import { urqlDClient } from '@tsC/api-graphql';
+	import { urqlWClient } from '@tsC/api-graphql-to-ex';
 
 	async function mmmm(){
 	
-		const res = await urqlDClient.q.GetCharacters({
+		const res = await urqlWClient.q.GetCharacters({
 filter: {
 	name: 'a'
 }
@@ -26,7 +16,7 @@ filter: {
 
 		console.log(
 			res,
-			res.data.characters
+			res.data?.characters
 		);
 
 } 

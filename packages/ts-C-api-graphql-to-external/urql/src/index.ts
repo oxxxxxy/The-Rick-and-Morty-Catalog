@@ -1,7 +1,7 @@
 import { Client, cacheExchange, fetchExchange } from '@urql/core';
 
 import { URL__RICKANDMORTYAPI_GRAPHQL } from '@tsCF/data/constants';
-import { UrqlClientDecorator } from '../generatedUrqlClientDecorator.ts';
+import { UrqlClientWrapper } from '../generatedUrqlClientWrapper.ts';
 
 
 const urqlClient = new Client({
@@ -9,4 +9,4 @@ const urqlClient = new Client({
 	exchanges: [ cacheExchange, fetchExchange ]
 });
 
-export const urqlDClient = new UrqlClientDecorator(urqlClient);
+export const urqlWClient = new UrqlClientWrapper(urqlClient);
