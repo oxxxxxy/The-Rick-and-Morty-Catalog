@@ -97,7 +97,7 @@ export class UrqlClientWrapper {
 		return this.urqlClient;
 	}
 
-	get q (){
+	get q (): GeneratedQueries{
 		return this.generatedQueries;
 	}
 }

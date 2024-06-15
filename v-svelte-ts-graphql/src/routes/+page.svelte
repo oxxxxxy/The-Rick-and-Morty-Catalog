@@ -1,14 +1,16 @@
 <script lang="ts">
 
+	import { getContext } from 'svelte';
+
 	import { U } from '@tsL/utils';
 
 	U.log('asdf345')
 
-	import { urqlWClient } from '@tsC/api-graphql-to-ex';
+
 
 	async function mmmm(){
 	
-		const res = await urqlWClient.q.GetCharacters({
+		const res = await getContext('wUrql').wUrql.q.GetCharacters({
 filter: {
 	name: 'a'
 }

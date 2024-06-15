@@ -75,12 +75,12 @@ const getFooterOfDecorator = () =>
 		return this.urqlClient;
 	}
 
-	get q (){
+	get q (): GeneratedQueries{
 		return this.generatedQueries;
 	}
 }
 
-export default UrqlClientDecorator;`;
+export default UrqlClientWrapper;`;
 
 
 export const makeUrqlClientDecoratorScript = (
