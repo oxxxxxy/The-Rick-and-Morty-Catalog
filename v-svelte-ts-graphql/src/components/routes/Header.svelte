@@ -1,14 +1,35 @@
 <script lang="ts">
+	import {
+		URL__STATUS_RICKANDMORTYAPI, 
+		URL__RICKANDMORTYAPI,
+		URL__APP_VER_GITHUB_REPO 
+	} from '$comps/data';
+	import { wUrql } from '$comps/context/getContext.ts';
 
-	import { URL__STATUS_RICKANDMORTYAPI } from '@tsCF/data';
-	import { URL__APP_VER_GITHUB_REPO } from '$comps/data/urls.ts';
 
 	const cssClass_serverStatusIcon_OK = 'server-status-icon_OK'; 
 	const cssClass_serverStatusIcon_ERR = 'server-status-icon_ERR';
+	
+	const getCssClassOKorERR = (bool: boolean): string => (
+		bool
+		? cssClass_serverStatusIcon_OK
+		: cssClass_serverStatusIcon_ERR
+	);
 
 
+	$: cssClass_serverStatusIcon = getCssClassOKorERR(!!0);
 
-	let cssClass_serverStatusIcon = cssClass_serverStatusIcon_OK;
+
+	const checkServerStatus = async () => {
+		const { data } = await wUrql().q.GetCharacter({id: 1});
+		
+		cssClass_serverStatusIcon = getCssClassOKorERR(!!data);
+	}
+
+	checkServerStatus();
+
+
+	const noProtocolLink = URL__RICKANDMORTYAPI.replace(/^.+:\/\//, '');
 
 </script>
 
@@ -54,7 +75,7 @@
 				    href="{URL__STATUS_RICKANDMORTYAPI}"
 				    target="_blank"
 				  >
-							rickandmortyapi.com
+							{ noProtocolLink }
 				  </a>
 					's server status
 				</span>

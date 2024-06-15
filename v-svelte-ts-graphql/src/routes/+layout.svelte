@@ -1,20 +1,14 @@
 <script lang="ts">
-
 	import injectContext from '$comps/context/injectContext.ts';
 	injectContext();
 
-	
-	import Header from '$comps/Header.svelte';
 
+	import Header from '$comps/routes/Header.svelte';
 
 
 </script>
 
 
-<div id="app">
-	<Header />
-
-</div>
-
-
+<Header />
 <slot />
+
