@@ -8,3 +8,4 @@ export type PositiveInteger <T extends number> =
   : `${T}` extends `-${string}` | `${string}.${string}`
 		? never 
 		: T;
+
