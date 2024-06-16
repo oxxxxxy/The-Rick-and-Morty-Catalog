@@ -3,6 +3,7 @@
 	import { APP_NAME } from '$comps/data';
 
 	import Poster from '$comps/routes/Home/Poster.svelte';
+	import NineRandomTiles from '$comps/routes/Home/NineRandomTiles.svelte';
 
 	U.log('asdf345')
 
@@ -17,7 +18,7 @@
 
 <main>
 	<Poster />
-
+	<NineRandomTiles />
 	
 </main>
 

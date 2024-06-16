@@ -1,0 +1,7 @@
+query GetCharactersInfo($page: Int $filter: FilterCharacter) {
+	characters(page: $page filter: $filter){
+		info{
+			...InfoFields
+		}
+	}
+}

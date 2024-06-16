@@ -1,0 +1,5 @@
+query GetLocationsByIds($ids: [ID!]!) {
+	locationsByIds(ids: $ids){
+		...LocationPreviewFields
+	}
+}

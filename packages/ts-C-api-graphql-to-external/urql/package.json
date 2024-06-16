@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "codegen": "graphql-codegen",
-    "make-urql-decorator":"node generateUrqlDecorator.js"
+    "make-urql-decorator":"node generateUrqlWrapper.js"
   },
   "dependencies": {
 

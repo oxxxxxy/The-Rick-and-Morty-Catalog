@@ -1,0 +1,5 @@
+query GetCharactersByIds($ids: [ID!]!) {
+	charactersByIds(ids: $ids){
+		...CharacterPreviewFields
+	}
+}

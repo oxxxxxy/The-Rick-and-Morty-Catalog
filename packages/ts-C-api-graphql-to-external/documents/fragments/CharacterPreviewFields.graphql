@@ -12,4 +12,7 @@ fragment CharacterPreviewFields on Character {
   location{
   	...LocationPreviewFields
   }
+	episode{
+		...EpisodePreviewFields
+	}
 }

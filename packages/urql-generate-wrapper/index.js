@@ -37,7 +37,12 @@ const getInterfaceGeneratedQueries = NameOfGraphqlQueryArr => {
 };
 
 const getHeadOfDecorator = () => 
-`export class UrqlClientWrapper {
+`export interface IUrqlClientWrapper {
+	_ : UT.Client;
+	q : GeneratedQueries;
+}
+
+export class UrqlClientWrapper implements IUrqlClientWrapper{
 	private urqlClient: UT.Client;
 	private generatedQueries: GeneratedQueries;
 
