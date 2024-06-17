@@ -1,0 +1,5 @@
+query GetPreviewCharacter($id: ID!) {
+	character(id: $id){
+		...CharacterPreviewFields
+	}
+}

@@ -1,0 +1,5 @@
+query GetPreviewLocation($id: ID!) {
+	location(id: $id){
+		...LocationPreviewFields
+	}
+}

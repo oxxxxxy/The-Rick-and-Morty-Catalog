@@ -8,6 +8,7 @@
 	U.log('asdf345')
 
 
+	console.log('page')
 
 </script>
 

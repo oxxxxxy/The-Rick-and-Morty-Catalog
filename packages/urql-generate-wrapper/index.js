@@ -27,7 +27,7 @@ import * as G from '${generatedScriptByCodegenPathFile}';`
 const getInterfaceGeneratedQueriesProp = NameOfGraphqlQuery => `	readonly ${NameOfGraphqlQuery}: (options?: GT.${NameOfGraphqlQuery}QueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.${NameOfGraphqlQuery}Query,UT.AnyVariables>>;`;
 
 const getInterfaceGeneratedQueries = NameOfGraphqlQueryArr => {
-	let text = `interface GeneratedQueries {\n`;
+	let text = `export interface GeneratedQueries {\n`;
 
 	NameOfGraphqlQueryArr.forEach(e => {
 		text += getInterfaceGeneratedQueriesProp(e) + '\n';

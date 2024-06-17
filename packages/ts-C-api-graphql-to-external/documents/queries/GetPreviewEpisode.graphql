@@ -1,0 +1,5 @@
+query GetPreviewEpisode($id: ID!) {
+	episode(id: $id){
+		...EpisodePreviewFields
+	}
+}

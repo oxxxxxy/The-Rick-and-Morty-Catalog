@@ -1,35 +1,30 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+
+	import { 
+		noProtocolLink,
+		getCssClassOKorERR,
+		checkServerStatus
+	} from '@tsCF/pages/src/Header';
+
+	
 	import {
 		URL__STATUS_RICKANDMORTYAPI, 
-		URL__RICKANDMORTYAPI,
 		URL__APP_VER_GITHUB_REPO 
 	} from '$comps/data';
-	import { wUrql } from '$comps/context/getContext.ts';
+	import g from '$comps/context/index.ts';
+	const wUrql = g().wUrql;
 
 
-	const cssClass_serverStatusIcon_OK = 'server-status-icon_OK'; 
-	const cssClass_serverStatusIcon_ERR = 'server-status-icon_ERR';
-	
-	const getCssClassOKorERR = (bool: boolean): string => (
-		bool
-		? cssClass_serverStatusIcon_OK
-		: cssClass_serverStatusIcon_ERR
-	);
 
 
 	$: cssClass_serverStatusIcon = getCssClassOKorERR(!!0);
 
+	onMount(async () => {
+		cssClass_serverStatusIcon = await checkServerStatus(wUrql);
 
-	const checkServerStatus = async () => {
-		const { data } = await wUrql().q.GetCharacter({id: 1});
-		
-		cssClass_serverStatusIcon = getCssClassOKorERR(!!data);
-	}
-
-	checkServerStatus();
-
-
-	const noProtocolLink = URL__RICKANDMORTYAPI.replace(/^.+:\/\//, '');
+	});
 
 </script>
 

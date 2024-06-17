@@ -262,13 +262,6 @@ export type CharacterPreviewFieldsFragment = {
     type?: string | null;
     dimension?: string | null;
   } | null;
-  episode: Array<{
-    __typename?: "Episode";
-    id?: string | null;
-    name?: string | null;
-    air_date?: string | null;
-    episode?: string | null;
-  } | null>;
 };
 
 export type EpisodeFieldsFragment = {
@@ -300,13 +293,6 @@ export type EpisodeFieldsFragment = {
       type?: string | null;
       dimension?: string | null;
     } | null;
-    episode: Array<{
-      __typename?: "Episode";
-      id?: string | null;
-      name?: string | null;
-      air_date?: string | null;
-      episode?: string | null;
-    } | null>;
   } | null>;
 };
 
@@ -355,13 +341,6 @@ export type LocationFieldsFragment = {
       type?: string | null;
       dimension?: string | null;
     } | null;
-    episode: Array<{
-      __typename?: "Episode";
-      id?: string | null;
-      name?: string | null;
-      air_date?: string | null;
-      episode?: string | null;
-    } | null>;
   } | null>;
 };
 
@@ -451,13 +430,6 @@ export type GetCharactersQuery = {
         type?: string | null;
         dimension?: string | null;
       } | null;
-      episode: Array<{
-        __typename?: "Episode";
-        id?: string | null;
-        name?: string | null;
-        air_date?: string | null;
-        episode?: string | null;
-      } | null>;
     } | null> | null;
   } | null;
 };
@@ -491,13 +463,6 @@ export type GetCharactersByIdsQuery = {
       type?: string | null;
       dimension?: string | null;
     } | null;
-    episode: Array<{
-      __typename?: "Episode";
-      id?: string | null;
-      name?: string | null;
-      air_date?: string | null;
-      episode?: string | null;
-    } | null>;
   } | null> | null;
 };
 
@@ -555,13 +520,6 @@ export type GetEpisodeQuery = {
         type?: string | null;
         dimension?: string | null;
       } | null;
-      episode: Array<{
-        __typename?: "Episode";
-        id?: string | null;
-        name?: string | null;
-        air_date?: string | null;
-        episode?: string | null;
-      } | null>;
     } | null>;
   } | null;
 };
@@ -661,13 +619,6 @@ export type GetLocationQuery = {
         type?: string | null;
         dimension?: string | null;
       } | null;
-      episode: Array<{
-        __typename?: "Episode";
-        id?: string | null;
-        name?: string | null;
-        air_date?: string | null;
-        episode?: string | null;
-      } | null>;
     } | null>;
   } | null;
 };
@@ -732,20 +683,74 @@ export type GetLocationsInfoQuery = {
   } | null;
 };
 
+export type GetPreviewCharacterQueryVariables = Exact<{
+  id: Scalars["ID"]["input"];
+}>;
+
+export type GetPreviewCharacterQuery = {
+  __typename?: "Query";
+  character?: {
+    __typename?: "Character";
+    id?: string | null;
+    name?: string | null;
+    status?: string | null;
+    species?: string | null;
+    type?: string | null;
+    gender?: string | null;
+    image?: string | null;
+    origin?: {
+      __typename?: "Location";
+      id?: string | null;
+      name?: string | null;
+      type?: string | null;
+      dimension?: string | null;
+    } | null;
+    location?: {
+      __typename?: "Location";
+      id?: string | null;
+      name?: string | null;
+      type?: string | null;
+      dimension?: string | null;
+    } | null;
+  } | null;
+};
+
+export type GetPreviewEpisodeQueryVariables = Exact<{
+  id: Scalars["ID"]["input"];
+}>;
+
+export type GetPreviewEpisodeQuery = {
+  __typename?: "Query";
+  episode?: {
+    __typename?: "Episode";
+    id?: string | null;
+    name?: string | null;
+    air_date?: string | null;
+    episode?: string | null;
+  } | null;
+};
+
+export type GetPreviewLocationQueryVariables = Exact<{
+  id: Scalars["ID"]["input"];
+}>;
+
+export type GetPreviewLocationQuery = {
+  __typename?: "Query";
+  location?: {
+    __typename?: "Location";
+    id?: string | null;
+    name?: string | null;
+    type?: string | null;
+    dimension?: string | null;
+  } | null;
+};
+
 export const LocationPreviewFieldsFragmentDoc = gql`
   fragment LocationPreviewFields on Location {
     id
     name
     type
     dimension
-  }
-`;
-export const EpisodePreviewFieldsFragmentDoc = gql`
-  fragment EpisodePreviewFields on Episode {
-    id
-    name
-    air_date
-    episode
   }
 `;
 export const CharacterPreviewFieldsFragmentDoc = gql`
@@ -763,12 +768,16 @@ export const CharacterPreviewFieldsFragmentDoc = gql`
     location {
       ...LocationPreviewFields
     }
-    episode {
-      ...EpisodePreviewFields
-    }
   }
   ${LocationPreviewFieldsFragmentDoc}
-  ${EpisodePreviewFieldsFragmentDoc}
+`;
+export const EpisodePreviewFieldsFragmentDoc = gql`
+  fragment EpisodePreviewFields on Episode {
+    id
+    name
+    air_date
+    episode
+  }
 `;
 export const CharacterFieldsFragmentDoc = gql`
   fragment CharacterFields on Character {
@@ -1033,6 +1042,56 @@ export function useGetLocationsInfoQuery(
     query: GetLocationsInfoDocument,
     ...options,
   });
+}
+export const GetPreviewCharacterDocument = gql`
+  query GetPreviewCharacter($id: ID!) {
+    character(id: $id) {
+      ...CharacterPreviewFields
+    }
+  }
+  ${CharacterPreviewFieldsFragmentDoc}
+`;
+
+export function useGetPreviewCharacterQuery(
+  options: Omit<Urql.UseQueryArgs<GetPreviewCharacterQueryVariables>, "query">,
+) {
+  return Urql.useQuery<
+    GetPreviewCharacterQuery,
+    GetPreviewCharacterQueryVariables
+  >({ query: GetPreviewCharacterDocument, ...options });
+}
+export const GetPreviewEpisodeDocument = gql`
+  query GetPreviewEpisode($id: ID!) {
+    episode(id: $id) {
+      ...EpisodePreviewFields
+    }
+  }
+  ${EpisodePreviewFieldsFragmentDoc}
+`;
+
+export function useGetPreviewEpisodeQuery(
+  options: Omit<Urql.UseQueryArgs<GetPreviewEpisodeQueryVariables>, "query">,
+) {
+  return Urql.useQuery<GetPreviewEpisodeQuery, GetPreviewEpisodeQueryVariables>(
+    { query: GetPreviewEpisodeDocument, ...options },
+  );
+}
+export const GetPreviewLocationDocument = gql`
+  query GetPreviewLocation($id: ID!) {
+    location(id: $id) {
+      ...LocationPreviewFields
+    }
+  }
+  ${LocationPreviewFieldsFragmentDoc}
+`;
+
+export function useGetPreviewLocationQuery(
+  options: Omit<Urql.UseQueryArgs<GetPreviewLocationQueryVariables>, "query">,
+) {
+  return Urql.useQuery<
+    GetPreviewLocationQuery,
+    GetPreviewLocationQueryVariables
+  >({ query: GetPreviewLocationDocument, ...options });
 }
 
 export interface PossibleTypesResultData {

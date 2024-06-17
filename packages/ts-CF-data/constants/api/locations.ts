@@ -1,12 +1,13 @@
 import {
 	QueryParamCompatibleList,
 	QueryParamCompatible_Form_TextInput,
+	ApiPathCompatible
 } from '@tsLF/types';
 
 
 
 
-export const API_LOCATIONS__PATH = {
+export const API_LOCATIONS__PATH: ApiPathCompatible = {
 	name: 'locations', // it's only because that https://rickandmortyapi.com/api/location <--
 	path: 'location'   //
 };

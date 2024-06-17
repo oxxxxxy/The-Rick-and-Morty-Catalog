@@ -18,6 +18,9 @@ interface GeneratedQueries {
 	readonly GetLocations: (options?: GT.GetLocationsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsQuery,UT.AnyVariables>>;
 	readonly GetLocationsByIds: (options?: GT.GetLocationsByIdsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsByIdsQuery,UT.AnyVariables>>;
 	readonly GetLocationsInfo: (options?: GT.GetLocationsInfoQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsInfoQuery,UT.AnyVariables>>;
+	readonly GetPreviewCharacter: (options?: GT.GetPreviewCharacterQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetPreviewCharacterQuery,UT.AnyVariables>>;
+	readonly GetPreviewEpisode: (options?: GT.GetPreviewEpisodeQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetPreviewEpisodeQuery,UT.AnyVariables>>;
+	readonly GetPreviewLocation: (options?: GT.GetPreviewLocationQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetPreviewLocationQuery,UT.AnyVariables>>;
 }
 
 export interface IUrqlClientWrapper {
@@ -164,6 +167,39 @@ export class UrqlClientWrapper implements IUrqlClientWrapper{
 				>
 			> => instanceOfUrqlClient.query(
 				G.GetLocationsInfoDocument,
+				options
+			),
+			GetPreviewCharacter: (
+				options?: GT.GetPreviewCharacterQueryVariables
+			): UT.OperationResultSource<
+				UT.OperationResult<
+					GT.GetPreviewCharacterQuery,
+					UT.AnyVariables
+				>
+			> => instanceOfUrqlClient.query(
+				G.GetPreviewCharacterDocument,
+				options
+			),
+			GetPreviewEpisode: (
+				options?: GT.GetPreviewEpisodeQueryVariables
+			): UT.OperationResultSource<
+				UT.OperationResult<
+					GT.GetPreviewEpisodeQuery,
+					UT.AnyVariables
+				>
+			> => instanceOfUrqlClient.query(
+				G.GetPreviewEpisodeDocument,
+				options
+			),
+			GetPreviewLocation: (
+				options?: GT.GetPreviewLocationQueryVariables
+			): UT.OperationResultSource<
+				UT.OperationResult<
+					GT.GetPreviewLocationQuery,
+					UT.AnyVariables
+				>
+			> => instanceOfUrqlClient.query(
+				G.GetPreviewLocationDocument,
 				options
 			)
 
