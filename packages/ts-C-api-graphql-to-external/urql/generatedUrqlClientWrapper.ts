@@ -5,22 +5,39 @@ import * as G from './generated.ts';
 
 
 
-interface GeneratedQueries {
-	readonly GetCharacter: (options?: GT.GetCharacterQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetCharacterQuery,UT.AnyVariables>>;
-	readonly GetCharacters: (options?: GT.GetCharactersQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetCharactersQuery,UT.AnyVariables>>;
-	readonly GetCharactersByIds: (options?: GT.GetCharactersByIdsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetCharactersByIdsQuery,UT.AnyVariables>>;
-	readonly GetCharactersInfo: (options?: GT.GetCharactersInfoQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetCharactersInfoQuery,UT.AnyVariables>>;
-	readonly GetEpisode: (options?: GT.GetEpisodeQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetEpisodeQuery,UT.AnyVariables>>;
-	readonly GetEpisodes: (options?: GT.GetEpisodesQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetEpisodesQuery,UT.AnyVariables>>;
-	readonly GetEpisodesByIds: (options?: GT.GetEpisodesByIdsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetEpisodesByIdsQuery,UT.AnyVariables>>;
-	readonly GetEpisodesInfo: (options?: GT.GetEpisodesInfoQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetEpisodesInfoQuery,UT.AnyVariables>>;
-	readonly GetLocation: (options?: GT.GetLocationQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationQuery,UT.AnyVariables>>;
-	readonly GetLocations: (options?: GT.GetLocationsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsQuery,UT.AnyVariables>>;
-	readonly GetLocationsByIds: (options?: GT.GetLocationsByIdsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsByIdsQuery,UT.AnyVariables>>;
-	readonly GetLocationsInfo: (options?: GT.GetLocationsInfoQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsInfoQuery,UT.AnyVariables>>;
-	readonly GetPreviewCharacter: (options?: GT.GetPreviewCharacterQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetPreviewCharacterQuery,UT.AnyVariables>>;
-	readonly GetPreviewEpisode: (options?: GT.GetPreviewEpisodeQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetPreviewEpisodeQuery,UT.AnyVariables>>;
-	readonly GetPreviewLocation: (options?: GT.GetPreviewLocationQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetPreviewLocationQuery,UT.AnyVariables>>;
+
+export type GetCharacterFn = (options?: GT.GetCharacterQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetCharacterQuery,UT.AnyVariables>>;
+export type GetCharactersFn = (options?: GT.GetCharactersQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetCharactersQuery,UT.AnyVariables>>;
+export type GetCharactersByIdsFn = (options?: GT.GetCharactersByIdsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetCharactersByIdsQuery,UT.AnyVariables>>;
+export type GetCharactersInfoFn = (options?: GT.GetCharactersInfoQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetCharactersInfoQuery,UT.AnyVariables>>;
+export type GetEpisodeFn = (options?: GT.GetEpisodeQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetEpisodeQuery,UT.AnyVariables>>;
+export type GetEpisodesFn = (options?: GT.GetEpisodesQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetEpisodesQuery,UT.AnyVariables>>;
+export type GetEpisodesByIdsFn = (options?: GT.GetEpisodesByIdsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetEpisodesByIdsQuery,UT.AnyVariables>>;
+export type GetEpisodesInfoFn = (options?: GT.GetEpisodesInfoQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetEpisodesInfoQuery,UT.AnyVariables>>;
+export type GetLocationFn = (options?: GT.GetLocationQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationQuery,UT.AnyVariables>>;
+export type GetLocationsFn = (options?: GT.GetLocationsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsQuery,UT.AnyVariables>>;
+export type GetLocationsByIdsFn = (options?: GT.GetLocationsByIdsQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsByIdsQuery,UT.AnyVariables>>;
+export type GetLocationsInfoFn = (options?: GT.GetLocationsInfoQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetLocationsInfoQuery,UT.AnyVariables>>;
+export type GetPreviewCharacterFn = (options?: GT.GetPreviewCharacterQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetPreviewCharacterQuery,UT.AnyVariables>>;
+export type GetPreviewEpisodeFn = (options?: GT.GetPreviewEpisodeQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetPreviewEpisodeQuery,UT.AnyVariables>>;
+export type GetPreviewLocationFn = (options?: GT.GetPreviewLocationQueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.GetPreviewLocationQuery,UT.AnyVariables>>;
+
+export interface GeneratedQueries {
+	readonly GetCharacter: GetCharacterFn
+	readonly GetCharacters: GetCharactersFn
+	readonly GetCharactersByIds: GetCharactersByIdsFn
+	readonly GetCharactersInfo: GetCharactersInfoFn
+	readonly GetEpisode: GetEpisodeFn
+	readonly GetEpisodes: GetEpisodesFn
+	readonly GetEpisodesByIds: GetEpisodesByIdsFn
+	readonly GetEpisodesInfo: GetEpisodesInfoFn
+	readonly GetLocation: GetLocationFn
+	readonly GetLocations: GetLocationsFn
+	readonly GetLocationsByIds: GetLocationsByIdsFn
+	readonly GetLocationsInfo: GetLocationsInfoFn
+	readonly GetPreviewCharacter: GetPreviewCharacterFn
+	readonly GetPreviewEpisode: GetPreviewEpisodeFn
+	readonly GetPreviewLocation: GetPreviewLocationFn
 }
 
 export interface IUrqlClientWrapper {

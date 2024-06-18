@@ -1,4 +1,4 @@
-import { LooseObject } from '@tsL/types';
+import { LooseObject, PositiveInteger } from '@tsL/types';
 
 import _urlJoin from 'url-join';
 
@@ -32,3 +32,7 @@ const clearEmptyURLSearchParams = (urlSP: URLSearchParams): URLSearchParams => {
 	return new URLSearchParams(obj);
 };
 U.clearEmptyURLSearchParams = clearEmptyURLSearchParams;
+
+
+const delay = (ms?: PositiveInteger<number>): Promise<void> => new Promise(r => setTimeout(r, ms));
+U.delay = delay;

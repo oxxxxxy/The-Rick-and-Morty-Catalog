@@ -24,7 +24,20 @@ import type * as GT from '${generatedScriptByCodegenPathFile}';
 import * as G from '${generatedScriptByCodegenPathFile}';`
 	+ addNewLine(4);
 
-const getInterfaceGeneratedQueriesProp = NameOfGraphqlQuery => `	readonly ${NameOfGraphqlQuery}: (options?: GT.${NameOfGraphqlQuery}QueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.${NameOfGraphqlQuery}Query,UT.AnyVariables>>;`;
+const getTypeForGeneratedQueriesProp = NameOfGraphqlQuery => 
+`export type ${NameOfGraphqlQuery}Fn = (options?: GT.${NameOfGraphqlQuery}QueryVariables) => UT.OperationResultSource<UT.OperationResult<GT.${NameOfGraphqlQuery}Query,UT.AnyVariables>>;`;
+
+const getTypesForGeneratedQueriesProps = NamesOfGraphqlQuery => {
+	let text = addNewLine();
+
+	NamesOfGraphqlQuery.forEach(e => {
+		text += getTypeForGeneratedQueriesProp(e) + '\n';
+	});
+	
+	return text += addNewLine();
+}
+
+const getInterfaceGeneratedQueriesProp = NameOfGraphqlQuery => `	readonly ${NameOfGraphqlQuery}: ${NameOfGraphqlQuery}Fn`;
 
 const getInterfaceGeneratedQueries = NameOfGraphqlQueryArr => {
 	let text = `export interface GeneratedQueries {\n`;
@@ -114,6 +127,7 @@ export const makeUrqlClientDecoratorScript = (
 	
 
 	const decoratorScript = getImportLines(generatedScriptByCodegenPathFile)
+	+ getTypesForGeneratedQueriesProps(NamesOfGraphqlQueries)
 	+ getInterfaceGeneratedQueries(NamesOfGraphqlQueries)
 	+ addNewLine(2)
 	+ getHeadOfDecorator()
