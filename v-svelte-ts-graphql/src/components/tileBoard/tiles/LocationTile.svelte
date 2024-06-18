@@ -1,10 +1,16 @@
 <script lang="ts">
 	import type { GT } from '@tsC/api-graphql-to-ex';
-//	import { getLocationsPath } from './index.ts';
+
+
+	import { genLocationTileData } from '@tsCF/pages/src/tileBoard/tiles/LocationTile.ts';
+
+
+
 
 	export let data: GT.LocationPreviewFieldsFragment;
 
-//	const locationsPath = getLocationsPath(data.id);
+
+	const gen = genLocationTileData(data);
 
 </script>
 
@@ -21,7 +27,7 @@
 			fd-column
 			no-underline
 		"
- 	  href="{ locationsPath }"
+ 	  href="{ gen.path }"
  	  rel="noopener noreferrer"
 	>
 		<span
@@ -42,7 +48,7 @@
 					underline
 				"
 			>
-				{ data.name }
+				{ gen.name }
 			</span>
 		</span>
 		<span
@@ -63,7 +69,7 @@
 					tile-line
 				"
  	   >
-			{ data.type }
+			{ gen.type }
  	   </span>
 		</span>
 		<span
@@ -84,7 +90,7 @@
 					tile-line
 				"
 	    >
-				{ data.dimension }
+				{ gen.dimension }
 	    </span>
 		</span>
 	</a>

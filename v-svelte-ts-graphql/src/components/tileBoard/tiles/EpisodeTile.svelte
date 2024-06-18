@@ -1,10 +1,16 @@
 <script lang="ts">
 	import type { GT } from '@tsC/api-graphql-to-ex';
-//	import { getEpisodesPath } from './index.ts';
+
+
+	import { genEpisodeTileData } from '@tsCF/pages/src/tileBoard/tiles/EpisodeTile.ts';
+
+
+
 
 	export let data: GT.EpisodePreviewFieldsFragment;
 
-//	const episodesPath = getEpisodesPath(data.id);
+
+	const gen = genEpisodeTileData(data);
 
 </script>
 
@@ -21,7 +27,7 @@
 			fd-column
 			no-underline
 		"
-	   href="{ episodesPath }"
+	   href="{ gen.path }"
 	   rel="noopener noreferrer"
 	>
 		<span
@@ -42,7 +48,7 @@
 					underline
 				"
 			>
-				{ data.name }
+				{ gen.name }
 			</span>
 		</span>
 		<span
@@ -62,7 +68,7 @@
 					tile-line
 				"
  	   >
-			{ data.air_date }
+			{ gen.air_date }
  	   </span>
 		</span>
 		<span
@@ -83,7 +89,7 @@
 					tile-line
 				"
 	    >
-				{ data.episode }
+				{ gen.episode }
 	    </span>
 		</span>
 	</a>

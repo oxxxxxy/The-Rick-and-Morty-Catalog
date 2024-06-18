@@ -10,7 +10,7 @@
 
 
 
-	export let data: GT.CharacterFieldsFragment;
+	export let data: GT.CharacterPreviewFieldsFragment;
 
 
 	let cssClass_CharacterStatusIcon = getCssClass_CharacterStatusIcon(data.status);

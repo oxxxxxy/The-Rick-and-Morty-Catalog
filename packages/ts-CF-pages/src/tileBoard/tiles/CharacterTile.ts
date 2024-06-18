@@ -32,7 +32,7 @@ export const getCssClass_CharacterStatusIcon = (status: string
 	}
 }
 
-export const genCharacterTileData = (data: GT.CharacterFieldsFragment): GenDataForCharacterTile => {
+export const genCharacterTileData = (data: GT.CharacterPreviewFieldsFragment): GenDataForCharacterTile => {
 	const gen = {...data};
 
 	gen.location = {};
