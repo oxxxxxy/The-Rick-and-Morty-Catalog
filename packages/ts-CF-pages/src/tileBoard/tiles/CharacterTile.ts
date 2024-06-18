@@ -1,5 +1,4 @@
 import type { GT } from '@tsC/api-graphql-to-ex';
-import type { GenDataLocation } from './index.ts';
 import { 
 	getCharactersPath,
 	getLocationsPath
@@ -7,6 +6,11 @@ import {
 
 
 
+
+export type GenDataLocation = {
+	path: string | null;
+	name: string;
+};
 
 export type GenDataForCharacterTile = {
 	path: string;

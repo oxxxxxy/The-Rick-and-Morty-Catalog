@@ -1,16 +1,18 @@
 import type { PositiveInteger } from '@tsL/types';
 
+	
+import { 
+	API_CHARACTERS__PATH,
+	API_EPISODES__PATH,
+	API_LOCATIONS__PATH
+} from '@tsCF/data';
 
 
 
-export type GenDataLocation = {
-	path: string | null;
-	name: string;
-};
 
-export const getCharactersPath = (id: PositiveInteger<number>): string => '/characters/' + id;
+export const getCharactersPath = (id: PositiveInteger<number>): string => `/${API_CHARACTERS__PATH.name}/` + id;
 
-export const getLocationsPath = (id: PositiveInteger<number>): string => '/locations/' + id;
+export const getLocationsPath = (id: PositiveInteger<number>): string => `/${API_LOCATIONS__PATH.name}/` + id;
 
-export const getEpisodesPath = (id: PositiveInteger<number>): string => '/episodes/' + id;
+export const getEpisodesPath = (id: PositiveInteger<number>): string =>`/${API_EPISODES__PATH.name}/` + id;
 

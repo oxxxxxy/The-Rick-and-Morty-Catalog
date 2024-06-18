@@ -4,7 +4,11 @@
 
 	import type { TileItems, ERR } from '@tsCF/pages/src/routes/Home/NineRandomTiles.ts';
 	import { randomTileWraps, getSomeRandomTiles } from '@tsCF/pages/src/routes/Home/NineRandomTiles.ts';
-
+	import { 
+		API_CHARACTERS__PATH,
+		API_EPISODES__PATH,
+		API_LOCATIONS__PATH
+	} from '@tsCF/data';
 
 	import g from '$comps/context/index.ts';
 	const wUrql = g().wUrql;
@@ -25,7 +29,6 @@
 
 	onMount(async () => {
 		tiles = await getSomeRandomTiles( wUrql, randomTileWraps );
-		console.log(...tiles.map(e=> e.data));
 	});
 
 </script>
@@ -35,11 +38,11 @@
 		<p>Network Error. Try later or kill yourself. Thank you.</p>
 	{:else if _tiles.length}
 		{#each _tiles as tile }
-			{#if tile.type === 'characters'}
+			{#if tile.type === API_CHARACTERS__PATH.name}
 				<CharacterTile data={tile.data} />
-			{:else if tile.type === 'locations'}
+			{:else if tile.type === API_LOCATIONS__PATH.name}
 				<LocationTile data= {tile.data} />
-			{:else if tile.type === 'episodes'}
+			{:else if tile.type === API_EPISODES__PATH.name}
 				<EpisodeTile data={tile.data} />
 			{/if}
 		{/each}

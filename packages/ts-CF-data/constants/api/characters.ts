@@ -1,14 +1,18 @@
 import {
 	QueryParamCompatibleList,
 	QueryParamCompatible_Form_TextInput,
-	QueryParamCompatible_Form_Selection,
-	ApiPathCompatible
+	QueryParamCompatible_Form_Selection
 } from '@tsLF/types';
 
 
 
+
+export type API_CHARACTERS__PATH__NAME = 'characters';
 // what to do with that??? THINK!!!
-export const API_CHARACTERS__PATH: ApiPathCompatible = {
+export const API_CHARACTERS__PATH: {
+	readonly name: API_CHARACTERS__PATH__NAME;
+	readonly path: string;
+} = {
 	name: 'characters', // it's only because that https://rickandmortyapi.com/api/character <--
 	path: 'character'   //
 };

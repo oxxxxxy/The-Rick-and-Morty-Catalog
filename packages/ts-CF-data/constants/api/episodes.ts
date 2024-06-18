@@ -1,13 +1,17 @@
 import {
 	QueryParamCompatibleList,
-	QueryParamCompatible_Form_TextInput,
-	ApiPathCompatible
+	QueryParamCompatible_Form_TextInput
 } from '@tsLF/types';
 
 
 
 
-export const API_EPISODES__PATH: ApiPathCompatible = {
+export type API_EPISODES__PATH__NAME = 'episodes';
+
+export const API_EPISODES__PATH: {
+	readonly name: API_EPISODES__PATH__NAME;
+	readonly path: string;
+} = {
 	name: 'episodes', // it's only because that https://rickandmortyapi.com/api/episode <--
 	path: 'episode'   //
 };

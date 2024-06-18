@@ -3,20 +3,30 @@ import type { GT, UT, WT } from '@tsC/api-graphql-to-ex';
 
 
 import { U } from '@tsL/utils';
+import { 
+	API_CHARACTERS__PATH,
+	API_EPISODES__PATH,
+	API_LOCATIONS__PATH
+} from '@tsCF/data';
+import type { 
+	API_CHARACTERS__PATH__NAME,
+	API_EPISODES__PATH__NAME,
+	API_LOCATIONS__PATH__NAME
+} from '@tsCF/data';
 
 
 
 
 export type TileItem_Character = {
-	type: 'characters';
+	type: API_CHARACTERS__PATH__NAME;
 	data: GT.CharacterPreviewFieldsFragment;
 }
 export type TileItem_Location = {
-	type: 'locations';
+	type: API_LOCATIONS__PATH__NAME;
 	data: GT.LocationPreviewFieldsFragment;
 }
 export type TileItem_Episode = {
-	type: 'episodes';
+	type: API_EPISODES__PATH__NAME;
 	data: GT.EpisodePreviewFieldsFragment;
 }
 
@@ -26,7 +36,7 @@ export type ERR = 'ERR';
 
 export type TileItems = TileItem[] | ERR;
 
-export type GetItemsInfoInternalProp = 'characters' | 'locations' | 'episodes';
+export type GetItemsInfoInternalProp = API_CHARACTERS__PATH__NAME | API_LOCATIONS__PATH__NAME | API_EPISODES__PATH__NAME;
 export type GetItemsByIdsInternalProp = 'charactersByIds' | 'locationsByIds' | 'episodesByIds';
 
 
@@ -108,7 +118,7 @@ export const getRandomCharacterTiles: getRandomItemTilesWrapFn = async (
 		tileCount,
 		wUrql.q.GetCharactersInfo,
 		wUrql.q.GetCharactersByIds,
-		'characters'
+		API_CHARACTERS__PATH.name
 	);
 
 export const getRandomLocationTiles: getRandomItemTilesWrapFn = async ( 
@@ -119,7 +129,7 @@ export const getRandomLocationTiles: getRandomItemTilesWrapFn = async (
 		tileCount,
 		wUrql.q.GetLocationsInfo,
 		wUrql.q.GetLocationsByIds,
-		'locations'
+		API_LOCATIONS__PATH.name
 	);
 
 export const getRandomEpisodeTiles: getRandomItemTilesWrapFn = async ( 
@@ -130,7 +140,7 @@ export const getRandomEpisodeTiles: getRandomItemTilesWrapFn = async (
 		tileCount,
 		wUrql.q.GetEpisodesInfo,
 		wUrql.q.GetEpisodesByIds,
-		'episodes'
+		API_EPISODES__PATH.name
 	);
 
 
