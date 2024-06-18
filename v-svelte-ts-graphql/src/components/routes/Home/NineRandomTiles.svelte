@@ -25,7 +25,7 @@
 
 	onMount(async () => {
 		tiles = await getSomeRandomTiles( wUrql, randomTileWraps );
-		console.log(tiles);
+		console.log(...tiles.map(e=>e.data));
 	});
 
 </script>
@@ -36,7 +36,7 @@
 	{:else if _tiles.length}
 		{#each _tiles as tile }
 			{#if tile.type === 'characters'}
-				<p>chars</p>
+				<CharacterTile data={tile.data} />
 			{:else if tile.type === 'locations'}
 				<p>locals</p>
 			{:else if tile.type === 'episodes'}

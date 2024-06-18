@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { GT } from '@tsC/api-graphql-to-ex';
-	import { getEpisodesPath } from './index.ts';
+//	import { getEpisodesPath } from './index.ts';
 
 	export let data: GT.EpisodePreviewFieldsFragment;
 
-	const episodesPath = getEpisodesPath(data.id);
+//	const episodesPath = getEpisodesPath(data.id);
 
 </script>
 

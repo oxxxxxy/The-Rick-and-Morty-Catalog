@@ -1,32 +1,21 @@
 <script lang="ts">
 	import type { GT } from '@tsC/api-graphql-to-ex';
 
+	
 	import { 
-		getEpisodesPath,
-		getCharactersPath,
-		getLocationsPath
-	} from './index.ts';
+		getCssClass_CharacterStatusIcon,
+		genCharacterTileData
+	} from '@tsCF/pages/src/tileBoard/tiles/CharacterTile.ts';
+
+
+
 
 	export let data: GT.CharacterFieldsFragment;
 
-	const getCssClass_CharacterStatusIcon = (status: string
-	): string | undefined => {
-		switch(status.toLowerCase()){
-			case 'alive':
-				return 'character-status__icon-alive';
-			case 'dead':
-				return 'character-status__icon-dead';
-			case 'unknown':
-				return 'character-status__icon-unknown';
-		}
-	}
 
+	let cssClass_CharacterStatusIcon = getCssClass_CharacterStatusIcon(data.status);
 
-	const cssClass_CharacterStatusIcon = getCssClass_CharacterStatusIcon(data.status);
-
-	const charactersPath = getCharactersPath(data.id);
-	const locationsPath = getLocationsPath(data.location.id);
-	const episodesPath = getEpisodesPath(data.episode[0].id);
+	const gen = genCharacterTileData(data);
 
 </script>
 
@@ -43,10 +32,10 @@
 		"
 	>
     <a
-      href="{ charactersPath }"
+      href="{ gen.path }"
       rel="noopener noreferrer"
     >
-			<img class="tile-img-item" alt="{data.name}" src="{data.image}">
+			<img class="tile-img-item" alt="{gen.name}" src="{gen.image}">
     </a>
 	</div>
 	<div class="
@@ -61,10 +50,10 @@
 				tile-h
 				tile-line
 			"
-      href="{ charactersPath }"
+      href="{ gen.path }"
       rel="noopener noreferrer"
     >
-				{ data.name }
+				{ gen.name }
     </a>
 
     <span 
@@ -80,7 +69,7 @@
 					{ cssClass_CharacterStatusIcon }
 				"
 			></span>
-			{ data.status } - { data.species }
+			{ gen.status } - { gen.species }
     </span>
 
 		<a
@@ -88,7 +77,7 @@
 				tile-line-box
 				no-underline
 			"
-	    href="{ locationsPath }"
+	    href="{ gen.location.path }"
 	    rel="noopener noreferrer"
 		>
  	   <span 
@@ -104,7 +93,7 @@
 					underline
 				"
 	    >
-				{ data.location.name }
+				{ gen.location.name }
  	   </span>
 		</a>
 
@@ -113,7 +102,7 @@
 				tile-line-box
 				no-underline
 			"
-	    href="{episodesPath}"
+			href="{gen.origin.path}"
 	    rel="noopener noreferrer"
 		>
  	   <span 
@@ -122,7 +111,7 @@
 					font-weight--normal
 				"
 			>
-			First seen in:</span>
+			Origin location:</span>
  	   <span
 				class="
 					color--f5f5f5
@@ -130,7 +119,7 @@
 					underline
 				"
 	    >
-	    {data.episode[0].name}
+	    {gen.origin.name}
 	    </span>
 		</a>
 	</div>
