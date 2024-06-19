@@ -6,9 +6,6 @@
 		ai-center
 		fd-column
 	"	
-	style="
-		margin-top:25px;
-	"
 >
 
 	<!-- results n pagination was here -->

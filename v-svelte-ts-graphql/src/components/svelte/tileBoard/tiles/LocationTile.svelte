@@ -2,15 +2,15 @@
 	import type { GT } from '@tsC/api-graphql-to-ex';
 
 
-	import { genEpisodeTileData } from '@tsCF/pages/src/tileBoard/tiles/EpisodeTile.ts';
+	import { genLocationTileData } from '@tsCF/pages/src/tileBoard/tiles/LocationTile.ts';
 
 
 
 
-	export let data: GT.EpisodePreviewFieldsFragment;
+	export let data: GT.LocationPreviewFieldsFragment;
 
 
-	const gen = genEpisodeTileData(data);
+	const gen = genLocationTileData(data);
 
 </script>
 
@@ -27,8 +27,9 @@
 			fd-column
 			no-underline
 		"
-	   href="{ gen.path }"
-	   rel="noopener noreferrer"
+		title="{gen.name}"
+ 	  href="{ gen.path }"
+ 	  rel="noopener noreferrer"
 	>
 		<span
 			class="
@@ -41,7 +42,7 @@
 					tile-line
 					font-weight--normal
 				"
-			>Episode:</span>
+			>Location:</span>
 			<span
 				class="
 					color--f5f5f5
@@ -54,6 +55,7 @@
 		<span
 			class="
 				tile-line-box
+				no-underline
 			"
 		>
  	   <span 
@@ -61,14 +63,14 @@
 					tile-line
 					font-weight--normal
 				"
-			>Air date:</span>
+			>Type:</span>
  	   <span
 				class="
 					color--f5f5f5
 					tile-line
 				"
  	   >
-			{ gen.air_date }
+			{ gen.type }
  	   </span>
 		</span>
 		<span
@@ -82,14 +84,14 @@
 					font-weight--normal
 				"
 			>
-			Notation:</span>
+			Dimension:</span>
  	   <span
 				class="
 					color--f5f5f5
 					tile-line
 				"
 	    >
-				{ gen.episode }
+				{ gen.dimension }
 	    </span>
 		</span>
 	</a>

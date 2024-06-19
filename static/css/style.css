@@ -205,6 +205,7 @@ p {
 
 .search--width {
   width: 467px;
+  font-size: 20px;
 }
 .margin-10 {
   margin: 10px;
@@ -216,6 +217,10 @@ p {
 	.search-word-dot{
 		display: block;
 	}
+
+.select-list-option-line{
+		flex-direction: row;
+}
 .select-list-option {
   text-decoration: none;
   padding: 5px;
@@ -496,6 +501,10 @@ background-color: rgb(8, 52, 166);
   .filter-select-box {
     flex-direction: column;
   }
+
+	.select-list-option-line{
+		flex-direction: column;
+	}
 
   .select-list-box {
     width: 115px;

@@ -32,6 +32,7 @@
 		"
 	>
     <a
+			title="{gen.name}"
       href="{ gen.path }"
       rel="noopener noreferrer"
     >
@@ -50,6 +51,7 @@
 				tile-h
 				tile-line
 			"
+			title="{gen.name}"
       href="{ gen.path }"
       rel="noopener noreferrer"
     >
@@ -77,7 +79,8 @@
 				tile-line-box
 				no-underline
 			"
-	    href="{ gen.location.path }"
+			title="{gen.location.path ? gen.location.name : gen.name}"
+			href="{gen.location.path ? gen.location.path : gen.path}"
 	    rel="noopener noreferrer"
 		>
  	   <span 
@@ -102,7 +105,8 @@
 				tile-line-box
 				no-underline
 			"
-			href="{gen.origin.path}"
+			title="{gen.origin.path ? gen.origin.name : gen.name}"
+			href="{gen.origin.path ? gen.origin.path : gen.path}"
 	    rel="noopener noreferrer"
 		>
  	   <span 

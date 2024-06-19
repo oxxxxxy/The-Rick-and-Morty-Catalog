@@ -6,7 +6,7 @@
 		noProtocolLink,
 		getCssClassOKorERR,
 		checkServerStatus
-	} from '@tsCF/pages/src/Header';
+	} from '@tsCF/pages/src/Header.ts';
 
 	
 	import {

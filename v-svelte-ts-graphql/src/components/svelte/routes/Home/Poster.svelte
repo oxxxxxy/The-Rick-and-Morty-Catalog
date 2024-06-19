@@ -78,6 +78,7 @@
 				<p>
 					You are using 
 					<a
+					style="font-weight: bold"
 	 		 	  href="{ URL__APP_VER_GITHUB_REPO }"
 	 		 	  target="_blank"
 					>

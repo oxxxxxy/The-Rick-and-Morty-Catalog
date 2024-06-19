@@ -1,53 +1,29 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
-
-	import type { GT } from '@tsC/api-graphql-to-ex';
-
-	import { API_CHARACTERS__PATH } from '@tsCF/data';
-
+	import { API_EPISODES__PATH } from '@tsCF/data';
+	
 	import { capitalizeWord } from '@tsCF/pages/src/index.ts';
 	import type { TileItems, ERR } from '@tsCF/pages/src/tileBoard/tiles/index.ts';
 
 
 	import { APP_NAME } from '$comps/data';
-	import g from '$comps/context/index.ts';
-	const wUrql = g().wUrql;
 
 
 	import SearchItemNav from '$comps/svelte/routes/SearchItemNav.svelte';
-	import CharactersSearch from '$comps/svelte/routes/Characters/CharactersSearch.svelte';
 	import TileBoard from '$comps/svelte/tileBoard/TileBoard.svelte';
-	import CharacterTile from '$comps/svelte/tileBoard/tiles/CharacterTile.svelte';
-
+	import EpisodeTile from '$comps/svelte/tileBoard/tiles/EpisodeTile.svelte';
 
 
 
 	export let data;
 
 
-	let tiles: GT.CharacterPreviewFieldsFragment[] | ERR = [];
+	let tiles: TileItems | ERR = [];
 
 	$: _tiles = tiles;
 
 
-	const pageTitle = capitalizeWord(API_CHARACTERS__PATH.name);
+	const pageTitle = capitalizeWord(API_EPISODES__PATH.name);
 	const	pathName = data.psl.route.id.slice(1);
-
-//dev
-	import type { WT } from '@tsC/api-graphql-to-ex';
-
-	
-
-
-
-//dev
-
-	onMount(async () => {
-//		tiles = await getCharacterTiles(wUrql)
-
-		
-	});
 
 </script>
 
@@ -56,16 +32,14 @@
 	<meta name="description" content="{ APP_NAME } { pageTitle }" />
 </svelte:head>
 
-<SearchItemNav {pathName}>
-	<CharactersSearch />
-</SearchItemNav>
+<SearchItemNav {pathName}/>
 <TileBoard>
 	{#if _tiles === 'ERR'}
 		<p>Network Error. Try later or kill yourself. Thank you.</p>
 	{:else if _tiles.length}
 		<p>tiles</p>
 		{#each _tiles as tile }
-			<CharacterTile data={tile.data} />
+			<EpisodeTile data={tile.data} />
 		{/each}
 	{:else}
 		<p>Loading...</p>

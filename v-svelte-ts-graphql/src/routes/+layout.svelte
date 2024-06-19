@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Header from '$comps/routes/Header.svelte';
+	import Header from '$comps/svelte/routes/Header.svelte';
 
 </script>
 
