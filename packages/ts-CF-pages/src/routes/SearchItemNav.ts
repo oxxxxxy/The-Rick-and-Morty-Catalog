@@ -4,6 +4,7 @@ import type {
 	API_LOCATIONS__PATH__NAME
 } from '@tsCF/data';
 
+import type { SelectOption } from '@tsLF/types';
 
 import { 
 	API_CHARACTERS__PATH,
@@ -16,15 +17,14 @@ import {
 
 type PathName = API_LOCATIONS__PATH__NAME | API_EPISODES__PATH__NAME | API_CHARACTERS__PATH__NAME;
 
-export type SearchItemNav_Path = {
-	name: PathName;
-	selected?: true;
+export type SearchItemNav_Path = SelectOption & {
+	value: PathName;
 }
 
 export const pathList: SearchItemNav_Path[] = [
-	{name: API_CHARACTERS__PATH.name},
-	{name: API_LOCATIONS__PATH.name},
-	{name: API_EPISODES__PATH.name}
+	{value: API_CHARACTERS__PATH.name},
+	{value: API_LOCATIONS__PATH.name},
+	{value: API_EPISODES__PATH.name}
 ];
 
 export class SearchItemNav{
@@ -43,7 +43,7 @@ export class SearchItemNav{
 		T.paths = T.paths.map((e, i) => {
 			delete e.selected;
 
-			if(e.name === pathName){
+			if(e.value === pathName){
 				e.selected = true;
 				T.current_path = i;
 			}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { capitalizeWord } from '@tsCF/pages/src/index.ts';
 	import type { SearchItemNav_Path } from '@tsCF/pages/src/routes/SearchItemNav.ts';
 	import { SearchItemNav } from '@tsCF/pages/src/routes/SearchItemNav.ts';
 
@@ -66,10 +67,10 @@
 						underline
 						{path.selected ? 'selected-select-list-option' : ''}
 					"
-					title="Search {path.name.slice(0,1).toUpperCase() + path.name.slice(1)}"
-					href="/{path.name}"
+					title="Search {capitalizeWord(path.value)}"
+					href="/{path.value}"
 				>
-					{path.name}
+					{path.value}
 				</a>
 			{/each}
 			</div>

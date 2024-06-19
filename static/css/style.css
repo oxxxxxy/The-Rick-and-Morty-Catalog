@@ -100,6 +100,9 @@ body{
 .fd-column {
   flex-direction: column;
 }
+.fd-row {
+  flex-direction: row;
+}
 .ai-center {
   align-items: center !important;
 }
@@ -224,6 +227,14 @@ p {
 .select-list-option {
   text-decoration: none;
   padding: 5px;
+  cursor: pointer;
+}
+.select-list-option-border{
+  border-left: solid 2px;
+  border-right: solid 2px;
+}
+.select-list-option-border-last {
+  border-bottom: solid 2px;
 }
 .select-list-option:hover {
   background-color: var(--colorPalette-b6b6b6);
@@ -232,6 +243,7 @@ p {
 .selected-select-list-option {
   background-color: var(--colorPalette-b6b6b6);
   color: var(--colorPalette-282828);
+  border: none !important;
 }
 .search-box span {
   display: flex;
@@ -256,12 +268,17 @@ p {
 }
 
 .text-input-option {
-  flex-direction: row;
   margin-bottom: 5px;
 }
 .text-input-box {
   position: relative;
   width: calc(100% - var(--px-count-WH));
+}
+.text-input-warning{
+	padding: 1px 5px;
+  border: solid 1px red;
+  color: red;
+  font-size: 14px;
 }
 
 .main--font-size,
@@ -319,7 +336,7 @@ p {
 }
 
 .select-list-box--statusGender {
-  width: 231px;
+  width: 100%;
   margin-bottom: 5px;
 }
 

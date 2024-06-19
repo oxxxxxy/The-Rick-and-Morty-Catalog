@@ -7,7 +7,7 @@
 	import { API_CHARACTERS__PATH } from '@tsCF/data';
 
 	import { capitalizeWord } from '@tsCF/pages/src/index.ts';
-	import type { TileItems, ERR } from '@tsCF/pages/src/tileBoard/tiles/index.ts';
+	import type { ERR } from '@tsCF/pages/src/tileBoard/tiles/index.ts';
 
 
 	import { APP_NAME } from '$comps/data';
