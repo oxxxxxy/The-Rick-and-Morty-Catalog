@@ -5,6 +5,7 @@ import type { PositiveInteger } from '@tsL/types';
 
 export type SelectOption = {
 	value: string;
+	name?: string;
 	selected?: true;
 	default?: true;
 	id?: PositiveInteger<number> | 0;
