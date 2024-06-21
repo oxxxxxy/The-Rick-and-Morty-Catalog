@@ -115,7 +115,7 @@
 							: ''
 						}
 					"
-					on:click={(e) => selectMenuInstance.clickSelect(e, option)}
+					on:click={() => selectMenuInstance.select(option)}
 					title={option.name}
 				>
 					{option.name}

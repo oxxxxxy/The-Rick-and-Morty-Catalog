@@ -227,12 +227,6 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		this.#toggleActive();
 	}
 	
-	clickSelect(e: any, option: IndexedSelectOption): void{
-		this.#toggleActive(false);
-
-		this.select(option);
-	}
-
 	private sortOptionSequence():void{
 		const options = structuredClone(this.options);
 
@@ -260,7 +254,7 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		this.externalSetOptions();
 	}
 
-	private select(option: IndexedSelectOption): void{
+	select(option: IndexedSelectOption): void{
 		const index = this.options.findIndex(e => e.id === option.id);
 
 		if(index < 0){
