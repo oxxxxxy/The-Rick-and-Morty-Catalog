@@ -1,7 +1,8 @@
 import {
-	QueryParamCompatibleList,
-	QueryParamCompatible_Form_TextInput
-} from '@tsLF/types';
+	CustomFormInitDataCompatible_List,
+	CFIDC_Input_String,
+	CFIDC_Input_ExactString
+} from '@tsLF/pages/src/customForm/types';
 
 
 
@@ -17,22 +18,23 @@ export const API_EPISODES__PATH: {
 };
 
 
-export const API_EPISODES__PARAM__NAME: QueryParamCompatible_Form_TextInput = {
+export const API_EPISODES__PARAM__NAME: CFIDC_Input_String = {
 	name: 'name',
 	type: 'string',
 	hint: 'Anatomy Park'
 };
 
 
-export const API_EPISODES__PARAM__EPISODE: QueryParamCompatible_Form_TextInput = {
+export const API_EPISODES__PARAM__EPISODE: CFIDC_Input_ExactString = {
 	name: 'episode',
 	type: 'string',
+	hint: 'S01E03',
 	match: /^S[0-9]{0,2}(E[0-9]{0,2}|)$/,
-	hint: 'S01E03'
+	warning: 'Input has to match S[0-9][0-9]E[0-9][0-9], e.g. S02, S03E0, S01E03, etc.'
 };
 
 
-export const API_EPISODES__PARAM_LIST: QueryParamCompatibleList = [
+export const API_EPISODES__PARAM_LIST: CustomFormInitDataCompatible_List = [
 	API_EPISODES__PARAM__NAME,
 	API_EPISODES__PARAM__EPISODE
 ];

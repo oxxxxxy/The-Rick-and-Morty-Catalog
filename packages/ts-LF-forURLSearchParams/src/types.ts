@@ -1,18 +1,20 @@
 import type { PositiveInteger } from '@tsL/types';
 
 
-export type QueryParamCompatible_Base = {
+
+
+export type QueryParamCompatibleBase = {
 	param: string;
 	value: string;
 }
 
-export type SelectOption = QueryParamCompatible_Base & {
+export type QPC_SelectOption = QueryParamCompatibleBase & {
 	name?: string;
 	selected?: true;
 	default?: true;
 	id?: PositiveInteger<number> | 0;
 }
 
-export type IndexedSelectOption = SelectOption & {
+export type QPC_IndexedSelectOption = QPC_SelectOption & {
 	id: PositiveInteger<number> | 0;
 }

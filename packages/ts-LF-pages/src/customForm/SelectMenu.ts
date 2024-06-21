@@ -1,44 +1,42 @@
-import type { 
-	IndexedSelectOption,
-	QueryParamCompatible_Form_Selection
-} from '@tsLF/types';
+import type { QPC_IndexedSelectOption } from '@tsLF/forURLSP';
+
+import type { CFIDC_Selection } from './types';
 
 import type { PositiveInteger } from '@tsL/types';
+
+import type { Listener_ofGlobalMouseEvent_Click } from '@tsLF/mouseEventObservable';
 
 import { capitalizeWord } from '@tsCF/pages/src/index.ts';
 
 import { U } from '@tsL/utils';
 
-import type { Listener_ofGlobalMouseEvent_Click } from '@tsLF/mouseEventObservable';
 
 
 
-
-
-export type Arguments_makeIndexedSelectOptionsFromQPCFormSelection = {
-	objWithTypeOptions: QueryParamCompatible_Form_Selection,
+export type Arguments_makeQPC_IndexedSelectOptionsFromCFIDC_Selection = {
+	objWithTypeOptions: CFIDC_Selection,
 	doUNeedSetSelected?: PositiveInteger<number> | 0 | string,
 	doUNeedDefaultNonValue?: true,
 	stringDecorationFn: (arg: string) => string
 };
 
-export const makeIndexedSelectOptionsFromQPCFormSelection = (
+export const makeQPC_IndexedSelectOptionsFromCFIDC_Selection = (
 	{	
 		objWithTypeOptions, 
 		doUNeedSetSelected, 
 		doUNeedDefaultNonValue,
 		stringDecorationFn = str => str
-	} : Arguments_makeIndexedSelectOptionsFromQPCFormSelection
-): IndexedSelectOption[] => {
+	} : Arguments_makeQPC_IndexedSelectOptionsFromCFIDC_Selection
+): QPC_IndexedSelectOption[] => {
 
-	const makeIndexedSelectOption = (
+	const makeQPC_IndexedSelectOption = (
 		id: PositiveInteger<number> | 0,
 		param: string,
 		value: string,
 		name?: string,
 		default_?: true,
-	): IndexedSelectOption => {
-		const obj: IndexedSelectOption = {
+	): QPC_IndexedSelectOption => {
+		const obj: QPC_IndexedSelectOption = {
 			id,
 			value,
 			param
@@ -56,10 +54,10 @@ export const makeIndexedSelectOptionsFromQPCFormSelection = (
 	};
 
 
-	const resultArr: IndexedSelectOption[] = [];
+	const resultArr: QPC_IndexedSelectOption[] = [];
 
 	if(doUNeedDefaultNonValue){
-		const res = makeIndexedSelectOption(
+		const res = makeQPC_IndexedSelectOption(
 			resultArr.length,
 			objWithTypeOptions.name,
 			objWithTypeOptions.name,
@@ -72,7 +70,7 @@ export const makeIndexedSelectOptionsFromQPCFormSelection = (
 
 	
 	for(const option of objWithTypeOptions.options){
-		const res = makeIndexedSelectOption(
+		const res = makeQPC_IndexedSelectOption(
 			resultArr.length,
 			objWithTypeOptions.name,
 			option,
@@ -91,7 +89,7 @@ export const makeIndexedSelectOptionsFromQPCFormSelection = (
 
 			resultArr[doUNeedSetSelected].selected = true;
 		} else if( typeof doUNeedSetSelected === 'string' ){
-			const index = resultArr.findIndex((e: IndexedSelectOption) => e.value === doUNeedSetSelected);
+			const index = resultArr.findIndex((e: QPC_IndexedSelectOption) => e.value === doUNeedSetSelected);
 
 			if(index < 0){
 				throw new Error(`doUNeedSetSelected string value "${doUNeedSetSelected}" does not exist in options of the "${objWithTypeOptions.name}".`);
@@ -112,31 +110,31 @@ export const makeIndexedSelectOptionsFromQPCFormSelection = (
 
 
 export type ConstructorArguments_SelectMenu = {
-	QPCFormSelection?: QueryParamCompatible_Form_Selection,
-	setSelected?: IndexedSelectOption | string | PositiveInteger<number> | 0,
+	CFIDC_Selection?: CFIDC_Selection,
+	setSelected?: QPC_IndexedSelectOption | string | PositiveInteger<number> | 0,
 	doUNeedDefaultNonValue?: true,
 	stringDecorationFn?: (arg: string) => string,
-	readyOptions?: IndexedSelectOption[],
+	readyOptions?: QPC_IndexedSelectOption[],
 }
 
 
 export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 	private isActive: boolean = false;
-	private options: IndexedSelectOption[];
-	private selected: IndexedSelectOption | undefined;
+	private options: QPC_IndexedSelectOption[];
+	private selected: QPC_IndexedSelectOption | undefined;
 
-	private initHTMLElement?: any;
+	#guardingIsNoLongerNeeded: boolean = false;
 	private parentHTMLElement?: any;
 	readonly HTMLElement_globalAttribute_id: string;
 
-	private externalSetActive: undefined | (() => void);
-	private externalSetOptions: undefined | (() => void);
-	private externalSetSelected: undefined | (() => void);
+	#externalSetActive: undefined | (() => void);
+	#externalSetOptions: undefined | (() => void);
+	#externalSetSelected: undefined | (() => void);
 
 
 	constructor(
 		{
-			QPCFormSelection,
+			CFIDC_Selection,
 			setSelected,  
 			doUNeedDefaultNonValue,
 			stringDecorationFn = capitalizeWord,  
@@ -144,9 +142,9 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		} : ConstructorArguments_SelectMenu
 	){
 
-		if(QPCFormSelection){
-			const args: Arguments_makeIndexedSelectOptionsFromQPCFormSelection = {
-				objWithTypeOptions: QPCFormSelection,
+		if(CFIDC_Selection){
+			const args: Arguments_makeQPC_IndexedSelectOptionsFromCFIDC_Selection = {
+				objWithTypeOptions: CFIDC_Selection,
 				doUNeedDefaultNonValue,
 				stringDecorationFn,
 			};
@@ -155,7 +153,7 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 				args.doUNeedSetSelected = setSelected;
 			}
 
-			this.options = makeIndexedSelectOptionsFromQPCFormSelection(args);
+			this.options = makeQPC_IndexedSelectOptionsFromCFIDC_Selection(args);
 
 		} else if(readyOptions){
 			/* const cache = {};
@@ -173,7 +171,7 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 			this.options = readyOptions;
 
 		} else {
-			throw new Error('SelectMenu must have QueryParamCompatible_Form_Selection data value or ready IndexedSelectOption array as argument.');
+			throw new Error('SelectMenu must have CFIDC_Selection data value or ready QPC_IndexedSelectOption array as argument.');
 		}
 
 
@@ -194,6 +192,7 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 
 		this.selected = structuredClone(this.options.find(e => e.selected));
 
+
 		this.HTMLElement_globalAttribute_id = 'i' + U.nanoid();
 	}
 	
@@ -204,7 +203,7 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 			this.isActive = bool;
 		}
 
-		this.externalSetActive();
+		this.#externalSetActive();
 	}
 
 	listenGlobalMouseEvent_Click(e: any){
@@ -220,6 +219,8 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 	}
 
 	click(e: any): void{
+		this.#guard();
+
 		if(!this.parentHTMLElement){
 			this.parentHTMLElement = e.target.closest('#' + this.HTMLElement_globalAttribute_id);
 		}
@@ -231,13 +232,13 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		this.#toggleActive();
 	}
 	
-	private sortOptionSequence():void{
+	#sortOptionSequence():void{
 		const options = structuredClone(this.options);
 
 		const indexOfSelected = options.findIndex(e => e.selected);
 		let indexOfDefault = options.findIndex(e => e.default);
 
-		let newArr: IndexedSelectOption[] = [];
+		let newArr: QPC_IndexedSelectOption[] = [];
 
 		if(indexOfSelected >= 0){
 			newArr = options.splice(indexOfSelected, 1);
@@ -255,31 +256,53 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 
 		this.options = newArr;
 
-		this.externalSetOptions();
+		this.#externalSetOptions();
 	}
 
-	select(option: IndexedSelectOption): void{
-		const index = this.options.findIndex(e => e.id === option.id);
+	select(option: QPC_IndexedSelectOption): void{
+		this.#guard();
+
+		let options = structuredClone(this.options);
+
+		const index = options.findIndex(e => e.id === option.id);
 
 		if(index < 0){
 			throw new Error(`WTF IS THIS??? WHO TOOK A SHIT IN CODE? HM??? I WILL FIND YOU, BITCH!`);
 		}
-
-
-		let options = structuredClone(this.options);
 		
 		options = options.map(e => (delete e.selected, e));
 		
 		options[index].selected = true;
 
 		this.selected = structuredClone(options[index]);
-
-		this.externalSetSelected();
+		this.#externalSetSelected();
 
 		this.options = options;
 
+		this.#sortOptionSequence();
+	}
 
-		this.sortOptionSequence();
+	#guard(){
+		const T = this;
+
+		if(T.#guardingIsNoLongerNeeded){
+			return;
+		}
+
+		if(!this.#externalSetActive){
+			throw new Error('Set bridge to external scope. this.#externalSetActive is undefined...');
+		}  
+
+		if(!this.#externalSetOptions){
+			throw new Error('Set bridge to external scope. this.#externalSetOptions is undefined...');
+		}  
+
+		if(!this.#externalSetSelected){
+			throw new Error('Set bridge to external scope. this.#externalSetSelected is undefined...');
+		}  
+
+
+		T.#guardingIsNoLongerNeeded = true;
 	}
 
 	setBridgeToExternalScope(
@@ -289,19 +312,17 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 			selected
 		} : {
 			active: (a: boolean) => void,
-			options: (a: IndexedSelectOption[]) => void,
-			selected: (a: IndexedSelectOption) => void;
+			options: (a: QPC_IndexedSelectOption[]) => void,
+			selected: (a: QPC_IndexedSelectOption) => void;
 		}
 	){
-		//oxxxxxy, remake this later, please...
+		this.#externalSetActive = () => active(this.isActive);
+		this.#externalSetActive();
 
-		this.externalSetActive = () => active(this.isActive);
-		this.externalSetActive();
+		this.#externalSetOptions = () => options(structuredClone(this.options));
+		this.#externalSetOptions();
 
-		this.externalSetOptions = () => options(structuredClone(this.options));
-		this.externalSetOptions();
-
-		this.externalSetSelected = () => selected(structuredClone(this.selected));
-		this.externalSetSelected();
+		this.#externalSetSelected = () => selected(structuredClone(this.selected));
+		this.#externalSetSelected();
 	}
 }

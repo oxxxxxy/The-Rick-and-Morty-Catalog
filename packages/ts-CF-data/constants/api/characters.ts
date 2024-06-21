@@ -1,8 +1,8 @@
 import {
-	QueryParamCompatibleList,
-	QueryParamCompatible_Form_TextInput,
-	QueryParamCompatible_Form_Selection
-} from '@tsLF/types';
+	CustomFormInitDataCompatible_List,
+	CFIDC_Input_String,
+	CFIDC_Selection
+} from '@tsLF/pages/src/customForm/types';
 
 
 
@@ -18,7 +18,7 @@ export const API_CHARACTERS__PATH: {
 };
 
 
-export const API_CHARACTERS__PARAM__NAME: QueryParamCompatible_Form_TextInput = {
+export const API_CHARACTERS__PARAM__NAME: CFIDC_Input_String = {
 	name: 'name',
 	type: 'string',
 	hint: 'Morty'
@@ -29,7 +29,7 @@ const API_CHARACTERS__PARAM__STATUS_OPTIONS = ['alive', 'dead', 'unknown'];
 
 const TYPE__API_CHARACTERS__PARAM__STATUS_OPTIONS = ['alive', 'dead', 'unknown'] as const;
 
-interface TYPE__API_CHARACTERS__PARAM__STATUS extends QueryParamCompatible_Form_Selection{
+interface TYPE__API_CHARACTERS__PARAM__STATUS extends CFIDC_Selection{
 	value?: typeof TYPE__API_CHARACTERS__PARAM__STATUS_OPTIONS[number];
 }
 
@@ -40,14 +40,14 @@ export const API_CHARACTERS__PARAM__STATUS: TYPE__API_CHARACTERS__PARAM__STATUS 
 };
 
 
-export const API_CHARACTERS__PARAM__SPECIES: QueryParamCompatible_Form_TextInput = {
+export const API_CHARACTERS__PARAM__SPECIES: CFIDC_Input_String = {
 	name: 'species',
 	type: 'string',
 	hint: 'Human'
 };
 
 
-export const API_CHARACTERS__PARAM__TYPE: QueryParamCompatible_Form_TextInput = {
+export const API_CHARACTERS__PARAM__TYPE: CFIDC_Input_String = {
 	name: 'type',
 	type: 'string',
 	hint: 'Parasite'
@@ -58,7 +58,7 @@ const API_CHARACTERS__PARAM__GENDER_OPTIONS = ['female', 'male', 'genderless', '
 
 const TYPE__API_CHARACTERS__PARAM__GENDER_OPTIONS = ['female', 'male', 'genderless', 'unknown'] as const;
 
-interface TYPE__API_CHARACTERS__PARAM__GENDER extends QueryParamCompatible_Form_Selection {
+interface TYPE__API_CHARACTERS__PARAM__GENDER extends CFIDC_Selection {
 	value?: typeof TYPE__API_CHARACTERS__PARAM__GENDER_OPTIONS[number];
 }
 
@@ -69,7 +69,7 @@ export const API_CHARACTERS__PARAM__GENDER: TYPE__API_CHARACTERS__PARAM__GENDER 
 };
 
 
-export const API_CHARACTERS__PARAM_LIST: QueryParamCompatibleList = [
+export const API_CHARACTERS__PARAM_LIST: CustomFormInitDataCompatible_List = [
 	API_CHARACTERS__PARAM__NAME,
 	API_CHARACTERS__PARAM__STATUS,
 	API_CHARACTERS__PARAM__SPECIES,
