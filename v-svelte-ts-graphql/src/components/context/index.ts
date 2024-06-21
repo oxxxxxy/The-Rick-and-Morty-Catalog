@@ -4,6 +4,9 @@ import { setContext, getContext } from 'svelte';
 import { urqlWClient as wUrql } from '@tsC/api-graphql-to-ex';
 import type { IUrqlClientWrapper } from '@tsC/api-graphql-to-ex';
 
+import { MouseEventObservable } from '@tsLF/mouseEventObservable';
+
+
 
 
 
@@ -12,11 +15,13 @@ const CONTEXT_KEY = '$$$CoNtExTKeyForThatApp12345';
 
 interface ContextedValues {
 	wUrql: IUrqlClientWrapper;
+	cntxtedMouseEventObservable: MouseEventObservable;
 };
 
 
 const contextedValues: ContextedValues = {
-	wUrql: wUrql
+	wUrql: wUrql,
+	cntxtedMouseEventObservable: new MouseEventObservable()
 }
 
 
