@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+
 	import type { IndexedSelectOption } from '@tsLF/types';
 	import type {
 		QueryParamCompatible_Form_Selection
@@ -19,19 +22,6 @@
 
 
 
-	//dev
-	import {
-		API_CHARACTERS__PARAM__STATUS
-	} from '@tsCF/data';
-	
-	
-
-
-
-
-
-
-
 	export let options: IndexedSelectOption[];
 	export let selectMenuInstance: SelectMenu;
 	export let QPCFormSelection: QueryParamCompatible_Form_Selection;
@@ -46,9 +36,6 @@
 	const set_selected = (sel: IndexedSelectOption) => (selected = sel);
 
 
-	/* //delete
-	QPCFormSelection = API_CHARACTERS__PARAM__STATUS;
-	//me */
 	if(!selectMenuInstance){
 		let args: ConstructorArguments_SelectMenu;
 
@@ -80,11 +67,13 @@
 	}
 
 
-	contextedMouseEventObservable.attachListener('click', selectMenuInstance)
-
-
 	$: _active = active;
 	$: _options = options;
+
+	
+	onMount(() => {
+		contextedMouseEventObservable.attachListener('click', selectMenuInstance);
+	});
 
 </script>
 
@@ -111,6 +100,7 @@
 							: ''
 						}
 					"
+					title={option.name}
 				>
 					{option.name}
 				</span>
@@ -126,13 +116,15 @@
 						}
 					"
 					on:click={(e) => selectMenuInstance.clickSelect(e, option)}
+					title={option.name}
 				>
 					{option.name}
 				</span>
 			{/if}
     {/each}
   </div>
-  <div class="d-flex ai-center jc-center color--282828 select-list-icon">
+  <div class="d-flex ai-center jc-center color--282828 select-list-icon"
+  >
 		<SelectMenuIcon />
   </div>
 </div>

@@ -13,6 +13,14 @@
 
 
 
+	let genderSelected;
+	let statusSelected;
+
+
+	$:{
+		console.log(genderSelected, statusSelected);
+	}
+
  
 </script>
 
@@ -30,6 +38,7 @@
 
 			<SelectMenu 
 				QPCFormSelection = {API_CHARACTERS__PARAM__STATUS}
+				bind:selected={statusSelected}
 			/>
 
       <div
@@ -39,6 +48,7 @@
 
 			<SelectMenu 
 				QPCFormSelection = {API_CHARACTERS__PARAM__GENDER}
+				bind:selected={genderSelected}
 			/>
 
     </div>

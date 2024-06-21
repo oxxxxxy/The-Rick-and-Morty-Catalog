@@ -190,21 +190,9 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 
 		this.selected = structuredClone(this.options.find(e => e.selected));
 
-		this.HTMLElement_globalAttribute_id = U.nanoid();
+		this.HTMLElement_globalAttribute_id = 'i' + U.nanoid();
 	}
-
-	listenGlobalMouseEvent_Click(e: any){
-		if(!this.isActive){
-			return;
-		}
-
-		const target = e.target.closest('#' + this.HTMLElement_globalAttribute_id);
-
-		if(target === null){
-			this.#toggleActive();
-		}
-	}
-
+	
 	#toggleActive(bool?: boolean){
 		if(bool === undefined){
 			this.isActive = !this.isActive;
@@ -215,13 +203,24 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		this.externalSetActive();
 	}
 
+	listenGlobalMouseEvent_Click(e: any){
+		if(!this.parentHTMLElement || !this.isActive){
+			return;
+		}
+
+		const target = e.target.closest('#' + this.HTMLElement_globalAttribute_id);
+
+		if(target === null){
+			this.#toggleActive(false);
+		}
+	}
+
 	click(e: any): void{
-		if(!this.initHTMLElement){
-			this.initHTMLElement = e.target;
+		if(!this.parentHTMLElement){
 			this.parentHTMLElement = e.target.closest('#' + this.HTMLElement_globalAttribute_id);
 		}
 
-		if(this.initHTMLElement != e.target){
+		if(!this.parentHTMLElement.isSameNode(e.target.closest('#' + this.HTMLElement_globalAttribute_id))){
 			return;
 		}
 
