@@ -24,7 +24,6 @@ export class MouseEventObservable {
 	}
 
 	#addEventListener(eventType: EventTypeArg){
-		console.log(eventType)
 		window.addEventListener(eventType, (e) => this[eventType](e) );
 	}
 
@@ -51,7 +50,6 @@ export class MouseEventObservable {
 
 
 	click(e: any){
-		console.log('PUK', e)
 		this.listerners.click.forEach(
 			(el: Listener_ofGlobalMouseEvent_Click) => 
 				el.listenGlobalMouseEvent_Click(e)

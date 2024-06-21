@@ -1,5 +1,13 @@
 <script lang="ts">
 	import type { IndexedSelectOption } from '@tsLF/types';
+	import type {
+		QueryParamCompatible_Form_Selection
+	} from '@tsLF/types';
+
+	import type { PositiveInteger } from '@tsL/types';
+	
+	import type { ConstructorArguments_SelectMenu } from '@tsCF/pages/src/customForm/SelectMenu.ts'
+	import { SelectMenu } from '@tsCF/pages/src/customForm/SelectMenu.ts'
 
 
 	import g from '$comps/context';
@@ -16,22 +24,9 @@
 		API_CHARACTERS__PARAM__STATUS
 	} from '@tsCF/data';
 	
-	import type {
-		QueryParamCompatible_Form_Selection
-	} from '@tsLF/types';
-	import type { PositiveInteger } from '@tsL/types';
 	
-	import { capitalizeWord } from '@tsCF/pages/src/index.ts';
-
-	import { SelectMenu } from '@tsCF/pages/src/customForm/SelectMenu.ts'
-	import type { ConstructorArguments_SelectMenu } from '@tsCF/pages/src/customForm/SelectMenu.ts'
 
 
-	import { U } from '@tsL/utils';
-
-
-
-	//dev
 
 
 
@@ -51,9 +46,9 @@
 	const set_selected = (sel: IndexedSelectOption) => (selected = sel);
 
 
-	//delete
+	/* //delete
 	QPCFormSelection = API_CHARACTERS__PARAM__STATUS;
-	//me
+	//me */
 	if(!selectMenuInstance){
 		let args: ConstructorArguments_SelectMenu;
 
