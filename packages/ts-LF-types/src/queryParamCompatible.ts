@@ -7,13 +7,11 @@ export interface QueryParamCompatible_Form_TextInput extends QueryParamCompatibl
 	type: 'string';
 	readonly hint: string;
 	readonly match?: RegExp;
-	value?: string;
 }
 
 export interface QueryParamCompatible_Form_Selection extends QueryParamCompatible_Base {
 	type: 'options';
 	readonly options: readonly string[];
-	value?: string;
 }
 
 export type QueryParamCompatibleList = readonly (

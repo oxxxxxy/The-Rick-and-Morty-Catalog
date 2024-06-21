@@ -33,13 +33,15 @@ export const makeIndexedSelectOptionsFromQPCFormSelection = (
 
 	const makeIndexedSelectOption = (
 		id: PositiveInteger<number> | 0,
+		param: string,
 		value: string,
 		name?: string,
 		default_?: true,
 	): IndexedSelectOption => {
 		const obj: IndexedSelectOption = {
 			id,
-			value
+			value,
+			param
 		};
 
 		if(default_){
@@ -60,6 +62,7 @@ export const makeIndexedSelectOptionsFromQPCFormSelection = (
 		const res = makeIndexedSelectOption(
 			resultArr.length,
 			objWithTypeOptions.name,
+			objWithTypeOptions.name,
 			stringDecorationFn(objWithTypeOptions.name),
 			true
 		);
@@ -71,6 +74,7 @@ export const makeIndexedSelectOptionsFromQPCFormSelection = (
 	for(const option of objWithTypeOptions.options){
 		const res = makeIndexedSelectOption(
 			resultArr.length,
+			objWithTypeOptions.name,
 			option,
 			stringDecorationFn(option)
 		);
