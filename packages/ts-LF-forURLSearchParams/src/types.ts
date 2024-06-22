@@ -3,12 +3,12 @@ import type { PositiveInteger } from '@tsL/types';
 
 
 
-export type QueryParamCompatibleBase = {
+export type QueryParamCompatible_Base = {
 	param: string;
 	value: string;
 }
 
-export type QPC_SelectOption = QueryParamCompatibleBase & {
+export type QPC_SelectOption = QueryParamCompatible_Base & {
 	name?: string;
 	selected?: true;
 	default?: true;

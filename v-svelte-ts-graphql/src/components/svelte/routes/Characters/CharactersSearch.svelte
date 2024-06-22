@@ -20,7 +20,6 @@
 	$:{
 		console.log(genderSelected, statusSelected);
 	}
-
  
 </script>
 
@@ -37,7 +36,7 @@
     <div class="filter-select-box d-flex jc-center ai-center">
 
 			<SelectMenu 
-				QPCFormSelection = {API_CHARACTERS__PARAM__STATUS}
+				CFIDC_Selection = {API_CHARACTERS__PARAM__STATUS}
 				bind:selected={statusSelected}
 			/>
 
@@ -47,7 +46,7 @@
       ></div>
 
 			<SelectMenu 
-				QPCFormSelection = {API_CHARACTERS__PARAM__GENDER}
+				CFIDC_Selection = {API_CHARACTERS__PARAM__GENDER}
 				bind:selected={genderSelected}
 			/>
 

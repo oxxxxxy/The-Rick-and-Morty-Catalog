@@ -6,7 +6,7 @@ import type { PositiveInteger } from '@tsL/types';
 
 import type { Listener_ofGlobalMouseEvent_Click } from '@tsLF/mouseEventObservable';
 
-import { capitalizeWord } from '@tsCF/pages/src/index.ts';
+import { capitalizeWord } from '@tsLF/pages';
 
 import { U } from '@tsL/utils';
 
