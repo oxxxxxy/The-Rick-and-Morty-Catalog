@@ -11,6 +11,8 @@
 
 
 	export let exitValue: QPC_InputText;
+	export let cachedValue: QPC_InputText;
+
 	export let CFIDC_InputText_initDataValue: CFIDC_InputText_Base;
 
 
@@ -43,6 +45,11 @@
 
 	$: _warning = warning;
 	$: _value = '';
+
+	if(cachedValue){
+		_value = cachedValue.value;
+	}
+
 	$:{
 			inputText.setValue(_value);
 		}
@@ -50,7 +57,6 @@
 
 	const clear = () => (
 		_value = '',
-		_warning = '',
 		inputText.clear()
 	);
 </script>
@@ -69,7 +75,7 @@
 	  </div>
 		<button
 		  class="ai-center jc-center text-input-clear fill--999999 bg-color--181a1b
-			{!_value ? 'button--empty' : ''}
+			{!_value ? 'button--empty' : 'button--has-some'}
 		  "
 		  disabled="{!_value}"
 		  on:click={clear}
@@ -78,10 +84,10 @@
 		</button>
   </div>
 
-  {#if warning}
+  {#if _warning}
  	 <div class="text-input-option d-flex w-100">
 			<span class="text-input-warning w-100">
-				{warning}
+				{_warning}
 			</span>
 		</div>
 	{/if}

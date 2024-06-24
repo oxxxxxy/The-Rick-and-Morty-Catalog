@@ -22,3 +22,9 @@ export type QPC_SelectOption = QueryParamCompatible_Base & {
 export type QPC_IndexedSelectOption = QPC_SelectOption & {
 	id: PositiveInteger<number> | 0;
 }
+
+export type QPC_List = readonly (
+	QPC_InputText
+	| QPC_SelectOption
+	| QPC_IndexedSelectOption
+)[];

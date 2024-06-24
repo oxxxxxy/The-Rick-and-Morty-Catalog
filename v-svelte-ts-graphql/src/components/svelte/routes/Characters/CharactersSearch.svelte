@@ -7,7 +7,7 @@
 		API_CHARACTERS__PARAM__TYPE
 	} from '@tsCF/data';
 
-	import {  } from '@tsLF/forURLSP';
+	import type { QPC_List } from '@tsLF/forURLSP';
 
 
 	import InputText from '$comps/svelte/customForm/InputText.svelte';
@@ -17,7 +17,12 @@
 //dev
 let am= '';
 let it1 = [am];
-const
+const QPC_ListOfValues: QPC_List = [];
+let i = 0;
+
+const inc = () => i++;
+
+//const makeQPC_ListStore;
 //dev
 
 
@@ -27,8 +32,9 @@ const
 
 	$:{
 		console.log(
+		'CharactersSearch.svelte',
 		genderSelected, statusSelected,
-		it1, am
+		it1, am, QPC_ListOfValues
 		
 		);
 	}
@@ -42,17 +48,39 @@ const
   >
 
 		<InputText
-			bind:exitValue = {}
-			CFIDC_InputText_initDataValue = { API_CHARACTERS__PARAM__NAME }
+			bind:exitValue = {
+				QPC_ListOfValues[inc()]
+			}
+			CFIDC_InputText_initDataValue = {
+				API_CHARACTERS__PARAM__NAME
+			}
 		/>
-		<InputText />
-		<InputText />
+		<InputText
+			bind:exitValue = {
+				QPC_ListOfValues[2]
+			}
+			CFIDC_InputText_initDataValue = {
+				API_CHARACTERS__PARAM__SPECIES
+			}
+		/>
+		<InputText
+			bind:exitValue = {
+				QPC_ListOfValues[3]
+			}
+			CFIDC_InputText_initDataValue = {
+				API_CHARACTERS__PARAM__TYPE 
+			}
+		/>
 
     <div class="filter-select-box d-flex jc-center ai-center">
 
 			<SelectMenu 
-				CFIDC_Selection = {API_CHARACTERS__PARAM__STATUS}
-				bind:selected={statusSelected}
+				CFIDC_Selection = {
+					API_CHARACTERS__PARAM__STATUS
+				}
+				bind:selected={
+					statusSelected
+				}
 			/>
 
       <div
@@ -61,14 +89,18 @@ const
       ></div>
 
 			<SelectMenu 
-				CFIDC_Selection = {API_CHARACTERS__PARAM__GENDER}
-				bind:selected={genderSelected}
+				CFIDC_Selection = {
+					API_CHARACTERS__PARAM__GENDER
+				}
+				bind:selected={
+					genderSelected
+				}
 			/>
 
     </div>
 
     <button
-      class="filter-button color--b6b6b6 bg-color--181a1b tt-uppercase button--has-some"
+      class="filter-button color--b6b6b6 bg-color--181a1b tt-uppercase button--has-some button--empty"
     >
       Apply
     </button>
