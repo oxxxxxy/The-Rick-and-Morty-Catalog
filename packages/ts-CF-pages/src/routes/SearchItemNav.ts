@@ -3,95 +3,32 @@ import type {
 	API_EPISODES__PATH__NAME,
 	API_LOCATIONS__PATH__NAME
 } from '@tsCF/data';
-
-import type { SelectOption } from '@tsLF/types';
-
 import { 
 	API_CHARACTERS__PATH,
 	API_EPISODES__PATH,
 	API_LOCATIONS__PATH
 } from '@tsCF/data';
 
+import type { NavigationPath } from '@tsLF/pages';
+import { NavigationBar } from '@tsLF/pages';
+
 
 
 
 type PathName = API_LOCATIONS__PATH__NAME | API_EPISODES__PATH__NAME | API_CHARACTERS__PATH__NAME;
 
-export type SearchItemNav_Path = SelectOption & {
+export type SearchItemNav_Path = NavigationPath & {
 	value: PathName;
 }
 
 export const pathList: SearchItemNav_Path[] = [
-	{value: API_CHARACTERS__PATH.name},
-	{value: API_LOCATIONS__PATH.name},
-	{value: API_EPISODES__PATH.name}
-];
+	API_CHARACTERS__PATH,
+	API_LOCATIONS__PATH,
+	API_EPISODES__PATH
+].map(e => 
+	(
+		{value: e.name, name: e.name}
+	)
+);
 
-export class SearchItemNav{
-	private paths: SearchItemNav_Path[];
-	private current_path: number | undefined;
-
-	constructor(
-		paths: SearchItemNav_Path[] = pathList
-	){
-		this.paths = paths;
-	}
-
-	setSelected(pathName: PathName){
-		const T = this;
-		
-		T.paths = T.paths.map((e, i) => {
-			delete e.selected;
-
-			if(e.value === pathName){
-				e.selected = true;
-				T.current_path = i;
-			}
-
-			return e;
-		});
-
-		return T;
-	}
-
-	setNextSelected(){
-		const T = this;
-	
-		if(T.current_path === undefined){
-			T.paths[0].selected = true;
-			T.current_path = 0;
-		} else {
-			T.current_path++;
-			
-			if(T.paths.length === T.current_path){
-				T.current_path = 0;
-			}
-
-			T.paths = T.paths.map((e, i) => {
-				delete e.selected;
-
-				if(i === T.current_path){
-					e.selected = true;
-				}
-
-				return e;
-			});
-		}
-
-		return T;
-	}
-
-	clearSelected(){
-		const T = this;
-		
-		delete T.current_path;
-
-		T.paths = T.paths.map(e => (delete e.selected, e));
-
-		return T;
-	}
-
-	getPaths(){
-		return this.paths.map( e => e );
-	}
-}
+export const searchNav = new NavigationBar(pathList);

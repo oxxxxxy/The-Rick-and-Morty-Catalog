@@ -3,7 +3,10 @@
 
 	import {
 		API_CHARACTERS__PARAM__STATUS,
-		API_CHARACTERS__PARAM__GENDER
+		API_CHARACTERS__PARAM__GENDER,
+		API_CHARACTERS__PARAM__NAME,
+		API_CHARACTERS__PARAM__SPECIES,
+		API_CHARACTERS__PARAM__TYPE
 	} from '@tsCF/data';
 
 
@@ -11,6 +14,10 @@
 	import SelectMenu from '$comps/svelte/customForm/SelectMenu.svelte';
 
 
+//dev
+let am= '';
+let it1 = [am];
+//dev
 
 
 	let genderSelected;
@@ -18,7 +25,11 @@
 
 
 	$:{
-		console.log(genderSelected, statusSelected);
+		console.log(
+		genderSelected, statusSelected,
+		it1, am
+		
+		);
 	}
  
 </script>
@@ -29,7 +40,9 @@
     title="characters"
   >
 
-		<InputText />
+		<InputText
+			bind:value={am}
+		/>
 		<InputText />
 		<InputText />
 

@@ -1,21 +1,23 @@
 <script lang="ts">
-	import { capitalizeWord } from '@tsCF/pages/src/index.ts';
+	import { capitalizeWord } from '@tsLF/pages';
+
 	import type { SearchItemNav_Path } from '@tsCF/pages/src/routes/SearchItemNav.ts';
-	import { SearchItemNav } from '@tsCF/pages/src/routes/SearchItemNav.ts';
+	import { searchNav } from '@tsCF/pages/src/routes/SearchItemNav.ts';
 
 
 
-	export let pathName;
+
+	export let pathName: SearchItemNav_Path | string;
 
 
-	const nav = new SearchItemNav();
+	let paths = searchNav.getPaths();
 
-	let paths = nav.getPaths();
 
 	$: _paths = ((): SearchItemNav_Path[] => paths)();
 
+
 	if(pathName){
-		paths = nav.setSelected(pathName).getPaths();
+		paths = searchNav.setSelected(pathName).getPaths();
 	}
 
 </script>	

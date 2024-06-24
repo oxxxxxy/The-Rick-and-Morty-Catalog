@@ -1,6 +1,6 @@
 import {
 	CustomFormInitDataCompatible_List,
-	CFIDC_Input_String
+	CFIDC_InputText_String
 } from '@tsLF/pages/src/customForm/types';
 
 
@@ -17,21 +17,21 @@ export const API_LOCATIONS__PATH: {
 };
 
 
-export const API_LOCATIONS__PARAM__NAME: CFIDC_Input_String = {
+export const API_LOCATIONS__PARAM__NAME: CFIDC_InputText_String = {
 	name: 'name',
 	type: 'string',
 	hint: 'Earth (Replacement Dimension)'
 };
 
 
-export const API_LOCATIONS__PARAM__TYPE: CFIDC_Input_String = {
+export const API_LOCATIONS__PARAM__TYPE: CFIDC_InputText_String = {
 	name: 'type',
 	type: 'string',
 	hint: 'Planet'
 };
 
 
-export const API_LOCATIONS__PARAM__DIMENSION: CFIDC_Input_String = {
+export const API_LOCATIONS__PARAM__DIMENSION: CFIDC_InputText_String = {
 	name: 'dimension',
 	type: 'string',
 	hint: 'Replacement Dimension'

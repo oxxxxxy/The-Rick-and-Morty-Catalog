@@ -307,22 +307,22 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 
 	setBridgeToExternalScope(
 		{
-			active,
-			options,
-			selected
-		} : {
-			active: (a: boolean) => void,
-			options: (a: QPC_IndexedSelectOption[]) => void,
-			selected: (a: QPC_IndexedSelectOption) => void;
-		}
-	){
-		this.#externalSetActive = () => active(this.isActive);
+			set_active,
+			set_options,
+			set_selected
+		} : {  
+			set_active: (a: boolean) => void,
+			set_options: (a: QPC_IndexedSelectOption[]) => void,
+			set_selected: (a: QPC_IndexedSelectOption) => void;
+		}   
+	){ 
+		this.#externalSetActive = () => set_active(this.isActive);
 		this.#externalSetActive();
 
-		this.#externalSetOptions = () => options(structuredClone(this.options));
+		this.#externalSetOptions = () => set_options(structuredClone(this.options));
 		this.#externalSetOptions();
 
-		this.#externalSetSelected = () => selected(structuredClone(this.selected));
+		this.#externalSetSelected = () => set_selected(structuredClone(this.selected));
 		this.#externalSetSelected();
 	}
 }

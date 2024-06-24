@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { API_EPISODES__PATH } from '@tsCF/data';
 	
-	import { capitalizeWord } from '@tsCF/pages/src/index.ts';
+	import { capitalizeWord } from '@tsLF/pages';
 	import type { TileItems, ERR } from '@tsCF/pages/src/tileBoard/tiles/index.ts';
 
 

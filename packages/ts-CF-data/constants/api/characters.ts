@@ -1,6 +1,6 @@
 import {
 	CustomFormInitDataCompatible_List,
-	CFIDC_Input_String,
+	CFIDC_InputText_String,
 	CFIDC_Selection
 } from '@tsLF/pages/src/customForm/types';
 
@@ -18,7 +18,7 @@ export const API_CHARACTERS__PATH: {
 };
 
 
-export const API_CHARACTERS__PARAM__NAME: CFIDC_Input_String = {
+export const API_CHARACTERS__PARAM__NAME: CFIDC_InputText_String = {
 	name: 'name',
 	type: 'string',
 	hint: 'Morty'
@@ -40,14 +40,14 @@ export const API_CHARACTERS__PARAM__STATUS: TYPE__API_CHARACTERS__PARAM__STATUS 
 };
 
 
-export const API_CHARACTERS__PARAM__SPECIES: CFIDC_Input_String = {
+export const API_CHARACTERS__PARAM__SPECIES: CFIDC_InputText_String = {
 	name: 'species',
 	type: 'string',
 	hint: 'Human'
 };
 
 
-export const API_CHARACTERS__PARAM__TYPE: CFIDC_Input_String = {
+export const API_CHARACTERS__PARAM__TYPE: CFIDC_InputText_String = {
 	name: 'type',
 	type: 'string',
 	hint: 'Parasite'

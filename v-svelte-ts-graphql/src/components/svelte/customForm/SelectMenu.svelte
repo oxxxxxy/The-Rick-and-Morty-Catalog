@@ -58,9 +58,9 @@
 		selectMenuInstance = new SelectMenu(args);
 
 		selectMenuInstance.setBridgeToExternalScope({
-			active: set_active,
-			selected: set_selected,
-			options: set_options
+			set_active,
+			set_selected,
+			set_options
 		});
 	}
 

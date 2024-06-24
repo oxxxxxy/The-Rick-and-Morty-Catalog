@@ -8,6 +8,10 @@ export type QueryParamCompatible_Base = {
 	value: string;
 }
 
+export type QPC_InputText = QueryParamCompatible_Base & {
+	warning?: string;
+}
+
 export type QPC_SelectOption = QueryParamCompatible_Base & {
 	name?: string;
 	selected?: true;

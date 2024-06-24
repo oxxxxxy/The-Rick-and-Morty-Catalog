@@ -13,6 +13,7 @@
 		URL__STATUS_RICKANDMORTYAPI, 
 		URL__APP_VER_GITHUB_REPO 
 	} from '$comps/data';
+
 	import g from '$comps/context/index.ts';
 	const wUrql = g().wUrql;
 
@@ -21,9 +22,9 @@
 
 	$: cssClass_serverStatusIcon = getCssClassOKorERR(!!0);
 
+
 	onMount(async () => {
 		cssClass_serverStatusIcon = await checkServerStatus(wUrql);
-
 	});
 
 </script>
