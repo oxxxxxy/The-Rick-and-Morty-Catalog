@@ -11,16 +11,20 @@ export interface CustomFormInitDataCompatible_Base {
 	readonly type: CFIDC_Types_All;
 }
 
+export interface CustomFormInitDataCompatible_Match_Base extends CustomFormInitDataCompatible_Base{
+	readonly match: RegExp;
+	readonly warning: string;
+	readonly hint: string;
+}
+
+
 export interface CFIDC_InputText_String extends CustomFormInitDataCompatible_Base {
 	readonly type: 'string';
 	readonly hint: string;
 }
 
-export interface CFIDC_InputText_ExactString extends CustomFormInitDataCompatible_Base {
+export interface CFIDC_InputText_ExactString extends CustomFormInitDataCompatible_Match_Base  {
 	readonly type: 'exact string';
-	readonly match: RegExp;
-	readonly warning: string;
-	readonly hint: string;
 }
 
 export interface CFIDC_Selection extends CustomFormInitDataCompatible_Base {
