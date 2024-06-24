@@ -1,6 +1,4 @@
 <script lang="ts">
-
-
 	import {
 		API_CHARACTERS__PARAM__STATUS,
 		API_CHARACTERS__PARAM__GENDER,
@@ -8,6 +6,8 @@
 		API_CHARACTERS__PARAM__SPECIES,
 		API_CHARACTERS__PARAM__TYPE
 	} from '@tsCF/data';
+
+	import {  } from '@tsLF/forURLSP';
 
 
 	import InputText from '$comps/svelte/customForm/InputText.svelte';
@@ -17,6 +17,7 @@
 //dev
 let am= '';
 let it1 = [am];
+const
 //dev
 
 
@@ -41,7 +42,8 @@ let it1 = [am];
   >
 
 		<InputText
-			bind:value={am}
+			bind:exitValue = {}
+			CFIDC_InputText_initDataValue = { API_CHARACTERS__PARAM__NAME }
 		/>
 		<InputText />
 		<InputText />

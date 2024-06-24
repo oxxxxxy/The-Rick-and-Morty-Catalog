@@ -49,9 +49,16 @@ export abstract class InputText_Base_Match extends InputText_Base {
 		this.warning = initData.warning;
 
 		this.setExternalWarning = (w?: string) => {
-			this.value.warning = w || this.warning;
+			const type = typeof w;
+			if(type === 'string'){
+				this.value.warning = w;
 
-			set_warning(w || this.warning);
+				set_warning(w);
+			} else {
+				this.value.warning = this.warning;
+
+				set_warning(this.warning);
+			}
 		}
 
 	}
@@ -77,6 +84,8 @@ export const setValueFnImplementationFor_InputText_Base_Match = <T extends Input
 
 	if(isCheckFailed){
 		_this.setExternalWarning();
+	} else {
+		_this.setExternalWarning('');
 	}
 
 	setValueFnImplementationFor_InputText_Base(_this, value);
