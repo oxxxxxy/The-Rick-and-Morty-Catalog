@@ -20,6 +20,8 @@ export type ArgumentsFor_InputText_Base = {
 	set_placeholder: (p: string) => void;
 }
 
+export type ValueFor_InputText = QPC_InputText | string;
+
 
 export abstract class InputText_Base {
 	readonly value: QPC_InputText;
@@ -63,7 +65,7 @@ export abstract class InputText_Base {
 	
 	abstract clear(): void;
 
-	abstract setValue(value: QPC_InputText | string): void;
+	abstract setValue(value: ValueFor_InputText): void;
 
 	getValue(): QPC_InputText {
 		return structuredClone(this.value);
@@ -77,14 +79,14 @@ export const clearFnImplementationFor_InputText_Base = <T extends InputText_Base
 	_this.setExternalValue();
 }
 
-export const setValueFnImplementationFor_InputText_Base = <T extends InputText_Base> (_this: T, value: (QPC_InputText | string)): void => {
+export const setValueFnImplementationFor_InputText_Base = <T extends InputText_Base> (_this: T, value: ValueFor_InputText): void => {
 	const type = typeof value;
 
 	if(type === 'object'){
-
+		_this.value.value = value.value;
 	} else if ( type === 'string' ){
-
-	} else {
-		throw new Error('InputText_Base value is not a string and isn\'t a QPC_InputText type.');
+		_this.value.value = value;
 	}
+
+	_this.setExternalValue();
 }

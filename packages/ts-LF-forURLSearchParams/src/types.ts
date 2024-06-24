@@ -4,7 +4,7 @@ import type { PositiveInteger } from '@tsL/types';
 
 
 export type QueryParamCompatible_Base = {
-	param: string;
+	readonly param: string;
 	value: string;
 }
 

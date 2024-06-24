@@ -1,7 +1,9 @@
 import {
 	ArgumentsFor_InputText_Base,
+	ValueFor_InputText,
 	InputText_Base,
-  clearFnImplementationFor_InputText_Base
+  clearFnImplementationFor_InputText_Base,
+  setValueFnImplementationFor_InputText_Base
 } from './InputText_Base.ts';
 import type { 
 	CustomFormInitDataCompatible_Match_Base
@@ -9,8 +11,6 @@ import type {
 import { 
 	makeInputText_defaultPlaceholder
 } from '@tsLF/pages';
-
-import type { QPC_InputText } from '@tsLF/forURLSP';
 
 
 
@@ -52,7 +52,11 @@ export abstract class InputText_Base_Match extends InputText_Base {
 		this.match = initData.match;
 		this.warning = initData.warning;
 
-		this.setExternalWarning = (w?: string) => set_warning(w || this.warning);
+		this.setExternalWarning = (w?: string) => {
+			this.value.warning = w || this.warning;
+
+			set_warning(w || this.warning);
+		}
 
 	}
 }
@@ -63,3 +67,21 @@ export const clearFnImplementationFor_InputText_Base_Match = <T extends InputTex
 	clearFnImplementationFor_InputText_Base(_this);
 }
 
+export const setValueFnImplementationFor_InputText_Base_Match = <T extends InputText_Base_Match> (_this: T, value: ValueFor_InputText): void{
+
+	const type = typeof value;
+
+	let isCheckFailed: boolean = false;
+
+	if(type === 'object'){
+		isCheckFailed = !_this.match.test(value.value);
+	} else if (type === 'string'){
+		isCheckFailed = !_this.match.test(value);
+	}
+
+	if(isCheckFailed){
+		_this.setExternalWarning();
+	}
+
+	setValueFnImplementationFor_InputText_Base(_this, value);
+}
