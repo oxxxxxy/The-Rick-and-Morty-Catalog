@@ -5,18 +5,14 @@ import {
   clearFnImplementationFor_InputText_Base,
   setValueFnImplementationFor_InputText_Base
 } from './InputText_Base.ts';
-import type { 
-	CustomFormInitDataCompatible_Match_Base
-} from '@tsLF/pages';
-import { 
-	makeInputText_defaultPlaceholder
-} from '@tsLF/pages';
+import type { CFIDC_InputText_Base_Match } from '@tsLF/pages';
+import { makeInputText_defaultPlaceholder } from '@tsLF/pages';
 
 
 
 
 export type ArgumentsFor_InputText_Base_Match = ArgumentsFor_InputText_Base & {
-	initData: CustomFormInitDataCompatible_Match_Base;
+	initData: CFIDC_InputText_Base_Match;
 	set_warning: (w: string) => void;
 };
 
@@ -67,7 +63,7 @@ export const clearFnImplementationFor_InputText_Base_Match = <T extends InputTex
 	clearFnImplementationFor_InputText_Base(_this);
 }
 
-export const setValueFnImplementationFor_InputText_Base_Match = <T extends InputText_Base_Match> (_this: T, value: ValueFor_InputText): void{
+export const setValueFnImplementationFor_InputText_Base_Match = <T extends InputText_Base_Match> (_this: T, value: ValueFor_InputText): void => {
 
 	const type = typeof value;
 
@@ -75,7 +71,7 @@ export const setValueFnImplementationFor_InputText_Base_Match = <T extends Input
 
 	if(type === 'object'){
 		isCheckFailed = !_this.match.test(value.value);
-	} else if (type === 'string'){
+	} else {
 		isCheckFailed = !_this.match.test(value);
 	}
 

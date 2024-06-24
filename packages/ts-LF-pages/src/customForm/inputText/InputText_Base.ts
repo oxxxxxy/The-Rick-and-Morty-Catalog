@@ -1,9 +1,4 @@
-import type { 
-	CFIDC_InputText_String,
-	CFIDC_InputText_ExactString,
-	CustomFormInitDataCompatible_Match_Base,
-	CustomFormInitDataCompatible_String
-} from '@tsLF/pages';
+import type {	CFIDC_InputText_Base } from '@tsLF/pages';
 import { makeInputText_defaultPlaceholder } from '@tsLF/pages';
 
 import type { QPC_InputText } from '@tsLF/forURLSP';
@@ -12,7 +7,7 @@ import type { QPC_InputText } from '@tsLF/forURLSP';
 
 
 export type ArgumentsFor_InputText_Base = {
-	initData: CustomFormInitDataCompatible_String;
+	initData: CFIDC_InputText_Base;
 
 	placeholderDecorationFn: (name: string, hint: string) => string;
 	
@@ -84,7 +79,7 @@ export const setValueFnImplementationFor_InputText_Base = <T extends InputText_B
 
 	if(type === 'object'){
 		_this.value.value = value.value;
-	} else if ( type === 'string' ){
+	} else {
 		_this.value.value = value;
 	}
 

@@ -1,15 +1,11 @@
-import {
-	ValueFor_InputText
-} from './InputText_Base.ts';
+import { ValueFor_InputText } from './InputText_Base.ts';
 import {
 	ArgumentsFor_InputText_Base_Match,
 	InputText_Base_Match,
   clearFnImplementationFor_InputText_Base_Match,
   setValueFnImplementationFor_InputText_Base_Match
 } from './InputText_Base_Match.ts';
-import type { 
-	CFIDC_InputText_ExactString
-} from '@tsLF/pages';
+import type {	CFIDC_InputText_ExactString } from '@tsLF/pages';
 import { makeInputText_defaultPlaceholder } from '@tsLF/pages';
 
 
