@@ -257,6 +257,7 @@ p {
 .select-list {
   position: absolute;
   width: 100%;
+  z-index: 1;
 }
 .select-list-icon {
   z-index: 1;

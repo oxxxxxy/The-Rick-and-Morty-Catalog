@@ -22,6 +22,8 @@ let i = 0;
 
 const inc = () => i++;
 
+import { API_EPISODES__PARAM__EPISODE } from '@tsCF/data'
+
 //const makeQPC_ListStore;
 //dev
 
@@ -48,26 +50,26 @@ const inc = () => i++;
   >
 
 		<InputText
-			bind:exitValue = {
+			bind:exit_value = {
 				QPC_ListOfValues[inc()]
 			}
-			CFIDC_InputText_initDataValue = {
-				API_CHARACTERS__PARAM__NAME
+			init_CFIDC_InputText = {
+				API_EPISODES__PARAM__EPISODE
 			}
 		/>
 		<InputText
-			bind:exitValue = {
+			bind:exit_value = {
 				QPC_ListOfValues[2]
 			}
-			CFIDC_InputText_initDataValue = {
+			init_CFIDC_InputText = {
 				API_CHARACTERS__PARAM__SPECIES
 			}
 		/>
 		<InputText
-			bind:exitValue = {
+			bind:exit_value = {
 				QPC_ListOfValues[3]
 			}
-			CFIDC_InputText_initDataValue = {
+			init_CFIDC_InputText = {
 				API_CHARACTERS__PARAM__TYPE 
 			}
 		/>
@@ -75,10 +77,10 @@ const inc = () => i++;
     <div class="filter-select-box d-flex jc-center ai-center">
 
 			<SelectMenu 
-				CFIDC_Selection = {
+				init_CFIDC_Selection = {
 					API_CHARACTERS__PARAM__STATUS
 				}
-				bind:selected={
+				bind:exit_value={
 					statusSelected
 				}
 			/>
@@ -89,10 +91,10 @@ const inc = () => i++;
       ></div>
 
 			<SelectMenu 
-				CFIDC_Selection = {
+				init_CFIDC_Selection = {
 					API_CHARACTERS__PARAM__GENDER
 				}
-				bind:selected={
+				bind:exit_value={
 					genderSelected
 				}
 			/>

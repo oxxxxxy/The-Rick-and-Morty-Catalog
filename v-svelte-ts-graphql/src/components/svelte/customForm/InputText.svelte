@@ -10,14 +10,19 @@
 
 
 
-	export let exitValue: QPC_InputText;
-	export let cachedValue: QPC_InputText;
+	export let exit_value: QPC_InputText;
+	export let init_cachedValue: QPC_InputText;
+	export let init_CFIDC_InputText: CFIDC_InputText_Base;
 
-	export let CFIDC_InputText_initDataValue: CFIDC_InputText_Base;
 
+	if(!init_CFIDC_InputText){
+		throw new Error(`init_CFIDC_InputText must be passed.`);
+	}
 
-	if(!CFIDC_InputText_initDataValue){
-		throw new Error(`CFIDC_InputText_initDataValue must be passed.`);
+	if(init_cachedValue){
+		if(init_cachedValue.param != init_CFIDC_InputText.name){
+			throw new Error(`Value of the init_cachedValue.param is not equal to init_CFIDC_InputText.name. Check passed args. ` + JSON.stringify(init_cachedValue));
+		}
 	}
 
 
@@ -25,16 +30,16 @@
 	let warning: string = '';
 
 
-	const set_value = (v: QPC_InputText) => (exitValue = v);
+	const set_value = (v: QPC_InputText) => (exit_value = v);
 	const set_warning = (w: string) => (warning = w);
 	const set_placeholder = (p: string) => (placeholder = p);
 
 
-	const _class = InputTextStrategy(CFIDC_InputText_initDataValue);
+	const _class = InputTextStrategy(init_CFIDC_InputText);
 
 	const inputText = new _class(
 		{
-			initData: CFIDC_InputText_initDataValue,
+			initData: init_CFIDC_InputText,
 
 			set_value,
 			set_placeholder,
@@ -42,17 +47,18 @@
 		}
 	)
 
-
-	$: _warning = warning;
+	//$: _warning = warning; not work anymore...
 	$: _value = '';
-
-	if(cachedValue){
-		_value = cachedValue.value;
-	}
-
 	$:{
 			inputText.setValue(_value);
+
+			warning = warning; // bcz i don't trust svelte magic...
 		}
+
+
+	if(init_cachedValue){
+		_value = init_cachedValue.value;
+	}
 
 
 	const clear = () => (
@@ -84,10 +90,10 @@
 		</button>
   </div>
 
-  {#if _warning}
+  {#if warning}
  	 <div class="text-input-option d-flex w-100">
 			<span class="text-input-warning w-100">
-				{_warning}
+				{warning}
 			</span>
 		</div>
 	{/if}

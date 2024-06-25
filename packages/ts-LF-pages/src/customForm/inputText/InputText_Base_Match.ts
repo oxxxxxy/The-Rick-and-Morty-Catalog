@@ -77,9 +77,9 @@ export const setValueFnImplementationFor_InputText_Base_Match = <T extends Input
 	let isCheckFailed: boolean = false;
 
 	if(type === 'object'){
-		isCheckFailed = !_this.match.test(value.value);
+		!!value.value && (isCheckFailed = !_this.match.test(value.value));
 	} else {
-		isCheckFailed = !_this.match.test(value);
+		!!value && (isCheckFailed = !_this.match.test(value));
 	}
 
 	if(isCheckFailed){
