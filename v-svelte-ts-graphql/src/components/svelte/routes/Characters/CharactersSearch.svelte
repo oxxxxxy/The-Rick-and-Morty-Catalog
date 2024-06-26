@@ -7,11 +7,14 @@
 		API_CHARACTERS__PARAM__TYPE
 	} from '@tsCF/data';
 
-	import type { QPC_List } from '@tsLF/forURLSP';
+	import type { QueryParamCompatible_Base } from '@tsLF/forURLSP';
+	import type { CustomFormInitDataCompatible_Base } from '@tsLF/pages';
 
 
 	import InputText from '$comps/svelte/customForm/InputText.svelte';
 	import SelectMenu from '$comps/svelte/customForm/SelectMenu.svelte';
+
+
 
 
 //dev
@@ -25,13 +28,38 @@ const inc = () => i++;
 import { API_EPISODES__PARAM__EPISODE } from '@tsCF/data'
 
 //const makeQPC_ListStore;
+
+type InitCachedValues = {
+	readonly [key: string]: QueryParamCompatible_Base
+}
+
+class CustomForm{
+	private initCachedValues: InitCachedValues = {};
+	
+	init_cachedValue(CFIDC: CustomFormInitDataCompatible_Base){
+		return structuredClone(this.inited[JSON.stringify(CustomFormInitDataCompatible_Base)]);
+	}
+}
+
+
+
 //dev
 
+	export let init_cachedValues: QueryParamCompatible_Base[];
+	export let exit_values: QueryParamCompatible_Base[];
 
+
+	let isValid: boolean = true;
+
+
+	const set_values = (v: QueryParamCompatible_Base[]) => (exit_values = v);
+	const set_isValid = (v: boolean) => (isValid = v);
+	
 	let genderSelected;
 	let statusSelected;
 
 
+	$: _isValid = isValid;
 	$:{
 		console.log(
 		'CharactersSearch.svelte',
@@ -69,8 +97,12 @@ import { API_EPISODES__PARAM__EPISODE } from '@tsCF/data'
 			bind:exit_value = {
 				QPC_ListOfValues[3]
 			}
+
 			init_CFIDC_InputText = {
 				API_CHARACTERS__PARAM__TYPE 
+			}
+			init_cachedValue = {
+				undefined
 			}
 		/>
 
@@ -94,6 +126,7 @@ import { API_EPISODES__PARAM__EPISODE } from '@tsCF/data'
 				init_CFIDC_Selection = {
 					API_CHARACTERS__PARAM__GENDER
 				}
+
 				bind:exit_value={
 					genderSelected
 				}
@@ -102,7 +135,11 @@ import { API_EPISODES__PARAM__EPISODE } from '@tsCF/data'
     </div>
 
     <button
-      class="filter-button color--b6b6b6 bg-color--181a1b tt-uppercase button--has-some button--empty"
+      class="
+				filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
+				{ _isValid ? 'button--has-some': 'button--empty'}
+			"
+		  disabled="{!_isValid}"
     >
       Apply
     </button>

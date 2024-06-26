@@ -15,6 +15,15 @@
 	export let init_CFIDC_InputText: CFIDC_InputText_Base;
 
 
+	let placeholder: string = '';
+	let warning: string = '';
+
+
+	const set_value = (v: QPC_InputText) => (exit_value = v);
+	const set_warning = (w: string) => (warning = w);
+	const set_placeholder = (p: string) => (placeholder = p);
+
+
 	if(!init_CFIDC_InputText){
 		throw new Error(`init_CFIDC_InputText must be passed.`);
 	}
@@ -24,15 +33,6 @@
 			throw new Error(`Value of the init_cachedValue.param is not equal to init_CFIDC_InputText.name. Check passed args. ` + JSON.stringify(init_cachedValue));
 		}
 	}
-
-
-	let placeholder: string = '';
-	let warning: string = '';
-
-
-	const set_value = (v: QPC_InputText) => (exit_value = v);
-	const set_warning = (w: string) => (warning = w);
-	const set_placeholder = (p: string) => (placeholder = p);
 
 
 	const _class = InputTextStrategy(init_CFIDC_InputText);
@@ -46,6 +46,7 @@
 			set_warning
 		}
 	)
+
 
 	//$: _warning = warning; not work anymore...
 	$: _value = '';
@@ -65,7 +66,9 @@
 		_value = '',
 		inputText.clear()
 	);
+
 </script>
+
 
 <div class="text-input-option d-flex w-100 fd-column"
 >

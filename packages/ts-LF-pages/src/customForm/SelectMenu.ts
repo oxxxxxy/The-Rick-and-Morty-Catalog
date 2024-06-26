@@ -1,4 +1,7 @@
-import type { QPC_IndexedSelectOption } from '@tsLF/forURLSP';
+import type { 
+	QPC_IndexedSelectOption,
+	QPC_SelectOption
+} from '@tsLF/forURLSP';
 
 import type { CFIDC_Selection } from './types';
 
@@ -111,10 +114,9 @@ export const makeQPC_IndexedSelectOptionsFromCFIDC_Selection = (
 
 export type ConstructorArguments_SelectMenu = {
 	CFIDC_Selection?: CFIDC_Selection,
-	setSelected?: QPC_IndexedSelectOption | string | PositiveInteger<number> | 0,
+	setSelected?: QPC_SelectOption | string | PositiveInteger<number> | 0,
 	doUNeedDefaultNonValue?: true,
 	stringDecorationFn?: (arg: string) => string,
-	readyOptions?: QPC_IndexedSelectOption[],
 }
 
 
@@ -137,57 +139,40 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 			CFIDC_Selection,
 			setSelected,  
 			doUNeedDefaultNonValue,
-			stringDecorationFn = capitalizeWord,  
-			readyOptions,
+
+			stringDecorationFn = capitalizeWord
 		} : ConstructorArguments_SelectMenu
 	){
 
-		if(CFIDC_Selection){
-			const args: Arguments_makeQPC_IndexedSelectOptionsFromCFIDC_Selection = {
-				objWithTypeOptions: CFIDC_Selection,
-				doUNeedDefaultNonValue,
-				stringDecorationFn,
-			};
-
-			if(typeof setSelected != 'object'){
-				args.doUNeedSetSelected = setSelected;
-			}
-
-			this.options = makeQPC_IndexedSelectOptionsFromCFIDC_Selection(args);
-
-		} else if(readyOptions){
-			/* const cache = {};
-
-			for(const rOp1 of readyOptions){
-				const string = JSON.stringify(rOp1);
-
-				if(cache[string]){
-					throw
-				}
-			} */
-
-			//place for validation/guarding... it is not important right now.
-
-			this.options = readyOptions;
-
-		} else {
+		if(!CFIDC_Selection){
 			throw new Error('SelectMenu must have CFIDC_Selection data value or ready QPC_IndexedSelectOption array as argument.');
 		}
 
+		const args: Arguments_makeQPC_IndexedSelectOptionsFromCFIDC_Selection = {
+			objWithTypeOptions: CFIDC_Selection,
+			doUNeedDefaultNonValue,
+			stringDecorationFn,
+		};
+
+		if(typeof setSelected != 'object'){
+			args.doUNeedSetSelected = setSelected;
+		}
+
+		this.options = makeQPC_IndexedSelectOptionsFromCFIDC_Selection(args);
+
 
 		if(typeof setSelected === 'object'){
-			const index = this.options.findIndex(e => 
-				(
-					e.value === setSelected.value
-					&& e.id === setSelected.id
-				)
-			);
-
-			if(index < 0){
-				throw new Error(`setSelected ${JSON.stringify(setSelected)} does not exist in ${JSON.stringify(this.options)}.`);
+			if(setSelected.param != CFIDC_Selection.name){
+				throw new Error(`setSelected ${JSON.stringify(setSelected)} has different param value than in other options ${JSON.stringify(this.options)}.`);
 			}
 
-			this.options[index].selected = true;
+			const index = this.options.findIndex(e => 
+				e.value === setSelected.value
+			);
+
+			if(index >= 0){
+				this.options[index].selected = true;
+			}
 		}
 
 		this.selected = structuredClone(this.options.find(e => e.selected));
