@@ -1,6 +1,6 @@
 import type { 
-	QPC_IndexedSelectOption,
-	QPC_SelectOption
+	QueryParamCompatible_Base,
+	QPC_IndexedSelectOption
 } from '@tsLF/forURLSP';
 
 import type { CFIDC_Selection } from './types';
@@ -114,7 +114,7 @@ export const makeQPC_IndexedSelectOptionsFromCFIDC_Selection = (
 
 export type ConstructorArguments_SelectMenu = {
 	CFIDC_Selection?: CFIDC_Selection,
-	setSelected?: QPC_SelectOption | string | PositiveInteger<number> | 0,
+	setSelected?: QueryParamCompatible_Base | string | PositiveInteger<number> | 0,
 	doUNeedDefaultNonValue?: true,
 	stringDecorationFn?: (arg: string) => string,
 }

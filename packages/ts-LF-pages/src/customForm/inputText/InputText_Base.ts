@@ -1,7 +1,10 @@
 import type {	CFIDC_InputText_Base } from '@tsLF/pages';
 import { makeInputText_defaultPlaceholder } from '@tsLF/pages';
 
-import type { QPC_InputText } from '@tsLF/forURLSP';
+import type { 
+	QPC_InputText,
+	QueryParamCompatible_Base
+} from '@tsLF/forURLSP';
 
 
 
@@ -15,7 +18,10 @@ export type ArgumentsFor_InputText_Base = {
 	set_placeholder: (p: string) => void;
 }
 
-export type ValueFor_InputText = QPC_InputText | string;
+export type ValueFor_InputText = QPC_InputText 
+| QueryParamCompatible_Base
+| string
+;
 
 
 export abstract class InputText_Base {
