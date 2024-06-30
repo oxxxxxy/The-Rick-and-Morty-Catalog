@@ -84,6 +84,7 @@ class CustomForm{
 			init_CFIDC_InputText = {
 				API_EPISODES__PARAM__EPISODE
 			}
+			
 		/>
 		<InputText
 			bind:exit_value = {

@@ -9,6 +9,9 @@ import type {
 	CustomFormInitDataCompatible_List,
 	CustomFormInitDataCompatible_OneOf
 } from '@tsLF/pages';
+import type {
+	CustomFormItem_OneOf
+} from './CFIDCTypeBasedStrategy.ts';
 
 
 
@@ -18,19 +21,18 @@ export type ArgumentsFor_CustomFormHolder = {
 	cachedQPCValues?: QueryParamCompatible_Base[];
 }
 
-export interface PropsOf_CustomFormHolder {
-	cachedQPCValuesForEachCFIDC: {
+
+export class CustomFormHolder {
+	#cachedQPCValuesForEachCFIDC: {
 		[key: string]: QPC_OneOf
-	};
-/*	savedCFIDCList: {
+	} = {};
+	#instancesOfCFItemForEachCFIDC: {
+		[key: string]: QPC_OneOf
+	} = {};
+	/* #savedCFIDCList: {
 		[key: string]: CustomFormInitDataCompatible_OneOf;
-	};*/
+	} = {}; */
 
-}
-
-export class CustomFormHolder implements PropsOf_CustomFormHolder{
-	cachedQPCValuesForEachCFIDC = {};
-//	savedCFIDCList = {};
 
 	constructor(
 		{
@@ -72,6 +74,10 @@ export class CustomFormHolder implements PropsOf_CustomFormHolder{
 				if(found){
 					//save to this.~init_cachedValues[
 					//  json of CFIDC data type] = found qpc base
+					
+					//add to init_instanceOfCFItem as default value
+					
+					
 				}
 			}
 		}
@@ -82,5 +88,9 @@ export class CustomFormHolder implements PropsOf_CustomFormHolder{
 	getInitCachedValueFor(CFIDC: CustomFormInitDataCompatible_OneOf): QPC_OneOf{
 
 		//strategy
+	}
+
+	getInstanceOfCFItemFor(CFIDC: CustomFormInitDataCompatible_OneOf){
+
 	}
 }
