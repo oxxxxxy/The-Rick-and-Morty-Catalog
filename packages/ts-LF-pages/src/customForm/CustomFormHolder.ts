@@ -10,8 +10,8 @@ import type {
 	CustomFormInitDataCompatible_OneOf
 } from '@tsLF/pages';
 import type {
-	CustomFormItem_OneOf
-} from './CFIDCTypeBasedStrategy.ts';
+	CFIDCTypeBasedStrategyFn_All
+} from './CFIDCTypeBasedStrategyFn_All.ts';
 
 
 
@@ -22,6 +22,14 @@ export type ArgumentsFor_CustomFormHolder = {
 }
 
 
+/*
+	эта хуйня выбрасывает 
+	-готовые инстансы кастом форм итемов
+	-"кеш" вальюсы которые будут перекинуты из юрл таба
+	-ну и по хорошему сами CFIDCi
+
+*/
+
 export class CustomFormHolder {
 	#cachedQPCValuesForEachCFIDC: {
 		[key: string]: QPC_OneOf
@@ -29,6 +37,7 @@ export class CustomFormHolder {
 	#instancesOfCFItemForEachCFIDC: {
 		[key: string]: QPC_OneOf
 	} = {};
+
 	/* #savedCFIDCList: {
 		[key: string]: CustomFormInitDataCompatible_OneOf;
 	} = {}; */
