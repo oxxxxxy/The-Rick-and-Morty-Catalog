@@ -39,10 +39,13 @@ export type CustomFormInitDataCompatible_String = CFIDC_InputText_String
 	| CFIDC_InputText_ExactString
 ;
 
-export type CustomFormInitDataCompatible_List = readonly (
-	CFIDC_InputText_String
+export type CustomFormInitDataCompatible_OneOf = 	CFIDC_InputText_String
 	| CFIDC_InputText_ExactString
 	| CFIDC_Selection
+;
+
+export type CustomFormInitDataCompatible_List = readonly (
+	CustomFormInitDataCompatible_OneOf
 )[];
 
 

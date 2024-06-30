@@ -23,8 +23,12 @@ export type QPC_IndexedSelectOption = QPC_SelectOption & {
 	id: PositiveInteger<number> | 0;
 }
 
-export type QPC_List = readonly (
+export type QPC_OneOf = 
 	QPC_InputText
 	| QPC_SelectOption
 	| QPC_IndexedSelectOption
+;
+
+export type QPC_List = readonly (
+	QPC_OneOf
 )[];
