@@ -40,6 +40,8 @@ export abstract class InputText_Base {
 	readonly name: string;
 	readonly type: string;
 
+	readonly placeholderDecorationFn: PlaceholderDecorationFnType;
+
 	readonly setExternalValue: undefined | ((v?: QPC_InputText) => void);
 	readonly setExternalPlaceholder: undefined | ((p?: string) => void);
 
@@ -65,19 +67,28 @@ export abstract class InputText_Base {
 			value: ''
 		}
 
+		this.placeholderDecorationFn = placeholderDecorationFn;
+
 		if(set_value && set_placeholder){
+			this.setBridgeToExternalScope(//??? hm, will it work at all???
+				{
+					set_value,
+					set_placeholder
+				}
+			);
 		}
-
-
 	}
-	
+
+
 	abstract clear(): void;
 
 	abstract setValue(value: ValueFor_InputText): void;
 
+
 	abstract setBridgeToExternalScope <T extends ArgumentsFor_InputText_Base__setBridgeToExternalScope>(arg: T): void;
 
 	abstract guard(): void;
+
 
 	getValue(): QPC_InputText {
 		return structuredClone(this.value);
@@ -124,6 +135,8 @@ export const clearFnImplementationFor_InputText_Base = <T extends InputText_Base
 }
 
 export const setValueFnImplementationFor_InputText_Base = <T extends InputText_Base> (_this: T, value: ValueFor_InputText): void => {
+	_this.guard();
+
 	const type = typeof value;
 
 	if(type === 'object'){
