@@ -1,5 +1,9 @@
 export * from './types';
 
-export * from './SelectMenu.ts';
+export * from './selectMenu';
 
 export * from './inputText';
+
+export * from './CustomFormHolder.ts';
+
+export * from './CFIDCTypeBasedStrategyFn_All.ts';

@@ -1,37 +1,38 @@
+import type { CustomFormInitDataCompatible_OneOf } from './types';
+
 import type {
-	CFIDC_Types_All,
-	CustomFormInitDataCompatible_OneOf
-} from './types';
-import {
-	InputText_String,
-	InputText_ExactString
+	InputTextStrategyObj,
+	InputText_ClassType_OneOf
 } from './inputText';
-import { SelectMenu } from './SelectMenu.ts';
+import { InputTextStrategyObjData } from './inputText';
+
+import type {
+	SelectMenuStrategyObj,
+	SelectMenu_ClassType_OneOf
+} from './selectMenu';
+import { SelectMenuStrategyObjData } from './selectMenu';
 
 
 
 
-export type CustomFormItem_OneOf = typeof InputText_String 
-| typeof InputText_ExactString
-| typeof SelectMenu
+export type All_ClassType_OneOf = InputText_ClassType_OneOf
+	| SelectMenu_ClassType_OneOf
 ;
 
-export type StrategyObj = {
-	[prop in CFIDC_Types_All]: CustomFormItem_OneOf;
+export type AllStrategyObj = InputTextStrategyObj
+	& SelectMenuStrategyObj
+;
+
+export const AllStrategyObjData: AllStrategyObj = {
+	...InputTextStrategyObjData,
+	...SelectMenuStrategyObjData
 }
 
-
-export const CFIDCTypeBasedStrategy = (CFItem: CustomFormInitDataCompatible_OneOf): CustomFormItem_OneOf => {
-	const types: StrategyObj = {
-		'string': InputText_String,
-		'exact string': InputText_ExactString,
-		'options': SelectMenu
-	}
-
-	const _class = types[CFItem.type];
+export const CFIDCTypeBasedStrategyFn_All = (CFIDC_OneOf: CustomFormInitDataCompatible_OneOf): All_ClassType_OneOf => {
+	const _class = AllStrategyObjData[CFIDC_OneOf.type];
 
 	if(!_class){
-		throw new Error('Congratulations. It\'s time to add some new handlers, bcz you have new type: ' + CFItem.type);
+		throw new Error('Congratulations. It\'s time to add some new custom form item classes, bcz you have new type: ' + CFIDC_OneOf.type);
 	}
 
 	return _class;

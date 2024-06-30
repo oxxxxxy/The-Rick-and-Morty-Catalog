@@ -21,7 +21,7 @@ export const SelectMenuStrategyObjData: SelectMenuStrategyObj = {
 	'options': SelectMenu,
 };
 
-export const CFIDCTypeBasedStrategyFn_InputText = <T extends CFIDC_Selection> (CFIDC_Selection: T): SelectMenu_ClassType_OneOf => {
+export const CFIDCTypeBasedStrategyFn_SelectMenu = <T extends CFIDC_Selection> (CFIDC_Selection: T): SelectMenu_ClassType_OneOf => {
 
 	const _class = SelectMenuStrategyObjData[CFIDC_Selection.type];
 
