@@ -21,6 +21,8 @@ export class InputText_String extends InputText_Base{
 	constructor(
 		{
 			initData,
+			
+			cachedValue,
 
 			placeholderDecorationFn = makeInputText_defaultPlaceholder,
 
@@ -31,6 +33,8 @@ export class InputText_String extends InputText_Base{
 		super(
 			{
 				initData,
+			
+				cachedValue,
 
 				placeholderDecorationFn,
 

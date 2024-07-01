@@ -43,6 +43,8 @@ export abstract class InputText_Base_Match extends InputText_Base {
 		{
 			initData,
 
+			cachedValue,
+
 			placeholderDecorationFn = makeInputText_defaultPlaceholder,
 
 			set_value,
@@ -54,10 +56,12 @@ export abstract class InputText_Base_Match extends InputText_Base {
 			{
 				initData,
 
+				cachedValue,
+
 				placeholderDecorationFn,
 			}
 		);
-	
+
 		this.match = initData.match;
 		this.warning = initData.warning;
 

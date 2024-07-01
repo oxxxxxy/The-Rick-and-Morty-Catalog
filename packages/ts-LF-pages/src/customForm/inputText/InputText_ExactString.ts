@@ -23,6 +23,8 @@ export class InputText_ExactString extends InputText_Base_Match{
 		{
 			initData,
 
+			cachedValue,
+
 			placeholderDecorationFn = makeInputText_defaultPlaceholder,
 
 			set_value,
@@ -33,6 +35,8 @@ export class InputText_ExactString extends InputText_Base_Match{
 		super(
 			{
 				initData,
+
+				cachedValue,
 
 				placeholderDecorationFn,
 

@@ -41,7 +41,15 @@ class CustomForm{
 	}
 }
 
+import { CFIDCTypeBasedStrategyFn_All } from '@tsLF/pages';
 
+
+const test_init_instanceOfInputText_class =  CFIDCTypeBasedStrategyFn_All(API_EPISODES__PARAM__EPISODE);
+const asdf = {param: 'episode', value:'ass'};
+const test_init_instanceOfInputText = new test_init_instanceOfInputText_class({
+	cachedValue:  asdf
+	,initData:	API_EPISODES__PARAM__EPISODE
+})
 
 //dev
 
@@ -76,6 +84,16 @@ class CustomForm{
     class="search--width d-flex jc-space-between fd-column"
     title="characters"
   >
+		<InputText
+			bind:exit_value = {
+				QPC_ListOfValues[inc()]
+			}
+
+			init_instanceOfInputText= {
+				test_init_instanceOfInputText
+			}
+			
+		/>
 
 		<InputText
 			bind:exit_value = {
@@ -84,7 +102,6 @@ class CustomForm{
 			init_CFIDC_InputText = {
 				API_EPISODES__PARAM__EPISODE
 			}
-			
 		/>
 		<InputText
 			bind:exit_value = {

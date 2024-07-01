@@ -24,6 +24,8 @@ export type ArgumentsFor_InputText_Base = ArgumentsPart_setBridgeToExternalScope
 	& {
 	initData: CFIDC_InputText_Base;
 
+	cachedValue?: QueryParamCompatible_Base; //idk how to name "cachedValue" entity right... Can you do that?
+
 	placeholderDecorationFn: PlaceholderDecorationFnType;
 };
 
@@ -52,6 +54,8 @@ export abstract class InputText_Base {
 		{
 			initData,
 
+			cachedValue,
+
 			placeholderDecorationFn = makeInputText_defaultPlaceholder,
 
 			set_value,
@@ -66,7 +70,17 @@ export abstract class InputText_Base {
 			param: initData.name,
 			value: ''
 		}
+		
+		if(cachedValue){
+			if(cachedValue.param != initData.name){
+			throw new Error(`cachedValue.param and initData.name do not match. cachedValue: ${JSON.stringify(cachedValue)}. initData: ${JSON.stringify(initData)}.`);
+			}
 
+			this.value.value = cachedValue.value;
+		}
+if(initData.name === 'episode'){
+console.log(cachedValue, initData, this.value);
+}
 		this.placeholderDecorationFn = placeholderDecorationFn;
 
 		if(set_value && set_placeholder){

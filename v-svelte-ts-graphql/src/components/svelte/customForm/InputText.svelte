@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+
 	import type { CFIDC_InputText_Base } from '@tsLF/pages';
 	import { CFIDCTypeBasedStrategyFn_InputText } from '@tsLF/pages';
 	import type { InputText_ClassType_OneOf } from '@tsLF/pages';
@@ -31,12 +34,6 @@
 	let inputText;
 	
 	if(init_instanceOfInputText){
-		if(init_cachedValue){
-			if(init_cachedValue.param != init_instanceOfInputText.name){
-				throw new Error(`Value of the init_cachedValue.param is not equal to init_instanceOfInputText.name. Check passed args. ` + JSON.stringify(init_cachedValue));
-			}
-		}
-
 		init_instanceOfInputText.setBridgeToExternalScope(
 			{
 				set_warning,
@@ -46,6 +43,12 @@
 		)
 	
 		inputText = init_instanceOfInputText;
+
+		const value = inputText.getValue();
+console.log('init_instanceOfInputText ',value)
+		if(value.value){
+			init_cachedValue = value;
+		}
 	} else {
 		if(!init_CFIDC_InputText){
 			throw new Error(`init_CFIDC_InputText must be passed.`);
@@ -80,16 +83,20 @@
 		}
 
 
-	if(init_cachedValue){
-		_value = init_cachedValue.value;
-	}
-
-
 	const clear = () => (
 		_value = '',
 		inputText.clear()
 	);
 
+
+	onMount(() => {
+
+		if(init_cachedValue){
+			_value = init_cachedValue.value;
+		}
+
+	});
+	
 </script>
 
 
