@@ -14,8 +14,6 @@ import type {
 import type { CFIDC_InputText_Base_Match } from '@tsLF/pages';
 import { makeInputText_defaultPlaceholder } from '@tsLF/pages';
 
-import type { QPC_InputText } from '@tsLF/forURLSP';
-
 
 
 
@@ -57,27 +55,39 @@ export abstract class InputText_Base_Match extends InputText_Base {
 				initData,
 
 				placeholderDecorationFn,
-
-				set_value,
-				set_placeholder
 			}
 		);
 	
 		this.match = initData.match;
 		this.warning = initData.warning;
 
+		if(set_value && set_placeholder && set_warning){
+			setBridgeToExternalScopeFnImplementationFor_InputText_Base_Match(
+				this,
+				{
+					set_value,
+					set_placeholder,
+					set_warning
+				},
+				placeholderDecorationFn
+			);
+		}
 	}
+
+	abstract setBridgeToExternalScope(arg: ArgumentsFor_InputText_Base_Match__setBridgeToExternalScope): void;
+
 }
 
-export const setBridgeToExternalScopeFnImplementationFor_InputText_Base_Match = <T extends InputText_Base> (
+export const setBridgeToExternalScopeFnImplementationFor_InputText_Base_Match = <T extends InputText_Base_Match> (
 	_this: T,
 	arg: ArgumentsFor_InputText_Base_Match__setBridgeToExternalScope,
 	placeholderDecorationFn: PlaceholderDecorationFnType
 ): void => {
 
 	const set_warning = arg.set_warning;
+	delete arg.set_warning;
 
-	_this.setExternalWarning = (w?: string | QPC_InputText) => {
+	_this.setExternalWarning = (w?: string) => {
 		const type = typeof w;
 		if(type === 'string'){
 			_this.value.warning = w;
@@ -89,16 +99,32 @@ export const setBridgeToExternalScopeFnImplementationFor_InputText_Base_Match = 
 			set_warning(_this.warning);
 		}
 	}
-	
+
+	setBridgeToExternalScopeFnImplementationFor_InputText_Base(
+		_this,
+		arg,
+		placeholderDecorationFn
+	);
 }
 
+export const guardFnImplementationFor_InputText_Base_Match = <T extends InputText_Base_Match> (_this: T): void => {
+	if(!_this.setExternalWarning){
+		throw new Error('Set bridge to external scope. this.setExternalWarning is undefined...');
+	}
+
+	guardFnImplementationFor_InputText_Base(_this);
+};
+
 export const clearFnImplementationFor_InputText_Base_Match = <T extends InputText_Base_Match> (_this: T): void => {
+	_this.guard();
+
 	_this.value.warning = '';
 
 	clearFnImplementationFor_InputText_Base(_this);
 }
 
 export const setValueFnImplementationFor_InputText_Base_Match = <T extends InputText_Base_Match> (_this: T, value: ValueFor_InputText): void => {
+	_this.guard();
 
 	const type = typeof value;
 

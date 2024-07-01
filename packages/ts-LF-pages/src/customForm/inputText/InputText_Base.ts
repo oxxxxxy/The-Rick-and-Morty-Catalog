@@ -70,11 +70,13 @@ export abstract class InputText_Base {
 		this.placeholderDecorationFn = placeholderDecorationFn;
 
 		if(set_value && set_placeholder){
-			this.setBridgeToExternalScope(//??? hm, will it work at all???
+			setBridgeToExternalScopeFnImplementationFor_InputText_Base(
+				this,
 				{
 					set_value,
 					set_placeholder
-				}
+				},
+				placeholderDecorationFn
 			);
 		}
 	}
@@ -85,7 +87,7 @@ export abstract class InputText_Base {
 	abstract setValue(value: ValueFor_InputText): void;
 
 
-	abstract setBridgeToExternalScope <T extends ArgumentsFor_InputText_Base__setBridgeToExternalScope>(arg: T): void;
+	abstract setBridgeToExternalScope(arg: ArgumentsFor_InputText_Base__setBridgeToExternalScope): void;
 
 	abstract guard(): void;
 
@@ -115,16 +117,16 @@ export const guardFnImplementationFor_InputText_Base = <T extends InputText_Base
 		return;
 	}
 
-	if(!this.setExternalValue){
+	if(!T.setExternalValue){
 		throw new Error('Set bridge to external scope. this.setExternalValue is undefined...');
 	}
 	
-	if(!this.setExternalPlaceholder){
+	if(!T.setExternalPlaceholder){
 		throw new Error('Set bridge to external scope. this.setExternalPlaceholder is undefined...');
 	}
 
 	T.guardingIsNoLongerNeeded = true;
-}
+};
 
 export const clearFnImplementationFor_InputText_Base = <T extends InputText_Base> (_this: T): void => {
 	_this.guard();
@@ -147,5 +149,3 @@ export const setValueFnImplementationFor_InputText_Base = <T extends InputText_B
 
 	_this.setExternalValue();
 }
-
-export const 

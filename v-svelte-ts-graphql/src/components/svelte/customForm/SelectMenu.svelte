@@ -8,8 +8,8 @@
 	} from '@tsLF/forURLSP';
 	
 	import type { CFIDC_Selection	} from '@tsLF/pages/src/customForm/types';
-	import type { ConstructorArguments_SelectMenu } from '@tsLF/pages/src/customForm/SelectMenu.ts'
-	import { SelectMenu } from '@tsLF/pages/src/customForm/SelectMenu.ts'
+	import type { ConstructorArguments_SelectMenu } from '@tsLF/pages';
+	import { SelectMenu } from '@tsLF/pages';
 
 
 	import g from '$comps/context';

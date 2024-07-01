@@ -3,9 +3,11 @@ import {
 	ValueFor_InputText,
 	InputText_Base,
   clearFnImplementationFor_InputText_Base,
-  setValueFnImplementationFor_InputText_Base
+  setValueFnImplementationFor_InputText_Base,
+  guardFnImplementationFor_InputText_Base,
+  setBridgeToExternalScopeFnImplementationFor_InputText_Base
 } from './InputText_Base.ts';
-import type { CFIDC_InputText_String } from '@tsLF/pages';
+import type { ArgumentsFor_InputText_Base__setBridgeToExternalScope, CFIDC_InputText_String } from '@tsLF/pages';
 import { makeInputText_defaultPlaceholder } from '@tsLF/pages';
 
 
@@ -44,6 +46,18 @@ export class InputText_String extends InputText_Base{
 
 	setValue(value: ValueFor_InputText): void {
 		setValueFnImplementationFor_InputText_Base(this, value);
+	}
+
+	setBridgeToExternalScope(arg: ArgumentsFor_InputText_Base__setBridgeToExternalScope): void {
+		setBridgeToExternalScopeFnImplementationFor_InputText_Base(
+			this,
+			arg,
+			this.placeholderDecorationFn
+		);
+	}
+
+	guard(): void {
+		guardFnImplementationFor_InputText_Base(this);
 	}
 }
 

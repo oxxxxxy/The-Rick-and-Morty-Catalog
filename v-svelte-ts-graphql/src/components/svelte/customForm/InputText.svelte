@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { CFIDC_InputText_Base } from '@tsLF/pages';
-	import { InputTextStrategy } from '@tsLF/pages';
+	import { CFIDCTypeBasedStrategyFn_InputText } from '@tsLF/pages';
+	import type { InputText_ClassType_OneOf } from '@tsLF/pages';
 
 	import type { QPC_InputText } from '@tsLF/forURLSP';
 	
@@ -11,8 +12,11 @@
 
 
 	export let exit_value: QPC_InputText;
+	
 	export let init_cachedValue: QPC_InputText;
 	export let init_CFIDC_InputText: CFIDC_InputText_Base;
+
+	export let init_instanceOfInputText: InputText_ClassType_OneOf;
 
 
 	let placeholder: string = '';
@@ -24,28 +28,47 @@
 	const set_placeholder = (p: string) => (placeholder = p);
 
 
-	if(!init_CFIDC_InputText){
-		throw new Error(`init_CFIDC_InputText must be passed.`);
-	}
-
-	if(init_cachedValue){
-		if(init_cachedValue.param != init_CFIDC_InputText.name){
-			throw new Error(`Value of the init_cachedValue.param is not equal to init_CFIDC_InputText.name. Check passed args. ` + JSON.stringify(init_cachedValue));
+	let inputText;
+	
+	if(init_instanceOfInputText){
+		if(init_cachedValue){
+			if(init_cachedValue.param != init_instanceOfInputText.name){
+				throw new Error(`Value of the init_cachedValue.param is not equal to init_instanceOfInputText.name. Check passed args. ` + JSON.stringify(init_cachedValue));
+			}
 		}
-	}
 
-
-	const _class = InputTextStrategy(init_CFIDC_InputText);
-
-	const inputText = new _class(
-		{
-			initData: init_CFIDC_InputText,
-
-			set_value,
-			set_placeholder,
-			set_warning
+		init_instanceOfInputText.setBridgeToExternalScope(
+			{
+				set_warning,
+				set_placeholder,
+				set_value
+			}
+		)
+	
+		inputText = init_instanceOfInputText;
+	} else {
+		if(!init_CFIDC_InputText){
+			throw new Error(`init_CFIDC_InputText must be passed.`);
 		}
-	)
+
+		if(init_cachedValue){
+			if(init_cachedValue.param != init_CFIDC_InputText.name){
+				throw new Error(`Value of the init_cachedValue.param is not equal to init_CFIDC_InputText.name. Check passed args. ` + JSON.stringify(init_cachedValue));
+			}
+		}
+
+		const _class = CFIDCTypeBasedStrategyFn_InputText(init_CFIDC_InputText);
+
+		inputText = new _class(
+			{
+				initData: init_CFIDC_InputText,
+
+				set_value,
+				set_placeholder,
+				set_warning
+			}
+		);
+	}
 
 
 	//$: _warning = warning; not work anymore...
