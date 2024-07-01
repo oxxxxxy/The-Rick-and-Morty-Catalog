@@ -45,7 +45,7 @@
 		inputText = init_instanceOfInputText;
 
 		const value = inputText.getValue();
-console.log('init_instanceOfInputText ',value)
+
 		if(value.value){
 			init_cachedValue = value;
 		}

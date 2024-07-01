@@ -22,8 +22,11 @@
 
 
 	export let exit_value: QPC_IndexedSelectOption;
+
 	export let init_cachedValue: QPC_SelectOption;
 	export let init_CFIDC_Selection: CFIDC_Selection;
+
+	export let init_instanceOfSelectMenu: typeof SelectMenu;
 	
 
 	let active: boolean = false;
@@ -34,21 +37,23 @@
 	const set_options = (ops: QPC_IndexedSelectOption[]) => (options = ops);
 	const set_selected = (sel: QPC_IndexedSelectOption) => (exit_value = sel);
 
-	
-	if(!init_CFIDC_Selection){
-		throw new Error('SelectMenu must have init_CFIDC_Selection data value as argument.');
+
+	let selectMenu;
+console.log(init_instanceOfSelectMenu)
+	if(init_instanceOfSelectMenu){
+		selectMenu = init_instanceOfSelectMenu;
+	} else {
+		if(!init_CFIDC_Selection){
+			throw new Error('SelectMenu must have init_CFIDC_Selection data value as argument.');
+		}
+
+		const args: ConstructorArguments_SelectMenu = {
+			CFIDC_Selection: init_CFIDC_Selection
+		};
+
+		selectMenu = new SelectMenu(args);
 	}
 
-	const args: ConstructorArguments_SelectMenu = {
-		CFIDC_Selection: init_CFIDC_Selection,
-		doUNeedDefaultNonValue: true
-	};
-
-	if(init_cachedValue){
-		args.setSelected = init_cachedValue;
-	}
-
-	const selectMenu = new SelectMenu(args);
 
 	selectMenu.setBridgeToExternalScope({
 		set_active,
@@ -56,13 +61,19 @@
 		set_options
 	});
 
+	if(init_cachedValue){
+		selectMenu.setSelected(init_cachedValue);
+	}
+
 
 	$: _active = active;
 	$: _options = options;
 
 	
 	onMount(() => {
+
 		contextedMouseEventObservable.attachListener('click', selectMenu);
+
 	});
 
 </script>

@@ -3,7 +3,7 @@ import type {
 	QPC_IndexedSelectOption
 } from '@tsLF/forURLSP';
 
-import type { CFIDC_Selection } from './types';
+import type { CFIDC_Selection } from '../types';
 
 import type { PositiveInteger } from '@tsL/types';
 
@@ -19,7 +19,7 @@ import { U } from '@tsL/utils';
 export type Arguments_makeQPC_IndexedSelectOptionsFromCFIDC_Selection = {
 	objWithTypeOptions: CFIDC_Selection,
 	doUNeedSetSelected?: PositiveInteger<number> | 0 | string,
-	doUNeedDefaultNonValue?: true,
+	doUNeedDefaultNonValue?: boolean,
 	stringDecorationFn: (arg: string) => string
 };
 
@@ -111,16 +111,24 @@ export const makeQPC_IndexedSelectOptionsFromCFIDC_Selection = (
 	return resultArr;
 };
 
+export type ArgumentFor_SetSelected = QueryParamCompatible_Base 
+	| string 
+	| PositiveInteger<number> 
+	| 0
+;
 
 export type ConstructorArguments_SelectMenu = {
 	CFIDC_Selection?: CFIDC_Selection,
-	setSelected?: QueryParamCompatible_Base | string | PositiveInteger<number> | 0,
-	doUNeedDefaultNonValue?: true,
+	setSelected?: ArgumentFor_SetSelected,
+	doUNeedDefaultNonValue?: boolean,
 	stringDecorationFn?: (arg: string) => string,
 }
 
 
 export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
+	readonly name: string;
+	readonly type: string;
+
 	private isActive: boolean = false;
 	private options: QPC_IndexedSelectOption[];
 	private selected: QPC_IndexedSelectOption | undefined;
@@ -138,7 +146,7 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		{
 			CFIDC_Selection,
 			setSelected,  
-			doUNeedDefaultNonValue,
+			doUNeedDefaultNonValue = true,
 
 			stringDecorationFn = capitalizeWord
 		} : ConstructorArguments_SelectMenu
@@ -147,6 +155,10 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		if(!CFIDC_Selection){
 			throw new Error('SelectMenu must have CFIDC_Selection data value or ready QPC_IndexedSelectOption array as argument.');
 		}
+
+		this.name = CFIDC_Selection.name;
+		this.type = CFIDC_Selection.type;
+
 
 		const args: Arguments_makeQPC_IndexedSelectOptionsFromCFIDC_Selection = {
 			objWithTypeOptions: CFIDC_Selection,
@@ -180,7 +192,39 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 
 		this.HTMLElement_globalAttribute_id = 'i' + U.nanoid();
 	}
+
+	setSelected(arg: ArgumentFor_SetSelected){
+		this.#guard();
 	
+		const type = typeof arg;
+
+		let found;
+
+		if(type === 'number'){
+			found = this.options.find(e => e.id === arg);
+		} else if (type === 'string'){
+			found = this.options.find(e => e.value === arg);
+		} else if (type === 'object'){
+			if(this.name != arg.param){
+				throw new Error('QueryParamCompatible_Base\'s param does not match. ' + JSON.stringify(arg));				
+			}
+
+			found = this.options.find(e => e.value === arg.value);
+
+			if(!found){
+				return;
+			}
+		}
+	
+		if(found){
+			this.select(found);
+			return;
+		}
+
+		throw new Error('Incorrect argument. ' + JSON.stringify(arg));
+
+	}
+
 	#toggleActive(bool?: boolean){
 		if(bool === undefined){
 			this.isActive = !this.isActive;

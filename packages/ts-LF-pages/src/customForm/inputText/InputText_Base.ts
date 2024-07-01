@@ -78,9 +78,7 @@ export abstract class InputText_Base {
 
 			this.value.value = cachedValue.value;
 		}
-if(initData.name === 'episode'){
-console.log(cachedValue, initData, this.value);
-}
+		
 		this.placeholderDecorationFn = placeholderDecorationFn;
 
 		if(set_value && set_placeholder){
