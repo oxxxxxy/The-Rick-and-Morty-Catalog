@@ -118,8 +118,8 @@ export type ArgumentFor_SetSelected = QueryParamCompatible_Base
 ;
 
 export type ConstructorArguments_SelectMenu = {
-	CFIDC_Selection?: CFIDC_Selection,
-	setSelected?: ArgumentFor_SetSelected,
+	initData: CFIDC_Selection,
+	cachedValue?: ArgumentFor_SetSelected,
 	doUNeedDefaultNonValue?: boolean,
 	stringDecorationFn?: (arg: string) => string,
 }
@@ -144,42 +144,39 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 
 	constructor(
 		{
-			CFIDC_Selection,
-			setSelected,  
+			initData,
+			cachedValue,  
+
 			doUNeedDefaultNonValue = true,
 
 			stringDecorationFn = capitalizeWord
 		} : ConstructorArguments_SelectMenu
 	){
 
-		if(!CFIDC_Selection){
-			throw new Error('SelectMenu must have CFIDC_Selection data value or ready QPC_IndexedSelectOption array as argument.');
-		}
-
-		this.name = CFIDC_Selection.name;
-		this.type = CFIDC_Selection.type;
+		this.name = initData.name;
+		this.type = initData.type;
 
 
 		const args: Arguments_makeQPC_IndexedSelectOptionsFromCFIDC_Selection = {
-			objWithTypeOptions: CFIDC_Selection,
+			objWithTypeOptions: initData,
 			doUNeedDefaultNonValue,
 			stringDecorationFn,
 		};
 
-		if(typeof setSelected != 'object'){
-			args.doUNeedSetSelected = setSelected;
+		if(typeof cachedValue != 'object'){
+			args.doUNeedSetSelected = cachedValue;
 		}
 
 		this.options = makeQPC_IndexedSelectOptionsFromCFIDC_Selection(args);
 
 
-		if(typeof setSelected === 'object'){
-			if(setSelected.param != CFIDC_Selection.name){
-				throw new Error(`setSelected ${JSON.stringify(setSelected)} has different param value than in other options ${JSON.stringify(this.options)}.`);
+		if(typeof cachedValue === 'object'){
+			if(cachedValue.param != initData.name){
+				throw new Error(`cachedValue ${JSON.stringify(cachedValue)} has different param value than in other options ${JSON.stringify(this.options)}.`);
 			}
 
 			const index = this.options.findIndex(e => 
-				e.value === setSelected.value
+				e.value === cachedValue.value
 			);
 
 			if(index >= 0){

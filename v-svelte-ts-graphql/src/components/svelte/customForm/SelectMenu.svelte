@@ -39,7 +39,7 @@
 
 
 	let selectMenu;
-console.log(init_instanceOfSelectMenu)
+
 	if(init_instanceOfSelectMenu){
 		selectMenu = init_instanceOfSelectMenu;
 	} else {
@@ -48,7 +48,7 @@ console.log(init_instanceOfSelectMenu)
 		}
 
 		const args: ConstructorArguments_SelectMenu = {
-			CFIDC_Selection: init_CFIDC_Selection
+			initData: init_CFIDC_Selection
 		};
 
 		selectMenu = new SelectMenu(args);

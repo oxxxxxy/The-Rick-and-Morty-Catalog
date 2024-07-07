@@ -66,14 +66,7 @@ export class CustomFormHolder {
 		}
 
 
-		//filter cachedQPCValues by existent params
-
-		// we must get unique qpcBase for each CFIDC if qpcBase exists.
-		//   and qpcBases should be passed to converter for making cfidc qpc return type
-		//	for(CFIDCList
-		
-		//there is a place for strategy
-//OR
+		//filter cachedQPCValues by only existent params
 		if(cachedQPCValues){
 			for(const el of CFIDCList){
 				const found = cachedQPCValues.find(
@@ -81,12 +74,15 @@ export class CustomFormHolder {
 				);
 
 				if(found){
-					//save to this.~init_cachedValues[
-					//  json of CFIDC data type] = found qpc base
+					this.#cachedQPCValuesForEachCFIDC[el.name] = found;
+
+					const CFItem = CFIDCTypeBasedStrategyFn_All(el);
 					
-					//add to init_instanceOfCFItem as default value
-					
-					
+					this.#instancesOfCFItemForEachCFIDC[el.name] = new CFItem(
+						{
+							CFIDC_Selection
+						}
+					);
 				}
 			}
 		}
@@ -100,6 +96,11 @@ export class CustomFormHolder {
 	}
 
 	getInstanceOfCFItemFor(CFIDC: CustomFormInitDataCompatible_OneOf){
+
+	}
+
+	getExitValues(): QueryParamCompatible_Base[]{
+
 
 	}
 }

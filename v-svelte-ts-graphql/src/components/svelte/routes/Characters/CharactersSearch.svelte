@@ -53,7 +53,7 @@ const test_init_instanceOfInputText = new test_init_instanceOfInputText_class({
 
 const test_init_instanceOfSelectMenu_class = CFIDCTypeBasedStrategyFn_All(API_CHARACTERS__PARAM__GENDER);
 const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class({
-		CFIDC_Selection: API_CHARACTERS__PARAM__GENDER,
+		initData: API_CHARACTERS__PARAM__GENDER,
 	})
 
 //dev
@@ -147,15 +147,6 @@ const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class(
 
     </div>
 
-			<SelectMenu 
-				init_instanceOfSelectMenu={
-					test_init_instanceOfSelectMenu
-				}
-				init_cachedValue={{param: 'gender', value:'mae' } }
-				bind:exit_value={
-				QPC_ListOfValues[4]
-				}
-			/>
     <button
       class="
 				filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
