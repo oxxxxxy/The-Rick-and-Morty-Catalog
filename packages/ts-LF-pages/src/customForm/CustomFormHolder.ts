@@ -10,7 +10,10 @@ import type {
 	CustomFormInitDataCompatible_OneOf
 } from '@tsLF/pages';
 import type {
-	CFIDCTypeBasedStrategyFn_All
+	All_ClassType_OneOf
+} from './CFIDCTypeBasedStrategyFn_All.ts';
+import {
+	CFIDCTypeBasedStrategyFn_All,
 } from './CFIDCTypeBasedStrategyFn_All.ts';
 
 
@@ -35,7 +38,7 @@ export class CustomFormHolder {
 		[key: string]: QPC_OneOf
 	} = {};
 	#instancesOfCFItemForEachCFIDC: {
-		[key: string]: QPC_OneOf
+		[key: string]: All_ClassType_OneOf
 	} = {};
 
 	/* #savedCFIDCList: {
@@ -80,13 +83,25 @@ export class CustomFormHolder {
 					
 					this.#instancesOfCFItemForEachCFIDC[el.name] = new CFItem(
 						{
-							CFIDC_Selection
+							initData: el,
+							cachedValue: found
 						}
 					);
 				}
 			}
 		}
 
+		for(const el of CFIDCList){
+			if(!this.#instancesOfCFItemForEachCFIDC[el.name]){
+				const CFItem = CFIDCTypeBasedStrategyFn_All(el);
+
+				this.#instancesOfCFItemForEachCFIDC[el.name] = new CFItem(
+					{
+						initData: el
+					}
+				);
+			}
+		}
 
 	}
 	

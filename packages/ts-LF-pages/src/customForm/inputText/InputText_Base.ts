@@ -1,4 +1,7 @@
-import type {	CFIDC_InputText_Base } from '@tsLF/pages';
+import type {	
+	CFIDC_InputText_Base,
+	ArgumentPart_ArgumentsFor_CustomFormItem
+} from '@tsLF/pages';
 import { makeInputText_defaultPlaceholder } from '@tsLF/pages';
 
 import type { 
@@ -21,10 +24,9 @@ export type ArgumentsPart_setBridgeToExternalScope_For_ArgumentsFor_InputText_Ba
 export type PlaceholderDecorationFnType = (name: string, hint: string) => string;
 
 export type ArgumentsFor_InputText_Base = ArgumentsPart_setBridgeToExternalScope_For_ArgumentsFor_InputText_Base
+	& ArgumentPart_ArgumentsFor_CustomFormItem
 	& {
 	initData: CFIDC_InputText_Base;
-
-	cachedValue?: QueryParamCompatible_Base; //idk how to name "cachedValue" entity right... Can you do that?
 
 	placeholderDecorationFn: PlaceholderDecorationFnType;
 };

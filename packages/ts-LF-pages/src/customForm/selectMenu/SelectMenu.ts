@@ -3,7 +3,10 @@ import type {
 	QPC_IndexedSelectOption
 } from '@tsLF/forURLSP';
 
-import type { CFIDC_Selection } from '../types';
+import type {
+	CFIDC_Selection,
+	ArgumentPart_ArgumentsFor_CustomFormItem
+} from '../types';
 
 import type { PositiveInteger } from '@tsL/types';
 
@@ -117,7 +120,8 @@ export type ArgumentFor_SetSelected = QueryParamCompatible_Base
 	| 0
 ;
 
-export type ConstructorArguments_SelectMenu = {
+export type ConstructorArguments_SelectMenu = ArgumentPart_ArgumentsFor_CustomFormItem	
+& {
 	initData: CFIDC_Selection,
 	cachedValue?: ArgumentFor_SetSelected,
 	doUNeedDefaultNonValue?: boolean,
