@@ -21,6 +21,7 @@
 let am= '';
 let it1 = [am];
 const QPC_ListOfValues: QPC_List = [];
+
 let i = 0;
 
 const inc = () => i++;
@@ -91,6 +92,12 @@ const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class(
 
 
 		{
+			param: 'species',
+			value: 'ParasitSPe'
+		},
+
+
+		{
 			param: 'episode',
 			value: 'lol invalid'
 		},
@@ -109,6 +116,8 @@ const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class(
 		API_CHARACTERS__PARAM__SPECIES,
 		API_CHARACTERS__PARAM__TYPE
 	];
+
+	const exitValueStore = CustomFormHolder.makeInitExitValueStore(CFIDCList);
 
 	const customFormHolder = new CustomFormHolder(
 		{
@@ -141,8 +150,10 @@ console.log('CustomFormHolder', customFormHolder)
 		console.log(
 		'CharactersSearch.svelte',
 		genderSelected, statusSelected,
-		it1, am, QPC_ListOfValues,
-		customFormHolder
+		it1, am, QPC_ListOfValues
+
+		,exitValueStore
+		,customFormHolder
 		
 		);
 	}
@@ -157,45 +168,72 @@ console.log('CustomFormHolder', customFormHolder)
 
 		<InputText
 			bind:exit_value = {
-				customFormHolder.getExitValueStoreFor(
+				exitValueStore[
 					API_EPISODES__PARAM__EPISODE
-				)
+					.name
+				]
 			}
-			init_CFIDC_InputText = {
+			init_instanceOfInputText = {
 				customFormHolder.getInstanceOfCFItemFor(
 					API_EPISODES__PARAM__EPISODE
 				)
 			}
 		/>
+test
+
 		<InputText
 			bind:exit_value = {
-				QPC_ListOfValues[2]
+				exitValueStore[
+					API_CHARACTERS__PARAM__NAME
+					.name
+				]
 			}
-			init_CFIDC_InputText = {
-				API_CHARACTERS__PARAM__SPECIES
+			init_instanceOfInputText = {
+				customFormHolder.getInstanceOfCFItemFor(
+					API_CHARACTERS__PARAM__NAME
+				)
 			}
 		/>
 		<InputText
 			bind:exit_value = {
-				QPC_ListOfValues[3]
+				exitValueStore[
+					API_CHARACTERS__PARAM__SPECIES
+					.name
+				]
 			}
-
-			init_CFIDC_InputText = {
-				API_CHARACTERS__PARAM__TYPE 
+			init_instanceOfInputText = {
+				customFormHolder.getInstanceOfCFItemFor(
+					API_CHARACTERS__PARAM__SPECIES
+				)
 			}
-			init_cachedValue = {
-				undefined
+		/>
+		<InputText
+			bind:exit_value = {
+				exitValueStore[
+					API_CHARACTERS__PARAM__TYPE
+					.name
+				]
+			}
+			init_instanceOfInputText = {
+				customFormHolder.getInstanceOfCFItemFor(
+					API_CHARACTERS__PARAM__TYPE
+				)
 			}
 		/>
 
     <div class="filter-select-box d-flex jc-center ai-center">
 
 			<SelectMenu 
-				init_CFIDC_Selection = {
-					API_CHARACTERS__PARAM__STATUS
+				bind:exit_value = {
+					exitValueStore[
+						API_CHARACTERS__PARAM__STATUS
+						.name
+					]
 				}
-				bind:exit_value={
-					statusSelected
+				init_instanceOfSelectMenu = {
+					customFormHolder.getInstanceOfCFItemFor(
+						API_CHARACTERS__PARAM__STATUS
+					)
 				}
 			/>
 
@@ -205,12 +243,16 @@ console.log('CustomFormHolder', customFormHolder)
       ></div>
 
 			<SelectMenu 
-				init_CFIDC_Selection = {
-					API_CHARACTERS__PARAM__GENDER
+				bind:exit_value = {
+					exitValueStore[
+						API_CHARACTERS__PARAM__GENDER
+						.name
+					]
 				}
-
-				bind:exit_value={
-					genderSelected
+				init_instanceOfSelectMenu = {
+					customFormHolder.getInstanceOfCFItemFor(
+						API_CHARACTERS__PARAM__GENDER
+					)
 				}
 			/>
 

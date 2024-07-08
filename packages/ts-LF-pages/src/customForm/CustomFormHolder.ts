@@ -24,6 +24,9 @@ export type ArgumentsFor_CustomFormHolder = {
 	cachedQPCValues?: QueryParamCompatible_Base[];
 }
 
+export type ExitValueStore = {
+	[key: string]: QueryParamCompatible_Base;
+}
 
 /*
 	эта хуйня выбрасывает 
@@ -34,7 +37,7 @@ export type ArgumentsFor_CustomFormHolder = {
 */
 
 export class CustomFormHolder {
-	#cachedQPCValuesForEachCFIDC: {
+	#QPCValuesForEachCFIDC: {
 		[key: string]: QPC_OneOf
 	} = {};
 	#instancesOfCFItemForEachCFIDC: {
@@ -78,7 +81,7 @@ export class CustomFormHolder {
 				);
 
 				if(found){
-					this.#cachedQPCValuesForEachCFIDC[el.name] = found;
+					this.#QPCValuesForEachCFIDC[el.name] = found;
 
 					const CFItem = CFIDCTypeBasedStrategyFn_All(el);
 					
@@ -105,9 +108,23 @@ export class CustomFormHolder {
 		}
 
 	}
+
+	static makeInitExitValueStore(CFIDCList: CustomFormInitDataCompatible_List): ExitValueStore {
+		const obj: ExitValueStore = {};
+
+		for(const el of CFIDCList){
+			obj[el.name] = { param: '', value: '' };
+		}
+
+		return obj;
+	}
 	
-	getInitCachedValueFor(CFIDC: CustomFormInitDataCompatible_OneOf): QPC_OneOf{
-		return {...this.#cachedQPCValuesForEachCFIDC[CFIDC.name]};
+	getInitCachedValueFor(CFIDC: CustomFormInitDataCompatible_OneOf): QPC_OneOf | void {
+		if(this.#QPCValuesForEachCFIDC[CFIDC.name]){
+			return {...this.#QPCValuesForEachCFIDC[CFIDC.name]};
+		}
+
+		return;
 	}
 
 	getInstanceOfCFItemFor(CFIDC: CustomFormInitDataCompatible_OneOf): All_ClassType_OneOf{
