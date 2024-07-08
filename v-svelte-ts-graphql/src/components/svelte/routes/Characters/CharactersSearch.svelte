@@ -56,6 +56,70 @@ const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class(
 		initData: API_CHARACTERS__PARAM__GENDER,
 	})
 
+
+	import { CustomFormHolder } from '@tsLF/pages';
+
+	const qpcBaseList: QueryParamCompatible_Base[] = [
+		{
+			param: 'gender',
+			value: 'male'
+		},
+
+		{
+			param: 'gender',
+			value: 'female'
+		},
+		{
+			param: 'gender',
+			value: '333male'
+		},
+
+
+		{
+			param: 'type',
+			value: 'Parasit'
+		},
+
+		{
+			param: 'invalidType',
+			value: 'Parasit'
+		},
+		{
+			param: 'type',
+			value: '11Parasit'
+		},
+
+
+		{
+			param: 'episode',
+			value: 'lol invalid'
+		},
+		{
+			param: 'episode',
+			value: 'S01'
+		},
+
+	];
+
+	const CFIDCList = [
+		API_EPISODES__PARAM__EPISODE,
+		API_CHARACTERS__PARAM__STATUS,
+		API_CHARACTERS__PARAM__GENDER,
+		API_CHARACTERS__PARAM__NAME,
+		API_CHARACTERS__PARAM__SPECIES,
+		API_CHARACTERS__PARAM__TYPE
+	];
+
+	const customFormHolder = new CustomFormHolder(
+		{
+			CFIDCList: CFIDCList,
+			cachedQPCValues: qpcBaseList
+		}
+	);
+
+
+console.log('CustomFormHolder', customFormHolder)
+
 //dev
 
 	export let init_cachedValues: QueryParamCompatible_Base[];
@@ -77,7 +141,8 @@ const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class(
 		console.log(
 		'CharactersSearch.svelte',
 		genderSelected, statusSelected,
-		it1, am, QPC_ListOfValues
+		it1, am, QPC_ListOfValues,
+		customFormHolder
 		
 		);
 	}
@@ -92,10 +157,14 @@ const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class(
 
 		<InputText
 			bind:exit_value = {
-				QPC_ListOfValues[inc()]
+				customFormHolder.getExitValueStoreFor(
+					API_EPISODES__PARAM__EPISODE
+				)
 			}
 			init_CFIDC_InputText = {
-				API_EPISODES__PARAM__EPISODE
+				customFormHolder.getInstanceOfCFItemFor(
+					API_EPISODES__PARAM__EPISODE
+				)
 			}
 		/>
 		<InputText

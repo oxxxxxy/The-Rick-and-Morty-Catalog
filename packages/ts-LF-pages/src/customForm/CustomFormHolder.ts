@@ -40,6 +40,7 @@ export class CustomFormHolder {
 	#instancesOfCFItemForEachCFIDC: {
 		[key: string]: All_ClassType_OneOf
 	} = {};
+	#exitValueStore = {};
 
 	/* #savedCFIDCList: {
 		[key: string]: CustomFormInitDataCompatible_OneOf;
@@ -106,16 +107,14 @@ export class CustomFormHolder {
 	}
 	
 	getInitCachedValueFor(CFIDC: CustomFormInitDataCompatible_OneOf): QPC_OneOf{
-
-		//strategy
+		return {...this.#cachedQPCValuesForEachCFIDC[CFIDC.name]};
 	}
 
-	getInstanceOfCFItemFor(CFIDC: CustomFormInitDataCompatible_OneOf){
-
+	getInstanceOfCFItemFor(CFIDC: CustomFormInitDataCompatible_OneOf): All_ClassType_OneOf{
+		return this.#instancesOfCFItemForEachCFIDC[CFIDC.name];
 	}
 
-	getExitValues(): QueryParamCompatible_Base[]{
-
-
+	getExitValueStoreFor(CFIDC: CustomFormInitDataCompatible_OneOf): QueryParamCompatible_Base{
+		return this.#exitValueStore[CFIDC.name];
 	}
 }
