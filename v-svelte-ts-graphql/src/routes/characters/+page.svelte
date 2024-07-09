@@ -29,7 +29,14 @@
 	let tiles: GT.CharacterPreviewFieldsFragment[] | ERR = [];
 
 	$: _tiles = tiles;
-
+	$:charSearchExit = undefined;
+	$:{
+		console.log(
+			'page.svelte',
+			
+			charSearchExit
+		)
+	}
 
 	const pageTitle = capitalizeWord(API_CHARACTERS__PATH.name);
 	const	pathName = data.psl.route.id.slice(1);
@@ -104,11 +111,16 @@
 </svelte:head>
 
 <SearchItemNav {pathName}>
+
 	<CharactersSearch
-	init_cachedValues = {
-		qpcBaseList
-	}
+		bind:exit_values = {
+			charSearchExit
+		}
+		init_cachedValues = {
+			qpcBaseList
+		}
 	/>
+
 </SearchItemNav>
 <TileBoard>
 	{#if _tiles === 'ERR'}

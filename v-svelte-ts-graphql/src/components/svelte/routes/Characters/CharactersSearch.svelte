@@ -8,7 +8,9 @@
 	} from '@tsCF/data';
 
 	import type { QueryParamCompatible_Base } from '@tsLF/forURLSP';
-	import type { CustomFormInitDataCompatible_Base } from '@tsLF/pages';
+
+	import { CustomFormHolder } from '@tsLF/pages';
+	import type { ArgumentsFor_CustomFormHolder } from '@tsLF/pages';
 
 
 	import InputText from '$comps/svelte/customForm/InputText.svelte';
@@ -18,48 +20,8 @@
 
 
 //dev
-let am= '';
-let it1 = [am];
-const QPC_ListOfValues: QPC_List = [];
-
-let i = 0;
-
-const inc = () => i++;
-
-import { API_EPISODES__PARAM__EPISODE } from '@tsCF/data'
-
-//const makeQPC_ListStore;
-
-type InitCachedValues = {
-	readonly [key: string]: QueryParamCompatible_Base
-}
-
-class CustomForm{
-	private initCachedValues: InitCachedValues = {};
-	
-	init_cachedValue(CFIDC: CustomFormInitDataCompatible_Base){
-		return structuredClone(this.inited[JSON.stringify(CustomFormInitDataCompatible_Base)]);
-	}
-}
-
-import { CFIDCTypeBasedStrategyFn_All } from '@tsLF/pages';
 
 
-const test_init_instanceOfInputText_class =  CFIDCTypeBasedStrategyFn_All(API_EPISODES__PARAM__EPISODE);
-const asdf = {param: 'episode', value:'ass'};
-const test_init_instanceOfInputText = new test_init_instanceOfInputText_class({
-	cachedValue:  asdf
-	,initData:	API_EPISODES__PARAM__EPISODE
-})
-
-const test_init_instanceOfSelectMenu_class = CFIDCTypeBasedStrategyFn_All(API_CHARACTERS__PARAM__GENDER);
-const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class({
-		initData: API_CHARACTERS__PARAM__GENDER,
-	})
-
-
-	import { CustomFormHolder } from '@tsLF/pages';
-	import type { ArgumentsFor_CustomFormHolder } from '@tsLF/pages';
 
 
 
@@ -103,19 +65,19 @@ const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class(
 	const customFormHolder = new CustomFormHolder(args);
 	
 	const exitValueFromItemStore = CustomFormHolder.makeInitExitValueStore(CFIDCList);
-	
-	$: enabledDisabled = isValid ? {enabled:true} : {disabled:true};
+
+
+	$: enabledDisabled = isValid ? {enabled: true} : {disabled: true};
 	$:{
 
-		customFormHolder.recieveExitValueStoreFor(exitValueFromItemStore);
+		customFormHolder.recieveExitValueStore(exitValueFromItemStore);
 
 		isValid = isValid;
 
 
 
 		console.log(
-		'CharactersSearch.svelte',
-		it1, am, QPC_ListOfValues
+		'CharactersSearch.svelte'
 
 		,exitValueFromItemStore
 

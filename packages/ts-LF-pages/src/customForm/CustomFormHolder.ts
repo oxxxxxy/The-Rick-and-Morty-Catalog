@@ -140,7 +140,17 @@ export class CustomFormHolder {
 	}
 
 	apply(){
-		console.log('apply')
+		this.#guard();
+
+		const arr = [];
+
+		for(const k in this.#exitValueStore){
+			const qpc = this.#exitValueStore[k];
+
+			arr.push({...qpc});
+		}
+
+		this.#setExternalValue(arr);
 	}
 
 	setBridgeToExternalScope(
@@ -170,7 +180,7 @@ export class CustomFormHolder {
 		this.#guardingIsNoLongerNeeded = true;
 	}
 
-	recieveExitValueStoreFor(exitValueStore: ExitValueStore){
+	recieveExitValueStore(exitValueStore: ExitValueStore){
 		this.#guard();
 
 		let applyActivity = true;
