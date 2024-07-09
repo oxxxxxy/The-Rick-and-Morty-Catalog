@@ -126,6 +126,8 @@ const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class(
 		}
 	);
 
+//	customFormHolder.exitValueStore = CustomFormHolder.makeInitExitValueStore(CFIDCList);
+
 
 console.log('CustomFormHolder', customFormHolder)
 

@@ -19,13 +19,28 @@ import {
 
 
 
-export type ArgumentsFor_CustomFormHolder = {
+export type SetExternalValueFn = (v: QueryParamCompatible_Base[]) => void;
+
+export type SetExternalApplyActivityFn = (bool: boolean) => void;
+
+export type ArgumentsFor_CustomFormHolder__setBridgeToExternalScope = {
+	readonly set_value: SetExternalValueFn;
+	readonly set_applyActivity: SetExternalApplyActivityFn;
+};
+
+export type ArgumentsPart_setBridgeToExternalScope_For_ArgumentsFor_CustomFormHolder = {
+	[P in keyof ArgumentsFor_CustomFormHolder__setBridgeToExternalScope]?: ArgumentsFor_CustomFormHolder__setBridgeToExternalScope[P];
+}
+
+export type ArgumentsFor_CustomFormHolder = ArgumentsPart_setBridgeToExternalScope_For_ArgumentsFor_CustomFormHolder
+	& {
 	CFIDCList: CustomFormInitDataCompatible_List;
 	cachedQPCValues?: QueryParamCompatible_Base[];
+
 }
 
 export type ExitValueStore = {
-	[key: string]: QueryParamCompatible_Base;
+	[key: string]: QPC_OneOf | QueryParamCompatible_Base;
 }
 
 /*
@@ -37,14 +52,18 @@ export type ExitValueStore = {
 */
 
 export class CustomFormHolder {
-	#QPCValuesForEachCFIDC: {
-		[key: string]: QPC_OneOf
+	#cachedQPCValuesForEachCFIDC: {
+		readonly [key: string]: QueryParamCompatible_Base
 	} = {};
 	#instancesOfCFItemForEachCFIDC: {
-		[key: string]: All_ClassType_OneOf
+		readonly [key: string]: All_ClassType_OneOf
 	} = {};
-	#exitValueStore = {};
+	#exitValueStore: ExitValueStore = {};
 
+	#guardingIsNoLongerNeeded: boolean = false;
+
+	#setExternalValue: SetExternalValueFn | undefined;
+	#setExternalApplyActivity: SetExternalApplyActivityFn | undefined;
 	/* #savedCFIDCList: {
 		[key: string]: CustomFormInitDataCompatible_OneOf;
 	} = {}; */
@@ -53,9 +72,20 @@ export class CustomFormHolder {
 	constructor(
 		{
 			CFIDCList,
-			cachedQPCValues
+			cachedQPCValues,
+
+			set_applyActivity,
+			set_value
 		} : ArgumentsFor_CustomFormHolder
 	){
+
+		if(set_applyActivity){
+			this.#setExternalApplyActivity = (b: boolean) => set_applyActivity(b);
+		}
+
+		if(set_value){
+			this.#setExternalValue = (v: QueryParamCompatible_Base[]) => set_value(v);
+		}
 
 		//guard from equal CFIDC params
 		for(let i = 0; i < CFIDCList.length; i++){
@@ -81,7 +111,7 @@ export class CustomFormHolder {
 				);
 
 				if(found){
-					this.#QPCValuesForEachCFIDC[el.name] = found;
+					this.#cachedQPCValuesForEachCFIDC[el.name] = found;
 
 					const CFItem = CFIDCTypeBasedStrategyFn_All(el);
 					
@@ -109,6 +139,52 @@ export class CustomFormHolder {
 
 	}
 
+	setBridgeToExternalScope(
+		{
+			set_value,
+			set_applyActivity
+		}: ArgumentsFor_CustomFormHolder__setBridgeToExternalScope
+	){
+		this.#setExternalApplyActivity = (b: boolean) => set_applyActivity(b);
+		this.#setExternalValue = (v: QueryParamCompatible_Base[]) => set_value(v);
+
+	}
+
+	#guard(){
+		if(this.#guardingIsNoLongerNeeded){
+			return;
+		}
+
+		if(!this.#setExternalApplyActivity){
+			throw new Error('Set bridge to external scope. this.#setExternalApplyActivity is undefined...');
+		}
+
+		if(!this.#setExternalValue){
+			throw new Error('Set bridge to external scope. this.#setExternalValue is undefined...');
+		}
+
+		this.#guardingIsNoLongerNeeded = true;
+	}
+
+	recieveExitValueStoreFor(exitValueStore: ExitValueStore){
+		this.#guard();
+
+		for(const v in exitValueStore){
+			const qpc = exitValueStore[v];
+
+
+			if(!qpc.value){
+				delete this.#exitValueStore[qpc.param];
+
+				continue;
+			}
+
+
+		}
+
+
+	}
+
 	static makeInitExitValueStore(CFIDCList: CustomFormInitDataCompatible_List): ExitValueStore {
 		const obj: ExitValueStore = {};
 
@@ -120,8 +196,8 @@ export class CustomFormHolder {
 	}
 	
 	getInitCachedValueFor(CFIDC: CustomFormInitDataCompatible_OneOf): QPC_OneOf | void {
-		if(this.#QPCValuesForEachCFIDC[CFIDC.name]){
-			return {...this.#QPCValuesForEachCFIDC[CFIDC.name]};
+		if(this.#cachedQPCValuesForEachCFIDC[CFIDC.name]){
+			return {...this.#cachedQPCValuesForEachCFIDC[CFIDC.name]};
 		}
 
 		return;
@@ -131,7 +207,4 @@ export class CustomFormHolder {
 		return this.#instancesOfCFItemForEachCFIDC[CFIDC.name];
 	}
 
-	getExitValueStoreFor(CFIDC: CustomFormInitDataCompatible_OneOf): QueryParamCompatible_Base{
-		return this.#exitValueStore[CFIDC.name];
-	}
 }
