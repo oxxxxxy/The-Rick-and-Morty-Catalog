@@ -69,7 +69,7 @@
 	$: _active = active;
 	$: _options = options;
 
-	
+
 	onMount(() => {
 
 		contextedMouseEventObservable.attachListener('click', selectMenu);

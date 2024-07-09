@@ -186,6 +186,8 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 			if(index >= 0){
 				this.options[index].selected = true;
 			}
+
+			this.#makeNewOptionSequence()
 		}
 
 		this.selected = structuredClone(this.options.find(e => e.selected));
@@ -261,8 +263,8 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 
 		this.#toggleActive();
 	}
-	
-	#sortOptionSequence():void{
+
+	#makeNewOptionSequence(){
 		const options = structuredClone(this.options);
 
 		const indexOfSelected = options.findIndex(e => e.selected);
@@ -285,6 +287,10 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		newArr = newArr.concat(options);
 
 		this.options = newArr;
+	}
+
+	#sortOptionSequence():void{
+		this.#makeNewOptionSequence();
 
 		this.#externalSetOptions();
 	}

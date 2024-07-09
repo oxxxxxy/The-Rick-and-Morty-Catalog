@@ -141,14 +141,27 @@ console.log('CustomFormHolder', customFormHolder)
 
 
 	const set_values = (v: QueryParamCompatible_Base[]) => (exit_values = v);
-	const set_isValid = (v: boolean) => (isValid = v);
-	
+	const set_applyActivity = (v: boolean) => (isValid = v);
+
+
+	customFormHolder.setBridgeToExternalScope(
+		{
+			set_value: set_values,
+			set_applyActivity: set_applyActivity
+		}
+	)
+
+
 	let genderSelected;
 	let statusSelected;
 
 
-	$: _isValid = isValid;
 	$:{
+
+		customFormHolder.recieveExitValueStoreFor(exitValueStore);
+
+		isValid = isValid;
+
 		console.log(
 		'CharactersSearch.svelte',
 		genderSelected, statusSelected,
@@ -263,9 +276,9 @@ test
     <button
       class="
 				filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
-				{ _isValid ? 'button--has-some': 'button--empty'}
+				{ isValid ? 'button--has-some': 'button--empty'}
 			"
-		  disabled="{!_isValid}"
+		  disabled="{isValid}"
     >
       Apply
     </button>

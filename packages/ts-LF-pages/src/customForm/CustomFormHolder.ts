@@ -169,9 +169,22 @@ export class CustomFormHolder {
 	recieveExitValueStoreFor(exitValueStore: ExitValueStore){
 		this.#guard();
 
+		let applyActivity = true;
+
 		for(const v in exitValueStore){
 			const qpc = exitValueStore[v];
 
+			if(!qpc){
+				
+				continue;
+			}
+			
+			if(qpc.warning){
+				delete this.#exitValueStore[qpc.param];
+				applyActivity = !applyActivity;
+
+				continue;
+			}
 
 			if(!qpc.value){
 				delete this.#exitValueStore[qpc.param];
@@ -179,10 +192,19 @@ export class CustomFormHolder {
 				continue;
 			}
 
+			if(qpc.default){
+				delete this.#exitValueStore[qpc.param];
 
+				continue;
+			}
+
+			this.#exitValueStore[qpc.param] = {
+				param: qpc.param,
+				value: qpc.value
+			};
 		}
 
-
+		this.#setExternalApplyActivity(applyActivity);
 	}
 
 	static makeInitExitValueStore(CFIDCList: CustomFormInitDataCompatible_List): ExitValueStore {
