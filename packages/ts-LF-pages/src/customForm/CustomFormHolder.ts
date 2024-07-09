@@ -139,6 +139,10 @@ export class CustomFormHolder {
 
 	}
 
+	apply(){
+		console.log('apply')
+	}
+
 	setBridgeToExternalScope(
 		{
 			set_value,

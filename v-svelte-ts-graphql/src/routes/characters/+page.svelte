@@ -37,6 +37,53 @@
 //dev
 	import type { WT } from '@tsC/api-graphql-to-ex';
 
+	const qpcBaseList: QueryParamCompatible_Base[] = [
+		{
+			param: 'gender',
+			value: 'm ale'
+		},
+
+		{
+			param: 'gender',
+			value: 'female'
+		},
+		{
+			param: 'gender',
+			value: '333male'
+		},
+
+
+		{
+			param: 'type',
+			value: 'Parasit'
+		},
+
+		{
+			param: 'invalidType',
+			value: 'Parasit'
+		},
+		{
+			param: 'type',
+			value: '11Parasit'
+		},
+
+
+		{
+			param: 'species',
+			value: 'ParasitSPe'
+		},
+
+
+		{
+			param: 'episode',
+			value: 'lol invalid'
+		},
+		{
+			param: 'episode',
+			value: 'S01'
+		},
+
+	];
 	
 
 
@@ -57,7 +104,11 @@
 </svelte:head>
 
 <SearchItemNav {pathName}>
-	<CharactersSearch />
+	<CharactersSearch
+	init_cachedValues = {
+		qpcBaseList
+	}
+	/>
 </SearchItemNav>
 <TileBoard>
 	{#if _tiles === 'ERR'}

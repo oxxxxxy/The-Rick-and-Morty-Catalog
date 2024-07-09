@@ -59,77 +59,14 @@ const test_init_instanceOfSelectMenu = new test_init_instanceOfSelectMenu_class(
 
 
 	import { CustomFormHolder } from '@tsLF/pages';
-
-	const qpcBaseList: QueryParamCompatible_Base[] = [
-		{
-			param: 'gender',
-			value: 'male'
-		},
-
-		{
-			param: 'gender',
-			value: 'female'
-		},
-		{
-			param: 'gender',
-			value: '333male'
-		},
+	import type { ArgumentsFor_CustomFormHolder } from '@tsLF/pages';
 
 
-		{
-			param: 'type',
-			value: 'Parasit'
-		},
-
-		{
-			param: 'invalidType',
-			value: 'Parasit'
-		},
-		{
-			param: 'type',
-			value: '11Parasit'
-		},
 
 
-		{
-			param: 'species',
-			value: 'ParasitSPe'
-		},
 
 
-		{
-			param: 'episode',
-			value: 'lol invalid'
-		},
-		{
-			param: 'episode',
-			value: 'S01'
-		},
 
-	];
-
-	const CFIDCList = [
-		API_EPISODES__PARAM__EPISODE,
-		API_CHARACTERS__PARAM__STATUS,
-		API_CHARACTERS__PARAM__GENDER,
-		API_CHARACTERS__PARAM__NAME,
-		API_CHARACTERS__PARAM__SPECIES,
-		API_CHARACTERS__PARAM__TYPE
-	];
-
-	const exitValueStore = CustomFormHolder.makeInitExitValueStore(CFIDCList);
-
-	const customFormHolder = new CustomFormHolder(
-		{
-			CFIDCList: CFIDCList,
-			cachedQPCValues: qpcBaseList
-		}
-	);
-
-//	customFormHolder.exitValueStore = CustomFormHolder.makeInitExitValueStore(CFIDCList);
-
-
-console.log('CustomFormHolder', customFormHolder)
 
 //dev
 
@@ -140,34 +77,48 @@ console.log('CustomFormHolder', customFormHolder)
 	let isValid: boolean = true;
 
 
-	const set_values = (v: QueryParamCompatible_Base[]) => (exit_values = v);
+	const set_value = (v: QueryParamCompatible_Base[]) => (exit_values = v);
 	const set_applyActivity = (v: boolean) => (isValid = v);
 
 
-	customFormHolder.setBridgeToExternalScope(
-		{
-			set_value: set_values,
-			set_applyActivity: set_applyActivity
-		}
-	)
+	const CFIDCList = [
+		API_CHARACTERS__PARAM__STATUS,
+		API_CHARACTERS__PARAM__GENDER,
+		API_CHARACTERS__PARAM__NAME,
+		API_CHARACTERS__PARAM__SPECIES,
+		API_CHARACTERS__PARAM__TYPE
+	];
 
+	const args: ArgumentsFor_CustomFormHolder = {
+		set_value,
+		set_applyActivity,
 
-	let genderSelected;
-	let statusSelected;
+		CFIDCList: CFIDCList
+	};
 
+	if(init_cachedValues){
+		args.cachedQPCValues = init_cachedValues;
+	}
 
+	const customFormHolder = new CustomFormHolder(args);
+	
+	const exitValueFromItemStore = CustomFormHolder.makeInitExitValueStore(CFIDCList);
+	
+	$: enabledDisabled = isValid ? {enabled:true} : {disabled:true};
 	$:{
 
-		customFormHolder.recieveExitValueStoreFor(exitValueStore);
+		customFormHolder.recieveExitValueStoreFor(exitValueFromItemStore);
 
 		isValid = isValid;
 
+
+
 		console.log(
 		'CharactersSearch.svelte',
-		genderSelected, statusSelected,
 		it1, am, QPC_ListOfValues
 
-		,exitValueStore
+		,exitValueFromItemStore
+
 		,customFormHolder
 		
 		);
@@ -183,22 +134,7 @@ console.log('CustomFormHolder', customFormHolder)
 
 		<InputText
 			bind:exit_value = {
-				exitValueStore[
-					API_EPISODES__PARAM__EPISODE
-					.name
-				]
-			}
-			init_instanceOfInputText = {
-				customFormHolder.getInstanceOfCFItemFor(
-					API_EPISODES__PARAM__EPISODE
-				)
-			}
-		/>
-test
-
-		<InputText
-			bind:exit_value = {
-				exitValueStore[
+				exitValueFromItemStore[
 					API_CHARACTERS__PARAM__NAME
 					.name
 				]
@@ -211,7 +147,7 @@ test
 		/>
 		<InputText
 			bind:exit_value = {
-				exitValueStore[
+				exitValueFromItemStore[
 					API_CHARACTERS__PARAM__SPECIES
 					.name
 				]
@@ -224,7 +160,7 @@ test
 		/>
 		<InputText
 			bind:exit_value = {
-				exitValueStore[
+				exitValueFromItemStore[
 					API_CHARACTERS__PARAM__TYPE
 					.name
 				]
@@ -240,7 +176,7 @@ test
 
 			<SelectMenu 
 				bind:exit_value = {
-					exitValueStore[
+					exitValueFromItemStore[
 						API_CHARACTERS__PARAM__STATUS
 						.name
 					]
@@ -259,7 +195,7 @@ test
 
 			<SelectMenu 
 				bind:exit_value = {
-					exitValueStore[
+					exitValueFromItemStore[
 						API_CHARACTERS__PARAM__GENDER
 						.name
 					]
@@ -278,7 +214,10 @@ test
 				filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
 				{ isValid ? 'button--has-some': 'button--empty'}
 			"
-		  disabled="{isValid}"
+
+			{...enabledDisabled}
+
+		  on:click={() => customFormHolder.apply()}
     >
       Apply
     </button>
