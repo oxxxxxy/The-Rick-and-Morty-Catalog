@@ -8,6 +8,11 @@
 
 	import { capitalizeWord } from '@tsLF/pages';
 	import type { ERR } from '@tsCF/pages/src/tileBoard/tiles/index.ts';
+	
+	import type { QueryParamCompatible_Base	} from '@tsLF/forURLSP';
+	import { 
+		getQPCBaseListFromURL
+	} from '@tsLF/forURLSP';
 
 
 	import { APP_NAME } from '$comps/data';
@@ -26,6 +31,18 @@
 	export let data;
 
 
+//dev
+	const initUrl = new URL(data.psl.url);
+
+	const CharactersSearch__init_cachedValues: QueryParamCompatible_Base[] = getQPCBaseListFromURL(initUrl);
+
+	console.log(
+		'QPCBaseList',
+		initUrl,
+		CharactersSearch__init_cachedValues
+	)
+
+
 	let tiles: GT.CharacterPreviewFieldsFragment[] | ERR = [];
 
 	$: _tiles = tiles;
@@ -33,8 +50,11 @@
 	$:{
 		console.log(
 			'page.svelte',
+
+			data,
 			
-			charSearchExit
+			charSearchExit,
+
 		)
 	}
 
@@ -44,7 +64,9 @@
 //dev
 	import type { WT } from '@tsC/api-graphql-to-ex';
 
-	const qpcBaseList: QueryParamCompatible_Base[] = [
+	 const qpcBaseList: QueryParamCompatible_Base[] = [
+
+	 /*
 		{
 			param: 'gender',
 			value: 'm ale'
@@ -89,8 +111,8 @@
 			param: 'episode',
 			value: 'S01'
 		},
-
-	];
+*/
+	]; 
 	
 
 
@@ -111,22 +133,22 @@
 </svelte:head>
 
 <SearchItemNav {pathName}>
-
 	<CharactersSearch
 		bind:exit_values = {
 			charSearchExit
 		}
 		init_cachedValues = {
-			qpcBaseList
+			CharactersSearch__init_cachedValues
 		}
 	/>
-
 </SearchItemNav>
 <TileBoard>
 	{#if _tiles === 'ERR'}
 		<p>Network Error. Try later or kill yourself. Thank you.</p>
 	{:else if _tiles.length}
+		<p>RESULTS</p>
 		<p>tiles</p>
+
 		{#each _tiles as tile }
 			<CharacterTile data={tile.data} />
 		{/each}
