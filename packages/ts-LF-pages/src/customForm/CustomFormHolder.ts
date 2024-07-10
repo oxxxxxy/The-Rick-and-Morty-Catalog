@@ -1,6 +1,4 @@
 import type {
-	QPC_SelectOption,
-	QPC_InputText,
 	QPC_OneOf,
 	QueryParamCompatible_Base
 } from '@tsLF/forURLSP';
@@ -43,14 +41,6 @@ export type ExitValueStore = {
 	[key: string]: QPC_OneOf | QueryParamCompatible_Base;
 }
 
-/*
-	эта хуйня выбрасывает 
-	-готовые инстансы кастом форм итемов
-	-"кеш" вальюсы которые будут перекинуты из юрл таба
-	-ну и по хорошему сами CFIDCi
-
-*/
-
 export class CustomFormHolder {
 	#cachedQPCValuesForEachCFIDC: {
 		readonly [key: string]: QueryParamCompatible_Base
@@ -64,9 +54,6 @@ export class CustomFormHolder {
 
 	#setExternalValue: SetExternalValueFn | undefined;
 	#setExternalApplyActivity: SetExternalApplyActivityFn | undefined;
-	/* #savedCFIDCList: {
-		[key: string]: CustomFormInitDataCompatible_OneOf;
-	} = {}; */
 
 
 	constructor(

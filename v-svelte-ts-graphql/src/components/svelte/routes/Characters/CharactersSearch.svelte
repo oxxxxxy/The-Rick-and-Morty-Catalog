@@ -19,19 +19,6 @@
 
 
 
-//dev
-
-
-
-
-
-
-
-
-
-
-//dev
-
 	export let init_cachedValues: QueryParamCompatible_Base[];
 	export let exit_values: QueryParamCompatible_Base[];
 
@@ -69,21 +56,9 @@
 
 	$: enabledDisabled = isValid ? {enabled: true} : {disabled: true};
 	$:{
-
 		customFormHolder.recieveExitValueStore(exitValueFromItemStore);
 
 		isValid = isValid;
-
-
-
-		console.log(
-		'CharactersSearch.svelte'
-
-		,exitValueFromItemStore
-
-		,customFormHolder
-		
-		);
 	}
  
 </script>
