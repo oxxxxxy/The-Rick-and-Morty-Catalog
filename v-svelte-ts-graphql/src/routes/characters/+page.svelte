@@ -64,6 +64,7 @@
 //dev
 	import type { WT } from '@tsC/api-graphql-to-ex';
 
+//blya hochu zeleniy den...
 	 const qpcBaseList: QueryParamCompatible_Base[] = [
 
 	 /*
