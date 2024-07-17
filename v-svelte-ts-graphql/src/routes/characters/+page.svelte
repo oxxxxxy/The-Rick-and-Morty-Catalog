@@ -32,6 +32,7 @@
 
 
 //dev
+import {U} from '@tsL/utils';
 	const initUrl = new URL(data.psl.url);
 
 	const CharactersSearch__init_cachedValues: QueryParamCompatible_Base[] = getQPCBaseListFromURL(initUrl);
@@ -63,6 +64,51 @@
 
 //dev
 	import type { WT } from '@tsC/api-graphql-to-ex';
+
+	class URLSearchParamsChangeObserver{
+		#_interval: ReturnType<typeof setInterval>;
+
+		constructor(
+			{
+				pathname
+			} : {
+				pathname: string;
+
+			}
+		){
+			const T = this;
+
+			T.#_interval = setInterval(
+				() => {
+					try{
+						
+
+						
+					} catch (e){
+						// stop me, if u can.
+
+					}
+				}
+			);
+			
+		}
+
+		attach(){
+
+		}
+
+		notify(){
+		
+		}
+
+	}
+
+	const test_URLSearchParamsChangeObserver = new URLSearchParamsChangeObserver(
+		{
+			pathname: '/characters'
+		}
+	)
+
 
 //blya hochu zeleniy den...
 	 const qpcBaseList: QueryParamCompatible_Base[] = [
