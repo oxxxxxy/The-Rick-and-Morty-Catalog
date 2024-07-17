@@ -62,35 +62,75 @@ import {U} from '@tsL/utils';
 	const pageTitle = capitalizeWord(API_CHARACTERS__PATH.name);
 	const	pathName = data.psl.route.id.slice(1);
 
-//dev
+
+
 	import type { WT } from '@tsC/api-graphql-to-ex';
+
+//  plan for URLSearchParams Change thing
+//		make customEvent
+//		add it with context/index
+//  after that make event handler and etc for that customEvent...
+
 
 	class URLSearchParamsChangeObserver{
 		#_interval: ReturnType<typeof setInterval>;
+		#previous: string = '';
+		#inited: boolean = false;
 
 		constructor(
 			{
 				pathname
 			} : {
 				pathname: string;
-
+				
 			}
 		){
 			const T = this;
 
 			T.#_interval = setInterval(
 				() => {
-					try{
-						
+					let location;
 
-						
+					try{
+						location = window.location;
+						T.#init();
 					} catch (e){
 						// stop me, if u can.
+						return;
+					}
 
+
+					if(location.pathname != pathname){
+						return;
+					}
+
+
+					const previous = T.#previous;
+					const current = location.search;
+
+					if(current != previous){
+
+						U.log({...location})
+
+						T.notify();
+
+						T.#previous = current;
 					}
 				}
 			);
 			
+		}
+
+		#init(){
+			if(!this.#inited){
+				this.#previous = window.location.search;
+				
+				this.#inited = true;
+			}
+		}
+
+		clear(){
+			clearInterval(this.#_interval);
 		}
 
 		attach(){
