@@ -1,5 +1,5 @@
 {
-  "name": "@tsLF/URLSearchParamsChangeEvent",
+  "name": "@tsLF/wLocationChangeEvent",
   "version": "2.2.8",
   "private": true,
   "license": "MIT",

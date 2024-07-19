@@ -6,22 +6,25 @@ import type { IUrqlClientWrapper } from '@tsC/api-graphql-to-ex';
 
 import { MouseEventObservable } from '@tsLF/mouseEventObservable';
 
-
+import { WindowLocationChangeEventEmitter } from '@tsLF/wLocationChangeEvent';
 
 
 
 
 const CONTEXT_KEY = '$$$CoNtExTKeyForThatApp12345';
 
+
 interface ContextedValues {
 	wUrql: IUrqlClientWrapper;
 	cntxtedMouseEventObservable: MouseEventObservable;
+	wLocationChangeEventEmitter: WindowLocationChangeEventEmitter;
 };
 
 
 const contextedValues: ContextedValues = {
 	wUrql: wUrql,
-	cntxtedMouseEventObservable: new MouseEventObservable()
+	cntxtedMouseEventObservable: new MouseEventObservable(),
+	wLocationChangeEventEmitter: new WindowLocationChangeEventEmitter({}),
 }
 
 

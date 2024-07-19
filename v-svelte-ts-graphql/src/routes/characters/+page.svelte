@@ -17,7 +17,10 @@
 
 	import { APP_NAME } from '$comps/data';
 	import g from '$comps/context/index.ts';
-	const wUrql = g().wUrql;
+	const { 
+		wUrql,
+		wLocationChangeEventEmitter
+	} = g();
 
 
 	import SearchItemNav from '$comps/svelte/routes/SearchItemNav.svelte';
@@ -148,6 +151,10 @@ import {U} from '@tsL/utils';
 			pathname: '/characters'
 		}
 	)
+
+//dopustim u nas est' WindowLocationChangeEventEmitter kakoy-to
+
+
 
 
 //blya hochu zeleniy den...
