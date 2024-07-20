@@ -44,7 +44,13 @@ export class WindowLocationChangeEventEmitter extends Observable{
 				}
 
 				if(href != T.#previous){
-					T.notify(window.location);
+					T.notify(
+						JSON.parse(
+							JSON.stringify(
+								window.location
+							)
+						)
+					);
 
 					T.#previous = href;
 				}

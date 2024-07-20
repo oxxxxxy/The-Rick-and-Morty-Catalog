@@ -1,4 +1,5 @@
 import {
+	Observable,
 	Observer,
 	ArgumentsFor_Observer_onNotification
 } from '@tsL/patterns';
@@ -6,12 +7,23 @@ import {
 
 
 
+export type ArgumentsFor_LocationSearchChangeEventEmitter = {
+	pathname: string;
+};
+
+export class LocationSearchChangeEventEmitter extends Observable implements Observer{
+	readonly pathname: string;
 
 
-export class LocationSearchChangeEventListener extends Observer{
-
-	constructor(){
+	constructor(
+		{
+			pathname,
+		} : ArgumentsFor_LocationSearchChangeEventEmitter
+	){
 		super();
+		
+		this.pathname = pathname;
+
 
 	}
 
@@ -20,3 +32,5 @@ export class LocationSearchChangeEventListener extends Observer{
 		return;
 	}
 }
+
+
