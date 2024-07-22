@@ -75,6 +75,8 @@ import {U} from '@tsL/utils';
 //  after that make event handler and etc for that customEvent...
 
 
+// make defence from the same values APPLY
+
 	class URLSearchParamsChangeObserver{
 		#_interval: ReturnType<typeof setInterval>;
 		#previous: string = '';

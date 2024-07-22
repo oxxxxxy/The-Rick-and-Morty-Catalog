@@ -10,20 +10,32 @@ import { WindowLocationData } from './index.ts';
 
 
 
-export type ArgumentsFor_LocationSearchChangeEventEmitter = ArgumentsFor_Observable
-& {
+export type LocationSearchChangeEventEmitter_Pathname = {
 	pathname: string;
 };
+
+export type ArgumentsFor_LocationSearchChangeEventEmitter = ArgumentsFor_Observable
+& LocationSearchChangeEventEmitter_Pathname;
 
 export type IndexedSearchParam = {
 	value: string;
 	id: number;
 };
 
+export type LocationSearchChangeEventEmitter_MoveDirectionValues = 'back' | 'forward' | 'forward; new' | 'no move; the same value';
+
+export type LocationSearchChangeEventData = LocationSearchChangeEventEmitter_Pathname
+& {
+	history: IndexedSearchParam[];
+	current: IndexedSearchParam;
+	direction: LocationSearchChangeEventEmitter_MoveDirectionValues;
+};
+
 export class LocationSearchChangeEventEmitter extends Observable implements Observer{
 	readonly pathname: string;
 	#previousSearchParams: IndexedSearchParam[] = [];
 	#currentSearchParams: IndexedSearchParam | undefined;
+	#currentMoveDirection: LocationSearchChangeEventEmitter_MoveDirectionValues | undefined;
 	
 
 	constructor(
@@ -82,13 +94,39 @@ export class LocationSearchChangeEventEmitter extends Observable implements Obse
 		this.#currentSearchParams = searchParam;
 	}
 
-	#getEventData(): LocationSearchChangeEventData{
-		return {
+	#getEventData(): LocationSearchChangeEventData {
+		const eventData = {
 			pathname: this.pathname,
-			history: this.#previousSearchParams.map(e => ({...e})),
+			history: this.#previousSearchParams,
 			current: this.#currentSearchParams,
-			
+			moveDir: this.#currentMoveDirection,
+		};
+
+		return JSON.parse(
+			JSON.stringify(
+				eventData
+			)
+		);
+	}
+
+	#setMoveDirection(dir?: 'n' | 'f' | 'b'){
+		let text: LocationSearchChangeEventEmitter_MoveDirectionValues | undefined;
+
+		switch(dir){
+			case 'b':
+				text = 'back';
+				break;
+			case 'f':
+				text = 'forward';
+				break;
+			case 'n':
+				text = 'forward; new';
+				break;
+			default:
+				text = 'no move; the same value';
 		}
+
+		this.#currentMoveDirection = text;
 	}
 
 	onNotification(data: WindowLocationData){
@@ -100,13 +138,17 @@ export class LocationSearchChangeEventEmitter extends Observable implements Obse
 
 
 		if(index < 0){//new
-
+			//if currentSearchParams == last previousSearchParams arr
 			this.#pushToPreviousSearchParams(data.search);
 			this.#setCurrentSearchParam();
-		
-			const eventData = this.#getEventData();
+			this.#setMoveDirection('n');
+			//else
+			//  slice previousSearchParams arr from currentSearchParams + 1
+			//	
+			//
 
-			this.notify(eventData);
+
+			this.notify(this.#getEventData());
 
 		} else if( ItWasCreatedByUserNotNavigated ){ //new
 
