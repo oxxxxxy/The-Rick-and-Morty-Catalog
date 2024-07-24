@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { pushState } from '$app/navigation';
 
+
+window.HHH = pushState;
 
 	import type { GT } from '@tsC/api-graphql-to-ex';
 

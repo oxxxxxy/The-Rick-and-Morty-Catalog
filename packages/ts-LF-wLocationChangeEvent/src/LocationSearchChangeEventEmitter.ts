@@ -34,7 +34,7 @@ export type LocationSearchChangeEventData = LocationSearchChangeEventEmitter_Pat
 export class LocationSearchChangeEventEmitter extends Observable implements Observer{
 	readonly pathname: string;
 	#previousSearchParams: IndexedSearchParam[] = [];
-	#currentSearchParams: IndexedSearchParam | undefined;
+	#currentSearchParams: IndexedSearchParam;
 	#currentMoveDirection: LocationSearchChangeEventEmitter_MoveDirectionValues | undefined;
 	
 
@@ -99,7 +99,7 @@ export class LocationSearchChangeEventEmitter extends Observable implements Obse
 			pathname: this.pathname,
 			history: this.#previousSearchParams,
 			current: this.#currentSearchParams,
-			moveDir: this.#currentMoveDirection,
+			moveDirection: this.#currentMoveDirection,
 		};
 
 		return JSON.parse(
@@ -134,23 +134,34 @@ export class LocationSearchChangeEventEmitter extends Observable implements Obse
 			return;
 		}
 
-		const index = this.#previousSearchParams.findLastIndex((e: IndexedSearchParam) => e.value === data.search);
+		if(this.#currentSearchParams.value === data.search){
+			this.#setMoveDirection();
+			this.notify(this.#getEventData());
+
+			return;
+		}
 
 
-		if(index < 0){//new
-			//if currentSearchParams == last previousSearchParams arr
+		const searchLastIndex = this.#previousSearchParams.findLastIndex((e: IndexedSearchParam) => e.value === data.search);
+
+		if(searchLastIndex < 0){//new, means that, user make it. it is not move back by butts,
+			// t.e mne vajno shtobi ?shit=1488 ne sovpadalo s curentom... i ya tochno znal, chto eto event po history, a ne apply i create
+			if(this.#currentSearchParams.id != this.#previousSearchParams[this.#previousSearchParams.length - 1].id){
+				this.#previousSearchParams.splice(this.#currentSearchParams.id + 1);
+			}
+
 			this.#pushToPreviousSearchParams(data.search);
 			this.#setCurrentSearchParam();
 			this.#setMoveDirection('n');
-			//else
-			//  slice previousSearchParams arr from currentSearchParams + 1
-			//	
-			//
-
 
 			this.notify(this.#getEventData());
 
-		} else if( ItWasCreatedByUserNotNavigated ){ //new
+			return;
+		}
+
+		
+
+		if( ItWasCreatedByUserNotNavigated ){ //new
 
 		} else { //navigated
 
