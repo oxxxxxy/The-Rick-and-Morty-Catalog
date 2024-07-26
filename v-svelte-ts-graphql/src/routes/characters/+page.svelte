@@ -190,7 +190,7 @@ import {U} from '@tsL/utils';
 //blya hochu zeleniy den...
 	 const qpcBaseList: QueryParamCompatible_Base[] = [
 
-	 /*
+	 
 		{
 			param: 'gender',
 			value: 'm ale'
@@ -235,7 +235,7 @@ import {U} from '@tsL/utils';
 			param: 'episode',
 			value: 'S01'
 		},
-*/
+
 	]; 
 	
 
@@ -243,6 +243,7 @@ import {U} from '@tsL/utils';
 
 //dev
 
+CharactersSearch__navigation_values = qpcBaseList;
 	onMount(async () => {
 //		tiles = await getCharacterTiles(wUrql)
 
@@ -257,6 +258,8 @@ import {U} from '@tsL/utils';
 
 							}else{
 								times123++;
+
+								CharactersSearch__navigation_values= qpcBaseList.map(e => ({...e, value: times123 + e.value}) )
 							}
 
 					}, 1000)

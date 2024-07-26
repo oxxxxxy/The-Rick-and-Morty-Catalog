@@ -62,7 +62,7 @@
 	});
 
 	if(init_cachedValue){
-		selectMenu.setSelected(init_cachedValue);
+		selectMenu.setValue(init_cachedValue);
 	}
 
 

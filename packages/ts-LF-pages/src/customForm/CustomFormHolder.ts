@@ -37,7 +37,7 @@ export type ArgumentsFor_CustomFormHolder = ArgumentsPart_setBridgeToExternalSco
 
 }
 
-export type ExitValueStore = {
+export type ValueStore = {
 	[key: string]: QPC_OneOf | QueryParamCompatible_Base;
 }
 
@@ -48,7 +48,7 @@ export class CustomFormHolder {
 	#instancesOfCFItemForEachCFIDC: {
 		readonly [key: string]: All_ClassType_OneOf
 	} = {};
-	#exitValueStore: ExitValueStore = {};
+	#exitValueStore: ValueStore = {};
 
 	#guardingIsNoLongerNeeded: boolean = false;
 
@@ -126,9 +126,6 @@ export class CustomFormHolder {
 
 	}
 
-	// set values chtobi oni takje zadalis' v kajdom CFItem
-	setValuesToCFItems(){}
-
 	apply(){
 		this.#guard();
 
@@ -170,7 +167,7 @@ export class CustomFormHolder {
 		this.#guardingIsNoLongerNeeded = true;
 	}
 
-	recieveExitValueStore(exitValueStore: ExitValueStore){
+	recieveExitValueStore(exitValueStore: ValueStore){
 		this.#guard();
 
 		let applyActivity = true;
@@ -211,14 +208,24 @@ export class CustomFormHolder {
 		this.#setExternalApplyActivity(applyActivity);
 	}
 
-	static makeInitExitValueStore(CFIDCList: CustomFormInitDataCompatible_List): ExitValueStore {
-		const obj: ExitValueStore = {};
+	static makeValueStore(CFIDCList: CustomFormInitDataCompatible_List): ValueStore {
+		const obj: ValueStore = {};
 
 		for(const el of CFIDCList){
 			obj[el.name] = { param: '', value: '' };
 		}
 
 		return obj;
+	}
+
+	static setValuesToValueStore(store: ValueStore, values: QueryParamCompatible_Base[]){
+		for(const v of values){
+			const storeItem = store[v.param];
+
+			if(storeItem){
+				storeItem.value = v.value;
+			}
+		}
 	}
 	
 	getInitCachedValueFor(CFIDC: CustomFormInitDataCompatible_OneOf): QPC_OneOf | void {

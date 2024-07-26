@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+
 	import {
 		API_CHARACTERS__PARAM__STATUS,
 		API_CHARACTERS__PARAM__GENDER,
@@ -25,6 +28,7 @@
 
 
 	let isValid: boolean = true;
+	let isMounted: boolean = false;
 
 
 	const set_value = (v: QueryParamCompatible_Base[]) => (exit_values = v);
@@ -52,18 +56,26 @@
 
 	const customFormHolder = new CustomFormHolder(args);
 	
-	const exitValueFromItemStore = CustomFormHolder.makeInitExitValueStore(CFIDCList);
+	const exitValueStore = CustomFormHolder.makeValueStore(CFIDCList);
+	const entryValueStore = CustomFormHolder.makeValueStore(CFIDCList);
 
 
 	$: enabledDisabled = isValid ? {enabled: true} : {disabled: true};
 	$:{
-		customFormHolder.recieveExitValueStore(exitValueFromItemStore);
+		customFormHolder.recieveExitValueStore(exitValueStore);
 
 		isValid = isValid;
 
 		console.log('cFH', navigation_values);
 	}
- 
+
+
+	onMount(() => {
+		isMounted = true;
+
+		
+	})
+
 </script>
 
 <div class="margin-10 w-100 d-flex jc-center">
@@ -74,7 +86,13 @@
 
 		<InputText
 			bind:exit_value = {
-				exitValueFromItemStore[
+				exitValueStore[
+					API_CHARACTERS__PARAM__NAME
+					.name
+				]
+			}
+			bind:entry_value = {
+				entryValueStore[
 					API_CHARACTERS__PARAM__NAME
 					.name
 				]
@@ -87,7 +105,7 @@
 		/>
 		<InputText
 			bind:exit_value = {
-				exitValueFromItemStore[
+				exitValueStore[
 					API_CHARACTERS__PARAM__SPECIES
 					.name
 				]
@@ -100,7 +118,7 @@
 		/>
 		<InputText
 			bind:exit_value = {
-				exitValueFromItemStore[
+				exitValueStore[
 					API_CHARACTERS__PARAM__TYPE
 					.name
 				]
@@ -116,7 +134,7 @@
 
 			<SelectMenu 
 				bind:exit_value = {
-					exitValueFromItemStore[
+					exitValueStore[
 						API_CHARACTERS__PARAM__STATUS
 						.name
 					]
@@ -135,7 +153,7 @@
 
 			<SelectMenu 
 				bind:exit_value = {
-					exitValueFromItemStore[
+					exitValueStore[
 						API_CHARACTERS__PARAM__GENDER
 						.name
 					]

@@ -196,8 +196,7 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		this.HTMLElement_globalAttribute_id = 'i' + U.nanoid();
 	}
 
-	//setValue
-	setSelected(arg: ArgumentFor_SetSelected){
+	setValue(arg: ArgumentFor_SetSelected){
 		this.#guard();
 	
 		const type = typeof arg;
@@ -225,7 +224,8 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 			return;
 		}
 
-		throw new Error('Incorrect argument. ' + JSON.stringify(arg));
+		// for dev mode???
+		//throw new Error('Incorrect argument. ' + JSON.stringify(arg));
 
 	}
 
