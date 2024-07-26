@@ -20,6 +20,7 @@
 
 
 	export let init_cachedValues: QueryParamCompatible_Base[];
+	export let navigation_values: QueryParamCompatible_Base[];
 	export let exit_values: QueryParamCompatible_Base[];
 
 
@@ -59,6 +60,8 @@
 		customFormHolder.recieveExitValueStore(exitValueFromItemStore);
 
 		isValid = isValid;
+
+		console.log('cFH', navigation_values);
 	}
  
 </script>

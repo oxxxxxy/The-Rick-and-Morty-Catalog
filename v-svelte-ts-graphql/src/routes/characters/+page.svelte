@@ -3,8 +3,6 @@
 	import { pushState } from '$app/navigation';
 
 
-window.HHH = pushState;
-
 	import type { GT } from '@tsC/api-graphql-to-ex';
 
 	import { API_CHARACTERS__PATH } from '@tsCF/data';
@@ -41,7 +39,9 @@ window.HHH = pushState;
 import {U} from '@tsL/utils';
 	const initUrl = new URL(data.psl.url);
 
-	const CharactersSearch__init_cachedValues: QueryParamCompatible_Base[] = getQPCBaseListFromURL(initUrl);
+	let CharactersSearch__init_cachedValues: QueryParamCompatible_Base[] = getQPCBaseListFromURL(initUrl);
+
+	let CharactersSearch__navigation_values = 'asss';
 
 	console.log(
 		'QPCBaseList',
@@ -80,7 +80,32 @@ import {U} from '@tsL/utils';
 
 // make defence from the same values APPLY
 
-	class URLSearchParamsChangeObserver{
+
+//	class DataLoaderFromURLSearchParams{}
+// 
+
+
+// SpecialPathnameLocationSearchChangeEventEmitter
+//   filter for pathname, return window.location
+//
+// Class oberver for SpecialPathnameLocationSearchChangeEventEmitter
+//   to filter the same values ?foo=bar
+//   return window.location if unique
+//
+// Thing to check is value from applying form or returned by browsing history
+//  if from form
+//    do nothing
+//  else 
+//    make Loading
+
+// apply thing
+//   if event data from form
+//     pushState??? when???
+//     make loading
+//
+
+
+	/* class URLSearchParamsChangeObserver{
 		#_interval: ReturnType<typeof setInterval>;
 		#previous: string = '';
 		#inited: boolean = false;
@@ -155,7 +180,7 @@ import {U} from '@tsL/utils';
 		{
 			pathname: '/characters'
 		}
-	)
+	) */
 
 //dopustim u nas est' WindowLocationChangeEventEmitter kakoy-to
 
@@ -221,6 +246,20 @@ import {U} from '@tsL/utils';
 	onMount(async () => {
 //		tiles = await getCharacterTiles(wUrql)
 
+		let times123 = 0;
+
+		const testCalcInterval = setInterval(()=>{
+						CharactersSearch__navigation_values
+						= 'pizdec' + times123;
+
+						if(times123 > 5){
+							clearInterval(testCalcInterval);
+
+							}else{
+								times123++;
+							}
+
+					}, 1000)
 		
 	});
 
@@ -238,6 +277,9 @@ import {U} from '@tsL/utils';
 		}
 		init_cachedValues = {
 			CharactersSearch__init_cachedValues
+		}
+		bind:navigation_values = {
+			CharactersSearch__navigation_values
 		}
 	/>
 </SearchItemNav>

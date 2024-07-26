@@ -126,6 +126,9 @@ export class CustomFormHolder {
 
 	}
 
+	// set values chtobi oni takje zadalis' v kajdom CFItem
+	setValuesToCFItems(){}
+
 	apply(){
 		this.#guard();
 

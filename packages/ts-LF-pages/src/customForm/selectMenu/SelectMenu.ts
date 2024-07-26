@@ -196,6 +196,7 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 		this.HTMLElement_globalAttribute_id = 'i' + U.nanoid();
 	}
 
+	//setValue
 	setSelected(arg: ArgumentFor_SetSelected){
 		this.#guard();
 	

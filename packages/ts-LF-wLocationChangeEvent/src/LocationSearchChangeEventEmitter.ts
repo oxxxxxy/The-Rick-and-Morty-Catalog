@@ -34,7 +34,8 @@ export type LocationSearchChangeEventData = LocationSearchChangeEventEmitter_Pat
 export class LocationSearchChangeEventEmitter extends Observable implements Observer{
 	readonly pathname: string;
 	#previousSearchParams: IndexedSearchParam[] = [];
-	#currentSearchParams: IndexedSearchParam;
+	#currentSearchParams: string;
+	// #currentSearchParams: IndexedSearchParam;
 	#currentMoveDirection: LocationSearchChangeEventEmitter_MoveDirectionValues | undefined;
 	
 
@@ -134,9 +135,11 @@ export class LocationSearchChangeEventEmitter extends Observable implements Obse
 			return;
 		}
 
+
+
 		if(this.#currentSearchParams.value === data.search){
-			this.#setMoveDirection();
-			this.notify(this.#getEventData());
+			/* this.#setMoveDirection();
+			this.notify(this.#getEventData()); */
 
 			return;
 		}
@@ -161,12 +164,12 @@ export class LocationSearchChangeEventEmitter extends Observable implements Obse
 
 		
 
-		if( ItWasCreatedByUserNotNavigated ){ //new
+		/* if( ItWasCreatedByUserNotNavigated ){ //new
 
 		} else { //navigated
 
 			
-		}
+		} */
 
 
 
