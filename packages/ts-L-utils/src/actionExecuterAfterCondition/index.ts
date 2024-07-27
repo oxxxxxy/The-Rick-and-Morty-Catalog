@@ -6,7 +6,11 @@ export class ActionExecuterAfterCondition{
 	#ready: boolean = false;
 	#actions: UnknownFunc[] = [];
 
-	constructor(){}
+	constructor(fns?: UnknownFunc[]){
+		if(fns){
+			this.#actions.push(...fns);
+		}
+	}
 
 	setReady(){
 		this.#ready = true;

@@ -11,6 +11,8 @@
 	import type { ConstructorArguments_SelectMenu } from '@tsLF/pages';
 	import { SelectMenu } from '@tsLF/pages';
 
+	import { U } from '@tsL/utils';
+
 
 	import g from '$comps/context';
 	const contextedMouseEventObservable = g().cntxtedMouseEventObservable;
@@ -22,6 +24,7 @@
 
 
 	export let exit_value: QPC_IndexedSelectOption;
+	export let entry_value: QPC_IndexedSelectOption;
 
 	export let init_cachedValue: QPC_SelectOption;
 	export let init_CFIDC_Selection: CFIDC_Selection;
@@ -65,15 +68,36 @@
 		selectMenu.setValue(init_cachedValue);
 	}
 
+	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
+	actionExecuterAfterMount.addAction(
+		() => {
+			selectMenu.setValue(entry_value.value);
+		}
+	);
+
 
 	$: _active = active;
 	$: _options = options;
+	let previousEntry_value;
+	$:{
+		entry_value = entry_value;
+
+		actionExecuterAfterMount.exec();
+
+		if(JSON.stringify(entry_value) != JSON.stringify(previousEntry_value)){
+			previousEntry_value = entry_value;
+			
+	 console.log('asdf2')
+	 options = options;//svelte magic again... FUCK!!!
+		}
+	 console.log('asdf')
+	}
 
 
 	onMount(() => {
-
 		contextedMouseEventObservable.attachListener('click', selectMenu);
 
+		actionExecuterAfterMount.setReady();
 	});
 
 </script>

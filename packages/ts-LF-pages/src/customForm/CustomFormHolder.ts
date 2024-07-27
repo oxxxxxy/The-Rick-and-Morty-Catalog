@@ -223,7 +223,7 @@ export class CustomFormHolder {
 			const storeItem = store[v.param];
 
 			if(storeItem){
-				storeItem.value = v.value;
+				store[v.param] = v;
 			}
 		}
 	}

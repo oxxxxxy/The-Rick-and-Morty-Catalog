@@ -4,10 +4,15 @@ import _urlJoin from 'url-join';
 
 import { nanoid } from 'nanoid';
 
+import { ActionExecuterAfterCondition } from './actionExecuterAfterCondition';
 
 
 
-export const U: LooseObject = {};
+
+export const U: LooseObject = {
+	nanoid,
+	ActionExecuterAfterCondition
+};
 
 
 const urlJoin = (...args: string[] ): string => urlJoin(...args);
@@ -40,7 +45,6 @@ const delay = (ms?: PositiveInteger<number>): Promise<void> => new Promise(r => 
 U.delay = delay;
 
 
-U.nanoid = nanoid;
 
 
 

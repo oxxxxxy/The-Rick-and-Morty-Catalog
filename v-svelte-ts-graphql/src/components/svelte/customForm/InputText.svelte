@@ -7,6 +7,8 @@
 	import type { InputText_ClassType_OneOf } from '@tsLF/pages';
 
 	import type { QPC_InputText } from '@tsLF/forURLSP';
+
+	import { U } from '@tsL/utils';
 	
 	
 	import InputTextClearIcon from '$comps/svelte/customForm/icons/InputTextClearIcon.svelte';
@@ -15,6 +17,7 @@
 
 
 	export let exit_value: QPC_InputText;
+	export let entry_value: QPC_InputText;
 	
 	export let init_cachedValue: QPC_InputText;
 	export let init_CFIDC_InputText: CFIDC_InputText_Base;
@@ -73,6 +76,15 @@
 		);
 	}
 
+	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
+	actionExecuterAfterMount.addAction(
+		() => {
+			_value = entry_value.value;
+			inputText.setValue(_value);
+			warning = warning; // bcz i don't trust svelte magic...
+		}
+	);
+
 
 	//$: _warning = warning; not work anymore...
 	$: _value = '';
@@ -81,6 +93,12 @@
 
 			warning = warning; // bcz i don't trust svelte magic...
 		}
+	$:{
+		entry_value = entry_value;
+
+		actionExecuterAfterMount.exec();
+	}
+
 
 
 	const clear = () => (
@@ -90,6 +108,7 @@
 
 
 	onMount(() => {
+		actionExecuterAfterMount.setReady();
 
 		if(init_cachedValue){
 			_value = init_cachedValue.value;

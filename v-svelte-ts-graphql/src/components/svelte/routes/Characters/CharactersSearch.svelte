@@ -15,6 +15,8 @@
 	import { CustomFormHolder } from '@tsLF/pages';
 	import type { ArgumentsFor_CustomFormHolder } from '@tsLF/pages';
 
+	import { U } from '@tsL/utils';
+
 
 	import InputText from '$comps/svelte/customForm/InputText.svelte';
 	import SelectMenu from '$comps/svelte/customForm/SelectMenu.svelte';
@@ -28,7 +30,6 @@
 
 
 	let isValid: boolean = true;
-	let isMounted: boolean = false;
 
 
 	const set_value = (v: QueryParamCompatible_Base[]) => (exit_values = v);
@@ -59,20 +60,31 @@
 	const exitValueStore = CustomFormHolder.makeValueStore(CFIDCList);
 	const entryValueStore = CustomFormHolder.makeValueStore(CFIDCList);
 
+	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
+	actionExecuterAfterMount.addAction(
+		() => {
+			CustomFormHolder.setValuesToValueStore(entryValueStore, navigation_values);
+		}
+	);
+
 
 	$: enabledDisabled = isValid ? {enabled: true} : {disabled: true};
 	$:{
 		customFormHolder.recieveExitValueStore(exitValueStore);
 
 		isValid = isValid;
+	}
+	$:{
+		navigation_values = navigation_values;
 
-		console.log('cFH', navigation_values);
+		actionExecuterAfterMount.exec();
+
+		console.log('cFH', navigation_values, entryValueStore);
 	}
 
 
 	onMount(() => {
-		isMounted = true;
-
+		actionExecuterAfterMount.setReady();
 		
 	})
 
@@ -110,6 +122,12 @@
 					.name
 				]
 			}
+			bind:entry_value = {
+				entryValueStore[
+					API_CHARACTERS__PARAM__SPECIES
+					.name
+				]
+			}
 			init_instanceOfInputText = {
 				customFormHolder.getInstanceOfCFItemFor(
 					API_CHARACTERS__PARAM__SPECIES
@@ -119,6 +137,12 @@
 		<InputText
 			bind:exit_value = {
 				exitValueStore[
+					API_CHARACTERS__PARAM__TYPE
+					.name
+				]
+			}
+			bind:entry_value = {
+				entryValueStore[
 					API_CHARACTERS__PARAM__TYPE
 					.name
 				]
@@ -139,6 +163,12 @@
 						.name
 					]
 				}
+				bind:entry_value = {
+					entryValueStore[
+						API_CHARACTERS__PARAM__STATUS
+						.name
+					]
+				}
 				init_instanceOfSelectMenu = {
 					customFormHolder.getInstanceOfCFItemFor(
 						API_CHARACTERS__PARAM__STATUS
@@ -154,6 +184,12 @@
 			<SelectMenu 
 				bind:exit_value = {
 					exitValueStore[
+						API_CHARACTERS__PARAM__GENDER
+						.name
+					]
+				}
+				bind:entry_value = {
+					entryValueStore[
 						API_CHARACTERS__PARAM__GENDER
 						.name
 					]

@@ -15,6 +15,8 @@
 		getQPCBaseListFromURL
 	} from '@tsLF/forURLSP';
 
+	import { U } from '@tsL/utils';
+
 
 	import { APP_NAME } from '$comps/data';
 	import g from '$comps/context/index.ts';
@@ -36,7 +38,6 @@
 
 
 //dev
-import {U} from '@tsL/utils';
 	const initUrl = new URL(data.psl.url);
 
 	let CharactersSearch__init_cachedValues: QueryParamCompatible_Base[] = getQPCBaseListFromURL(initUrl);
@@ -253,9 +254,9 @@ CharactersSearch__navigation_values = qpcBaseList;
 						CharactersSearch__navigation_values
 						= 'pizdec' + times123;
 
-						if(times123 > 5){
+						if(times123 > 0){
 							clearInterval(testCalcInterval);
-
+								CharactersSearch__navigation_values = [{param:"status", value:"alive"}];
 							}else{
 								times123++;
 
