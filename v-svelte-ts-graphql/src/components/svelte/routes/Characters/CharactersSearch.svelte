@@ -58,7 +58,7 @@
 	const customFormHolder = new CustomFormHolder(args);
 	
 	const exitValueStore = CustomFormHolder.makeValueStore(CFIDCList);
-	const entryValueStore = CustomFormHolder.makeValueStore(CFIDCList);
+	let entryValueStore = CustomFormHolder.makeValueStore(CFIDCList);
 
 	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
 	actionExecuterAfterMount.addAction(
@@ -75,9 +75,11 @@
 		isValid = isValid;
 	}
 	$:{
-		navigation_values = navigation_values;
-
 		actionExecuterAfterMount.exec();
+	
+		//svelte magic again. WTF?
+		navigation_values = navigation_values;
+		entryValueStore = entryValueStore;
 	}
 
 
