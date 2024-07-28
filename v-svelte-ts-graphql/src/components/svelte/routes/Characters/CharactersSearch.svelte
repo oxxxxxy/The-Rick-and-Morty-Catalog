@@ -78,8 +78,6 @@
 		navigation_values = navigation_values;
 
 		actionExecuterAfterMount.exec();
-
-		console.log('cFH', navigation_values, entryValueStore);
 	}
 
 

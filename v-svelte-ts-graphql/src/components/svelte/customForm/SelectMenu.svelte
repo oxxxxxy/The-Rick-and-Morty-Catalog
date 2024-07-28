@@ -78,19 +78,14 @@
 
 	$: _active = active;
 	$: _options = options;
-	let previousEntry_value;
-	$:{
-		entry_value = entry_value;
+	let _previousEntry_value;
+	$:if(JSON.stringify(entry_value) != JSON.stringify(_previousEntry_value)){
 
 		actionExecuterAfterMount.exec();
 
-		if(JSON.stringify(entry_value) != JSON.stringify(previousEntry_value)){
-			previousEntry_value = entry_value;
+		_previousEntry_value = entry_value;
 			
-	 console.log('asdf2')
 	 options = options;//svelte magic again... FUCK!!!
-		}
-	 console.log('asdf')
 	}
 
 
