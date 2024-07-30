@@ -1,5 +1,3 @@
-
-
 export type UnknownFunc = () => unknown;
 
 export class ActionExecuterAfterCondition{

@@ -20,8 +20,6 @@ export type WindowLocationData = ArgumentsFor_Observer_onNotification & {
 }
 
 export class WindowLocationChangeEventEmitter extends Observable{
-	#_interval: ReturnType<typeof setInterval>;
-	#previous: string = '';
 	#inited: boolean = false;
 
 	constructor(
@@ -34,41 +32,49 @@ export class WindowLocationChangeEventEmitter extends Observable{
 		const T = this;
 
 
-		T.#_interval = setInterval(
-			() => {
-				let href;
+		const notifyData = (data?: WindowLocationData) => {
+			if(!data){
+				data = JSON.parse(
+					JSON.stringify(
+						window.location
+					)
+				);
+			}
 
-				try{
-					href = window.location.href;
-					T.#init();
-				} catch (e){
+			T.notify(data);
+		};
+		
+		const interval = setInterval(
+			() => {
+				if(T.#inited){
+					clearInterval(interval);
+					
 					return;
 				}
 
-				if(href != T.#previous){
-					const data: WindowLocationData = JSON.parse(
-						JSON.stringify(
-							window.location
-						)
+				try{
+					window.addEventListener(
+						"popstate",
+						(e) => {
+
+							notifyData(
+								JSON.parse(
+									JSON.stringify(
+										e.target.location
+									)
+								)
+							);
+
+						}
 					);
 
-					T.notify(data);
+					T.#inited = true;
 
-					T.#previous = href;
+					notifyData();
+				} catch (e){
+					return;
 				}
 			}
 		);
-	}
-
-	#init(){
-		if(!this.#inited){
-			this.#previous = window.location.href;
-			
-			this.#inited = true;
-		}
-	}
-
-	clear(){
-		clearInterval(this.#_interval);
 	}
 }

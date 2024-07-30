@@ -15,7 +15,7 @@ export const U: LooseObject = {
 };
 
 
-const urlJoin = (...args: string[] ): string => urlJoin(...args);
+const urlJoin = (...args: string[] ): string => _urlJoin(...args);
 U.urlJoin = urlJoin;
 
 
