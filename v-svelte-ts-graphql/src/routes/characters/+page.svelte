@@ -38,6 +38,10 @@
 
 
 //dev
+	import { Observer } from '@tsL/patterns';
+
+
+
 	const initUrl = new URL(data.psl.url);
 
 	let CharactersSearch__init_cachedValues: QueryParamCompatible_Base[] = getQPCBaseListFromURL(initUrl);
