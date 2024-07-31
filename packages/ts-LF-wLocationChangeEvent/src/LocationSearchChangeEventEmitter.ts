@@ -41,6 +41,10 @@ export class LocationSearchChangeEventEmitter extends Observable implements Obse
 		if(data.pathname != this.pathname){
 			return;
 		}
+
+		if(!data.search){
+			return;
+		}
 		
 		const _data: LocationSearchChangeEventData = {
 			pathname: this.pathname,
@@ -53,7 +57,7 @@ export class LocationSearchChangeEventEmitter extends Observable implements Obse
 				_data
 			)
 		);
-		
+
 		this.notify(eventData);
 	}
 }

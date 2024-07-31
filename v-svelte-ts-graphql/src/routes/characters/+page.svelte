@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+
 	import { pushState } from '$app/navigation';
 
 
@@ -8,11 +9,14 @@
 	import { API_CHARACTERS__PATH } from '@tsCF/data';
 
 	import { capitalizeWord } from '@tsLF/pages';
+	
 	import type { ERR } from '@tsCF/pages/src/tileBoard/tiles/index.ts';
 	
 	import type { QueryParamCompatible_Base	} from '@tsLF/forURLSP';
 	import { 
-		getQPCBaseListFromURL
+		getQPCBaseListFromURL,
+		getURLSPSFromQPCBaseList,
+		getQPCBaseListFromURLSearchParams
 	} from '@tsLF/forURLSP';
 
 	import { U } from '@tsL/utils';
@@ -39,6 +43,32 @@
 
 //dev
 	import { Observer } from '@tsL/patterns';
+	import { LocationSearchChangeEventEmitter } from '@tsLF/wLocationChangeEvent';
+
+
+
+
+	const lSCEEmitterCharacters = new LocationSearchChangeEventEmitter(
+		{
+			pathname: '/characters',
+		}
+	);
+	wLocationChangeEventEmitter.attach(lSCEEmitterCharacters);
+
+
+
+	const formExitValuesEmitted = obj => {
+		const {
+			charSearchExit
+		} = obj;
+
+
+		const urlSP = getURLSPSFromQPCBaseList(charSearchExit);
+		
+		pushState('characters?' + urlSP, window.history.state);
+
+		console.log(urlSP);
+	};
 
 
 
@@ -66,7 +96,7 @@
 			data,
 			
 			charSearchExit,
-
+			charSearchExit ? formExitValuesEmitted({charSearchExit}) : 'ass'
 		)
 	}
 
@@ -74,6 +104,21 @@
 	const	pathName = data.psl.route.id.slice(1);
 
 
+	class TestObse extends Observer{
+		
+		onNotification(data: any){
+			const urlSP = new URLSearchParams(data.searchParamsData);
+
+			const qpcs = getQPCBaseListFromURLSearchParams(urlSP);
+
+			console.log('ass', data, urlSP, qpcs);
+
+			CharactersSearch__navigation_values = qpcs;
+			
+		}
+	}
+
+	lSCEEmitterCharacters.attach(new TestObse());
 
 	import type { WT } from '@tsC/api-graphql-to-ex';
 
@@ -110,82 +155,6 @@
 //
 
 
-	/* class URLSearchParamsChangeObserver{
-		#_interval: ReturnType<typeof setInterval>;
-		#previous: string = '';
-		#inited: boolean = false;
-
-		constructor(
-			{
-				pathname
-			} : {
-				pathname: string;
-				
-			}
-		){
-			const T = this;
-
-			T.#_interval = setInterval(
-				() => {
-					let location;
-
-					try{
-						location = window.location;
-						T.#init();
-					} catch (e){
-						// stop me, if u can.
-						return;
-					}
-
-
-					if(location.pathname != pathname){
-						return;
-					}
-
-
-					const previous = T.#previous;
-					const current = location.search;
-
-					if(current != previous){
-
-						U.log({...location})
-
-						T.notify();
-
-						T.#previous = current;
-					}
-				}
-			);
-			
-		}
-
-		#init(){
-			if(!this.#inited){
-				this.#previous = window.location.search;
-				
-				this.#inited = true;
-			}
-		}
-
-		clear(){
-			clearInterval(this.#_interval);
-		}
-
-		attach(){
-
-		}
-
-		notify(){
-		
-		}
-
-	}
-
-	const test_URLSearchParamsChangeObserver = new URLSearchParamsChangeObserver(
-		{
-			pathname: '/characters'
-		}
-	) */
 
 //dopustim u nas est' WindowLocationChangeEventEmitter kakoy-to
 
