@@ -63,9 +63,12 @@
 	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
 	actionExecuterAfterMount.addAction(
 		() => {
-			CustomFormHolder.setValuesToValueStore(entryValueStore, navigation_values);
-			CustomFormHolder.clearNonExistentValuesFromValueStore(entryValueStore, navigation_values);
-			console.log('CS.sv', entryValueStore, navigation_values)
+			const storeValue = CustomFormHolder.makeValueStore(CFIDCList);
+			
+			CustomFormHolder.setValuesToValueStore(storeValue, navigation_values);
+
+			entryValueStore = storeValue;
+
 		}
 	);
 

@@ -223,7 +223,7 @@ CharactersSearch__navigation_values = qpcBaseList;
 
 		let times123 = 0;
 
-		const testCalcInterval = setInterval(()=>{
+		/* const testCalcInterval = setInterval(()=>{
 						CharactersSearch__navigation_values
 						= 'pizdec' + times123;
 
@@ -236,7 +236,7 @@ CharactersSearch__navigation_values = qpcBaseList;
 								CharactersSearch__navigation_values= qpcBaseList.map(e => ({...e, value: times123 + e.value}) )
 							}
 
-					}, 1000)
+					}, 1000) */
 		
 	});
 

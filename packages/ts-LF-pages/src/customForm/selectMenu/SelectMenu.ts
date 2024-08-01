@@ -218,7 +218,7 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 				return;
 			}
 		}
-	
+
 		if(found){
 			this.select(found);
 			return;
@@ -226,6 +226,16 @@ export class SelectMenu implements Listener_ofGlobalMouseEvent_Click{
 
 		// for dev mode???
 		//throw new Error('Incorrect argument. ' + JSON.stringify(arg));
+
+		//blyaaa, ili sdelat' tak, chto esli nicho ne nashlos', to pust' budet default value...
+		//rot ebal bit' odnomu vo vsem etom gavne... T_T
+		else{
+			found = this.options.find(e => !!e.default)
+
+			this.select(
+				found
+			);
+		}
 
 	}
 
