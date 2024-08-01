@@ -228,6 +228,20 @@ export class CustomFormHolder {
 		}
 	}
 	
+	static clearNonExistentValuesFromValueStore(store: ValueStore, values: QueryParamCompatible_Base[]){
+		const params = values.map( e => e.param);
+
+		let keys = Object.keys(store);
+		
+		for(const p of params){
+			keys = keys.filter( e => e != p );
+		}
+
+		for(const k of keys){
+			store[k].value = '';
+		}
+	}
+	
 	getInitCachedValueFor(CFIDC: CustomFormInitDataCompatible_OneOf): QPC_OneOf | void {
 		if(this.#cachedQPCValuesForEachCFIDC[CFIDC.name]){
 			return {...this.#cachedQPCValuesForEachCFIDC[CFIDC.name]};

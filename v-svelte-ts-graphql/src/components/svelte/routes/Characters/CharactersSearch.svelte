@@ -64,6 +64,8 @@
 	actionExecuterAfterMount.addAction(
 		() => {
 			CustomFormHolder.setValuesToValueStore(entryValueStore, navigation_values);
+			CustomFormHolder.clearNonExistentValuesFromValueStore(entryValueStore, navigation_values);
+			console.log('CS.sv', entryValueStore, navigation_values)
 		}
 	);
 
