@@ -16,10 +16,14 @@
 	import { 
 		getQPCBaseListFromURL,
 		getURLSPSFromQPCBaseList,
-		getQPCBaseListFromURLSearchParams
+		getQPCBaseListFromURLSearchParams,
+		getObjArrFromQPCBaseList,
+		getParamObjFromQPCBaseList
 	} from '@tsLF/forURLSP';
 
 	import { U } from '@tsL/utils';
+	
+	import { LocationSearchChangeEventEmitter } from '@tsLF/wLocationChangeEvent';
 
 
 	import { APP_NAME } from '$comps/data';
@@ -41,69 +45,114 @@
 	export let data;
 
 
+	const pageTitle = capitalizeWord(API_CHARACTERS__PATH.name);
+	const	pathName = data.psl.route.id.slice(1);
+
+
+	let CharactersSearch__navigation_values: QueryParamCompatible_Base[] = getQPCBaseListFromURL(new URL(data.psl.url));
+	let CharactersSearch__exit_values: QueryParamCompatible_Base[] = [];
+
+
+
 //dev
-	import { Observer } from '@tsL/patterns';
-	import { LocationSearchChangeEventEmitter } from '@tsLF/wLocationChangeEvent';
 
 
 
 
-	const lSCEEmitterCharacters = new LocationSearchChangeEventEmitter(
+
+	const lSCEEmitter = new LocationSearchChangeEventEmitter(
 		{
-			pathname: '/characters',
+			pathname: '/' + pathName,
 		}
 	);
-	wLocationChangeEventEmitter.attach(lSCEEmitterCharacters);
+	wLocationChangeEventEmitter.attach(lSCEEmitter);
 
 
+
+	import { Observer } from '@tsL/patterns';
+
+
+let mounted = false;
+
+
+	
+const makeTestReq = async (e_v) => {
+	const ofs = getParamObjFromQPCBaseList(e_v);
+
+	console.log(
+	ofs,
+			await wUrql.q.GetCharacters({filter:ofs})
+			/*
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  filter?: InputMaybe<FilterCharacter>;
+
+export type FilterCharacter = {
+  gender?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  species?: InputMaybe<Scalars["String"]["input"]>;
+  status?: InputMaybe<Scalars["String"]["input"]>;
+  type?: InputMaybe<Scalars["String"]["input"]>;
+
+		*/
+			)
+};
 
 	const formExitValuesEmitted = obj => {
+		if(!mounted){return}
 		const {
-			charSearchExit
+			CharactersSearch__exit_values
 		} = obj;
 
-
-		const urlSP = getURLSPSFromQPCBaseList(charSearchExit);
+		if(CharactersSearch__exit_values.length){
+		const urlSP = getURLSPSFromQPCBaseList(CharactersSearch__exit_values);
 		
-		pushState('characters?' + urlSP, window.history.state);
+		pushState(pathName + '?' + urlSP, window.history.state);
 
 		console.log(urlSP);
+		}
+
+		makeTestReq(CharactersSearch__exit_values)
 	};
 
 
 
-	const initUrl = new URL(data.psl.url);
 
-	let CharactersSearch__init_cachedValues: QueryParamCompatible_Base[] = getQPCBaseListFromURL(initUrl);
+	const pushExit_valuesIntoWindowHistory = (exit_values: QueryParamCompatible_Base[], pathName: string, pushState: (p: string, whs: Object) => {}) => {
+		let path = pathName;
 
-	let CharactersSearch__navigation_values = 'asss';
+		if(exit_values.length){
+			const urlSP = getURLSPSFromQPCBaseList(exit_values);
+			
+			path = path + '?' + urlSP;
+		}
 
-	console.log(
-		'QPCBaseList',
-		initUrl,
-		CharactersSearch__init_cachedValues
-	)
+		pushState(path, window.history.state);
+	}
+
 
 
 	let tiles: GT.CharacterPreviewFieldsFragment[] | ERR = [];
 
 	$: _tiles = tiles;
-	$:charSearchExit = undefined;
 	$:{
+
 		console.log(
 			'page.svelte',
 
 			data,
 			
-			charSearchExit,
-			charSearchExit ? formExitValuesEmitted({charSearchExit}) : 'ass'
-		)
+			CharactersSearch__exit_values,
+			CharactersSearch__exit_values ? formExitValuesEmitted({CharactersSearch__exit_values}) : 'ass'
+		);
+
+		// CharactersSearch__exit_values update | on APPLY event
+		// push exit_values into window history //path?foo=bar
+		// make request with exit_values
+		
 	}
 
-	const pageTitle = capitalizeWord(API_CHARACTERS__PATH.name);
-	const	pathName = data.psl.route.id.slice(1);
 
-
+	// PreviousSearchParamsLoader
 	class TestObse extends Observer{
 		
 		onNotification(data: any){
@@ -113,26 +162,18 @@
 
 			console.log('ass', data, urlSP, qpcs);
 
+			// draw foo=bar in form
 			CharactersSearch__navigation_values = qpcs;
+
+			//load/request previous data and draw it...
 			
 		}
 	}
 
-	lSCEEmitterCharacters.attach(new TestObse());
+	lSCEEmitter.attach(new TestObse());
 
 	import type { WT } from '@tsC/api-graphql-to-ex';
 
-//  plan for URLSearchParams Change thing
-//		make customEvent
-//		add it with context/index
-//  after that make event handler and etc for that customEvent...
-
-
-// make defence from the same values APPLY
-
-
-//	class DataLoaderFromURLSearchParams{}
-// 
 
 
 // SpecialPathnameLocationSearchChangeEventEmitter
@@ -153,93 +194,23 @@
 //     pushState??? when???
 //     make loading
 //
+// 
 
 
+	onMount(
+		async () => {
+			mounted = true;
 
-//dopustim u nas est' WindowLocationChangeEventEmitter kakoy-to
+			const chars = await wUrql.q.GetCharacters();
 
-
-
-
-//blya hochu zeleniy den...
-	 const qpcBaseList: QueryParamCompatible_Base[] = [
-
-	 
-		{
-			param: 'gender',
-			value: 'm ale'
-		},
-
-		{
-			param: 'gender',
-			value: 'female'
-		},
-		{
-			param: 'gender',
-			value: '333male'
-		},
-
-
-		{
-			param: 'type',
-			value: 'Parasit'
-		},
-
-		{
-			param: 'invalidType',
-			value: 'Parasit'
-		},
-		{
-			param: 'type',
-			value: '11Parasit'
-		},
-
-
-		{
-			param: 'species',
-			value: 'ParasitSPe'
-		},
-
-
-		{
-			param: 'episode',
-			value: 'lol invalid'
-		},
-		{
-			param: 'episode',
-			value: 'S01'
-		},
-
-	]; 
-	
-
-
-
-//dev
-
-CharactersSearch__navigation_values = qpcBaseList;
-	onMount(async () => {
-//		tiles = await getCharacterTiles(wUrql)
-
-		let times123 = 0;
-
-		/* const testCalcInterval = setInterval(()=>{
-						CharactersSearch__navigation_values
-						= 'pizdec' + times123;
-
-						if(times123 > 0){
-							clearInterval(testCalcInterval);
-								CharactersSearch__navigation_values = [{param:"status", value:"alive"}];
-							}else{
-								times123++;
-
-								CharactersSearch__navigation_values= qpcBaseList.map(e => ({...e, value: times123 + e.value}) )
-							}
-
-					}, 1000) */
-		
-	});
-
+			U.log(chars);
+		}
+	);
+U.log(
+			CharactersSearch__exit_values,
+			CharactersSearch__navigation_values
+			
+		)
 </script>
 
 <svelte:head>
@@ -250,10 +221,10 @@ CharactersSearch__navigation_values = qpcBaseList;
 <SearchItemNav {pathName}>
 	<CharactersSearch
 		bind:exit_values = {
-			charSearchExit
+			CharactersSearch__exit_values
 		}
 		init_cachedValues = {
-			CharactersSearch__init_cachedValues
+			CharactersSearch__navigation_values
 		}
 		bind:navigation_values = {
 			CharactersSearch__navigation_values

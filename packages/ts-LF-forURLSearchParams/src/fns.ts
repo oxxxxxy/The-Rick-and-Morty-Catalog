@@ -17,7 +17,7 @@ export const getQPCBaseListFromURLSearchParams = (uRLSP: URLSearchParams): Query
 export const getQPCBaseListFromURL = (url: URL): QueryParamCompatible_Base[] => 
 	getQPCBaseListFromURLSearchParams(url.searchParams);
 
-export const getInputForURLSPfromQPCBaseList = (qpcList: QueryParamCompatible_Base[]): {[key: string]: any} => 
+export const getObjArrFromQPCBaseList = (qpcList: QueryParamCompatible_Base[]): {[key: string]: any}[] =>
 	qpcList.map(
 		e => {
 			const obj = {};
@@ -26,10 +26,17 @@ export const getInputForURLSPfromQPCBaseList = (qpcList: QueryParamCompatible_Ba
 
 			return obj;
 		}
+	);
+
+export const getParamObjFromQPCBaseList = (qpcList: QueryParamCompatible_Base[]): {[key: string]: any} => 
+	getObjArrFromQPCBaseList(
+		qpcList
 	).reduce(
 		(ac, e) => ({...e, ...ac})
 		,{}
 	);
+
+export const getInputForURLSPfromQPCBaseList = getParamObjFromQPCBaseList;
 
 export const getURLSPSFromQPCBaseList = (qpcList: QueryParamCompatible_Base[]): URLSearchParams => 
 	new URLSearchParams(

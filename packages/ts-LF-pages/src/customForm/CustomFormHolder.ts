@@ -171,6 +171,7 @@ export class CustomFormHolder {
 		this.#guard();
 
 		let applyActivity = true;
+		// i think, it's better to have opportunity to make empty apply...
 
 		for(const v in exitValueStore){
 			const qpc = exitValueStore[v];

@@ -44,7 +44,7 @@ export abstract class Observable{
 		}
 	}
 
-	protected attach(observer: Observer){
+	attach(observer: Observer){
 		this.observers.push(observer);
 	}
 }
