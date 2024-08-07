@@ -55,10 +55,8 @@
 
 
 //dev
+//okay
 
-	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
-
-	const ignoreOneErrorCrutch = new U.IgnoreFewTimesCrutch(1);
 	
 
 	const lSCEEmitter = new LocationSearchChangeEventEmitter(
@@ -68,52 +66,8 @@
 	);
 	wLocationChangeEventEmitter.attach(lSCEEmitter);
 
-	const wrappedSveltePushStateBczThereIsErrorWhenLoaded = (p, whs) => {
-		// window.history.pushState(whs, '', p); // <-- this works fine, but svelte pushState is not.
-		// so, this miss/crutch/shit only for first error, which emits when loaded...
-		// or I am doing a peace of shit again... goddamn...
-		// UPD1: it appears only on loading exactly host/characters... so, i need smart crutch(shit solution(or svelte design is shit(or i'm fucking idiot(shut up(okay))))).
 
 
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded')	
-		if(!ignoreOneErrorCrutch.isFinished()){
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded IF')
-		if(!data.psl.isDataRequest){
-			try{
-				pushState(p, whs);
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded Try')	
-			}catch(e){
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded ERROR')	
-				ignoreOneErrorCrutch.do();
-			}
-		}else{
-				//pushState(p, whs);
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded !data else')	
-				ignoreOneErrorCrutch.do();
-		
-		}
-		} else {
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded ELSE')	
-			pushState(p, whs);
-		}
-
-
-		/* console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded')	
-		if(!ignoreOneErrorCrutch.isFinished() && !data.psl.isDataRequest){
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded IF')	
-			try{
-				pushState(p, whs);
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded Try')	
-			}catch(e){
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded ERROR')	
-				ignoreOneErrorCrutch.do();
-			}
-		} else {
-		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded ELSE')	
-			pushState(p, whs);
-		} */
-
-	};
 
 	const pushExit_valuesIntoWindowHistory = (exit_values: QueryParamCompatible_Base[], pathName: string, pushState: (p: string, whs: Object) => unknown) => {
 		let path = pathName;
@@ -127,10 +81,30 @@
 		pushState(path, window.history.state);
 	}
 
+//okay
+
+
+	const ignoreExitValueTransferOnceCrutch = new U.IgnoreFewTimesCrutch(1);
+
+	const wrappedSveltePushStateBczThereIsErrorWhenLoaded = (p, whs) => {
+		// window.history.pushState(whs, '', p); // <-- this works fine, but svelte pushState is not.
+		// so, this miss/crutch/shit only for first error, which emits when loaded...
+		// or I am doing a peace of shit again... goddamn...
+		// UPD1: it appears only on loading exactly host/characters... so, i need smart crutch(shit solution(or svelte design is shit(or i'm fucking idiot(shut up(okay))))).
+		// UPD2: it appears when user navigate to host/characters and when loading exactly this path... so, i just need ingnore exit_value transfer once. bcz i don't need the same value in history state twice.
+		// upd3: i'm idiot. this appears bcz i transfer navigation_values... so, it's crutch to save design. i don't want to recode it to divide CustomFormHolder item draw and transfer parts on two separate things.
+
+		if(!ignoreExitValueTransferOnceCrutch.isFinished()){
+			ignoreExitValueTransferOnceCrutch.do();
+		} else {
+			pushState(p, whs);
+		}
+	};
 
 
 	import { Observer } from '@tsL/patterns';
 
+	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
 
 
 
@@ -161,16 +135,14 @@ export type FilterCharacter = {
 			CharactersSearch__exit_values
 		} = obj;
 
-console.log('asdf')
 		pushExit_valuesIntoWindowHistory(CharactersSearch__exit_values, pathName, wrappedSveltePushStateBczThereIsErrorWhenLoaded);
-console.log('asdf2')
 
 		makeTestReq(CharactersSearch__exit_values)
 	};
 
 	actionExecuterAfterMount.addIdAction('testdev', formExitValuesEmitted);
 
-	class PageSearch{
+	class PageSearchDraftName{
 
 
 		setExitValues(e_v: QueryParamCompatible_Base[]){
@@ -255,7 +227,6 @@ console.log('asdf2')
 
 	onMount(
 		() => {
-			U.log('asdf3')
 			actionExecuterAfterMount.setReady();
 
 
