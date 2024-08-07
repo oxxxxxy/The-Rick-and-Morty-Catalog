@@ -1,5 +1,6 @@
 <script lang="ts">
-
+	
+	import PaginationBoard from './pagination/PaginationBoard.svelte';
 
 </script>
 
@@ -30,14 +31,15 @@
 		results
 	</div>
 
+	<PaginationBoard 
+		
+	/>
 
 	<div
 		class="
 			result-board
 		"
 	>
-
 		<slot />
-
 	</div>
 </div>

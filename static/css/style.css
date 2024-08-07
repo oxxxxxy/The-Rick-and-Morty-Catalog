@@ -363,6 +363,12 @@ p {
   margin-right: 5px;
   margin-bottom: 5px;
 }
+.pagination-item-selected{
+	background-color: var(--colorPalette-b6b6b6);
+  color: var(--colorPalette-181a1b);
+  border: solid 2px var(--colorPalette-b6b6b6);
+  cursor: default;
+}
 .pagination-item:first-child {
   margin-left: 5px;
 }

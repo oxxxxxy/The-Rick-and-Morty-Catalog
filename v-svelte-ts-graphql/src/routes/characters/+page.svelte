@@ -38,8 +38,7 @@
 	import CharactersSearch from '$comps/svelte/routes/Characters/CharactersSearch.svelte';
 	import TileBoard from '$comps/svelte/tileBoard/TileBoard.svelte';
 	import CharacterTile from '$comps/svelte/tileBoard/tiles/CharacterTile.svelte';
-	import ResultsBlock from '$comps/svelte/resultsBlock/ResultsBlock.svelte';
-
+	import TileBoard_Search from '$comps/svelte/tileBoard_Search/TileBoard_Search.svelte';
 
 
 
@@ -254,10 +253,14 @@ export type FilterCharacter = {
 	);
 </script>
 
+
+
+
 <svelte:head>
 	<title>{ pageTitle } • { APP_NAME }</title>
 	<meta name="description" content="{ APP_NAME } { pageTitle }" />
 </svelte:head>
+
 
 <SearchItemNav {pathName}>
 	<CharactersSearch
@@ -272,12 +275,17 @@ export type FilterCharacter = {
 		}
 	/>
 </SearchItemNav>
+
+
+<!-- nado chto-to vidumat' t.k. mojet bit' loading, results and error(which may be as ~popup) -->
+
+<TileBoard_Search />
+
 <TileBoard>
 	{#if _tiles === 'ERR'}
 		<p>Network Error. Try later or kill yourself. Thank you.</p>
 	{:else if _tiles.length}
 
-		<ResultsBlock />
 
 <!--		{#each _tiles as tile }
 			<CharacterTile data={tile.data} />
