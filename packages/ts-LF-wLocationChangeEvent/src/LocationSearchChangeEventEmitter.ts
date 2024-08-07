@@ -42,10 +42,6 @@ export class LocationSearchChangeEventEmitter extends Observable implements Obse
 			return;
 		}
 
-		if(!data.search){
-			return;
-		}
-		
 		const _data: LocationSearchChangeEventData = {
 			pathname: this.pathname,
 			searchParamsData: data.search,

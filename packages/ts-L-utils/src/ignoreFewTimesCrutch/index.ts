@@ -16,6 +16,6 @@ export class IgnoreFewTimesCrutch{
 	}
 
 	isFinished(): boolean{
-		return this.ignores > this.times;
+		return this.ignores >= this.times;
 	}
 }
