@@ -56,9 +56,10 @@
 
 //dev
 
+	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
 
-
-
+	const ignoreOneErrorCrutch = new U.IgnoreFewTimesCrutch(1);
+	
 
 	const lSCEEmitter = new LocationSearchChangeEventEmitter(
 		{
@@ -67,12 +68,70 @@
 	);
 	wLocationChangeEventEmitter.attach(lSCEEmitter);
 
+	const wrappedSveltePushStateBczThereIsErrorWhenLoaded = (p, whs) => {
+		// window.history.pushState(whs, '', p); // <-- this works fine, but svelte pushState is not.
+		// so, this miss/crutch/shit only for first error, which emits when loaded...
+		// or I am doing a peace of shit again... goddamn...
+		// UPD1: it appears only on loading exactly host/characters... so, i need smart crutch(shit solution(or svelte design is shit(or i'm fucking idiot(shut up(okay))))).
+
+
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded')	
+		if(!ignoreOneErrorCrutch.isFinished()){
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded IF')
+		if(!data.psl.isDataRequest){
+			try{
+				pushState(p, whs);
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded Try')	
+			}catch(e){
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded ERROR')	
+				ignoreOneErrorCrutch.do();
+			}
+		}else{
+				//pushState(p, whs);
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded !data else')	
+				ignoreOneErrorCrutch.do();
+		
+		}
+		} else {
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded ELSE')	
+			pushState(p, whs);
+		}
+
+
+		/* console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded')	
+		if(!ignoreOneErrorCrutch.isFinished() && !data.psl.isDataRequest){
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded IF')	
+			try{
+				pushState(p, whs);
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded Try')	
+			}catch(e){
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded ERROR')	
+				ignoreOneErrorCrutch.do();
+			}
+		} else {
+		console.log('wrappedSveltePushStateBczThereIsErrorWhenLoaded ELSE')	
+			pushState(p, whs);
+		} */
+
+	};
+
+	const pushExit_valuesIntoWindowHistory = (exit_values: QueryParamCompatible_Base[], pathName: string, pushState: (p: string, whs: Object) => unknown) => {
+		let path = pathName;
+
+		if(exit_values.length){
+			const urlSP = getURLSPSFromQPCBaseList(exit_values);
+			
+			path = path + '?' + urlSP;
+		}
+
+		pushState(path, window.history.state);
+	}
+
 
 
 	import { Observer } from '@tsL/patterns';
 
 
-let mounted = false;
 
 
 	
@@ -98,36 +157,31 @@ export type FilterCharacter = {
 };
 
 	const formExitValuesEmitted = obj => {
-		if(!mounted){return}
 		const {
 			CharactersSearch__exit_values
 		} = obj;
 
-		if(CharactersSearch__exit_values.length){
-		const urlSP = getURLSPSFromQPCBaseList(CharactersSearch__exit_values);
-		
-		pushState(pathName + '?' + urlSP, window.history.state);
-
-		console.log(urlSP);
-		}
+console.log('asdf')
+		pushExit_valuesIntoWindowHistory(CharactersSearch__exit_values, pathName, wrappedSveltePushStateBczThereIsErrorWhenLoaded);
+console.log('asdf2')
 
 		makeTestReq(CharactersSearch__exit_values)
 	};
 
+	actionExecuterAfterMount.addIdAction('testdev', formExitValuesEmitted);
+
+	class PageSearch{
 
 
+		setExitValues(e_v: QueryParamCompatible_Base[]){
 
-	const pushExit_valuesIntoWindowHistory = (exit_values: QueryParamCompatible_Base[], pathName: string, pushState: (p: string, whs: Object) => {}) => {
-		let path = pathName;
-
-		if(exit_values.length){
-			const urlSP = getURLSPSFromQPCBaseList(exit_values);
-			
-			path = path + '?' + urlSP;
 		}
 
-		pushState(path, window.history.state);
+		apply(){
+
+		}
 	}
+
 
 
 
@@ -136,14 +190,16 @@ export type FilterCharacter = {
 	$: _tiles = tiles;
 	$:{
 
+
 		console.log(
 			'page.svelte',
 
-			data,
+			//data,
 			
 			CharactersSearch__exit_values,
-			CharactersSearch__exit_values ? formExitValuesEmitted({CharactersSearch__exit_values}) : 'ass'
 		);
+			U.log('asdf34')
+		actionExecuterAfterMount.execById('testdev', [{CharactersSearch__exit_values}]);
 
 		// CharactersSearch__exit_values update | on APPLY event
 		// push exit_values into window history //path?foo=bar
@@ -198,12 +254,15 @@ export type FilterCharacter = {
 
 
 	onMount(
-		async () => {
-			mounted = true;
+		() => {
+			U.log('asdf3')
+			actionExecuterAfterMount.setReady();
 
-			const chars = await wUrql.q.GetCharacters();
 
-			U.log(chars);
+
+		///	const chars = await wUrql.q.GetCharacters();
+
+			///U.log(chars);
 		}
 	);
 U.log(

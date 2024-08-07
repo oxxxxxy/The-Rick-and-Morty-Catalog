@@ -1,8 +1,10 @@
 export type UnknownFunc = () => unknown;
+export type UnknownFuncWithArgs = (...args: any[]) => unknown;
 
 export class ActionExecuterAfterCondition{
 	#ready: boolean = false;
 	#actions: UnknownFunc[] = [];
+	#idActions: {[key: string]: UnknownFunc | UnknownFuncWithArgs} = {};
 
 	constructor(fns?: UnknownFunc[]){
 		if(fns){
@@ -12,6 +14,34 @@ export class ActionExecuterAfterCondition{
 
 	setReady(){
 		this.#ready = true;
+	}
+	
+	addIdAction(id: string, fn: UnknownFuncWithArgs | UnknownFunc){
+		if(this.#idActions[id]){
+			throw new Error('IdAction "' + id + '" already exists.');
+		}
+
+		this.#idActions[id] = fn;
+	}
+
+	execById(id: string, args?: any[]): unknown{
+		if(!this.#ready){
+			return;
+		}
+
+		if(!this.#idActions[id]){
+			throw new Error('IdAction "' + id + '" does not exist.');
+		}
+
+		if(!args){
+			args = [];
+		}
+
+		return this.#idActions[id](...args);
+	}
+
+	removeIdAction(id: string){
+		delete this.#idActions[id];
 	}
 
 	addAction(fn: UnknownFunc){

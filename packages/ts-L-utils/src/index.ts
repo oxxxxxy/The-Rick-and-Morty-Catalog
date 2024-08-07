@@ -6,12 +6,16 @@ import { nanoid } from 'nanoid';
 
 import { ActionExecuterAfterCondition } from './actionExecuterAfterCondition';
 
+import { IgnoreFewTimesCrutch } from './ignoreFewTimesCrutch';
+
 
 
 
 export const U: LooseObject = {
 	nanoid,
-	ActionExecuterAfterCondition
+	ActionExecuterAfterCondition,
+	IgnoreFewTimesCrutch,
+
 };
 
 
