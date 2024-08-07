@@ -38,6 +38,7 @@
 	import CharactersSearch from '$comps/svelte/routes/Characters/CharactersSearch.svelte';
 	import TileBoard from '$comps/svelte/tileBoard/TileBoard.svelte';
 	import CharacterTile from '$comps/svelte/tileBoard/tiles/CharacterTile.svelte';
+	import ResultsBlock from '$comps/svelte/resultsBlock/ResultsBlock.svelte';
 
 
 
@@ -55,6 +56,8 @@
 
 
 //dev
+	import type { WT } from '@tsC/api-graphql-to-ex';
+
 //okay
 
 	
@@ -69,11 +72,11 @@
 
 
 
-	const pushExit_valuesIntoWindowHistory = (exit_values: QueryParamCompatible_Base[], pathName: string, pushState: (p: string, whs: Object) => unknown) => {
+	const pushIntoWindowHistory = (values: QueryParamCompatible_Base[], pathName: string, pushState: (p: string, whs: Object) => unknown) => {
 		let path = pathName;
 
-		if(exit_values.length){
-			const urlSP = getURLSPSFromQPCBaseList(exit_values);
+		if(values.length){
+			const urlSP = getURLSPSFromQPCBaseList(values);
 			
 			path = path + '?' + urlSP;
 		}
@@ -161,8 +164,8 @@ export type FilterCharacter = {
 		// push exit_values into window history //path?foo=bar
 		// make request with exit_values
 		
-
-		pushExit_valuesIntoWindowHistory(CharactersSearch__exit_values, pathName, pushState);
+		//CharactersSearch__exit_values + page num
+		pushIntoWindowHistory(CharactersSearch__exit_values, pathName, pushState);
 
 		makeTestReq(CharactersSearch__exit_values)
 	};
@@ -173,37 +176,34 @@ export type FilterCharacter = {
 		}
 	);
 
-	const ActionId_For_actionExecuterAfterMount = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
+
+
+
+	const ActionId_ApplyDataFromCharactersSearch = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
 
 	actionExecuterAfterMount.addIdAction(
-		ActionId_For_actionExecuterAfterMount,
+		ActionId_ApplyDataFromCharactersSearch,
 		ignoreFnExecAfterExitValueTransferOnce
 	);
 
+
+
+
 	class PageSearchDraftName{
+		#prevExitValues: QueryParamCompatible_Base[] | undefined;
+		#exitValues: QueryParamCompatible_Base[] = [];
 
-
-		setExitValues(e_v: QueryParamCompatible_Base[]){
-
+		setExitValues(exit_values: QueryParamCompatible_Base[]){
+			this.#exitValues = exit_values;
 		}
+
+
 
 		apply(){
 
 		}
 	}
 
-
-
-
-	let tiles: GT.CharacterPreviewFieldsFragment[] | ERR = [];
-
-	$: _tiles = tiles;
-	$:{
-		actionExecuterAfterMount.execById(
-			ActionId_For_actionExecuterAfterMount,
-			[CharactersSearch__exit_values]
-		);
-	}
 
 
 	// PreviousSearchParamsLoader
@@ -216,9 +216,12 @@ export type FilterCharacter = {
 
 			console.log('ass', data, urlSP, qpcs);
 
+			const pageParamName = 'page';
+
+			const QPCPage = qpcs.find(e => e.param === pageParamName );
+
 			// draw foo=bar in form
 			CharactersSearch__navigation_values = qpcs;
-U.log('foo=bar', qpcs)
 			//load/request previous data and draw it...
 			
 		}
@@ -226,47 +229,29 @@ U.log('foo=bar', qpcs)
 
 	lSCEEmitter.attach(new TestObse());
 
-	import type { WT } from '@tsC/api-graphql-to-ex';
 
 
+	let tiles: GT.CharacterPreviewFieldsFragment[] | ERR = [1];
 
-// SpecialPathnameLocationSearchChangeEventEmitter
-//   filter for pathname, return window.location
-//
-// Class oberver for SpecialPathnameLocationSearchChangeEventEmitter
-//   to filter the same values ?foo=bar
-//   return window.location if unique
-//
-// Thing to check is value from applying form or returned by browsing history
-//  if from form
-//    do nothing
-//  else 
-//    make Loading
+	$: _tiles = tiles;
 
-// apply thing
-//   if event data from form
-//     pushState??? when???
-//     make loading
-//
-// 
+
+	$:{
+		actionExecuterAfterMount.execById(
+			ActionId_ApplyDataFromCharactersSearch,
+			[CharactersSearch__exit_values]
+		);
+	}
 
 
 	onMount(
 		() => {
 			actionExecuterAfterMount.setReady();
+			
+			//make req to load init characters
 
-
-
-		///	const chars = await wUrql.q.GetCharacters();
-
-			///U.log(chars);
 		}
 	);
-U.log(
-			CharactersSearch__exit_values,
-			CharactersSearch__navigation_values
-			
-		)
 </script>
 
 <svelte:head>
@@ -291,12 +276,12 @@ U.log(
 	{#if _tiles === 'ERR'}
 		<p>Network Error. Try later or kill yourself. Thank you.</p>
 	{:else if _tiles.length}
-		<p>RESULTS</p>
-		<p>tiles</p>
 
-		{#each _tiles as tile }
+		<ResultsBlock />
+
+<!--		{#each _tiles as tile }
 			<CharacterTile data={tile.data} />
-		{/each}
+		{/each}-->
 	{:else}
 		<p>Loading...</p>
 	{/if}
