@@ -2,6 +2,9 @@
 	
 	import PaginationBoard from './pagination/PaginationBoard.svelte';
 
+
+	export let PaginationBoard__entry_value;
+
 </script>
 
 <div
@@ -31,8 +34,21 @@
 		results
 	</div>
 
+	<div
+		class="
+			margin-10
+			tt-uppercase
+		"
+	>
+		available characters : 1488
+		<br>
+		page count : 34
+	</div>
+
 	<PaginationBoard 
-		
+		bind:entry_value={
+			PaginationBoard__entry_value
+		}
 	/>
 
 	<div
