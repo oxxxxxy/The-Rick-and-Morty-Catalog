@@ -47,7 +47,6 @@
 			const index = pageRange.findIndex(e => e.pageNum === selectedPageNum);
 			pageRange[index].selected = true;
 			
-					console.log('\n', countOfPages, buttonViewingLimit, selectedPageNum, '\n', pageRange)
 			return pageRange;
 		}
 		
