@@ -2,6 +2,7 @@
 /repo-backup
 /secret
 /sandbox
+/packages/0empty
 
 *.backup
 *node_modules

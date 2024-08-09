@@ -1,9 +1,14 @@
 <script lang="ts">
+	import type { 
+		PaginationBoardValue,
+		PaginationItem
+	} from '@tsLF/pages';
 	
 	import PaginationBoard from './pagination/PaginationBoard.svelte';
 
 
-	export let PaginationBoard__entry_value;
+	export let PaginationBoard__entry_value: PaginationBoardValue;
+	export let PaginationBoard__exit_value: PaginationItem | undefined;
 
 </script>
 
@@ -48,6 +53,9 @@
 	<PaginationBoard 
 		bind:entry_value={
 			PaginationBoard__entry_value
+		}
+		bind:exit_value={
+			PaginationBoard__exit_value
 		}
 	/>
 
