@@ -3,12 +3,35 @@
 		PaginationBoardValue,
 		PaginationItem
 	} from '@tsLF/pages';
-	
+
+	import type { TileBoard_SearchValue } from '@tsCF/pages';
+
+
 	import PaginationBoard from './pagination/PaginationBoard.svelte';
 
 
-	export let PaginationBoard__entry_value: PaginationBoardValue;
-	export let PaginationBoard__exit_value: PaginationItem | undefined;
+
+
+	export let update_value: TileBoard_SearchValue;
+	export let exit_value: PaginationItem | undefined;
+
+
+	if(!update_value){
+		throw new Error('update_value is required.');
+	}
+
+
+	let PaginationBoard__entry_value: PaginationBoardValue;
+
+
+	$:{
+		PaginationBoard__entry_value = {
+			pageCount : update_value.pageCount,
+			selectedPage: update_value.selectedPage,
+			buttonViewingLimit: 7
+		}
+	}
+
 
 </script>
 
@@ -45,9 +68,9 @@
 			tt-uppercase
 		"
 	>
-		available characters : 1488
+		available { update_value.availableItemsTitle } : { update_value.availableItemsCount }
 		<br>
-		page count : 34
+		page count : { update_value.pageCount }
 	</div>
 
 	<PaginationBoard 
@@ -55,7 +78,7 @@
 			PaginationBoard__entry_value
 		}
 		bind:exit_value={
-			PaginationBoard__exit_value
+			exit_value
 		}
 	/>
 

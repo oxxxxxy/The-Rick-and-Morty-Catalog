@@ -280,10 +280,16 @@ export type FilterCharacter = {
 <!-- nado chto-to vidumat' t.k. mojet bit' loading, results and error(which may be as ~popup) -->
 
 <TileBoard_Search
-PaginationBoard__entry_value={
-	({pageCount: 11, buttonViewingLimit: 7, selectedPage
-	:5})
-}
+	update_value={
+		(
+			{
+				pageCount: 11,
+				selectedPage: 5,
+				availableItemsTitle: 'testik123',
+				availableItemsCount: 228
+			}
+		)
+	}
 
 />
 
