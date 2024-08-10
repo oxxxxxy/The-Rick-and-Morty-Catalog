@@ -7,13 +7,13 @@
 	import type { TileBoard_SearchValue } from '@tsCF/pages';
 
 
-	import PaginationBoard from './pagination/PaginationBoard.svelte';
+	import PaginationBoard from '$comps/svelte/pagination/PaginationBoard.svelte';
 
 
 
 
 	export let update_value: TileBoard_SearchValue;
-	export let exit_value: PaginationItem | undefined;
+	export let pagination__exit_value: number | undefined;
 
 
 	if(!update_value){
@@ -22,6 +22,7 @@
 
 
 	let PaginationBoard__entry_value: PaginationBoardValue;
+	let PaginationBoard__exit_value: PaginationItem;
 
 
 	$:{
@@ -31,9 +32,16 @@
 			buttonViewingLimit: 7
 		}
 	}
-
+	$:{
+		if(PaginationBoard__exit_value){
+			pagination__exit_value = PaginationBoard__exit_value.pageNum
+		}
+	}
 
 </script>
+
+
+
 
 <div
 	class="
@@ -78,7 +86,7 @@
 			PaginationBoard__entry_value
 		}
 		bind:exit_value={
-			exit_value
+			PaginationBoard__exit_value
 		}
 	/>
 

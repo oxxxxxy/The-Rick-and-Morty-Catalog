@@ -7,6 +7,9 @@
 	import type { GT } from '@tsC/api-graphql-to-ex';
 
 	import { API_CHARACTERS__PATH } from '@tsCF/data';
+	import type {
+		TileBoard_SearchValue
+	} from '@tsCF/data';
 
 	import { capitalizeWord } from '@tsLF/pages';
 	
@@ -235,11 +238,24 @@ export type FilterCharacter = {
 	$: _tiles = tiles;
 
 
+	let TileBoard_SearchUpdateValue: TileBoard_SearchValue = {
+		pageCount: 11,
+		selectedPage: 5,
+		availableItemsTitle: 'testik123',
+		availableItemsCount: 228
+	};
+
 	$:{
 		actionExecuterAfterMount.execById(
 			ActionId_ApplyDataFromCharactersSearch,
 			[CharactersSearch__exit_values]
 		);
+	}
+
+	let pagination__exit_value: number | undefined;
+	$:{
+		pagination__exit_value = pagination__exit_value;
+		U.log(pagination__exit_value, 'asdf')
 	}
 
 
@@ -277,32 +293,25 @@ export type FilterCharacter = {
 </SearchItemNav>
 
 
-<!-- nado chto-to vidumat' t.k. mojet bit' loading, results and error(which may be as ~popup) -->
-
-<TileBoard_Search
-	update_value={
-		(
-			{
-				pageCount: 11,
-				selectedPage: 5,
-				availableItemsTitle: 'testik123',
-				availableItemsCount: 228
-			}
-		)
-	}
-
-/>
-
-<TileBoard>
-	{#if _tiles === 'ERR'}
+{#if _tiles === 'ERR'}
+	<TileBoard>
 		<p>Network Error. Try later or kill yourself. Thank you.</p>
-	{:else if _tiles.length}
-
-
-<!--		{#each _tiles as tile }
-			<CharacterTile data={tile.data} />
-		{/each}-->
-	{:else}
+	</TileBoard>
+{:else if _tiles.length}
+	<TileBoard_Search
+		bind:update_value={
+			TileBoard_SearchUpdateValue
+		}
+		bind:pagination__exit_value={
+			pagination__exit_value
+		}
+	>
+  <!--		{#each _tiles as tile }
+		<CharacterTile data={tile.data} />
+	{/each}-->
+	</TileBoard_Search>
+{:else}
+	<TileBoard>
 		<p>Loading...</p>
-	{/if}
-</TileBoard>
+	</TileBoard>
+{/if}
