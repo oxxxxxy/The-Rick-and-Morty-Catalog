@@ -7,13 +7,16 @@
 	import type { GT } from '@tsC/api-graphql-to-ex';
 
 	import { API_CHARACTERS__PATH } from '@tsCF/data';
-	import type {
-		TileBoard_SearchValue
-	} from '@tsCF/data';
 
 	import { capitalizeWord } from '@tsLF/pages';
 	
-	import type { ERR } from '@tsCF/pages/src/tileBoard/tiles/index.ts';
+	import type {
+		TileBoard_SearchValue,
+		ERR
+	} from '@tsCF/pages';
+	import {
+		TileBoard_SearchValueBuilder
+	} from '@tsCF/pages';
 	
 	import type { QueryParamCompatible_Base	} from '@tsLF/forURLSP';
 	import { 
@@ -216,6 +219,8 @@ export type FilterCharacter = {
 
 			const qpcs = getQPCBaseListFromURLSearchParams(urlSP);
 
+
+
 			console.log('ass', data, urlSP, qpcs);
 
 			const pageParamName = 'page';
@@ -225,17 +230,42 @@ export type FilterCharacter = {
 			// draw foo=bar in form
 			CharactersSearch__navigation_values = qpcs;
 			//load/request previous data and draw it...
+			// make TileBoard_SearchValue 
 			
 		}
 	}
 
 	lSCEEmitter.attach(new TestObse());
 
+		/*
+		#externalSetValue: ((v: TileBoard_SearchValue) => void) | undefined;
+
+		addSelectedPageFromQPCList(v: QueryParamCompatible_Base[]){
+			
+		}
+		setExternalValue(){
+			if(!this.#externalSetValue){
+				throw new Error('externalSetValue is not defined.');
+			}
+
+			this.#externalSetValue(this.build());
+		} */
+
 
 
 	let tiles: GT.CharacterPreviewFieldsFragment[] | ERR = [1];
 
 	$: _tiles = tiles;
+
+
+
+	$:{
+		actionExecuterAfterMount.execById(
+			ActionId_ApplyDataFromCharactersSearch,
+			[CharactersSearch__exit_values]
+		);
+	}
+
 
 
 	let TileBoard_SearchUpdateValue: TileBoard_SearchValue = {
@@ -245,12 +275,7 @@ export type FilterCharacter = {
 		availableItemsCount: 228
 	};
 
-	$:{
-		actionExecuterAfterMount.execById(
-			ActionId_ApplyDataFromCharactersSearch,
-			[CharactersSearch__exit_values]
-		);
-	}
+	const setTileBoard_SearchValue = (v: TileBoard_SearchValue) => (TileBoard_SearchUpdateValue = v);
 
 	let pagination__exit_value: number | undefined;
 	$:{
@@ -267,6 +292,38 @@ export type FilterCharacter = {
 
 		}
 	);
+
+// CHTOOOO U MENYA EST'???
+/*
+
+whole pagination thing
+	exit value
+		pagination number
+	update value
+		TileBoard_SearchValue
+			syuda add page number from
+				QuerySearchParam
+				user select paginationItem
+
+tile list
+	CharacterTile value
+
+CharactersSearch filter|tool-huyul
+	init values
+		CharactersSearch__navigation_values/qpc list from location.search
+	update value/navigation_values
+		qpc list from location.search
+			make search request
+	exit value
+		qpc list
+			make search request
+			add QuerySearchParam in history
+	
+
+
+
+*/
+
 </script>
 
 
