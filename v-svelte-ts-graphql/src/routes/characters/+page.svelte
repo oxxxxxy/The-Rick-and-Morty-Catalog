@@ -33,8 +33,9 @@
 	import { U } from '@tsL/utils';
 	
 	import { LocationSearchChangeEventEmitter } from '@tsLF/wLocationChangeEvent';
+	import type { WindowLocationData } from '@tsLF/wLocationChangeEvent';
 
-	import type { WT, GT } from '@tsC/api-graphql-to-ex';
+	import type { WT, GT, UT } from '@tsC/api-graphql-to-ex';
 
 	import { Observer } from '@tsL/patterns';
 
@@ -148,23 +149,24 @@
 const makeTestReq = async (e_v) => {
 	const ofs = makeArgumentsFor_GetCharacters(e_v);
 
+	
 	console.log(
-	ofs,
-			await wUrql.q.GetCharacters(ofs)
-			/*
-  page?: InputMaybe<Scalars["Int"]["input"]>;
-  filter?: InputMaybe<FilterCharacter>;
+		ofs,
+		await wUrql.q.GetCharacters(ofs),
+		wUrql,
+				wUrql.q.GetCharacters(ofs)
 
-export type FilterCharacter = {
-  gender?: InputMaybe<Scalars["String"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
-  species?: InputMaybe<Scalars["String"]["input"]>;
-  status?: InputMaybe<Scalars["String"]["input"]>;
-  type?: InputMaybe<Scalars["String"]["input"]>;
-
-		*/
 			)
+
+	/*
+			const args = makeArgumentsFor_GetCharacters(v);
+
+			const result = await wUrql.q.GetCharacters(args);
+
+
+	*/
 };
+
 
 
 	const event_applySearchFilter = CharactersSearch__exit_values => {
@@ -175,6 +177,21 @@ export type FilterCharacter = {
 		pushIntoWindowHistory(CharactersSearch__exit_values, pathName, pushState);
 
 		makeTestReq(CharactersSearch__exit_values)
+
+		// CHTO ya hochu uvidet'
+		/*
+		
+		// CharactersSearch__exit_values update | on APPLY event draft handling...
+		// push exit_values into window history //path?foo=bar
+		// make request with exit_values
+		
+		class.setQPCVals(qpc)
+
+		class.makeReq()
+
+		class.drawRes()
+
+		*/
 	};
 	
 	const ignoreFnExecAfterExitValueTransferOnce = makeFn_ignoreFnExecAfterExitValueTransferOnce(
@@ -192,11 +209,21 @@ export type FilterCharacter = {
 
 
 
-	const event_clickPaginationPageButton = pagination__exit_value => {
-		U.log(pagination__exit_value, 'asdf')
-		
-		// current QuerySearchParam + page
-		//make request
+	const event_clickPaginationPageButton = (pagination__exit_value: number) => {
+		U.log(pagination__exit_value, 'pagination__exit_value');
+	
+		const pageQPC: QueryParamCompatible_Base = {
+			param: URLSearchParams_pageParameterName,
+			value: pagination__exit_value.toString()
+		};
+
+//		this.#currentQPCList.push(pageQPC);
+//
+//		pushIntoWindowHistory(this.#currentQPCList, this.#pathName, pushState);
+
+		// result = execRequest(this.#currentQPCList);
+
+		//drawer.draw(result)
 
 	};
 
@@ -207,25 +234,92 @@ export type FilterCharacter = {
 		event_clickPaginationPageButton
 	);
 
+	
+	class SearchPageManager extends Observer{
 
-	class URLSearchParamsBasedSearchManager extends Observer{
-		#prevExitValues: QueryParamCompatible_Base[] | undefined;
-		#exitValues: QueryParamCompatible_Base[] = [];
-
-		setExitValues(exit_values: QueryParamCompatible_Base[]){
-			this.#exitValues = exit_values;
+		constructor(){
+			super();
 		}
-
-
-
-		apply(){
-
-		}
-
-//		setQPCValues
-
-		onNotification(data){
+		
+		onNotification(data: WindowLocationData){
 			
+		}
+
+		setPageInQPCList(pagination__exit_value: number){
+			const qpcList = this.#UnnamedLogicClass.getQPCList();
+
+			const foundIndex = qpcList.findIndex(e => e.param === URLSearchParams_pageParameterName);
+			if(foundIndex >= 0){
+				qpcList.splice(foundIndex, 1);
+			}
+
+			const pageQPC: QueryParamCompatible_Base = {
+				param: URLSearchParams_pageParameterName,
+				value: pagination__exit_value.toString()
+			};
+
+			qpcList.push(pageQPC);
+
+			this.#UnnamedLogicClass.setQPCList(qpcList);
+		}
+
+		selectPage(pagination__exit_value: number){
+
+			this.setPageInQPCList(pagination__exit_value);
+
+			
+
+//			this.UnnamedLogicClass.
+//
+//		pushIntoWindowHistory(this.#currentQPCList, this.#pathName, pushState);
+
+		// result = execRequest(this.#currentQPCList);
+
+		//drawer.draw(result)
+
+		}
+	}
+
+	class SearchPageDrawer{
+
+	}
+
+
+
+	type ArgumentsFor_URLSearchParamsBasedFilterManager = {
+		pathName: string;
+		requestFn: (v: QueryParamCompatible_Base[]) => Promise<UT.OperationResult>;
+	};
+
+	class UnnamedLogicClass{
+		#currentQPCList: QueryParamCompatible_Base[] = [];
+		#pathName: string;
+		#requestFn: (v: QueryParamCompatible_Base[]) => Promise<UT.OperationResult>;
+
+		constructor(
+		{
+			pathName,
+			requestFn
+		} : ArgumentsFor_URLSearchParamsBasedFilterManager
+		){
+			this.#requestFn = requestFn;
+			this.#pathName = pathName;
+		}
+
+		async execRequest(v: QueryParamCompatible_Base[]): UT.OperationResult{
+			return await this.#requestFn(v);
+		}
+
+		setQPCList(v: QueryParamCompatible_Base[]){
+			this.#currentQPCList = v;
+		}
+
+		getQPCList(): QueryParamCompatible_Base[]{
+			return structuredClone(this.#currentQPCList);
+		}
+
+		pushHistory(){
+			pushIntoWindowHistory(this.#currentQPCList, this.#pathName, pushState);
 		}
 	}
 
@@ -245,10 +339,10 @@ export type FilterCharacter = {
 
 
 
-			const pageParamName = 'page';
+			// for drawing pagination
+			const pageParamName = URLSearchParams_pageParameterName;
 
 			const QPCPage = qpcs.find(e => e.param === pageParamName );
-
 
 
 			// draw foo=bar in form

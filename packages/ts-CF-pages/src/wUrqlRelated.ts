@@ -16,7 +16,7 @@ const makeArguments_PageFilter = (QPCList: QueryParamCompatible_Base[]): ({page?
 	let result = {};
 
 	if(paramObj[URLSearchParams_pageParameterName]){
-		result[URLSearchParams_pageParameterName] = paramObj[URLSearchParams_pageParameterName];
+		result[URLSearchParams_pageParameterName] = Number.parseInt(paramObj[URLSearchParams_pageParameterName]);
 
 		delete paramObj[URLSearchParams_pageParameterName];
 	}
