@@ -16,7 +16,9 @@
 	} from '@tsCF/pages';
 	import {
 		TileBoard_SearchValueBuilder,
-		pushIntoWindowHistory
+		pushIntoWindowHistory,
+		makeArgumentsFor_GetCharacters,
+		URLSearchParams_pageParameterName
 	} from '@tsCF/pages';
 	
 	import type { QueryParamCompatible_Base	} from '@tsLF/forURLSP';
@@ -144,11 +146,11 @@
 
 	
 const makeTestReq = async (e_v) => {
-	const ofs = getParamObjFromQPCBaseList(e_v);
+	const ofs = makeArgumentsFor_GetCharacters(e_v);
 
 	console.log(
 	ofs,
-			await wUrql.q.GetCharacters({filter:ofs})
+			await wUrql.q.GetCharacters(ofs)
 			/*
   page?: InputMaybe<Scalars["Int"]["input"]>;
   filter?: InputMaybe<FilterCharacter>;
@@ -367,7 +369,7 @@ CharactersSearch filter|tool-huyul
 		init_cachedValues = {
 			CharactersSearch__update_values
 		}
-		bind:navigation_values = {
+		bind:update_values = {
 			CharactersSearch__update_values
 		}
 	/>
