@@ -25,7 +25,7 @@
 
 
 	export let init_cachedValues: QueryParamCompatible_Base[];
-	export let navigation_values: QueryParamCompatible_Base[];
+	export let update_values: QueryParamCompatible_Base[];
 	export let exit_values: QueryParamCompatible_Base[];
 
 
@@ -65,7 +65,7 @@
 		() => {
 			const storeValue = CustomFormHolder.makeValueStore(CFIDCList);
 			
-			CustomFormHolder.setValuesToValueStore(storeValue, navigation_values);
+			CustomFormHolder.setValuesToValueStore(storeValue, update_values);
 
 			entryValueStore = storeValue;
 
@@ -83,7 +83,7 @@
 		actionExecuterAfterMount.exec();
 	
 		//svelte magic again. WTF?
-		navigation_values = navigation_values;
+		update_values = update_values;
 		entryValueStore = entryValueStore;
 	}
 
