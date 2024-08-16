@@ -4,7 +4,7 @@ import { getURLSPSFromQPCBaseList } from '@tsLF/forURLSP';
 
 
 
-export const pushIntoWindowHistory = (values: QueryParamCompatible_Base[], pathName: string, pushState: (p: string, whs: Object) => unknown) => {
+export const pushIntoWindowHistory = (values: QueryParamCompatible_Base[], pathName: string, pushState: (p: string, whs: Object) => void) => {
 	let path = pathName;
 
 	if(values.length){

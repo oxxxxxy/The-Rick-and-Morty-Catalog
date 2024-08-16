@@ -80,7 +80,20 @@
 
 //okay
 
-	
+	class QPCListHolder{
+		#qpcList: QueryParamCompatible_Base[] = [];
+		
+		setQPCList(v: QueryParamCompatible_Base[]){
+			this.#qpcList = v;
+		}
+
+		getQPCList(): QueryParamCompatible_Base[]{
+			return structuredClone(this.#qpcList);
+		}
+	}
+
+	const qpcListHolder = new QPCListHolder();
+
 
 	const lSCEEmitter = new LocationSearchChangeEventEmitter(
 		{
@@ -135,6 +148,50 @@
 
 //okay
 
+	const tileBoard_SearchValueBuilder = new TileBoard_SearchValueBuilder(
+		{
+			availableItemsTitle: pathName
+		}
+	);
+
+	type ArgumentsFor_SearchPageDrawer = {
+		pathName: string;
+	};
+
+	class SearchPageDrawer{
+		#tileBoard_SearchValueBuilder: TileBoard_SearchValueBuilder;
+
+		constructor(
+			{
+				pathName
+			} : ArgumentsFor_SearchPageDrawer
+		){
+			
+			this.#tileBoard_SearchValueBuilder = new TileBoard_SearchValueBuilder(
+				{
+					availableItemsTitle: pathName
+				}
+			);
+		}
+
+		applyForm(result: UT.OperationResult){
+			const { data, error } = result;
+
+			if(error){
+				//strict draw error
+
+				return;
+			}
+			
+			// what i need
+			// TileBoard_SearchValue
+			// CharacterTile list
+
+		}
+		
+
+	}
+
 
 
 
@@ -153,10 +210,8 @@ const makeTestReq = async (e_v) => {
 	console.log(
 		ofs,
 		await wUrql.q.GetCharacters(ofs),
-		wUrql,
-				wUrql.q.GetCharacters(ofs)
 
-			)
+	);
 
 	/*
 			const args = makeArgumentsFor_GetCharacters(v);
@@ -173,10 +228,15 @@ const makeTestReq = async (e_v) => {
 		// CharactersSearch__exit_values update | on APPLY event draft handling...
 		// push exit_values into window history //path?foo=bar
 		// make request with exit_values
-		
-		pushIntoWindowHistory(CharactersSearch__exit_values, pathName, pushState);
 
-		makeTestReq(CharactersSearch__exit_values)
+		qpcListHolder.setQPCList(CharactersSearch__exit_values);
+		
+		pushIntoWindowHistory(qpcListHolder.getQPCList(), pathName, pushState);
+
+		makeTestReq(qpcListHolder.getQPCList())
+
+		//draw
+
 
 		// CHTO ya hochu uvidet'
 		/*
@@ -234,94 +294,17 @@ const makeTestReq = async (e_v) => {
 		event_clickPaginationPageButton
 	);
 
-	
-	class SearchPageManager extends Observer{
-
-		constructor(){
-			super();
-		}
-		
-		onNotification(data: WindowLocationData){
-			
-		}
-
-		setPageInQPCList(pagination__exit_value: number){
-			const qpcList = this.#UnnamedLogicClass.getQPCList();
-
-			const foundIndex = qpcList.findIndex(e => e.param === URLSearchParams_pageParameterName);
-			if(foundIndex >= 0){
-				qpcList.splice(foundIndex, 1);
-			}
-
-			const pageQPC: QueryParamCompatible_Base = {
-				param: URLSearchParams_pageParameterName,
-				value: pagination__exit_value.toString()
-			};
-
-			qpcList.push(pageQPC);
-
-			this.#UnnamedLogicClass.setQPCList(qpcList);
-		}
-
-		selectPage(pagination__exit_value: number){
-
-			this.setPageInQPCList(pagination__exit_value);
-
-			
-
-//			this.UnnamedLogicClass.
-//
-//		pushIntoWindowHistory(this.#currentQPCList, this.#pathName, pushState);
-
-		// result = execRequest(this.#currentQPCList);
-
-		//drawer.draw(result)
-
-		}
-	}
-
-	class SearchPageDrawer{
-
-	}
 
 
 
-	type ArgumentsFor_URLSearchParamsBasedFilterManager = {
-		pathName: string;
-		requestFn: (v: QueryParamCompatible_Base[]) => Promise<UT.OperationResult>;
-	};
 
-	class UnnamedLogicClass{
-		#currentQPCList: QueryParamCompatible_Base[] = [];
-		#pathName: string;
-		#requestFn: (v: QueryParamCompatible_Base[]) => Promise<UT.OperationResult>;
 
-		constructor(
-		{
-			pathName,
-			requestFn
-		} : ArgumentsFor_URLSearchParamsBasedFilterManager
-		){
-			this.#requestFn = requestFn;
-			this.#pathName = pathName;
-		}
 
-		async execRequest(v: QueryParamCompatible_Base[]): UT.OperationResult{
-			return await this.#requestFn(v);
-		}
 
-		setQPCList(v: QueryParamCompatible_Base[]){
-			this.#currentQPCList = v;
-		}
 
-		getQPCList(): QueryParamCompatible_Base[]{
-			return structuredClone(this.#currentQPCList);
-		}
 
-		pushHistory(){
-			pushIntoWindowHistory(this.#currentQPCList, this.#pathName, pushState);
-		}
-	}
+
+
 
 
 
@@ -391,7 +374,6 @@ const makeTestReq = async (e_v) => {
 	}
 
 
-	const tileBoard_SearchValueBuilder = new TileBoard_SearchValueBuilder({availableItemsTitle: pathName});
 
 
 	TileBoard_SearchUpdateValue = {
@@ -412,6 +394,8 @@ const makeTestReq = async (e_v) => {
 
 		}
 	);
+
+
 
 // CHTOOOO U MENYA EST'???
 /*
@@ -443,6 +427,97 @@ CharactersSearch filter|tool-huyul
 
 
 */
+
+
+
+	type ArgumentsFor_URLSearchParamsBasedFilterManager = {
+		pathName: string;
+		requestFn: (v: QueryParamCompatible_Base[]) => Promise<UT.OperationResult>;
+		qPCListHolder: QPCListHolder;
+		pushStateFn: (path: string, windowHistoryState: Object) => void;
+	};
+/*
+TAK BLYAT'
+snachala razlojim vse-taki
+
+*/
+	class SearchPageManager extends Observer{
+		#pathName: string;
+		#requestFn: (v: QueryParamCompatible_Base[]) => Promise<UT.OperationResult>;
+		#QPCListHolder: QPCListHolder;
+		#pushStateFn: (p: string, whs: Object) => void;
+
+
+		constructor(
+		{
+			pathName,
+			requestFn,
+			qPCListHolder = new QPCListHolder(),
+			pushStateFn,
+
+		} : ArgumentsFor_URLSearchParamsBasedFilterManager
+		){
+			super();
+
+			this.#requestFn = requestFn;
+			this.#pathName = pathName;
+			this.#QPCListHolder = qPCListHolder;
+			this.#pushStateFn = pushStateFn;
+		}
+
+
+		onNotification(data: WindowLocationData){
+			
+		}
+
+		setPageInQPCList(pagination__exit_value: number){
+			const qpcList = this.#QPCListHolder.getQPCList();
+
+			const foundIndex = qpcList.findIndex(e => e.param === URLSearchParams_pageParameterName);
+			if(foundIndex >= 0){
+				qpcList.splice(foundIndex, 1);
+			}
+
+			const pageQPC: QueryParamCompatible_Base = {
+				param: URLSearchParams_pageParameterName,
+				value: pagination__exit_value.toString()
+			};
+
+			qpcList.push(pageQPC);
+
+			this.#QPCListHolder.setQPCList(qpcList);
+		}
+
+		async selectPage(pagination__exit_value: number){
+			this.setPageInQPCList(pagination__exit_value);
+			
+			pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
+
+			// jelatel'no chtobi otmenyaem bil zapros...
+			const result = await this.#requestFn(this.#QPCListHolder.getQPCList());
+			
+
+			//drawer.draw(result)
+		}
+		
+		async applyCustomForm(exit_values: QueryParamCompatible_Base[]){
+			this.#QPCListHolder.setQPCList(exit_values);
+
+			pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
+
+			const result = await this.#requestFn(this.#QPCListHolder.getQPCList());
+
+			//drawer.draw(result)
+		}
+
+
+	}
+
+
+
+
+
+
 
 </script>
 
@@ -483,7 +558,7 @@ CharactersSearch filter|tool-huyul
 			pagination__exit_value
 		}
 	>
-  <!--		{#each _tiles as tile }
+	<!--{#each _tiles as tile }
 		<CharacterTile data={tile.data} />
 	{/each}-->
 	</TileBoard_Search>
