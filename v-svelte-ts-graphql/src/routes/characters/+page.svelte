@@ -207,8 +207,147 @@ const makeTestReq = async (e_v) => {
 	const ofs = makeArgumentsFor_GetCharacters(e_v);
 
 	
+	/* U.log(
+		'init',
+			new Date().getTime(),
+	)
+	
+	const s = wUrql.q.GetCharacters(ofs).subscribe(res => {
+		U.log(
+			'subscribe res',
+			new Date().getTime(),
+			res
+		)
+	});
+
+//	 U.log(
+//		'unsub',
+//			new Date().getTime(),
+//		s.unsubscribe()
+//	) 
+
+	setTimeout(() => {
+
+	U.log(
+		'unsub time out',
+			new Date().getTime(),
+		s.unsubscribe()
+	)
+
+		}, 100)
+
+	await U.delay(100);
+
+
+	U.log(
+		'init2',
+			new Date().getTime(),
+	)
+	
+	const s1 = wUrql.q.GetCharacters(ofs).subscribe(res => {
+		U.log(
+			'subscribe res2',
+			new Date().getTime(),
+			res
+		)
+	});
+	
+	U.log(
+		'init3',
+			new Date().getTime(),
+	)
+	const s2 = wUrql.q.GetCharacters(ofs).subscribe(res => {
+		U.log(
+			'subscribe res3',
+			new Date().getTime(),
+			res
+		)
+	});
+
+	U.log(
+		'end',
+			new Date().getTime(),
+//		s.unsubscribe()
+	) */
+
+/*
+
+U.log(
+		'init',
+			new Date().getTime(),
+	)
+	
+	const s = wUrql.q.GetCharacters(ofs).subscribe(res => {
+		U.log(
+			'subscribe res',
+			new Date().getTime(),
+			res
+		)
+	});
+
+	setTimeout(() => {
+
+	U.log(
+		'unsub time out',
+			new Date().getTime(),
+		s.unsubscribe()
+	)
+
+		}, 1000)
+
+ */
+
+
+
+return;
+
+
+const makeFnForSearchPageManager_getItemsAndPrepareAndThrowToSearchPageDrawer = (
+		makeArgumentsFor_GetItems: (v: QueryParamCompatible_Base[]) => Object,
+		wUrql_q_GetItems: (v: Object) => UT.OperationResultSource<UT.OperationResult>,
+		prepareArgsForSearchPageDrawerFromGetReq: (v: UT.OperationResult) => Object
+	): ((
+		throwPreparedArgsToSearchPageDrawer: (v: Object) => void
+	) => void) => {
+	return (
+		throwPreparedArgsToSearchPageDrawer: (v: Object) => void
+	): (() => void) => {
+		const args = makeArgumentsFor_GetItems(e_v);
+
+		const { unsubscribe } = wUrql_q_GetItems(args)
+			.subscribe(
+			(res: UT.OperationResult) => {
+				const args = prepareArgsForSearchPageDrawerFromGetReq(res);
+
+				throwPreparedArgsToSearchPageDrawer(args);
+			}
+		);
+
+		return unsubscribe;
+	}
+};
+	const args = makeArgumentsFor_GetCharacters(e_v);
+
+	const { unsubscribe } = wUrql.q.GetCharacters(args)
+		.subscribe(
+		(res: UT.OperationResult) => {
+//	special	prepareForDrawer
+//	throwPreparedArgsToSearchPageDrawer
+		}
+	);
+
+	return unsubscribe;
+
+
+
+
+
+
+return;
+
 	console.log(
 		ofs,
+		wUrql.q.GetCharacters(ofs),
 		await wUrql.q.GetCharacters(ofs),
 
 	);
@@ -495,6 +634,7 @@ snachala razlojim vse-taki
 
 			// jelatel'no chtobi otmenyaem bil zapros...
 			const result = await this.#requestFn(this.#QPCListHolder.getQPCList());
+			// UPD da, unsub kidaet
 			
 
 			//drawer.draw(result)

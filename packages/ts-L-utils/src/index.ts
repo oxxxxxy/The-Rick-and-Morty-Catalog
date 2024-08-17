@@ -4,9 +4,10 @@ import _urlJoin from 'url-join';
 
 import { nanoid } from 'nanoid';
 
-import { ActionExecuterAfterCondition } from './actionExecuterAfterCondition';
-
-import { IgnoreFewTimesCrutch } from './ignoreFewTimesCrutch';
+import {
+	ActionExecuterAfterCondition,
+	IgnoreFewTimesCrutch
+} from './OOP';
 
 
 
