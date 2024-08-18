@@ -81,14 +81,16 @@
 		page count : { update_value.pageCount }
 	</div>
 
-	<PaginationBoard 
-		bind:entry_value={
-			PaginationBoard__entry_value
-		}
-		bind:exit_value={
-			PaginationBoard__exit_value
-		}
-	/>
+	{#if PaginationBoard__entry_value.pageCount > 1}
+		<PaginationBoard 
+			bind:entry_value={
+				PaginationBoard__entry_value
+			}
+			bind:exit_value={
+				PaginationBoard__exit_value
+			}
+		/>
+	{/if}
 
 	<div
 		class="

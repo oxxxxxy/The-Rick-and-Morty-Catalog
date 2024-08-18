@@ -10,7 +10,7 @@ import { LooseObject } from '@tsL/types';
 
 
 
-const makeArguments_PageFilter = (QPCList: QueryParamCompatible_Base[]): ({page?: number, filter?: LooseObject }) => {
+export const makeArguments_PageFilter = (QPCList: QueryParamCompatible_Base[]): ({page?: number, filter?: LooseObject }) => {
 	const paramObj = getParamObjFromQPCBaseList(QPCList);
 	
 	let result = {};
@@ -27,8 +27,6 @@ const makeArguments_PageFilter = (QPCList: QueryParamCompatible_Base[]): ({page?
 
 	return result;
 };
-
-export const makeArgumentsFor_GetCharacters = (relatedQPCList: QueryParamCompatible_Base[]): GT.QueryCharactersArgs => makeArguments_PageFilter(relatedQPCList);
 
 export const makeArgumentsFor_GetEpisodes = (relatedQPCList: QueryParamCompatible_Base[]): GT.QueryEpisodesArgs => makeArguments_PageFilter(relatedQPCList);
 

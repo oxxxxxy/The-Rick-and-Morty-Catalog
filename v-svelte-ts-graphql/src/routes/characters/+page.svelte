@@ -158,6 +158,12 @@
 		pathName: string;
 	};
 
+	type ArgumentsFor_SearchPageDrawer_do = {
+		data: Object,
+		error: Object
+	};
+
+
 	class SearchPageDrawer{
 		#tileBoard_SearchValueBuilder: TileBoard_SearchValueBuilder;
 
@@ -174,11 +180,17 @@
 			);
 		}
 
-		applyForm(result: UT.OperationResult){
-			const { data, error } = result;
+		do(v: ArgumentsFor_SearchPageDrawer_do){
+			const { data, error } = v;
 
 			if(error){
 				//strict draw error
+
+				return;
+			}
+
+			if(!data){
+				//not found;
 
 				return;
 			}
@@ -195,9 +207,43 @@
 
 
 
+const makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer = (
+		makeArgumentsFor_GetItems: (v: QueryParamCompatible_Base[]) => Object,
+		wUrql_q_GetItems: (v: Object) => UT.OperationResultSource<UT.OperationResult>,
+		prepareArgsForFnThrowToDrawerFromGetReq: (v: UT.OperationResult) => Object
+	): (
+		(
+			qpcList: QueryParamCompatible_Base[],
+			throwPreparedArgsToSearchPageDrawer: (v: Object) => void
+		) => void
+	) => {
+	return (
+		qpcList: QueryParamCompatible_Base[],
+		throwPreparedArgsToSearchPageDrawer: (v: Object) => void
+	): (() => void) => {
+		const args = makeArgumentsFor_GetItems(qpcList);
+
+		const { unsubscribe } = wUrql_q_GetItems(args)
+			.subscribe(
+			(res: UT.OperationResult) => {
+				const args = prepareArgsForFnThrowToDrawerFromGetReq(res);
+
+				throwPreparedArgsToSearchPageDrawer(args);
+			}
+		);
+
+		return unsubscribe;
+	}
+};
 
 
-
+/*
+const getCharactersAndPrepareAndThrowToDrawer = makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer(
+	makeArgumentsFor_GetCharacters,
+	wUrql.q.GetCharacters,
+	
+);
+*/
 
 
 
@@ -205,6 +251,14 @@
 	
 const makeTestReq = async (e_v) => {
 	const ofs = makeArgumentsFor_GetCharacters(e_v);
+
+
+	console.log(
+		ofs,
+		wUrql.q.GetCharacters(ofs),
+		await wUrql.q.GetCharacters(ofs),
+
+	);
 
 	
 	/* U.log(
@@ -302,30 +356,8 @@ U.log(
 return;
 
 
-const makeFnForSearchPageManager_getItemsAndPrepareAndThrowToSearchPageDrawer = (
-		makeArgumentsFor_GetItems: (v: QueryParamCompatible_Base[]) => Object,
-		wUrql_q_GetItems: (v: Object) => UT.OperationResultSource<UT.OperationResult>,
-		prepareArgsForSearchPageDrawerFromGetReq: (v: UT.OperationResult) => Object
-	): ((
-		throwPreparedArgsToSearchPageDrawer: (v: Object) => void
-	) => void) => {
-	return (
-		throwPreparedArgsToSearchPageDrawer: (v: Object) => void
-	): (() => void) => {
-		const args = makeArgumentsFor_GetItems(e_v);
 
-		const { unsubscribe } = wUrql_q_GetItems(args)
-			.subscribe(
-			(res: UT.OperationResult) => {
-				const args = prepareArgsForSearchPageDrawerFromGetReq(res);
 
-				throwPreparedArgsToSearchPageDrawer(args);
-			}
-		);
-
-		return unsubscribe;
-	}
-};
 	const args = makeArgumentsFor_GetCharacters(e_v);
 
 	const { unsubscribe } = wUrql.q.GetCharacters(args)
@@ -343,14 +375,7 @@ const makeFnForSearchPageManager_getItemsAndPrepareAndThrowToSearchPageDrawer = 
 
 
 
-return;
 
-	console.log(
-		ofs,
-		wUrql.q.GetCharacters(ofs),
-		await wUrql.q.GetCharacters(ofs),
-
-	);
 
 	/*
 			const args = makeArgumentsFor_GetCharacters(v);
@@ -689,7 +714,15 @@ snachala razlojim vse-taki
 	<TileBoard>
 		<p>Network Error. Try later or kill yourself. Thank you.</p>
 	</TileBoard>
-{:else if _tiles.length}
+{:else if _tiles === 'LOADING'}
+	<TileBoard>
+		<p>Loading...</p>
+	</TileBoard>
+{:else if _tiles === 'NOT FOUND'}
+	<TileBoard>
+		<p>Nothing found.</p>
+	</TileBoard>
+{:else if Array.isArray(_tiles)}
 	<TileBoard_Search
 		bind:update_value={
 			TileBoard_SearchUpdateValue
@@ -702,8 +735,4 @@ snachala razlojim vse-taki
 		<CharacterTile data={tile.data} />
 	{/each}-->
 	</TileBoard_Search>
-{:else}
-	<TileBoard>
-		<p>Loading...</p>
-	</TileBoard>
 {/if}

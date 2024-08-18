@@ -16,6 +16,10 @@ import {
 
 
 
+export * from './CharacterTile.ts';
+export * from './EpisodeTile.ts';
+export * from './LocationTile.ts';
+
 export type TileItem_Character = {
 	type: API_CHARACTERS__PATH__NAME;
 	data: GT.CharacterPreviewFieldsFragment;
