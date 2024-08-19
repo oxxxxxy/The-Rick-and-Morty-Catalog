@@ -154,13 +154,24 @@
 		}
 	);
 
+
+
 	type ArgumentsFor_SearchPageDrawer = {
 		pathName: string;
+		// set external tiles
 	};
 
+	type TempPropsOfTileBoard_SearchValue = TileBoard_SearchValue & {
+		availableItemsTitle: undefined,
+		availableItemsCount: undefined
+	}
+
 	type ArgumentsFor_SearchPageDrawer_do = {
-		data: Object,
-		error: Object
+		data?: {
+			tempPropsOfTileBoard_SearchValue: TempPropsOfTileBoard_SearchValue
+			dataForTilesList: Object[] // ne sovsem ponimayu kak prokinut' tot je GT.CharacterPreviewFieldsFragment , podskajite, pls. Sdes' kak bi obschiy object kotoriy tip prokidivaet v prinimayushiy takoy je tip, kotoriy budet vihodit' iz prepareArgsForFnThrowToDrawerFromGetReq
+		},
+		error?: UT.CombinedError
 	};
 
 
@@ -236,6 +247,41 @@ const makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer = (
 	}
 };
 
+const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_do) => {
+	return (v: UT.OperationResult): ArgumentsFor_SearchPageDrawer_do => {
+		const { data, error } = v;
+		
+		const args: ArgumentsFor_SearchPageDrawer_do = {
+			error
+		};
+
+		if(data){
+			const { info, results } = data[thatPropName];
+
+
+			if(!info.pages){
+				return args;
+			}
+
+			const tempPropsOfTileBoard_SearchValue: TempPropsOfTileBoard_SearchValue = {
+				pageCount: info.pages
+			};
+
+			if(info.next){
+				tempPropsOfTileBoard_SearchValue.selectedPage = info.next - 1;
+			}else if(info.prev){
+				tempPropsOfTileBoard_SearchValue.selectedPage = info.prev + 1;
+			}
+
+			args.data = {
+				tempPropsOfTileBoard_SearchValue,
+				dataForTilesList: results
+			}
+		}
+		
+		return args;
+	};
+};
 
 /*
 const getCharactersAndPrepareAndThrowToDrawer = makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer(
