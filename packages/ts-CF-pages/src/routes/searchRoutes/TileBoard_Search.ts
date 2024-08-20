@@ -29,20 +29,28 @@ export class TileBoard_SearchValueBuilder {
 		}			
 	}
 
-	addPageCount(v: number){
-		this.#pageCount = v;
+	addPageCount(v: number): TileBoard_SearchValueBuilder{
+		this.#pageCount = v; 
+
+		return this;
 	}
 	
-	addSelectedPage(v: number){
-		this.#selectedPage = v;
+	addSelectedPage(v: number): TileBoard_SearchValueBuilder{
+		this.#selectedPage = v; 
+
+		return this;
 	}
 
-	addAvailableItemsTitle(v: string){
+	addAvailableItemsTitle(v: string): TileBoard_SearchValueBuilder{
 		this.#availableItemsTitle = v;
+
+		return this;
 	}
 
-	addAvailableItemsCount(v: number){
-		this.#availableItemsCount = v;
+	addAvailableItemsCount(v: number): TileBoard_SearchValueBuilder{
+		this.#availableItemsCount = v; 
+
+		return this;
 	}
 
 	build(): TileBoard_SearchValue {

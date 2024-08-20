@@ -64,15 +64,18 @@
 	const	pathName = data.psl.route.id.slice(1);
 
 
-	let CharactersSearch__update_values: QueryParamCompatible_Base[] = getQPCBaseListFromURL(new URL(data.psl.url));
 	let CharactersSearch__exit_values: QueryParamCompatible_Base[] = [];
-
 	let pagination__exit_value: number | undefined;
+
+
+	let CharactersSearch__update_values: QueryParamCompatible_Base[] = getQPCBaseListFromURL(new URL(data.psl.url));
 	let TileBoard_SearchUpdateValue: TileBoard_SearchValue | undefined;
+	let tiles: GT.CharacterPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard = [1];
 
 
-	const setTileBoard_SearchValue = (v: TileBoard_SearchValue) => (TileBoard_SearchUpdateValue = v);
-	const setCharactersSearch__update_values = (v: QueryParamCompatible_Base[]) => (CharactersSearch__update_values = v);
+	const set_CharactersSearch__update_values = (v: QueryParamCompatible_Base[]) => (CharactersSearch__update_values = v);
+	const set_TileBoard_SearchValue = (v: TileBoard_SearchValue) => (TileBoard_SearchUpdateValue = v);
+	const set_tiles = (v: Object[] | NonTilesResultsForDrawingSearchPageTileBoard) => (tiles = v);
 
 
 
@@ -102,6 +105,9 @@
 	);
 	wLocationChangeEventEmitter.attach(lSCEEmitter);
 
+
+
+	type NonTilesResultsForDrawingSearchPageTileBoard = 'ERR' | 'NOT FOUND' | 'LOADING';
 
 
 
@@ -158,15 +164,15 @@
 
 	type ArgumentsFor_SearchPageDrawer = {
 		pathName: string;
-		// set external tiles
+		setExternalTiles: (v: Object[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
+		setExternalTileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
 	};
 
 	type TempPropsOfTileBoard_SearchValue = TileBoard_SearchValue & {
-		availableItemsTitle: undefined,
-		availableItemsCount: undefined
-	}
+		availableItemsTitle: undefined
+	};
 
-	type ArgumentsFor_SearchPageDrawer_do = {
+	type ArgumentsFor_SearchPageDrawer_handleDataFromReq = {
 		data?: {
 			tempPropsOfTileBoard_SearchValue: TempPropsOfTileBoard_SearchValue
 			dataForTilesList: Object[] // ne sovsem ponimayu kak prokinut' tot je GT.CharacterPreviewFieldsFragment , podskajite, pls. Sdes' kak bi obschiy object kotoriy tip prokidivaet v prinimayushiy takoy je tip, kotoriy budet vihodit' iz prepareArgsForFnThrowToDrawerFromGetReq
@@ -175,12 +181,17 @@
 	};
 
 
+
 	class SearchPageDrawer{
 		#tileBoard_SearchValueBuilder: TileBoard_SearchValueBuilder;
+		#setExternalTiles: (v: Object[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
+		#setExternalTileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
 
 		constructor(
 			{
-				pathName
+				pathName,
+				setExternalTiles,
+				setExternalTileBoard_SearchValue
 			} : ArgumentsFor_SearchPageDrawer
 		){
 			
@@ -189,30 +200,50 @@
 					availableItemsTitle: pathName
 				}
 			);
+
+			this.#setExternalTiles = setExternalTiles;
+			this.#setExternalTileBoard_SearchValue = setExternalTileBoard_SearchValue;
 		}
 
-		do(v: ArgumentsFor_SearchPageDrawer_do){
+		drawNotFound(){
+			this.#setExternalTiles('NOT FOUND');
+		}
+		
+		drawLoading(){
+			this.#setExternalTiles('LOADING');
+		}
+		
+		drawErr(){
+			this.#setExternalTiles('ERR');
+		}
+
+		handleDataFromReq(v: ArgumentsFor_SearchPageDrawer_handleDataFromReq){
 			const { data, error } = v;
 
 			if(error){
-				//strict draw error
+				this.drawErr();
 
 				return;
 			}
 
 			if(!data){
-				//not found;
+				this.drawNotFound();
 
 				return;
 			}
 			
-			// what i need
-			// TileBoard_SearchValue
-			// CharacterTile list
+			const { tempPropsOfTileBoard_SearchValue, dataForTilesList } = data;
 
+			const tileBoard_SearchValue = this.#tileBoard_SearchValueBuilder
+				.addSelectedPage(tempPropsOfTileBoard_SearchValue.selectedPage)
+				.addPageCount(tempPropsOfTileBoard_SearchValue.pageCount)
+				.addAvailableItemsCount(tempPropsOfTileBoard_SearchValue.availableItemsCount)
+				.build();
+
+			this.#setExternalTileBoard_SearchValue(tileBoard_SearchValue);
+
+			this.#setExternalTiles(dataForTilesList);
 		}
-		
-
 	}
 
 
@@ -221,7 +252,7 @@
 const makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer = (
 		makeArgumentsFor_GetItems: (v: QueryParamCompatible_Base[]) => Object,
 		wUrql_q_GetItems: (v: Object) => UT.OperationResultSource<UT.OperationResult>,
-		prepareArgsForFnThrowToDrawerFromGetReq: (v: UT.OperationResult) => Object
+		prepareArgsForFnThrowToDrawerFromGetReq: (v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_handleDataFromReq
 	): (
 		(
 			qpcList: QueryParamCompatible_Base[],
@@ -247,11 +278,12 @@ const makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer = (
 	}
 };
 
-const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_do) => {
-	return (v: UT.OperationResult): ArgumentsFor_SearchPageDrawer_do => {
+
+const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_handleDataFromReq) => {
+	return (v: UT.OperationResult): ArgumentsFor_SearchPageDrawer_handleDataFromReq => {
 		const { data, error } = v;
 		
-		const args: ArgumentsFor_SearchPageDrawer_do = {
+		const args: ArgumentsFor_SearchPageDrawer_handleDataFromReq = {
 			error
 		};
 
@@ -264,7 +296,8 @@ const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((
 			}
 
 			const tempPropsOfTileBoard_SearchValue: TempPropsOfTileBoard_SearchValue = {
-				pageCount: info.pages
+				pageCount: info.pages,
+				availableItemsCount: info.count
 			};
 
 			if(info.next){
@@ -283,13 +316,13 @@ const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((
 	};
 };
 
-/*
+
+
 const getCharactersAndPrepareAndThrowToDrawer = makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer(
 	makeArgumentsFor_GetCharacters,
 	wUrql.q.GetCharacters,
-	
+	makeFnPrepareArgsForFnThrowToDrawerFromGetReq('characters')
 );
-*/
 
 
 
@@ -306,6 +339,7 @@ const makeTestReq = async (e_v) => {
 
 	);
 
+	getCharactersAndPrepareAndThrowToDrawer(e_v, U.log);
 	
 	/* U.log(
 		'init',
@@ -539,7 +573,7 @@ return;
 
 
 			// draw foo=bar in form
-			setCharactersSearch__update_values(qpcs);
+			set_CharactersSearch__update_values(qpcs);
 			//load/request previous data and draw it...
 			// make TileBoard_SearchValue 
 			
@@ -563,8 +597,6 @@ return;
 		} */
 
 
-
-	let tiles: GT.CharacterPreviewFieldsFragment[] | ERR = [1];
 
 	$: _tiles = tiles;
 
