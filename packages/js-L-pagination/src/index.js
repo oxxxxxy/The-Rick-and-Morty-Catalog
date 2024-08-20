@@ -1,9 +1,5 @@
 export const calcPagination = (countOfPages, buttonViewingLimit, selectedPageNum, prevSelectedPageNum) => {
 
-	if(buttonViewingLimit > countOfPages){
-		throw new Error('buttonViewingLimit must be less then or equal to countOfPages');
-	}
-
 	if(selectedPageNum > countOfPages){
 		throw new Error('selectedPageNum must be less then or equal to countOfPages');
 	}

@@ -193,6 +193,9 @@
 			this.#setExternalCharactersSearch__update_values(v);
 		}
 
+
+		#svelteCrutch_drawDataFromReq_lastTimeout: undefined | typeof setTimeout; // nu a cho delat'? umniy dohuya? podskaji togda pojalusta mne durachku T_T pomogite...
+
 		drawDataFromReq(v: ArgumentsFor_SearchPageDrawer_drawDataFromReq){
 			const { data, error } = v;
 
@@ -216,9 +219,15 @@
 				.addAvailableItemsCount(tempPropsOfTileBoard_SearchValue.availableItemsCount)
 				.build();
 
-			this.#setExternalTileBoard_SearchValue(tileBoard_SearchValue);
+			const T = this;
 
-			this.#setExternalTiles(dataForTilesList);
+			T.#svelteCrutch_drawDataFromReq_lastTimeout = setTimeout(
+				() => {
+					T.#setExternalTileBoard_SearchValue(tileBoard_SearchValue);
+
+					T.#setExternalTiles(dataForTilesList);
+				}			
+			);
 		}
 	}
 
@@ -235,12 +244,12 @@
 			throwPreparedArgsToSearchPageDrawer: (v: Object) => void
 		): (() => void) => {
 			const args = makeArgumentsFor_GetItems(qpcList);
-	
+
 			const { unsubscribe } = wUrql_q_GetItems(args)
 				.subscribe(
 				(res: UT.OperationResult) => {
 					const args = prepareArgsForFnThrowToDrawerFromGetReq(res);
-	
+
 					throwPreparedArgsToSearchPageDrawer(args);
 				}
 			);
@@ -472,7 +481,7 @@
 
 	actionExecuterAfterMount.addIdAction(
 		ActionId_ClickPaginationItemButton,
-		_SearchPageManager.selectPage
+		(pagination__exit_value: number) => _SearchPageManager.selectPage(pagination__exit_value)
 	);
 
 
@@ -482,7 +491,9 @@
 
 
 
-	$: _tiles = tiles;
+	$:{
+		tiles = tiles;
+	}
 	$:{
 		actionExecuterAfterMount.execById(
 			ActionId_ApplyDataFromCharactersSearch,
@@ -501,360 +512,8 @@
 			actionExecuterAfterMount.setReady();
 			
 			_SearchPageManager.init(CharactersSearch__update_values);
-			//make req to load init characters
-
 		}
 	);
-//init assembling
-
-
-//dev
-
-//okay
-
-
-	const qpcListHolder = new QPCListHolder();
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-//okay
-
-
-
-
-
-
-
-// CHTOOOO U MENYA EST'???
-/*
-
-whole pagination thing
-	exit value
-		pagination number
-	update value
-		TileBoard_SearchValue
-			syuda add page number from
-				QuerySearchParam
-				user select paginationItem
-
-tile list
-	CharacterTile value
-
-CharactersSearch filter|tool-huyul
-	init values
-		CharactersSearch__update_values/qpc list from location.search
-	update value/navigation_values
-		qpc list from location.search
-			make search request
-	exit value
-		qpc list
-			make search request
-			add QuerySearchParam in history
-	
-
-
-
-*/
-
-
-
-
-
-
-
-
-
-	
-const makeTestReq = async (e_v) => {
-	const ofs = makeArgumentsFor_GetCharacters(e_v);
-
-
-	console.log(
-		ofs,
-		wUrql.q.GetCharacters(ofs),
-		await wUrql.q.GetCharacters(ofs),
-
-	);
-
-	getCharactersAndPrepareAndThrowToDrawer(e_v, U.log);
-	
-	/* U.log(
-		'init',
-			new Date().getTime(),
-	)
-	
-	const s = wUrql.q.GetCharacters(ofs).subscribe(res => {
-		U.log(
-			'subscribe res',
-			new Date().getTime(),
-			res
-		)
-	});
-
-//	 U.log(
-//		'unsub',
-//			new Date().getTime(),
-//		s.unsubscribe()
-//	) 
-
-	setTimeout(() => {
-
-	U.log(
-		'unsub time out',
-			new Date().getTime(),
-		s.unsubscribe()
-	)
-
-		}, 100)
-
-	await U.delay(100);
-
-
-	U.log(
-		'init2',
-			new Date().getTime(),
-	)
-	
-	const s1 = wUrql.q.GetCharacters(ofs).subscribe(res => {
-		U.log(
-			'subscribe res2',
-			new Date().getTime(),
-			res
-		)
-	});
-	
-	U.log(
-		'init3',
-			new Date().getTime(),
-	)
-	const s2 = wUrql.q.GetCharacters(ofs).subscribe(res => {
-		U.log(
-			'subscribe res3',
-			new Date().getTime(),
-			res
-		)
-	});
-
-	U.log(
-		'end',
-			new Date().getTime(),
-//		s.unsubscribe()
-	) */
-
-/*
-
-U.log(
-		'init',
-			new Date().getTime(),
-	)
-	
-	const s = wUrql.q.GetCharacters(ofs).subscribe(res => {
-		U.log(
-			'subscribe res',
-			new Date().getTime(),
-			res
-		)
-	});
-
-	setTimeout(() => {
-
-	U.log(
-		'unsub time out',
-			new Date().getTime(),
-		s.unsubscribe()
-	)
-
-		}, 1000)
-
- */
-
-
-
-return;
-
-
-
-
-	const args = makeArgumentsFor_GetCharacters(e_v);
-
-	const { unsubscribe } = wUrql.q.GetCharacters(args)
-		.subscribe(
-		(res: UT.OperationResult) => {
-//	special	prepareForDrawer
-//	throwPreparedArgsToSearchPageDrawer
-		}
-	);
-
-	return unsubscribe;
-
-
-
-
-
-
-
-
-	/*
-			const args = makeArgumentsFor_GetCharacters(v);
-
-			const result = await wUrql.q.GetCharacters(args);
-
-
-	*/
-};
-
-
-
-	const event_applySearchFilter = CharactersSearch__exit_values => {
-		// CharactersSearch__exit_values update | on APPLY event draft handling...
-		// push exit_values into window history //path?foo=bar
-		// make request with exit_values
-
-		qpcListHolder.setQPCList(CharactersSearch__exit_values);
-		
-		pushIntoWindowHistory(qpcListHolder.getQPCList(), pathName, pushState);
-
-		makeTestReq(qpcListHolder.getQPCList())
-
-		//draw
-
-
-		// CHTO ya hochu uvidet'
-		/*
-		
-		// CharactersSearch__exit_values update | on APPLY event draft handling...
-		// push exit_values into window history //path?foo=bar
-		// make request with exit_values
-		
-		class.setQPCVals(qpc)
-
-		class.makeReq()
-
-		class.drawRes()
-
-		*/
-	};
-	
-	
-
-/*
-	const ignoreFnExecAfterExitValueTransferOnce = makeFn_ignoreFnExecAfterExitValueTransferOnce(
-		(exit_values: QueryParamCompatible_Base[]) => {
-			event_applySearchFilter(exit_values)
-		}
-	);
-
-	const ActionId_ApplyDataFromCharactersSearch = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
-
-	actionExecuterAfterMount.addIdAction(
-		ActionId_ApplyDataFromCharactersSearch,
-		ignoreFnExecAfterExitValueTransferOnce
-	);
-
-
-
-	const event_clickPaginationPageButton = (pagination__exit_value: number) => {
-		U.log(pagination__exit_value, 'pagination__exit_value');
-	
-		const pageQPC: QueryParamCompatible_Base = {
-			param: URLSearchParams_pageParameterName,
-			value: pagination__exit_value.toString()
-		};
-
-//		this.#currentQPCList.push(pageQPC);
-//
-//		pushIntoWindowHistory(this.#currentQPCList, this.#pathName, pushState);
-
-		// result = execRequest(this.#currentQPCList);
-
-		//drawer.draw(result)
-
-	};
-
-	const ActionId_ClickPaginationItemButton = 'clickat\' stranicu mi ne brosim, adin chetire vosem` vosem`';
-
-	actionExecuterAfterMount.addIdAction(
-		ActionId_ClickPaginationItemButton,
-		event_clickPaginationPageButton
-	);
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// PreviousSearchParamsLoader
-	class TestObse extends Observer{
-		
-		onNotification(data: any){
-			const urlSP = new URLSearchParams(data.searchParamsData);
-
-			const qpcs = getQPCBaseListFromURLSearchParams(urlSP);
-
-
-
-			console.log('ass', data, urlSP, qpcs);
-
-
-
-			// for drawing pagination
-			const pageParamName = URLSearchParams_pageParameterName;
-
-			const QPCPage = qpcs.find(e => e.param === pageParamName );
-
-
-			// draw foo=bar in form
-			set_CharactersSearch__update_values(qpcs);
-			//load/request previous data and draw it...
-			// make TileBoard_SearchValue 
-			
-		}
-	}
-
-//	lSCEEmitter.attach(new TestObse());
-
-		/*
-		#externalSetValue: ((v: TileBoard_SearchValue) => void) | undefined;
-
-		addSelectedPageFromQPCList(v: QueryParamCompatible_Base[]){
-			
-		}
-		setExternalValue(){
-			if(!this.#externalSetValue){
-				throw new Error('externalSetValue is not defined.');
-			}
-
-			this.#externalSetValue(this.build());
-		} */
-
-
-
 
 </script>
 
@@ -882,19 +541,19 @@ return;
 </SearchItemNav>
 
 
-{#if _tiles === 'ERR'}
+{#if tiles === 'ERR'}
 	<TileBoard>
 		<p>Network Error. Try later or kill yourself. Thank you.</p>
 	</TileBoard>
-{:else if _tiles === 'LOADING'}
+{:else if tiles === 'LOADING'}
 	<TileBoard>
 		<p>Loading...</p>
 	</TileBoard>
-{:else if _tiles === 'NOT FOUND'}
+{:else if tiles === 'NOT FOUND'}
 	<TileBoard>
 		<p>Nothing found.</p>
 	</TileBoard>
-{:else if Array.isArray(_tiles)}
+{:else if Array.isArray(tiles)}
 	<TileBoard_Search
 		bind:update_value={
 			TileBoard_SearchUpdateValue
@@ -903,7 +562,7 @@ return;
 			pagination__exit_value
 		}
 	>
-	{#each _tiles as tile }
+	{#each tiles as tile }
 		<CharacterTile data={tile} />
 	{/each}
 	</TileBoard_Search>
