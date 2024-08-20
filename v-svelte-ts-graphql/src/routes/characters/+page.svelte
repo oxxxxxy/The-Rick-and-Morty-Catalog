@@ -73,7 +73,7 @@
 
 	let CharactersSearch__update_values: QueryParamCompatible_Base[] = getQPCBaseListFromURL(new URL(data.psl.url));
 	let TileBoard_SearchUpdateValue: TileBoard_SearchValue | undefined;
-	let tiles: GT.CharacterPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard = [1];
+	let tiles: GT.CharacterPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard = 'LOADING';
 
 
 	const set_CharactersSearch__update_values = (v: QueryParamCompatible_Base[]) => (CharactersSearch__update_values = v);
@@ -82,9 +82,11 @@
 
 
 
-//dev
 
-//okay
+
+//init assembling
+
+	type NonTilesResultsForDrawingSearchPageTileBoard = 'ERR' | 'NOT FOUND' | 'LOADING';
 
 	class QPCListHolder{
 		#qpcList: QueryParamCompatible_Base[] = [];
@@ -97,27 +99,7 @@
 			return structuredClone(this.#qpcList);
 		}
 	}
-
-	const qpcListHolder = new QPCListHolder();
-
-
-	const lSCEEmitter = new LocationSearchChangeEventEmitter(
-		{
-			pathname: '/' + pathName,
-		}
-	);
-	wLocationChangeEventEmitter.attach(lSCEEmitter);
-
-
-
-	type NonTilesResultsForDrawingSearchPageTileBoard = 'ERR' | 'NOT FOUND' | 'LOADING';
-
-
-
-
-
-
-
+	
 	const makeFn_ignoreFnExecAfterExitValueTransferOnce = (fn: () => {}) => {
 		/* const ignoreExitValueTransferOnceCrutch = new U.IgnoreFewTimesCrutch(1);
 
@@ -148,34 +130,19 @@
 	};
 	
 
-	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
-
-
-
-
-
-
-//okay
-
-	const tileBoard_SearchValueBuilder = new TileBoard_SearchValueBuilder(
-		{
-			availableItemsTitle: pathName
-		}
-	);
-
-
 
 	type ArgumentsFor_SearchPageDrawer = {
 		pathName: string;
 		setExternalTiles: (v: Object[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
 		setExternalTileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
+		setExternalCharactersSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
 	};
 
 	type TempPropsOfTileBoard_SearchValue = TileBoard_SearchValue & {
 		availableItemsTitle: undefined
 	};
 
-	type ArgumentsFor_SearchPageDrawer_handleDataFromReq = {
+	type ArgumentsFor_SearchPageDrawer_drawDataFromReq = {
 		data?: {
 			tempPropsOfTileBoard_SearchValue: TempPropsOfTileBoard_SearchValue
 			dataForTilesList: Object[] // ne sovsem ponimayu kak prokinut' tot je GT.CharacterPreviewFieldsFragment , podskajite, pls. Sdes' kak bi obschiy object kotoriy tip prokidivaet v prinimayushiy takoy je tip, kotoriy budet vihodit' iz prepareArgsForFnThrowToDrawerFromGetReq
@@ -183,18 +150,19 @@
 		error?: UT.CombinedError
 	};
 
-
-
 	class SearchPageDrawer{
 		#tileBoard_SearchValueBuilder: TileBoard_SearchValueBuilder;
 		#setExternalTiles: (v: Object[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
 		#setExternalTileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
+		#setExternalCharactersSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
+
 
 		constructor(
 			{
 				pathName,
 				setExternalTiles,
-				setExternalTileBoard_SearchValue
+				setExternalTileBoard_SearchValue,
+				setExternalCharactersSearch__update_values
 			} : ArgumentsFor_SearchPageDrawer
 		){
 			
@@ -206,6 +174,7 @@
 
 			this.#setExternalTiles = setExternalTiles;
 			this.#setExternalTileBoard_SearchValue = setExternalTileBoard_SearchValue;
+			this.#setExternalCharactersSearch__update_values = 	setExternalCharactersSearch__update_values;
 		}
 
 		drawNotFound(){
@@ -220,7 +189,11 @@
 			this.#setExternalTiles('ERR');
 		}
 
-		handleDataFromReq(v: ArgumentsFor_SearchPageDrawer_handleDataFromReq){
+		drawCustomForm(v: QueryParamCompatible_Base[]){
+			this.#setExternalCharactersSearch__update_values(v);
+		}
+
+		drawDataFromReq(v: ArgumentsFor_SearchPageDrawer_drawDataFromReq){
 			const { data, error } = v;
 
 			if(error){
@@ -251,42 +224,80 @@
 
 
 
-// CHTOOOO U MENYA EST'???
-/*
 
-whole pagination thing
-	exit value
-		pagination number
-	update value
-		TileBoard_SearchValue
-			syuda add page number from
-				QuerySearchParam
-				user select paginationItem
-
-tile list
-	CharacterTile value
-
-CharactersSearch filter|tool-huyul
-	init values
-		CharactersSearch__update_values/qpc list from location.search
-	update value/navigation_values
-		qpc list from location.search
-			make search request
-	exit value
-		qpc list
-			make search request
-			add QuerySearchParam in history
+	const makeFnForSearchPageManagerWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer = (
+			makeArgumentsFor_GetItems: (v: QueryParamCompatible_Base[]) => Object,
+			wUrql_q_GetItems: (v: Object) => UT.OperationResultSource<UT.OperationResult>,
+			prepareArgsForFnThrowToDrawerFromGetReq: (v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_drawDataFromReq
+		): ArgumentsFor_SearchPageManager_requestFn => {
+		return (
+			qpcList: QueryParamCompatible_Base[],
+			throwPreparedArgsToSearchPageDrawer: (v: Object) => void
+		): (() => void) => {
+			const args = makeArgumentsFor_GetItems(qpcList);
+	
+			const { unsubscribe } = wUrql_q_GetItems(args)
+				.subscribe(
+				(res: UT.OperationResult) => {
+					const args = prepareArgsForFnThrowToDrawerFromGetReq(res);
+	
+					throwPreparedArgsToSearchPageDrawer(args);
+				}
+			);
+	
+			return unsubscribe;
+		}
+	};
+	
+	
+	
+	const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_drawDataFromReq) => {
+		return (v: UT.OperationResult): ArgumentsFor_SearchPageDrawer_drawDataFromReq => {
+			const { data, error } = v;
+			
+			const args: ArgumentsFor_SearchPageDrawer_drawDataFromReq = {
+				error
+			};
+	
+			if(data){
+				const { info, results } = data[thatPropName];
+	
+	
+				if(!info.pages){
+					return args;
+				}
+	
+				const tempPropsOfTileBoard_SearchValue: TempPropsOfTileBoard_SearchValue = {
+					pageCount: info.pages,
+					availableItemsCount: info.count
+				};
+	
+				if(info.next){
+					tempPropsOfTileBoard_SearchValue.selectedPage = info.next - 1;
+				}else if(info.prev){
+					tempPropsOfTileBoard_SearchValue.selectedPage = info.prev + 1;
+				}
+	
+	
+				args.data = {
+					tempPropsOfTileBoard_SearchValue,
+					dataForTilesList: results
+				}
+			}
+			
+			return args;
+		};
+	};
+	
+	
 	
 
-
-
-*/
 
 
 
 	type ArgumentsFor_SearchPageManager_requestFn = (
 		v: QueryParamCompatible_Base[],
-		SearchPageDrawer_handleDataFromReq: (v: ArgumentsFor_SearchPageDrawer_handleDataFromReq) => void
+		SearchPageDrawer_drawDataFromReq: (v: ArgumentsFor_SearchPageDrawer_drawDataFromReq) => void
 	) => () => void;
 
 	type ArgumentsFor_URLSearchParamsBasedFilterManager = {
@@ -295,11 +306,7 @@ CharactersSearch filter|tool-huyul
 		pushStateFn: (path: string, windowHistoryState: Object) => void;
 		searchPageDrawer: SearchPageDrawer;
 	};
-/*
-TAK BLYAT'
-snachala razlojim vse-taki
 
-*/
 	class SearchPageManager extends Observer{
 		#pathName: string;
 		#requestFn: ArgumentsFor_SearchPageManager_requestFn;
@@ -307,6 +314,7 @@ snachala razlojim vse-taki
 		#pushStateFn: (p: string, whs: Object) => void;
 		#unsubscribe: undefined | (() => void);
 		#searchPageDrawer: SearchPageDrawer;
+		#inited: undefined | true;
 
 
 		constructor(
@@ -336,9 +344,10 @@ snachala razlojim vse-taki
 		}
 
 		#finishNewRequest(){
+			const T = this;
 			this.#unsubscribe = this.#requestFn(
 				this.#QPCListHolder.getQPCList(),
-				this.#searchPageDrawer.handleDataFromReq
+				(v) => T.#searchPageDrawer.drawDataFromReq(v)
 			);
 		}
 
@@ -355,6 +364,8 @@ snachala razlojim vse-taki
 			const qpcList = getQPCBaseListFromURLSearchParams(urlSP);
 			
 			this.#QPCListHolder.setQPCList(qpcList);
+			
+			this.#searchPageDrawer.drawCustomForm(this.#QPCListHolder.getQPCList());
 
 			this.#finishNewRequest();
 		}
@@ -392,86 +403,180 @@ snachala razlojim vse-taki
 
 			this.#finishNewRequest();
 		}
-	}
 
-
-
-const makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer = (
-		makeArgumentsFor_GetItems: (v: QueryParamCompatible_Base[]) => Object,
-		wUrql_q_GetItems: (v: Object) => UT.OperationResultSource<UT.OperationResult>,
-		prepareArgsForFnThrowToDrawerFromGetReq: (v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_handleDataFromReq
-	): (
-		(
-			qpcList: QueryParamCompatible_Base[],
-			throwPreparedArgsToSearchPageDrawer: (v: Object) => void
-		) => void
-	) => {
-	return (
-		qpcList: QueryParamCompatible_Base[],
-		throwPreparedArgsToSearchPageDrawer: (v: Object) => void
-	): (() => void) => {
-		const args = makeArgumentsFor_GetItems(qpcList);
-
-		const { unsubscribe } = wUrql_q_GetItems(args)
-			.subscribe(
-			(res: UT.OperationResult) => {
-				const args = prepareArgsForFnThrowToDrawerFromGetReq(res);
-
-				throwPreparedArgsToSearchPageDrawer(args);
-			}
-		);
-
-		return unsubscribe;
-	}
-};
-
-
-
-const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_handleDataFromReq) => {
-	return (v: UT.OperationResult): ArgumentsFor_SearchPageDrawer_handleDataFromReq => {
-		const { data, error } = v;
-		
-		const args: ArgumentsFor_SearchPageDrawer_handleDataFromReq = {
-			error
-		};
-
-		if(data){
-			const { info, results } = data[thatPropName];
-
-
-			if(!info.pages){
-				return args;
+		init(v: QueryParamCompatible_Base[]){
+			if(this.#inited){
+				return;
 			}
 
-			const tempPropsOfTileBoard_SearchValue: TempPropsOfTileBoard_SearchValue = {
-				pageCount: info.pages,
-				availableItemsCount: info.count
-			};
-
-			if(info.next){
-				tempPropsOfTileBoard_SearchValue.selectedPage = info.next - 1;
-			}else if(info.prev){
-				tempPropsOfTileBoard_SearchValue.selectedPage = info.prev + 1;
-			}
+			this.#inited = true;
 
 
-			args.data = {
-				tempPropsOfTileBoard_SearchValue,
-				dataForTilesList: results
-			}
+			this.#QPCListHolder.setQPCList(v);
+			
+			this.#finishNewRequest();
 		}
-		
-		return args;
-	};
-};
+	}
 
 
 
-const getCharactersAndPrepareAndThrowToDrawer = makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer(
-	makeArgumentsFor_GetCharacters,
-	wUrql.q.GetCharacters,
-	makeFnPrepareArgsForFnThrowToDrawerFromGetReq('characters')
-);
+
+
+	const _SearchPageDrawer = new SearchPageDrawer(
+		{
+			pathName,
+			setExternalTiles: set_tiles,
+			setExternalTileBoard_SearchValue: set_TileBoard_SearchValue,
+			setExternalCharactersSearch__update_values: set_CharactersSearch__update_values
+		}
+	);
+
+	const _SearchPageManager = new SearchPageManager(
+		{
+			pathName,
+			requestFn: makeFnForSearchPageManagerWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer(
+					makeArgumentsFor_GetCharacters,
+					wUrql.q.GetCharacters,
+					makeFnPrepareArgsForFnThrowToDrawerFromGetReq('characters')
+				),
+			pushStateFn: pushState,
+			searchPageDrawer: _SearchPageDrawer
+		}
+	);
+
+	const lSCEEmitter = new LocationSearchChangeEventEmitter(
+		{
+			pathname: '/' + pathName,
+		}
+	);
+	lSCEEmitter.attach(_SearchPageManager);
+
+
+
+	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
+
+// pereezjaet v funkcii
+	const ActionId_ApplyDataFromCharactersSearch = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
+
+	actionExecuterAfterMount.addIdAction(
+		ActionId_ApplyDataFromCharactersSearch,
+		makeFn_ignoreFnExecAfterExitValueTransferOnce(
+			(CharactersSearch__exit_values: QueryParamCompatible_Base[]) => {
+				_SearchPageManager.applyCustomForm(CharactersSearch__exit_values)
+			}
+		)
+	);
+
+
+	const ActionId_ClickPaginationItemButton = 'clickat\' stranicu mi ne brosim, adin chetire vosem` vosem`';
+
+	actionExecuterAfterMount.addIdAction(
+		ActionId_ClickPaginationItemButton,
+		_SearchPageManager.selectPage
+	);
+
+
+
+
+	wLocationChangeEventEmitter.attach(lSCEEmitter);
+
+
+
+	$: _tiles = tiles;
+	$:{
+		actionExecuterAfterMount.execById(
+			ActionId_ApplyDataFromCharactersSearch,
+			[CharactersSearch__exit_values]
+		);
+	}
+	$:{
+		actionExecuterAfterMount.execById(
+			ActionId_ClickPaginationItemButton,
+			[pagination__exit_value]
+		);
+	}
+
+	onMount(
+		() => {
+			actionExecuterAfterMount.setReady();
+			
+			_SearchPageManager.init(CharactersSearch__update_values);
+			//make req to load init characters
+
+		}
+	);
+//init assembling
+
+
+//dev
+
+//okay
+
+
+	const qpcListHolder = new QPCListHolder();
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+//okay
+
+
+
+
+
+
+
+// CHTOOOO U MENYA EST'???
+/*
+
+whole pagination thing
+	exit value
+		pagination number
+	update value
+		TileBoard_SearchValue
+			syuda add page number from
+				QuerySearchParam
+				user select paginationItem
+
+tile list
+	CharacterTile value
+
+CharactersSearch filter|tool-huyul
+	init values
+		CharactersSearch__update_values/qpc list from location.search
+	update value/navigation_values
+		qpc list from location.search
+			make search request
+	exit value
+		qpc list
+			make search request
+			add QuerySearchParam in history
+	
+
+
+
+*/
+
+
+
+
+
 
 
 
@@ -647,6 +752,9 @@ return;
 		*/
 	};
 	
+	
+
+/*
 	const ignoreFnExecAfterExitValueTransferOnce = makeFn_ignoreFnExecAfterExitValueTransferOnce(
 		(exit_values: QueryParamCompatible_Base[]) => {
 			event_applySearchFilter(exit_values)
@@ -686,7 +794,7 @@ return;
 		ActionId_ClickPaginationItemButton,
 		event_clickPaginationPageButton
 	);
-
+ */
 
 
 
@@ -729,7 +837,7 @@ return;
 		}
 	}
 
-	lSCEEmitter.attach(new TestObse());
+//	lSCEEmitter.attach(new TestObse());
 
 		/*
 		#externalSetValue: ((v: TileBoard_SearchValue) => void) | undefined;
@@ -744,51 +852,6 @@ return;
 
 			this.#externalSetValue(this.build());
 		} */
-
-
-
-	$: _tiles = tiles;
-
-
-
-	$:{
-		actionExecuterAfterMount.execById(
-			ActionId_ApplyDataFromCharactersSearch,
-			[CharactersSearch__exit_values]
-		);
-	}
-	$:{
-		actionExecuterAfterMount.execById(
-			ActionId_ClickPaginationItemButton,
-			[pagination__exit_value]
-		);
-	}
-
-
-
-
-	TileBoard_SearchUpdateValue = {
-		pageCount: 11,
-		selectedPage: 5,
-		availableItemsTitle: 'testik123',
-		availableItemsCount: 228
-	};
-
-
-
-
-	onMount(
-		() => {
-			actionExecuterAfterMount.setReady();
-			
-			//make req to load init characters
-
-		}
-	);
-
-
-
-
 
 
 
@@ -840,8 +903,8 @@ return;
 			pagination__exit_value
 		}
 	>
-	<!--{#each _tiles as tile }
-		<CharacterTile data={tile.data} />
-	{/each}-->
+	{#each _tiles as tile }
+		<CharacterTile data={tile} />
+	{/each}
 	</TileBoard_Search>
 {/if}
