@@ -306,6 +306,7 @@ const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((
 				tempPropsOfTileBoard_SearchValue.selectedPage = info.prev + 1;
 			}
 
+
 			args.data = {
 				tempPropsOfTileBoard_SearchValue,
 				dataForTilesList: results
@@ -688,6 +689,7 @@ snachala razlojim vse-taki
 		#requestFn: (v: QueryParamCompatible_Base[]) => Promise<UT.OperationResult>;
 		#QPCListHolder: QPCListHolder;
 		#pushStateFn: (p: string, whs: Object) => void;
+		#unsubscribe: undefined | (() => void);
 
 
 		constructor(
@@ -706,13 +708,16 @@ snachala razlojim vse-taki
 			this.#QPCListHolder = qPCListHolder;
 			this.#pushStateFn = pushStateFn;
 		}
+		
+		#prepareNewRequest(){
+			if(this.#unsubscribe){
+				this.#unsubscribe();
+			}
 
-
-		onNotification(data: WindowLocationData){
-			
+			this.#searchPageDrawer.drawLoading();
 		}
 
-		setPageInQPCList(pagination__exit_value: number){
+		#setPageInQPCList(pagination__exit_value: number){
 			const qpcList = this.#QPCListHolder.getQPCList();
 
 			const foundIndex = qpcList.findIndex(e => e.param === URLSearchParams_pageParameterName);
@@ -730,25 +735,38 @@ snachala razlojim vse-taki
 			this.#QPCListHolder.setQPCList(qpcList);
 		}
 
-		async selectPage(pagination__exit_value: number){
-			this.setPageInQPCList(pagination__exit_value);
+		onNotification(data: WindowLocationData){
+			
+		}
+
+		loadFromHistoryLocationSearch(/*zabil uje vse... blya*/){
+			this.#prepareNewRequest();
+
+		}
+
+		selectPage(pagination__exit_value: number){
+			this.#prepareNewRequest();
+
+			this.#setPageInQPCList(pagination__exit_value);
 			
 			pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
 
 			// jelatel'no chtobi otmenyaem bil zapros...
-			const result = await this.#requestFn(this.#QPCListHolder.getQPCList());
+			this.#unsubscribe = this.#requestFn(this.#QPCListHolder.getQPCList());
 			// UPD da, unsub kidaet
 			
 
 			//drawer.draw(result)
 		}
 		
-		async applyCustomForm(exit_values: QueryParamCompatible_Base[]){
+		applyCustomForm(exit_values: QueryParamCompatible_Base[]){
+			this.#prepareNewRequest();
+
 			this.#QPCListHolder.setQPCList(exit_values);
 
 			pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
 
-			const result = await this.#requestFn(this.#QPCListHolder.getQPCList());
+			this.#unsubscribe = this.#requestFn(this.#QPCListHolder.getQPCList());
 
 			//drawer.draw(result)
 		}
