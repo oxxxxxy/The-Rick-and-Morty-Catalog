@@ -33,7 +33,10 @@
 	import { U } from '@tsL/utils';
 	
 	import { LocationSearchChangeEventEmitter } from '@tsLF/wLocationChangeEvent';
-	import type { WindowLocationData } from '@tsLF/wLocationChangeEvent';
+	import type { 
+		WindowLocationData,
+		LocationSearchChangeEventData
+	} from '@tsLF/wLocationChangeEvent';
 
 	import type { WT, GT, UT } from '@tsC/api-graphql-to-ex';
 
@@ -248,6 +251,150 @@
 
 
 
+// CHTOOOO U MENYA EST'???
+/*
+
+whole pagination thing
+	exit value
+		pagination number
+	update value
+		TileBoard_SearchValue
+			syuda add page number from
+				QuerySearchParam
+				user select paginationItem
+
+tile list
+	CharacterTile value
+
+CharactersSearch filter|tool-huyul
+	init values
+		CharactersSearch__update_values/qpc list from location.search
+	update value/navigation_values
+		qpc list from location.search
+			make search request
+	exit value
+		qpc list
+			make search request
+			add QuerySearchParam in history
+	
+
+
+
+*/
+
+
+
+	type ArgumentsFor_SearchPageManager_requestFn = (
+		v: QueryParamCompatible_Base[],
+		SearchPageDrawer_handleDataFromReq: (v: ArgumentsFor_SearchPageDrawer_handleDataFromReq) => void
+	) => () => void;
+
+	type ArgumentsFor_URLSearchParamsBasedFilterManager = {
+		pathName: string;
+		requestFn: ArgumentsFor_SearchPageManager_requestFn;
+		pushStateFn: (path: string, windowHistoryState: Object) => void;
+		searchPageDrawer: SearchPageDrawer;
+	};
+/*
+TAK BLYAT'
+snachala razlojim vse-taki
+
+*/
+	class SearchPageManager extends Observer{
+		#pathName: string;
+		#requestFn: ArgumentsFor_SearchPageManager_requestFn;
+		#QPCListHolder: QPCListHolder;
+		#pushStateFn: (p: string, whs: Object) => void;
+		#unsubscribe: undefined | (() => void);
+		#searchPageDrawer: SearchPageDrawer;
+
+
+		constructor(
+		{
+			pathName,
+			requestFn,
+			pushStateFn,
+			searchPageDrawer
+		} : ArgumentsFor_URLSearchParamsBasedFilterManager
+		){
+			super();
+
+			this.#requestFn = requestFn;
+			this.#pathName = pathName;
+			this.#pushStateFn = pushStateFn;
+			this.#searchPageDrawer = searchPageDrawer;
+			
+			this.#QPCListHolder = new QPCListHolder();
+		}
+		
+		#prepareNewRequest(){
+			if(this.#unsubscribe){
+				this.#unsubscribe();
+			}
+
+			this.#searchPageDrawer.drawLoading();
+		}
+
+		#finishNewRequest(){
+			this.#unsubscribe = this.#requestFn(
+				this.#QPCListHolder.getQPCList(),
+				this.#searchPageDrawer.handleDataFromReq
+			);
+		}
+
+
+		onNotification(data: LocationSearchChangeEventData){
+			this.#loadFromHistoryLocationSearch(data);
+		}
+
+		#loadFromHistoryLocationSearch(data: LocationSearchChangeEventData){
+			this.#prepareNewRequest();
+
+			const urlSP = new URLSearchParams(data.searchParamsData);
+
+			const qpcList = getQPCBaseListFromURLSearchParams(urlSP);
+			
+			this.#QPCListHolder.setQPCList(qpcList);
+
+			this.#finishNewRequest();
+		}
+
+		selectPage(pagination__exit_value: number){
+			this.#prepareNewRequest();
+
+			const qpcList = this.#QPCListHolder.getQPCList();
+
+			const foundIndex = qpcList.findIndex(e => e.param === URLSearchParams_pageParameterName);
+			if(foundIndex >= 0){
+				qpcList.splice(foundIndex, 1);
+			}
+
+			const pageQPC: QueryParamCompatible_Base = {
+				param: URLSearchParams_pageParameterName,
+				value: pagination__exit_value.toString()
+			};
+
+			qpcList.push(pageQPC);
+
+			this.#QPCListHolder.setQPCList(qpcList);
+			
+			pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
+
+			this.#finishNewRequest();
+		}
+		
+		applyCustomForm(exit_values: QueryParamCompatible_Base[]){
+			this.#prepareNewRequest();
+
+			this.#QPCListHolder.setQPCList(exit_values);
+
+			pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
+
+			this.#finishNewRequest();
+		}
+	}
+
+
 
 const makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer = (
 		makeArgumentsFor_GetItems: (v: QueryParamCompatible_Base[]) => Object,
@@ -277,6 +424,7 @@ const makeFnWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer = (
 		return unsubscribe;
 	}
 };
+
 
 
 const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_handleDataFromReq) => {
@@ -638,141 +786,6 @@ return;
 		}
 	);
 
-
-
-// CHTOOOO U MENYA EST'???
-/*
-
-whole pagination thing
-	exit value
-		pagination number
-	update value
-		TileBoard_SearchValue
-			syuda add page number from
-				QuerySearchParam
-				user select paginationItem
-
-tile list
-	CharacterTile value
-
-CharactersSearch filter|tool-huyul
-	init values
-		CharactersSearch__update_values/qpc list from location.search
-	update value/navigation_values
-		qpc list from location.search
-			make search request
-	exit value
-		qpc list
-			make search request
-			add QuerySearchParam in history
-	
-
-
-
-*/
-
-
-
-	type ArgumentsFor_URLSearchParamsBasedFilterManager = {
-		pathName: string;
-		requestFn: (v: QueryParamCompatible_Base[]) => Promise<UT.OperationResult>;
-		qPCListHolder: QPCListHolder;
-		pushStateFn: (path: string, windowHistoryState: Object) => void;
-	};
-/*
-TAK BLYAT'
-snachala razlojim vse-taki
-
-*/
-	class SearchPageManager extends Observer{
-		#pathName: string;
-		#requestFn: (v: QueryParamCompatible_Base[]) => Promise<UT.OperationResult>;
-		#QPCListHolder: QPCListHolder;
-		#pushStateFn: (p: string, whs: Object) => void;
-		#unsubscribe: undefined | (() => void);
-
-
-		constructor(
-		{
-			pathName,
-			requestFn,
-			qPCListHolder = new QPCListHolder(),
-			pushStateFn,
-
-		} : ArgumentsFor_URLSearchParamsBasedFilterManager
-		){
-			super();
-
-			this.#requestFn = requestFn;
-			this.#pathName = pathName;
-			this.#QPCListHolder = qPCListHolder;
-			this.#pushStateFn = pushStateFn;
-		}
-		
-		#prepareNewRequest(){
-			if(this.#unsubscribe){
-				this.#unsubscribe();
-			}
-
-			this.#searchPageDrawer.drawLoading();
-		}
-
-		#setPageInQPCList(pagination__exit_value: number){
-			const qpcList = this.#QPCListHolder.getQPCList();
-
-			const foundIndex = qpcList.findIndex(e => e.param === URLSearchParams_pageParameterName);
-			if(foundIndex >= 0){
-				qpcList.splice(foundIndex, 1);
-			}
-
-			const pageQPC: QueryParamCompatible_Base = {
-				param: URLSearchParams_pageParameterName,
-				value: pagination__exit_value.toString()
-			};
-
-			qpcList.push(pageQPC);
-
-			this.#QPCListHolder.setQPCList(qpcList);
-		}
-
-		onNotification(data: WindowLocationData){
-			
-		}
-
-		loadFromHistoryLocationSearch(/*zabil uje vse... blya*/){
-			this.#prepareNewRequest();
-
-		}
-
-		selectPage(pagination__exit_value: number){
-			this.#prepareNewRequest();
-
-			this.#setPageInQPCList(pagination__exit_value);
-			
-			pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
-
-			// jelatel'no chtobi otmenyaem bil zapros...
-			this.#unsubscribe = this.#requestFn(this.#QPCListHolder.getQPCList());
-			// UPD da, unsub kidaet
-			
-
-			//drawer.draw(result)
-		}
-		
-		applyCustomForm(exit_values: QueryParamCompatible_Base[]){
-			this.#prepareNewRequest();
-
-			this.#QPCListHolder.setQPCList(exit_values);
-
-			pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
-
-			this.#unsubscribe = this.#requestFn(this.#QPCListHolder.getQPCList());
-
-			//drawer.draw(result)
-		}
-
-
-	}
 
 
 
