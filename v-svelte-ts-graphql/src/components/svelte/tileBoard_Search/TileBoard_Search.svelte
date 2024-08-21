@@ -1,10 +1,9 @@
 <script lang="ts">
 	import type { 
 		PaginationBoardValue,
-		PaginationItem
+		PaginationItem,
+		TileBoard_SearchValue
 	} from '@tsLF/pages';
-
-	import type { TileBoard_SearchValue } from '@tsCF/pages';
 
 
 	import PaginationBoard from '$comps/svelte/pagination/PaginationBoard.svelte';

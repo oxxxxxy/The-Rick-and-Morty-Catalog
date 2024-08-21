@@ -1,4 +1,4 @@
-import type { GT, WT } from '@tsC/api-graphql-to-ex';
+import type { GT, IUrqlClientWrapper } from '@tsC/api-graphql-to-ex';
 
 import { U } from '@tsL/utils';
 
@@ -32,7 +32,6 @@ import {
 
 export const makeArgumentsFor_GetCharacters = (relatedQPCList: QueryParamCompatible_Base[]): GT.QueryCharactersArgs => makeArguments_PageFilter(relatedQPCList, URLSearchParams_pageParameterName);
 
-
 export type CharactersSearchPageDependencies = {
 	handlePaginationSelection: (pagination__exit_value: number) => void;
 	handleCharactersSearchApply: (CharactersSearch__exit_values: QueryParamCompatible_Base[]) => void;
@@ -46,7 +45,7 @@ export type ArgumentsFor_initCharactersSearchPage = {
 	set_TileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
 	set_CharactersSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
 	pushStateFn: PushStateFnType;
-	wUrql: WT.UrqlClientWrapper;
+	wUrql: IUrqlClientWrapper;
 	wLocationChangeEventEmitter: WindowLocationChangeEventEmitter;
 }
 

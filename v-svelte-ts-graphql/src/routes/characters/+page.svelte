@@ -10,7 +10,7 @@
 	
 	import type {
 		TileBoard_SearchValue,
-		NonTilesResultsForDrawingSearchPageTileBoard,
+		NonTilesResultsForDrawingSearchPageTileBoard
 	} from '@tsLF/pages';
 
 	import { initCharactersSearchPage	} from '@tsCF/pages';
