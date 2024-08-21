@@ -7,7 +7,6 @@
 	import { API_CHARACTERS__PATH } from '@tsCF/data';
 
 	import { capitalizeWord } from '@tsLF/pages';
-	
 	import type {
 		TileBoard_SearchValue,
 		NonTilesResultsForDrawingSearchPageTileBoard
