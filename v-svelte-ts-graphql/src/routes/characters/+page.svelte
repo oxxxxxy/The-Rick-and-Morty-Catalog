@@ -12,7 +12,8 @@
 	
 	import type {
 		TileBoard_SearchValue,
-		ERR
+		NonTilesResultsForDrawingSearchPageTileBoard,
+
 	} from '@tsCF/pages';
 	import {
 		TileBoard_SearchValueBuilder,
@@ -27,7 +28,8 @@
 		getURLSPSFromQPCBaseList,
 		getQPCBaseListFromURLSearchParams,
 		getObjArrFromQPCBaseList,
-		getParamObjFromQPCBaseList
+		getParamObjFromQPCBaseList,
+		QPCListHolder
 	} from '@tsLF/forURLSP';
 
 	import { U } from '@tsL/utils';
@@ -35,7 +37,8 @@
 	import { LocationSearchChangeEventEmitter } from '@tsLF/wLocationChangeEvent';
 	import type { 
 		WindowLocationData,
-		LocationSearchChangeEventData
+		LocationSearchChangeEventData,
+		WindowLocationChangeEventEmitter
 	} from '@tsLF/wLocationChangeEvent';
 
 	import type { WT, GT, UT } from '@tsC/api-graphql-to-ex';
@@ -78,7 +81,7 @@
 
 	const set_CharactersSearch__update_values = (v: QueryParamCompatible_Base[]) => (CharactersSearch__update_values = v);
 	const set_TileBoard_SearchValue = (v: TileBoard_SearchValue) => (TileBoard_SearchUpdateValue = v);
-	const set_tiles = (v: Object[] | NonTilesResultsForDrawingSearchPageTileBoard) => (tiles = v);
+	const set_tiles = (v: GT.CharacterPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard) => (tiles = v);
 
 
 
@@ -86,19 +89,7 @@
 
 //init assembling
 
-	type NonTilesResultsForDrawingSearchPageTileBoard = 'ERR' | 'NOT FOUND' | 'LOADING';
 
-	class QPCListHolder{
-		#qpcList: QueryParamCompatible_Base[] = [];
-		
-		setQPCList(v: QueryParamCompatible_Base[]){
-			this.#qpcList = v;
-		}
-
-		getQPCList(): QueryParamCompatible_Base[]{
-			return structuredClone(this.#qpcList);
-		}
-	}
 	
 	const makeFn_ignoreFnExecAfterExitValueTransferOnce = (fn: () => {}) => {
 		/* const ignoreExitValueTransferOnceCrutch = new U.IgnoreFewTimesCrutch(1);
@@ -131,7 +122,7 @@
 	
 
 
-	type ArgumentsFor_SearchPageDrawer = {
+	type ArgumentsForsearchPageDrawer = {
 		pathName: string;
 		setExternalTiles: (v: Object[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
 		setExternalTileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
@@ -142,7 +133,7 @@
 		availableItemsTitle: undefined
 	};
 
-	type ArgumentsFor_SearchPageDrawer_drawDataFromReq = {
+	type ArgumentsForsearchPageDrawer_drawDataFromReq = {
 		data?: {
 			tempPropsOfTileBoard_SearchValue: TempPropsOfTileBoard_SearchValue
 			dataForTilesList: Object[] // ne sovsem ponimayu kak prokinut' tot je GT.CharacterPreviewFieldsFragment , podskajite, pls. Sdes' kak bi obschiy object kotoriy tip prokidivaet v prinimayushiy takoy je tip, kotoriy budet vihodit' iz prepareArgsForFnThrowToDrawerFromGetReq
@@ -163,7 +154,7 @@
 				setExternalTiles,
 				setExternalTileBoard_SearchValue,
 				setExternalCharactersSearch__update_values
-			} : ArgumentsFor_SearchPageDrawer
+			} : ArgumentsForsearchPageDrawer
 		){
 			
 			this.#tileBoard_SearchValueBuilder = new TileBoard_SearchValueBuilder(
@@ -196,7 +187,7 @@
 
 		#svelteCrutch_drawDataFromReq_lastTimeout: undefined | typeof setTimeout; // nu a cho delat'? umniy dohuya? podskaji togda pojalusta mne durachku T_T pomogite...
 
-		drawDataFromReq(v: ArgumentsFor_SearchPageDrawer_drawDataFromReq){
+		drawDataFromReq(v: ArgumentsForsearchPageDrawer_drawDataFromReq){
 			const { data, error } = v;
 
 			if(error){
@@ -237,8 +228,8 @@
 	const makeFnForSearchPageManagerWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer = (
 			makeArgumentsFor_GetItems: (v: QueryParamCompatible_Base[]) => Object,
 			wUrql_q_GetItems: (v: Object) => UT.OperationResultSource<UT.OperationResult>,
-			prepareArgsForFnThrowToDrawerFromGetReq: (v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_drawDataFromReq
-		): ArgumentsFor_SearchPageManager_requestFn => {
+			prepareArgsForFnThrowToDrawerFromGetReq: (v: UT.OperationResult) => ArgumentsForsearchPageDrawer_drawDataFromReq
+		): ArgumentsForsearchPageManager_requestFn => {
 		return (
 			qpcList: QueryParamCompatible_Base[],
 			throwPreparedArgsToSearchPageDrawer: (v: Object) => void
@@ -260,11 +251,11 @@
 	
 	
 	
-	const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((v: UT.OperationResult) => ArgumentsFor_SearchPageDrawer_drawDataFromReq) => {
-		return (v: UT.OperationResult): ArgumentsFor_SearchPageDrawer_drawDataFromReq => {
+	const makeFnPrepareArgsForFnThrowToDrawerFromGetReq = (thatPropName: string): ((v: UT.OperationResult) => ArgumentsForsearchPageDrawer_drawDataFromReq) => {
+		return (v: UT.OperationResult): ArgumentsForsearchPageDrawer_drawDataFromReq => {
 			const { data, error } = v;
 			
-			const args: ArgumentsFor_SearchPageDrawer_drawDataFromReq = {
+			const args: ArgumentsForsearchPageDrawer_drawDataFromReq = {
 				error
 			};
 	
@@ -304,23 +295,23 @@
 
 
 
-	type ArgumentsFor_SearchPageManager_requestFn = (
+	type ArgumentsForsearchPageManager_requestFn = (
 		v: QueryParamCompatible_Base[],
-		SearchPageDrawer_drawDataFromReq: (v: ArgumentsFor_SearchPageDrawer_drawDataFromReq) => void
+		SearchPageDrawer_drawDataFromReq: (v: ArgumentsForsearchPageDrawer_drawDataFromReq) => void
 	) => () => void;
 
 	type ArgumentsFor_URLSearchParamsBasedFilterManager = {
 		pathName: string;
-		requestFn: ArgumentsFor_SearchPageManager_requestFn;
-		pushStateFn: (path: string, windowHistoryState: Object) => void;
+		requestFn: ArgumentsForsearchPageManager_requestFn;
+		pushStateFn: PushStateFnType;
 		searchPageDrawer: SearchPageDrawer;
 	};
 
 	class SearchPageManager extends Observer{
 		#pathName: string;
-		#requestFn: ArgumentsFor_SearchPageManager_requestFn;
+		#requestFn: ArgumentsForsearchPageManager_requestFn;
 		#QPCListHolder: QPCListHolder;
-		#pushStateFn: (p: string, whs: Object) => void;
+		#pushStateFn: PushStateFnType;
 		#unsubscribe: undefined | (() => void);
 		#searchPageDrawer: SearchPageDrawer;
 		#inited: undefined | true;
@@ -383,18 +374,22 @@
 			this.#prepareNewRequest();
 
 			const qpcList = this.#QPCListHolder.getQPCList();
-
+			
 			const foundIndex = qpcList.findIndex(e => e.param === URLSearchParams_pageParameterName);
 			if(foundIndex >= 0){
 				qpcList.splice(foundIndex, 1);
 			}
 
-			const pageQPC: QueryParamCompatible_Base = {
-				param: URLSearchParams_pageParameterName,
-				value: pagination__exit_value.toString()
-			};
+			// not only bcz i want to not see ?page=1
+			// but bcz urql cache is thinking default req with params not equal to req with the same params and page=1
+			if(pagination__exit_value != 1){
+				const pageQPC: QueryParamCompatible_Base = {
+					param: URLSearchParams_pageParameterName,
+					value: pagination__exit_value.toString()
+				};
 
-			qpcList.push(pageQPC);
+				qpcList.push(pageQPC);
+			}
 
 			this.#QPCListHolder.setQPCList(qpcList);
 			
@@ -427,91 +422,148 @@
 		}
 	}
 
+	type PushStateFnType = (path: string, windowHistoryState: Object) => void;
 
+	type CharactersSearchPageDependencies = {
+		handlePaginationSelection: (pagination__exit_value: number) => void;
+		handleCharactersSearchApply: (CharactersSearch__exit_values: QueryParamCompatible_Base[]) => void;
+		searchPageManager: SearchPageManager;
+		actionExecuterAfterMount: typeof U.ActionExecuterAfterCondition;
+	}
 
+	type ArgumentsFor_initCharactersSearchPage = {
+		pathName: string,
+		set_tiles: (v: GT.CharacterPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
+		set_TileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
+		set_CharactersSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
+		pushStateFn: PushStateFnType;
+		wUrql: any;
+		wLocationChangeEventEmitter: WindowLocationChangeEventEmitter;
+	}
 
-
-	const _SearchPageDrawer = new SearchPageDrawer(
+	const initCharactersSearchPage = (
 		{
 			pathName,
-			setExternalTiles: set_tiles,
-			setExternalTileBoard_SearchValue: set_TileBoard_SearchValue,
-			setExternalCharactersSearch__update_values: set_CharactersSearch__update_values
-		}
-	);
-
-	const _SearchPageManager = new SearchPageManager(
-		{
-			pathName,
-			requestFn: makeFnForSearchPageManagerWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer(
-					makeArgumentsFor_GetCharacters,
-					wUrql.q.GetCharacters,
-					makeFnPrepareArgsForFnThrowToDrawerFromGetReq('characters')
-				),
-			pushStateFn: pushState,
-			searchPageDrawer: _SearchPageDrawer
-		}
-	);
-
-	const lSCEEmitter = new LocationSearchChangeEventEmitter(
-		{
-			pathname: '/' + pathName,
-		}
-	);
-	lSCEEmitter.attach(_SearchPageManager);
-
-
-
-	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
-
-// pereezjaet v funkcii
-	const ActionId_ApplyDataFromCharactersSearch = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
-
-	actionExecuterAfterMount.addIdAction(
-		ActionId_ApplyDataFromCharactersSearch,
-		makeFn_ignoreFnExecAfterExitValueTransferOnce(
-			(CharactersSearch__exit_values: QueryParamCompatible_Base[]) => {
-				_SearchPageManager.applyCustomForm(CharactersSearch__exit_values)
+			set_tiles,
+			set_CharactersSearch__update_values,
+			set_TileBoard_SearchValue,
+			pushStateFn,
+			wLocationChangeEventEmitter,
+			wUrql
+		} : ArgumentsFor_initCharactersSearchPage
+	): CharactersSearchPageDependencies => {
+		const searchPageDrawer = new SearchPageDrawer(
+			{
+				pathName,
+				setExternalTiles: set_tiles,
+				setExternalTileBoard_SearchValue: set_TileBoard_SearchValue,
+				setExternalCharactersSearch__update_values: set_CharactersSearch__update_values
 			}
-		)
+		);
+
+		const searchPageManager = new SearchPageManager(
+			{
+				pathName,
+				requestFn: makeFnForSearchPageManagerWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer(
+						makeArgumentsFor_GetCharacters,
+						wUrql.q.GetCharacters,
+						makeFnPrepareArgsForFnThrowToDrawerFromGetReq('characters')
+					),
+				pushStateFn,
+				searchPageDrawer
+			}
+		);
+
+
+		const lSCEEmitter = new LocationSearchChangeEventEmitter(
+			{
+				pathname: '/' + pathName,
+			}
+		);
+		lSCEEmitter.attach(searchPageManager);
+
+		wLocationChangeEventEmitter.attach(lSCEEmitter);
+
+
+		const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
+
+		const ActionId_ApplyDataFromCharactersSearch = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
+
+		actionExecuterAfterMount.addIdAction(
+			ActionId_ApplyDataFromCharactersSearch,
+			makeFn_ignoreFnExecAfterExitValueTransferOnce(
+				(CharactersSearch__exit_values: QueryParamCompatible_Base[]) => {
+					searchPageManager.applyCustomForm(CharactersSearch__exit_values)
+				}
+			)
+		);
+
+		const handleCharactersSearchApply = (CharactersSearch__exit_values: QueryParamCompatible_Base[]) => (
+			actionExecuterAfterMount.execById(
+				ActionId_ApplyDataFromCharactersSearch,
+				[CharactersSearch__exit_values]
+			)
+		);
+
+
+		const ActionId_ClickPaginationItemButton = 'clickat\' stranicu mi ne brosim, adin chetire vosem` vosem`';
+
+		actionExecuterAfterMount.addIdAction(
+			ActionId_ClickPaginationItemButton,
+			(pagination__exit_value: number) => searchPageManager.selectPage(pagination__exit_value)
+		);
+
+		const handlePaginationSelection = (pagination__exit_value: number) => (
+			actionExecuterAfterMount.execById(
+				ActionId_ClickPaginationItemButton,
+				[pagination__exit_value]
+			)
+		);
+
+
+
+		return {
+			handlePaginationSelection,
+			handleCharactersSearchApply,
+			searchPageManager,
+			actionExecuterAfterMount
+		};
+	};
+
+	const {
+		handlePaginationSelection,
+		handleCharactersSearchApply,
+		actionExecuterAfterMount,
+		searchPageManager
+	} = initCharactersSearchPage(
+		{
+			pathName,
+			pushStateFn: pushState,
+			set_tiles,
+			set_TileBoard_SearchValue,
+			set_CharactersSearch__update_values,
+			wUrql,
+			wLocationChangeEventEmitter
+		}
 	);
-
-
-	const ActionId_ClickPaginationItemButton = 'clickat\' stranicu mi ne brosim, adin chetire vosem` vosem`';
-
-	actionExecuterAfterMount.addIdAction(
-		ActionId_ClickPaginationItemButton,
-		(pagination__exit_value: number) => _SearchPageManager.selectPage(pagination__exit_value)
-	);
-
-
-
-
-	wLocationChangeEventEmitter.attach(lSCEEmitter);
-
 
 
 	$:{
 		tiles = tiles;
 	}
 	$:{
-		actionExecuterAfterMount.execById(
-			ActionId_ApplyDataFromCharactersSearch,
-			[CharactersSearch__exit_values]
-		);
+		handleCharactersSearchApply(CharactersSearch__exit_values);
 	}
 	$:{
-		actionExecuterAfterMount.execById(
-			ActionId_ClickPaginationItemButton,
-			[pagination__exit_value]
-		);
+		handlePaginationSelection(pagination__exit_value);
 	}
+
 
 	onMount(
 		() => {
 			actionExecuterAfterMount.setReady();
 			
-			_SearchPageManager.init(CharactersSearch__update_values);
+			searchPageManager.init(CharactersSearch__update_values);
 		}
 	);
 
