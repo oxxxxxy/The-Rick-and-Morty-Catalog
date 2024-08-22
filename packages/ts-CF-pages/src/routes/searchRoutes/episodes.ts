@@ -1,6 +1,4 @@
-import type { GT, IUrqlClientWrapper } from '@tsC/api-graphql-to-ex';
-
-import { U } from '@tsL/utils';
+import type { UT, GT, IUrqlClientWrapper } from '@tsC/api-graphql-to-ex';
 
 import type { QueryParamCompatible_Base	} from '@tsLF/forURLSP';
 
@@ -13,23 +11,7 @@ import type {
 	SearchPageDependencies
 } from '@tsCF/pages';
 
-import {
-	LocationSearchChangeEventEmitter,
-	WindowLocationChangeEventEmitter
-} from '@tsLF/wLocationChangeEvent';
-
-import type {
-	NonTilesResultsForDrawingSearchPageTileBoard,
-	TileBoard_SearchValue,
-	PushStateFnType
-} from '@tsLF/pages';
-import {
-	makeArguments_PageFilter,
-	makeFnForSearchPageManagerWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer,
-	makeFnPrepareArgsForFnThrowToDrawerFromGetReq,
-	SearchPageManager,
-	SearchPageDrawer
-} from '@tsLF/pages';
+import { makeArguments_PageFilter } from '@tsLF/pages';
 
 
 
@@ -72,15 +54,17 @@ export const initEpisodesSearchPage = (
 			set_tiles,
 			set_CFHSearch__update_values: set_EpisodesSearch__update_values,
 			set_TileBoard_SearchValue,
-			wUrql_q_GetItems: (v) => wUrql.q.GetEpisodes(v),
+			wUrql_q_GetItems: (v: Object): UT.OperationResultSource<UT.OperationResult> => wUrql.q.GetEpisodes(v),
 			argumentFor_makeFnPrepareArgsForFnThrowToDrawerFromGetReq: 'episodes',
 			pushStateFn,
-			wLocationChangeEventEmitter
+			wLocationChangeEventEmitter,
+			makeArguments_PageFilter: makeArguments_PageFilterForGetEpisodes
 		}
 	);
 
 	searchPageDependencies.handleEpisodesSearchApply = searchPageDependencies.handleCFHSearchApply;
 	delete searchPageDependencies.handleCFHSearchApply;
 
+	// blyat' menya tak besit, chto spellchecker rugaetsa
 	return searchPageDependencies;
 };

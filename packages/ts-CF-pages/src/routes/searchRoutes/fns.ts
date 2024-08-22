@@ -1,4 +1,4 @@
-import type { UT, GT, IUrqlClientWrapper } from '@tsC/api-graphql-to-ex';
+import type { UT } from '@tsC/api-graphql-to-ex';
 
 import { U } from '@tsL/utils';
 
@@ -17,7 +17,6 @@ import type {
 	PushStateFnType
 } from '@tsLF/pages';
 import {
-	makeArguments_PageFilter,
 	makeFnForSearchPageManagerWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer,
 	makeFnPrepareArgsForFnThrowToDrawerFromGetReq,
 	SearchPageManager,
