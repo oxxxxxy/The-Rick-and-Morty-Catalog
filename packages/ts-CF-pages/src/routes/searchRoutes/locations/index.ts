@@ -30,42 +30,42 @@ import {
 
 
 
-export const makeArgumentsFor_GetCharacters = (relatedQPCList: QueryParamCompatible_Base[]): GT.QueryCharactersArgs => makeArguments_PageFilter(relatedQPCList, URLSearchParams_pageParameterName);
+export const makeArgumentsFor_GetLocations = (relatedQPCList: QueryParamCompatible_Base[]): GT.QueryLocationsArgs => makeArguments_PageFilter(relatedQPCList, URLSearchParams_pageParameterName);
 
-export type CharactersSearchPageDependencies = {
+export type LocationsSearchPageDependencies = {
 	handlePaginationSelection: (pagination__exit_value: number) => void;
-	handleCharactersSearchApply: (CharactersSearch__exit_values: QueryParamCompatible_Base[]) => void;
+	handleLocationsSearchApply: (LocationsSearch__exit_values: QueryParamCompatible_Base[]) => void;
 	searchPageManager: SearchPageManager;
 	actionExecuterAfterMount: typeof U.ActionExecuterAfterCondition;
 }
 
-export type ArgumentsFor_initCharactersSearchPage = {
+export type ArgumentsFor_initLocationsSearchPage = {
 	pathName: string,
-	set_tiles: (v: GT.CharacterPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
+	set_tiles: (v: GT.LocationPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
 	set_TileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
-	set_CharactersSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
+	set_LocationsSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
 	pushStateFn: PushStateFnType;
 	wUrql: IUrqlClientWrapper;
 	wLocationChangeEventEmitter: WindowLocationChangeEventEmitter;
 }
 
-export const initCharactersSearchPage = (
+export const initLocationsSearchPage = (
 	{
 		pathName,
 		set_tiles,
-		set_CharactersSearch__update_values,
+		set_LocationsSearch__update_values,
 		set_TileBoard_SearchValue,
 		pushStateFn,
 		wLocationChangeEventEmitter,
 		wUrql
-	} : ArgumentsFor_initCharactersSearchPage
-): CharactersSearchPageDependencies => {
+	} : ArgumentsFor_initLocationsSearchPage
+): LocationsSearchPageDependencies => {
 	const searchPageDrawer = new SearchPageDrawer(
 		{
 			pathName,
 			setExternalTiles: set_tiles,
 			setExternalTileBoard_SearchValue: set_TileBoard_SearchValue,
-			setExternalCFHSearch__update_values: set_CharactersSearch__update_values
+			setExternalCFHSearch__update_values: set_LocationsSearch__update_values
 		}
 	);
 
@@ -73,9 +73,9 @@ export const initCharactersSearchPage = (
 		{
 			pathName,
 			requestFn: makeFnForSearchPageManagerWhichReturnUnsubscribe_getItemsAndPrepareAndThrowToDrawer(
-					makeArgumentsFor_GetCharacters,
-					wUrql.q.GetCharacters,
-					makeFnPrepareArgsForFnThrowToDrawerFromGetReq('characters')
+					makeArgumentsFor_GetLocations,
+					wUrql.q.GetLocations,
+					makeFnPrepareArgsForFnThrowToDrawerFromGetReq('locations')
 				),
 			pushStateFn,
 			searchPageDrawer,
@@ -96,21 +96,21 @@ export const initCharactersSearchPage = (
 
 	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
 
-	const ActionId_ApplyDataFromCharactersSearch = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
+	const ActionId_ApplyDataFromLocationsSearch = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
 
 	actionExecuterAfterMount.addIdAction(
-		ActionId_ApplyDataFromCharactersSearch,
+		ActionId_ApplyDataFromLocationsSearch,
 		makeFn_ignoreFnExecAfterExitValueTransferOnce(
-			(CharactersSearch__exit_values: QueryParamCompatible_Base[]) => {
-				searchPageManager.applyCustomForm(CharactersSearch__exit_values)
+			(LocationsSearch__exit_values: QueryParamCompatible_Base[]) => {
+				searchPageManager.applyCustomForm(LocationsSearch__exit_values)
 			}
 		)
 	);
 
-	const handleCharactersSearchApply = (CharactersSearch__exit_values: QueryParamCompatible_Base[]) => (
+	const handleLocationsSearchApply = (LocationsSearch__exit_values: QueryParamCompatible_Base[]) => (
 		actionExecuterAfterMount.execById(
-			ActionId_ApplyDataFromCharactersSearch,
-			[CharactersSearch__exit_values]
+			ActionId_ApplyDataFromLocationsSearch,
+			[LocationsSearch__exit_values]
 		)
 	);
 
@@ -133,7 +133,7 @@ export const initCharactersSearchPage = (
 
 	return {
 		handlePaginationSelection,
-		handleCharactersSearchApply,
+		handleLocationsSearchApply,
 		searchPageManager,
 		actionExecuterAfterMount
 	};

@@ -15,7 +15,7 @@ export type ArgumentsFor_SearchPageDrawer = {
 	pathName: string;
 	setExternalTiles: (v: Object[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
 	setExternalTileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
-	setExternalCharactersSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
+	setExternalCFHSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
 };
 
 export type TempPropsOfTileBoard_SearchValue = TileBoard_SearchValue & {
@@ -34,7 +34,7 @@ export class SearchPageDrawer{
 	#tileBoard_SearchValueBuilder: TileBoard_SearchValueBuilder;
 	#setExternalTiles: (v: Object[] | NonTilesResultsForDrawingSearchPageTileBoard) => void;
 	#setExternalTileBoard_SearchValue: (v: TileBoard_SearchValue) => void;
-	#setExternalCharactersSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
+	#setExternalCFHSearch__update_values: (v: QueryParamCompatible_Base[]) => void;
 
 
 	constructor(
@@ -42,7 +42,7 @@ export class SearchPageDrawer{
 			pathName,
 			setExternalTiles,
 			setExternalTileBoard_SearchValue,
-			setExternalCharactersSearch__update_values
+			setExternalCFHSearch__update_values
 		} : ArgumentsFor_SearchPageDrawer
 	){
 		
@@ -54,7 +54,7 @@ export class SearchPageDrawer{
 
 		this.#setExternalTiles = setExternalTiles;
 		this.#setExternalTileBoard_SearchValue = setExternalTileBoard_SearchValue;
-		this.#setExternalCharactersSearch__update_values = 	setExternalCharactersSearch__update_values;
+		this.#setExternalCFHSearch__update_values = setExternalCFHSearch__update_values;
 	}
 
 	drawNotFound(){
@@ -70,7 +70,7 @@ export class SearchPageDrawer{
 	}
 
 	drawCustomForm(v: QueryParamCompatible_Base[]){
-		this.#setExternalCharactersSearch__update_values(v);
+		this.#setExternalCFHSearch__update_values(v);
 	}
 
 
