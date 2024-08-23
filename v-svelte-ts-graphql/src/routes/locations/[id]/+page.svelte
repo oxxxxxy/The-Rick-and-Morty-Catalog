@@ -9,4 +9,4 @@ console.log(data);
 
 </script>
 
-<h1>character id = {data}</h1>
+<h1>location id = {data}</h1>
