@@ -50,7 +50,7 @@ console.log(data);
 async function fna(){
 	U.log(
 		// await wUrql.q.GetCharacter({id:'2'}),
-		await wUrql.q.GetEpisode({id: '1'}),
+		await wUrql.q.GetEpisode({id: '3'}),
 		// await wUrql.q.GetLocation({id: '2'}),
 		
 			)
@@ -59,32 +59,79 @@ async function fna(){
 fna()
 
 
-	const pageTitleValues = 
 
-	{
-		cause: 'not found',
-		value: 'Nothing found'
+
+	type ElementCauseValueObj = {
+		cause: string;
+		value: string | ((v: any) => string);
 	};
 
 	type ArgumentsFor_LittleChangeableStringElementDrawer = {
 		setElementValueFn: (v: string) => void;
-		elementCauseValues: {
-				cause: string,
-				value: string | ((v: any) => string)
-			}[];
-	}
+		elementCauseValues: ElementCauseValueObj[];
+	};
 	
 	class LittleChangeableStringElementDrawer{
-		valueList;
+		readonly elementCauseValues: ElementCauseValueObj[];
+		#setExternalElementValue: (v:string) => void;
 
 		constructor(
 			{
-			
+				setElementValueFn,
+				elementCauseValues
+			} : ArgumentsFor_LittleChangeableStringElementDrawer
+		){
+			this.elementCauseValues = elementCauseValues;
+			this.#setExternalElementValue = setElementValueFn;
+		}
+
+		draw(cause: string, v?: any){
+			const found = this.elementCauseValues.find(e => e.cause === cause);
+
+			if(!found){
+				throw new Error('Nothing found by cause: ' + cause);
 			}
-		)
+
+			let value;
+
+			if(typeof found.value === 'function'){
+				value = found.value(v);
+			} else {
+				value = found.value;
+			}
+
+			this.#setExternalElementValue(value);
+		}
 
 	}
 
+	const pageTitleDrawer = new LittleChangeableStringElementDrawer(
+		{
+			setElementValueFn: set_pageTitle,
+			elementCauseValues: [
+				// da ya huy ego znaet,
+				// tut v lyubom sluchae sostoyanie kakoe-to, a mne uje ochen' len' bolee detal'no razobrat'sya v primerah podobnojo,
+				// ya prosto hochu na minimalku uje vityanut' proekt.
+				// doljno je bit' v nem chto-to horoschee, poetomu zdes' ya pozvolyu sebe detal'no ne produmivat', potomu chto razvitiya tut ne budet, izvinite.
+				{
+					cause: 'not found',
+					value: 'Episode was not found'
+				},
+				{
+					cause: 'error',
+					value: 'Error'
+				},
+				{
+					cause: 'ok',
+					value: (notation: string) => 'Episode ' + notation
+				},
+				{
+					cause: 'loading',
+					value: 'Episode loading'
+				}
+			]
+		}
+	);
 
 
 
@@ -151,21 +198,15 @@ fna()
 </svelte:head>
 
 
+<TileBoard>
 {#if bigTile === 'ERR'}
-	<TileBoard>
 		<p>Network Error. Try later or kill yourself. Thank you.</p>
-	</TileBoard>
 {:else if bigTile === 'LOADING'}
-	<TileBoard>
 		<p>Loading...</p>
-	</TileBoard>
 {:else if bigTile === 'NOT FOUND'}
-	<TileBoard>
 		<p>Nothing found.</p>
-	</TileBoard>
 {:else if typeof bigTile === 'object'}
-	<TileBoard>
 		<p>bigTile was found.</p>
-	</TileBoard>
 {/if}
+</TileBoard>
 
