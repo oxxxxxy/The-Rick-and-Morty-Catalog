@@ -5,3 +5,5 @@ export * from './pagination';
 export * from './searchPage';
 export * from './types.ts';
 export * from './fns';
+export * from './LittleChangeableStringElementDrawer.ts';
+export * from './itemPage';
