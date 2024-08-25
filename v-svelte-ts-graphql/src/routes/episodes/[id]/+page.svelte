@@ -7,7 +7,6 @@
 
 	import type {
 		PositiveInteger,
-		ObjectWithStringValues
 	} from '@tsL/types';
 
 	import type { NonTilesResultsForDrawingSearchPageTileBoard } from '@tsLF/pages';
@@ -20,7 +19,6 @@
 	} = g();
 
 
-	import CharacterTile from '$comps/svelte/tileBoard/tiles/CharacterTile.svelte';
 	import BigEpisodeTile from '$comps/svelte/routes/Episodes-id/BigEpisodeTile.svelte';
 	import TileBoard from '$comps/svelte/tileBoard/TileBoard.svelte';
 
@@ -30,33 +28,22 @@
 	export let data;
 
 
-	let pageTitle = 'Episode loading'; // Episode S11E01     * TRAMC
-	let bigTile: NonTilesResultsForDrawingSearchPageTileBoard = 'LOADING';
+	let pageTitle = 'Episode loading';
+	let bigTile: GT.EpisodeFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard = 'LOADING';
 
 
-	const set_bigTile = (v) => (bigTile = v);
-	const set_pageTitle = (v) => (pageTitle = v);
+	const set_bigTile = (v: GT.EpisodeFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard) => (bigTile = v);
+	const set_pageTitle = (v: string) => (pageTitle = v);
 
-console.log(data);
 
 	$:{
 		pageTitle = pageTitle;
 	}
 	$:{
 		bigTile = bigTile;
+		U.log('bigTile', bigTile)
 	}
 
-
-async function fna(){
-	U.log(
-		// await wUrql.q.GetCharacter({id:'2'}),
-		await wUrql.q.GetEpisode({id: '3'}),
-		// await wUrql.q.GetLocation({id: '2'}),
-		
-			)
-}
-
-fna()
 
 
 
@@ -102,8 +89,82 @@ fna()
 
 			this.#setExternalElementValue(value);
 		}
-
 	}
+
+
+	type ArgumentsFor_ItemPageManager = {
+		set_bigTile: (v: Object | NonTilesResultsForDrawingSearchPageTileBoard) => void;
+		pageTitleDrawer: LittleChangeableStringElementDrawer
+		itemId: `${number}`;
+		
+	}
+
+	class ItemPageManager {
+		#pageTitleDrawer: LittleChangeableStringElementDrawer;
+		#setExternalBigTile: (v: Object | NonTilesResultsForDrawingSearchPageTileBoard) => void;
+
+
+		constructor(
+			{
+				set_bigTile,
+				pageTitleDrawer,
+				itemId
+			} : ArgumentsFor_ItemPageManager
+		){
+			this.#pageTitleDrawer = pageTitleDrawer;
+			this.#setExternalBigTile = set_bigTile;
+
+			if(!Array.isArray(itemId.match(/^([1-9]|[1-9][0-9]+)$/))){
+				this.drawNotFound();
+			}
+
+			this.drawLoading();
+			this.makeReq(itemId);
+		}
+
+
+		drawNotFound(){
+			this.#setExternalBigTile('NOT FOUND');
+			this.#pageTitleDrawer.draw('not found');
+		}
+
+		drawError(){
+			this.#setExternalBigTile('ERR');
+			this.#pageTitleDrawer.draw('error');
+		}
+		
+		drawLoading(){
+			this.#setExternalBigTile('LOADING');
+			this.#pageTitleDrawer.draw('loading');
+		}
+
+		async makeReq(id){
+			let { data, error } = await wUrql.q.GetEpisode({id});
+
+			data = data.episode;
+
+			if(error){
+				this.drawError();
+				return;
+			}
+
+			if(!data){
+				this.drawNotFound();
+				return;
+			}
+			
+			this.#setExternalBigTile(data);
+			this.#pageTitleDrawer.draw('ok', data.episode);
+			
+			U.log(data, error)
+
+		}
+		
+	}
+
+
+
+
 
 	const pageTitleDrawer = new LittleChangeableStringElementDrawer(
 		{
@@ -113,6 +174,7 @@ fna()
 				// tut v lyubom sluchae sostoyanie kakoe-to, a mne uje ochen' len' bolee detal'no razobrat'sya v primerah podobnojo,
 				// ya prosto hochu na minimalku uje vityanut' proekt.
 				// doljno je bit' v nem chto-to horoschee, poetomu zdes' ya pozvolyu sebe detal'no ne produmivat', potomu chto razvitiya tut ne budet, izvinite.
+				// ya prosto hochu na rabotu, boje, suka, dayte vibrat'sa iz gavna etogo, eto prosto pizdec
 				{
 					cause: 'not found',
 					value: 'Episode was not found'
@@ -137,44 +199,33 @@ fna()
 
 	const id = data.psl.params.id;
 
-	if(!Array.isArray(id.match(/^([1-9]|[1-9][0-9]+)$/))){
-		// NOT FOUND SRAZU NAHUY VEZDE
-	}
+console.log(data);
 
+async function fna(){
+	const ep = await wUrql.q.GetEpisode({id: '3'});
 
+	set_bigTile(ep.data.episode);
 
-
-
-
-
-/*
-
-	type ArgumentsFor_ItemPageDrawer = {
-		set_bigTile: (v: Object | NonTilesResultsForDrawingSearchPageTileBoard) => void;
-		set_pageTitle: (v: string) => void;
-		itemId: PositiveInteger<number>;
+	U.log(
 		
-	}
+		// await wUrql.q.GetCharacter({id:'2'}),
+		await wUrql.q.GetEpisode({id: '3'}),
+		// await wUrql.q.GetLocation({id: '2'}),
+		
+			)
+}
 
-	class ItemPageDrawer {
-		// #pageTitleMessages: ObjectWithStringValues;
+//fna()
 
-		constructor(
-			{
-			} : ArgumentsFor_ItemPageDrawer
-		){
-
+	const asdf = new ItemPageManager(
+		{
+			set_bigTile,
+			pageTitleDrawer,
+			itemId: data.psl.params.id
 		}
+	);
 
-		drawNotFound(){
-			this.#setExternalBigTile('NOT FOUND');
-			// this.#setExternalPageTitle(this.#pageTitleMessages.notFound);
-		}
 
-		drawError(){
-
-		}
-	} */
 
 
 
@@ -200,13 +251,15 @@ fna()
 
 <TileBoard>
 {#if bigTile === 'ERR'}
-		<p>Network Error. Try later or kill yourself. Thank you.</p>
+	<p>Network Error. Try later or kill yourself. Thank you.</p>
 {:else if bigTile === 'LOADING'}
-		<p>Loading...</p>
+	<p>Loading...</p>
 {:else if bigTile === 'NOT FOUND'}
-		<p>Nothing found.</p>
+	<p>Nothing found.</p>
 {:else if typeof bigTile === 'object'}
-		<p>bigTile was found.</p>
+	<BigEpisodeTile
+		data={bigTile}
+	/>
 {/if}
 </TileBoard>
 
