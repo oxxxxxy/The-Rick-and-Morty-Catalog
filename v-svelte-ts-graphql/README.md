@@ -15,7 +15,7 @@ Tech stack:
 
 
 video demo 
-![](https://github.com/oxxxxxy/The-Rick-and-Morty-Catalog/blob/main/v-svelte-ts-graphql/media/tramc-v-svelte-ts-graphql-demo-vid.mp4)
+![](https://rutube.ru/video/private/4632af03d052eb634a06911a48473310/)
 
 P.S.
 There is a trouble with svelte file router thing. So, thanks to svelte learn docs for that surprise.
