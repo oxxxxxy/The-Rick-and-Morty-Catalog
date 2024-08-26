@@ -11,7 +11,7 @@ Tech stack:
  - Formatter: Prettier
  - Browser compatibility testing: Playwright
  - Unit testing: Vitest
- - client for GraphQL: urql
+ - GraphQL client: urql
 
 
 [video demo link](https://rutube.ru/video/private/4632af03d052eb634a06911a48473310/?p=b8ULNNNeQwfs3wnh_rjtiQ)
