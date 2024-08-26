@@ -1,5 +1,5 @@
 <script lang="ts">
-	
+
 	import type { GT } from '@tsC/api-graphql-to-ex';
 
 	import type { NonTilesResultsForDrawingSearchPageTileBoard } from '@tsLF/pages';
