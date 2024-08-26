@@ -1,0 +1,8 @@
+upd 26 aug 24 5:25
+	there is no page redirection from /item/id1 to /item/id2
+	i have event on +page.server.ts, but not on +page.svelte
+	WTF???
+
+	so... i have problems:
+		- no redirection with the same path, but diff if
+		- no data loading from url location query to Search.svelte when i return back from another non /items path
