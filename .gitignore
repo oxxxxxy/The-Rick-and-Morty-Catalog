@@ -3,6 +3,8 @@
 /secret
 /sandbox
 /packages/0empty
+/build
+
 
 *.backup
 *node_modules

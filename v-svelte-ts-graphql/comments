@@ -8,3 +8,10 @@ upd 26 aug 24 5:25
 		- no data loading from url location query to Search.svelte when i return back from another non /items path
 upd 26 aug 24 9:19
 	apparently there is a lot of issues on svelte/kit https://github.com/sveltejs/kit/issues/11745#issuecomment-1913018705 , https://github.com/sveltejs/kit/issues/11635 with the same problem... blyat' peredelat' routing pridet'sa, suka blyadskaya, pizdec, gandoni. nahuy bilo togda etu siruyu huetu pihat' v obuchalku, suka, blyat'
+
+upd 26 aug 24 21:20
+	so, idk how to fix this problems above here without change router
+	and i couldn't deploy it in easy way... so, i don't care, dev works.
+	and i don't want to waste time on that.
+upd 26 aug 24 21:30
+	maybe i was hasty. i will try vercel deploy.
