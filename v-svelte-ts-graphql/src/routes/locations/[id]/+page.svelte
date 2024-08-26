@@ -36,7 +36,6 @@
 	}
 	$:{
 		bigTile = bigTile;
-		console.log(bigTile)
 	}
 
 

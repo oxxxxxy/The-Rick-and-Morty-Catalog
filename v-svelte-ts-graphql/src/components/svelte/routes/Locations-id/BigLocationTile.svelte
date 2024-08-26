@@ -16,36 +16,31 @@
 
 	import type { 
 		PaginationBoardValue,
-		PaginationItem,
-		TileBoard_SearchValue
+		PaginationItem
 	} from '@tsLF/pages';
-	import { 
-		
+	import {
+		makeFn_ignoreFnExecAfterExitValueTransferOnce
 	} from '@tsLF/pages';
 
 
 	
 
 	let PaginationBoard__exit_value: PaginationItem;
-	let PaginationBoard__entry_value: PaginationBoardValue = {
-		pageCount : 1,
-		selectedPage: 1,
-		buttonViewingLimit: 7
-	};
-
-
+	let PaginationBoard__entry_value: PaginationBoardValue;
 	let currentViewCharacters: GT.CharacterPreviewFieldsFragment[] = [];
 
-	const set_currentViewCharacters = (v: GT.CharacterPreviewFieldsFragment[]) => (currentViewCharacters = v);
 
-	const set_PaginationBoard__entry_value = (v: PaginationBoardValue) => (PaginationBoard__entry_value = v);
+	const set_currentViewCharacters = (v: GT.CharacterPreviewFieldsFragment[]) => (currentViewCharacters = v);
+	const set_PaginationBoard__entry_value = (v: PaginationBoardValue) => (console.log(v, 'set'), PaginationBoard__entry_value = v);
+
+
 
 	type ArgumentsFor_LimitedViewOfItems = {
 		set_paginationBoard__entry_value: (v: PaginationBoardValue) => void;
 		set_limitedItems: (v: Object[]) => void;
 		thatArrayOfObjs: Object[];
 		buttonViewingLimit: number;
-		viewCountOfCharacters: PositiveInteger<number>;
+		viewCountOfItems: PositiveInteger<number>;
 	}
 
 	class LimitedViewOfItems{
@@ -53,7 +48,7 @@
 		#setExternalLimitedItems: (v: Object[]) => void;
 		#thatArrayOfObjs: Object[];
 		#buttonViewingLimit: number;
-		#viewCountOfCharacters: PositiveInteger<number>;
+		#viewCountOfItems: PositiveInteger<number>;
 
 
 		constructor(
@@ -62,55 +57,104 @@
 				set_limitedItems,
 				thatArrayOfObjs,
 				buttonViewingLimit,
-				viewCountOfCharacters
+				viewCountOfItems
 			} : ArgumentsFor_LimitedViewOfItems
 		){
 			this.#setExternalPaginationBoard__entry_value = set_paginationBoard__entry_value;
 			this.#setExternalLimitedItems = set_limitedItems;
 			this.#thatArrayOfObjs = thatArrayOfObjs;
 			this.#buttonViewingLimit = buttonViewingLimit;
-			this.#viewCountOfCharacters = viewCountOfCharacters;
+			this.#viewCountOfItems = viewCountOfItems;
 		}
 		
-		getPageCount(){
-			return this.#thatArrayOfObjs.length % this.#viewCountOfCharacters + 1;
+		getPageCount(): number{
+			const diff = this.#thatArrayOfObjs.length / this.#viewCountOfItems;
+
+			const diffStr = diff.toString();
+			const floor = Math.floor(diff);
+
+			if(diffStr != floor){
+				return floor + 1;
+			}else{
+				return diff;
+			}
 		}
 
 		getPaginationBoardValue(selectedPage: PositiveInteger<number>): PaginationBoardValue{
 			return {
 				selectedPage,
 				pageCount : this.getPageCount(),
-				buttonViewingLimit: this.#buttonViewingLimit;	
+				buttonViewingLimit: this.#buttonViewingLimit
 			}
+		}
+		
+		getViewLimit(v: PositiveInteger<number>): Object[]{
+			const viewLimitLeft = this.#viewCountOfItems * (v - 1);
+			let viewLimitRight = viewLimitLeft + this.#viewCountOfItems;
+
+			const viewLimitOfObjs = this.#thatArrayOfObjs.slice(
+				viewLimitLeft,
+				viewLimitRight
+			);
+
+			return viewLimitOfObjs;
 		}
 
 		init(){
-			
+			this.#setExternalLimitedItems(
+				this.getViewLimit(1)
+			);
+			this.#setExternalPaginationBoard__entry_value(
+				this.getPaginationBoardValue(1)
+			);
 		}
 
 		recievePaginationBoard__exit_value(v: PaginationItem){
-
+			this.#setExternalLimitedItems(
+				this.getViewLimit(v.pageNum)
+			);
+			this.#setExternalPaginationBoard__entry_value(
+				this.getPaginationBoardValue(v.pageNum)
+			);
 		}
 	}
 
 	const viewCountOfCharacters = 40;
 
-	$:{
-		PaginationBoard__entry_value = PaginationBoard__entry_value;
+	let handleSelectedPage = (v: PaginationItem) => {};
+
+	console.log(data)
+
+	if(data.residents && data.residents.length > viewCountOfCharacters){
+		const limitedViewOfCharacters = new LimitedViewOfItems(
+			{
+				viewCountOfItems: viewCountOfCharacters,
+				set_limitedItems: set_currentViewCharacters,
+				set_paginationBoard__entry_value: set_PaginationBoard__entry_value,
+				thatArrayOfObjs: data.residents,
+				buttonViewingLimit: 7
+			}
+		);
+		
+		handleSelectedPage = (v: PaginationItem) => (console.log(v, 'handle'), limitedViewOfCharacters.recievePaginationBoard__exit_value(v));
+
+		limitedViewOfCharacters.init();
 	}
-	$:{
-		if(PaginationBoard__exit_value){
-			
-		}
-	}
+
+
 	$:{
 		currentViewCharacters = currentViewCharacters;
 	}
-
-	if(data.residents && data.residents.length > viewCountOfCharacters){
-		
-
+	$:{
+		PaginationBoard__entry_value = PaginationBoard__entry_value;
+		console.log(PaginationBoard__entry_value, 'PaginationBoard__entry_value')
 	}
+	$:{
+		if(PaginationBoard__exit_value){
+			handleSelectedPage(PaginationBoard__exit_value);
+		}
+	}
+
 
 </script>
 
@@ -248,15 +292,26 @@
 	</div>
 
 	{#if data.residents.length > viewCountOfCharacters}
-		<PaginationBoard 
-			bind:entry_value={
-				PaginationBoard__entry_value
-			}
-			bind:exit_value={
-				PaginationBoard__exit_value
-			}
-		/>
-		{#each currentViewCharacters as char }
+		<div
+			class="
+				d-flex
+				w-100
+				jc-center
+			"
+			style="
+				margin-bottom: 10px;
+			"
+		>
+			<PaginationBoard 
+				bind:entry_value={
+					PaginationBoard__entry_value
+				}
+				bind:exit_value={
+					PaginationBoard__exit_value
+				}
+			/>
+		</div>
+		{#each currentViewCharacters as char (char.id) }
 			<CharacterTile data={char} />
 		{/each}
 	{:else}
