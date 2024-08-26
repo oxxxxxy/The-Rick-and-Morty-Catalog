@@ -7,3 +7,4 @@ export * from './types.ts';
 export * from './fns';
 export * from './LittleChangeableStringElementDrawer.ts';
 export * from './itemPage';
+export * from './LimitedViewOfItems.ts';

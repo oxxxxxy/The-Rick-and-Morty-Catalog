@@ -47,7 +47,7 @@
 		pagination
 	"
 >
-	{#each _pages as page }
+	{#each _pages as page (page.pageNum) }
 		{#if page.selected}
 			<a
 				class="

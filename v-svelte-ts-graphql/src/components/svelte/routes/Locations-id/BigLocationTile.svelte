@@ -1,5 +1,13 @@
 <script lang="ts">
 
+	import type { 
+		PaginationBoardValue,
+		PaginationItem
+	} from '@tsLF/pages';
+	import {
+		LimitedViewOfItems
+	} from '@tsLF/pages';
+
 	import type { GT } from '@tsC/api-graphql-to-ex';
 
 
@@ -12,118 +20,18 @@
 	export let data: GT.LocationFieldsFragment;
 
 
-	import type { PositiveInteger } from '@tsL/types';
-
-	import type { 
-		PaginationBoardValue,
-		PaginationItem
-	} from '@tsLF/pages';
-	import {
-		makeFn_ignoreFnExecAfterExitValueTransferOnce
-	} from '@tsLF/pages';
-
-
-	
-
 	let PaginationBoard__exit_value: PaginationItem;
 	let PaginationBoard__entry_value: PaginationBoardValue;
 	let currentViewCharacters: GT.CharacterPreviewFieldsFragment[] = [];
 
 
 	const set_currentViewCharacters = (v: GT.CharacterPreviewFieldsFragment[]) => (currentViewCharacters = v);
-	const set_PaginationBoard__entry_value = (v: PaginationBoardValue) => (console.log(v, 'set'), PaginationBoard__entry_value = v);
+	const set_PaginationBoard__entry_value = (v: PaginationBoardValue) => (PaginationBoard__entry_value = v);
 
-
-
-	type ArgumentsFor_LimitedViewOfItems = {
-		set_paginationBoard__entry_value: (v: PaginationBoardValue) => void;
-		set_limitedItems: (v: Object[]) => void;
-		thatArrayOfObjs: Object[];
-		buttonViewingLimit: number;
-		viewCountOfItems: PositiveInteger<number>;
-	}
-
-	class LimitedViewOfItems{
-		#setExternalPaginationBoard__entry_value: (v: PaginationBoardValue) => void;
-		#setExternalLimitedItems: (v: Object[]) => void;
-		#thatArrayOfObjs: Object[];
-		#buttonViewingLimit: number;
-		#viewCountOfItems: PositiveInteger<number>;
-
-
-		constructor(
-			{
-				set_paginationBoard__entry_value,
-				set_limitedItems,
-				thatArrayOfObjs,
-				buttonViewingLimit,
-				viewCountOfItems
-			} : ArgumentsFor_LimitedViewOfItems
-		){
-			this.#setExternalPaginationBoard__entry_value = set_paginationBoard__entry_value;
-			this.#setExternalLimitedItems = set_limitedItems;
-			this.#thatArrayOfObjs = thatArrayOfObjs;
-			this.#buttonViewingLimit = buttonViewingLimit;
-			this.#viewCountOfItems = viewCountOfItems;
-		}
-		
-		getPageCount(): number{
-			const diff = this.#thatArrayOfObjs.length / this.#viewCountOfItems;
-
-			const diffStr = diff.toString();
-			const floor = Math.floor(diff);
-
-			if(diffStr != floor){
-				return floor + 1;
-			}else{
-				return diff;
-			}
-		}
-
-		getPaginationBoardValue(selectedPage: PositiveInteger<number>): PaginationBoardValue{
-			return {
-				selectedPage,
-				pageCount : this.getPageCount(),
-				buttonViewingLimit: this.#buttonViewingLimit
-			}
-		}
-		
-		getViewLimit(v: PositiveInteger<number>): Object[]{
-			const viewLimitLeft = this.#viewCountOfItems * (v - 1);
-			let viewLimitRight = viewLimitLeft + this.#viewCountOfItems;
-
-			const viewLimitOfObjs = this.#thatArrayOfObjs.slice(
-				viewLimitLeft,
-				viewLimitRight
-			);
-
-			return viewLimitOfObjs;
-		}
-
-		init(){
-			this.#setExternalLimitedItems(
-				this.getViewLimit(1)
-			);
-			this.#setExternalPaginationBoard__entry_value(
-				this.getPaginationBoardValue(1)
-			);
-		}
-
-		recievePaginationBoard__exit_value(v: PaginationItem){
-			this.#setExternalLimitedItems(
-				this.getViewLimit(v.pageNum)
-			);
-			this.#setExternalPaginationBoard__entry_value(
-				this.getPaginationBoardValue(v.pageNum)
-			);
-		}
-	}
 
 	const viewCountOfCharacters = 40;
 
 	let handleSelectedPage = (v: PaginationItem) => {};
-
-	console.log(data)
 
 	if(data.residents && data.residents.length > viewCountOfCharacters){
 		const limitedViewOfCharacters = new LimitedViewOfItems(
@@ -132,29 +40,20 @@
 				set_limitedItems: set_currentViewCharacters,
 				set_paginationBoard__entry_value: set_PaginationBoard__entry_value,
 				thatArrayOfObjs: data.residents,
-				buttonViewingLimit: 7
+				buttonViewingLimit: 5
 			}
 		);
 		
-		handleSelectedPage = (v: PaginationItem) => (console.log(v, 'handle'), limitedViewOfCharacters.recievePaginationBoard__exit_value(v));
+		handleSelectedPage = (v: PaginationItem) => (limitedViewOfCharacters.recievePaginationBoard__exit_value(v));
 
 		limitedViewOfCharacters.init();
 	}
 
-
-	$:{
-		currentViewCharacters = currentViewCharacters;
-	}
-	$:{
-		PaginationBoard__entry_value = PaginationBoard__entry_value;
-		console.log(PaginationBoard__entry_value, 'PaginationBoard__entry_value')
-	}
 	$:{
 		if(PaginationBoard__exit_value){
 			handleSelectedPage(PaginationBoard__exit_value);
 		}
 	}
-
 
 </script>
 
@@ -292,27 +191,37 @@
 	</div>
 
 	{#if data.residents.length > viewCountOfCharacters}
-		<div
-			class="
-				d-flex
-				w-100
-				jc-center
-			"
-			style="
-				margin-bottom: 10px;
-			"
-		>
-			<PaginationBoard 
-				bind:entry_value={
-					PaginationBoard__entry_value
-				}
-				bind:exit_value={
-					PaginationBoard__exit_value
-				}
-			/>
-		</div>
-		{#each currentViewCharacters as char (char.id) }
-			<CharacterTile data={char} />
+		{#each currentViewCharacters as char, i (char.id) }
+			{#if i === 0}
+			<!-- 
+				vot eto ebanoe gavnische tolko iz-za ebuchey uebischnoy svelte reactivity hueti
+				kak je gorit s etogo ganvnischa
+				rabotaet kogda kak, ebat' etu huynyu so vsemi razrabami v rot, chtobi vi suki v adu goreli mrazi
+				poshli nahuy
+			-->
+				<div
+					class="
+						d-flex
+						w-100
+						jc-center
+					"
+					style="
+						margin-bottom: 10px;
+					"
+				>
+					<PaginationBoard 
+						bind:entry_value={
+							PaginationBoard__entry_value
+						}
+						bind:exit_value={
+							PaginationBoard__exit_value
+						}
+					/>
+				</div>
+				<CharacterTile data={char} />
+			{:else}
+				<CharacterTile data={char} />
+			{/if}
 		{/each}
 	{:else}
 		{#each data.residents as char }
