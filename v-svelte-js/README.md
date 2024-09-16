@@ -5,12 +5,14 @@ The web app implementation is based primarily on Svelte, JavaScript.
 Primarily programming paradigms/principles/architectures/etc: OOP, FP, SOLID, YAGNI, KISS, DRY, APO.
 
 Tech stack:
-    - Programming language: JavaScript
-        - Dependency injection container: BottleJS
-    - Front-end framework: Svelte
-    - Linter: ESLint
-    - Formatter: Prettier
-    - Browser compatibility testing: Playwright
-    - Unit testing: Vitest
+ - Programming language: JavaScript
+ - Dependency injection container: BottleJS
+ - Front-end framework: Svelte
+ - Linter: ESLint
+ - Formatter: Prettier
+ - Browser compatibility testing: Playwright
+ - Unit testing: Vitest
 
 
+
+# UPD it was abandoned. plak-plak.
