@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { U } from '@tsL/utils';
 	import { APP_NAME } from '$comps/data';
 
 
