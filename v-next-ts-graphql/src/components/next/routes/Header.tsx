@@ -1,36 +1,33 @@
-<script lang="ts">
-	import { onMount } from 'svelte';
+// import { onMount } from 'svelte'; 
 
 
-	import { 
-		noProtocolLink,
-		getCssClassOKorERR,
-		checkServerStatus
-	} from '@tsCF/pages/src/Header.ts';
+import {  
+	noProtocolLink, 
+	getCssClassOKorERR, 
+	checkServerStatus 
+} from '@tsCF/pages/src/Header'; 
 
-	
-	import {
-		URL__STATUS_RICKANDMORTYAPI, 
-		URL__APP_VER_GITHUB_REPO 
-	} from '$comps/data';
+  
+import { 
+	URL__STATUS_RICKANDMORTYAPI,  
+	URL__APP_VER_GITHUB_REPO  
+} from '@/components/data'; 
 
-	import g from '$comps/context/index.ts';
-	const wUrql = g().wUrql;
-
-
+// import g from '$comps/context/index.ts'; 
+// const wUrql = g().wUrql; 
 
 
-	$: cssClass_serverStatusIcon = getCssClassOKorERR(!!0);
-
-
-	onMount(async () => {
-		cssClass_serverStatusIcon = await checkServerStatus(wUrql);
-	});
-
-</script>
 
 
 export default function Header() {
+
+	// $: cssClass_serverStatusIcon = getCssClassOKorERR(!!0);
+
+
+	// onMount(async () => {
+	// 	cssClass_serverStatusIcon = await checkServerStatus(wUrql);
+	// });
+
   return (
 		<header className="
 				header-homePapiGit
@@ -70,7 +67,7 @@ export default function Header() {
 							"
 						>
 						  <a
-						    href="{URL__STATUS_RICKANDMORTYAPI}"
+						    href={URL__STATUS_RICKANDMORTYAPI}
 						    target="_blank"
 						  >
 									{ noProtocolLink }
@@ -99,7 +96,7 @@ export default function Header() {
 							"
 						>
 						  <a
-						    href="{URL__STATUS_RICKANDMORTYAPI}"
+						    href={URL__STATUS_RICKANDMORTYAPI}
 						    target="_blank"
 						  >
 									server
@@ -116,7 +113,7 @@ export default function Header() {
 		
 				{/*<!-- button/link/etc on repo of that web client app --> */}
 				<a
-				  href="{URL__APP_VER_GITHUB_REPO}"
+				  href={URL__APP_VER_GITHUB_REPO}
 				  title="GitHub"
 				  aria-label="github"
 				>

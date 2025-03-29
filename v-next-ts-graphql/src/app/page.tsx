@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 
 import { APP_NAME } from '@/components/data';
 
-
 import Poster from "@/components/next/routes/Home/Poster"
 
 
