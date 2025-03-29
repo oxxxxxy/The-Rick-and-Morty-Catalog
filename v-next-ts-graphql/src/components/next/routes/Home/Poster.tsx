@@ -66,25 +66,29 @@ export default function Poster() {
 					>
 						<p>
 							It's several web apps based on link 
+							{' '}
 							<a
-				 		   href="{ URL__RICKANDMORTYAPI }"
+				 		   href={ URL__RICKANDMORTYAPI }
 				 		   target="_blank"
 							>
 								{ URL__RICKANDMORTYAPI }
 							</a>
+							{' '}
 							with the same functionality to search characters and their data. It's an educational project for the purpose of learning a lot of frontend frameworks, lol, wait for flutter.
 						</p>
 						<p>
 						</p>
 						<p>
 							You are using 
+							{' '}
 							<a
 							style={{ fontWeight: 'bold' }}
-			 		 	  href="{ URL__APP_VER_GITHUB_REPO }"
+			 		 	  href={ URL__APP_VER_GITHUB_REPO }
 			 		 	  target="_blank"
 							>
 								{ CURRENT_APP_VERSION_NAME }
 							</a>
+							{' '}
 							version right now.
 						</p>
 					</span>

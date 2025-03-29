@@ -1,5 +1,20 @@
 import Image from "next/image";
-import Poster from "@/components/react/routes/Home/Poster"
+import type { Metadata } from "next";
+
+
+import { APP_NAME } from '@/components/data';
+
+
+import Poster from "@/components/next/routes/Home/Poster"
+
+
+
+
+export const metadata: Metadata = {
+  title: "Home • " + APP_NAME,
+  description: APP_NAME,
+};
+
 
 export default function Home() {
   return (
