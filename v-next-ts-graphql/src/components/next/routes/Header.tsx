@@ -1,33 +1,43 @@
-// import { onMount } from 'svelte'; 
+'use client';
+
+import { useState, useEffect } from 'react';
 
 
 import {  
 	noProtocolLink, 
 	getCssClassOKorERR, 
 	checkServerStatus 
-} from '@tsCF/pages/src/Header'; 
+} from '@tsCF/pages'; 
 
   
 import { 
 	URL__STATUS_RICKANDMORTYAPI,  
 	URL__APP_VER_GITHUB_REPO  
 } from '@/components/data'; 
-
-// import g from '$comps/context/index.ts'; 
+// import g from '@components/context'; 
 // const wUrql = g().wUrql; 
+import { useGlobalContext } from '@/components/context/globalContext';
+
+//const wUrql = getUrql();// don't forget to check uniques of it, BLYAT` ya hz kak...
 
 
 
 
-export default function Header() {
+export default function Header() {	
+	const [ cssClass_serverStatusIcon, setCssClass_serverStatusIcon ] = useState(getCssClassOKorERR(false));
 
-	// $: cssClass_serverStatusIcon = getCssClassOKorERR(!!0);
+	const { wUrql } = useGlobalContext();
+	
+	useEffect(() => {
+		const action = async ():Promise<void> => {
+			setCssClass_serverStatusIcon(
+				await checkServerStatus(wUrql)
+			);	
+		};
 
-
-	// onMount(async () => {
-	// 	cssClass_serverStatusIcon = await checkServerStatus(wUrql);
-	// });
-
+		action();
+	});
+	
   return (
 		<header className="
 				header-homePapiGit
@@ -75,10 +85,10 @@ export default function Header() {
 							's server status
 						</span>
 						<span 
-							className="
+							className={`
 								server-status-icon
-								{ cssClass_serverStatusIcon }
-							"
+								${cssClass_serverStatusIcon}
+							`}
 						></span>  
 					</div>
 					<div 
@@ -103,10 +113,10 @@ export default function Header() {
 						  </a>
 						</span>
 						<span 
-							className="
+							className={`
 								server-status-icon
-								{ cssClass_serverStatusIcon }
-							" 
+								${cssClass_serverStatusIcon}
+							`}
 						></span>
 					</div>
 				</div>

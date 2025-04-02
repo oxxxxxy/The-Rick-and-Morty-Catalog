@@ -1,20 +1,25 @@
 import '../../../static/css/style.css';
+// import '@/app/globals.css';
 
 
 import Header from "@/components/next/routes/Header";
+import GlobalContextProvider from '@/components/context/globalContext';
+
 
 
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>
-				<Header/>
-        {children}
+				<GlobalContextProvider>
+					<Header/>
+					{children}
+				</GlobalContextProvider>
       </body>
     </html>
   );
