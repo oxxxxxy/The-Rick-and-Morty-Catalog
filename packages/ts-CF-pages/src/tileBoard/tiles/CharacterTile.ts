@@ -24,8 +24,11 @@ export type GenDataForCharacterTile = {
 	type: string;
 };
 
-export const getCssClass_CharacterStatusIcon = (status: string
+export const getCssClass_CharacterStatusIcon = (status: string | any
 ): string | undefined => {
+	if(typeof status !== 'string'){
+		return 'character-status__icon-unknown';
+	}
 	switch(status.toLowerCase()){
 		case 'alive':
 			return 'character-status__icon-alive';
