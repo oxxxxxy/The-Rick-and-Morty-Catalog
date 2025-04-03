@@ -4,29 +4,31 @@ export type NavigationPath = {
 	selected?: true;
 }
 
-export class NavigationBar{
-	private paths: NavigationPath[];
+export class NavigationBar< T extends NavigationPath = NavigationPath> {
+	private paths: T[];
 	private current_path: number | undefined;
 
 	constructor(
-		paths: NavigationPath[]
+		paths: T[]
 	){
 		this.paths = paths;
 	}
 
 	setSelected(path: NavigationPath | string){
 		const T = this;
-	
-		const type = typeof path;
+
+    if (path === null || path === undefined) {
+        throw new Error('path can`t be null or undefined.');
+    }
 
 		let index: number;
 
-		if(type === 'object'){
+		if(typeof path === 'object'){
 			index = T.paths.findIndex(e => e.value === path.value);
-		} else if (type === 'string'){
+		} else if (typeof path === 'string'){
 			index = T.paths.findIndex(e => e.value === path);
 		} else {
-			throw new Error('setSelected(path: NavigationPath | string), but you pass ' + type, path);
+			throw new Error('setSelected(path: NavigationPath | string), but you pass ' + typeof path + '.\n' + JSON.stringify(path));
 		}
 
 		if(index < 0){
@@ -84,7 +86,7 @@ export class NavigationBar{
 		return T;
 	}
 
-	getPaths(){
+	getPaths(): T[]{
 		return this.paths.map( e => e );
 	}
 }

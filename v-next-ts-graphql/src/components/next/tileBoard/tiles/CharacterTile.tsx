@@ -1,6 +1,3 @@
-import Image from 'next/image';
-
-
 import type { GT } from '@tsC/api-graphql-to-ex';
 
 import { 
@@ -40,13 +37,7 @@ export default function CharacterTile(
 		      href={gen.path}
 		      rel="noopener noreferrer"
 		    >
-				 <img className="tile-img-item" alt={gen.name} src={gen.image}/>
-					{/* 
-						<Image className="tile-img-item" alt={gen.name} src={gen.image}/>
-						is it good solution? you must find out, biAaatch...
-
-						UPD: it does not work.
-					*/}
+					<img className="tile-img-item" alt={gen.name} src={gen.image}/>
 		    </a>
 			</div>
 			<div className="

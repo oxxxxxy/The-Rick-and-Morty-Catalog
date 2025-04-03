@@ -31,4 +31,4 @@ export const pathList: SearchItemNav_Path[] = [
 	)
 );
 
-export const searchNav = new NavigationBar(pathList);
+export const searchNav = new NavigationBar<SearchItemNav_Path>(pathList);
