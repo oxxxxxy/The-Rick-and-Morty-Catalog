@@ -19,7 +19,7 @@ import {
 import { useGlobalContext } from '@/components/context/globalContext';
 
 //const wUrql = getUrql();// don't forget to check uniques of it, BLYAT` ya hz kak...
-
+// make tests please
 
 
 
