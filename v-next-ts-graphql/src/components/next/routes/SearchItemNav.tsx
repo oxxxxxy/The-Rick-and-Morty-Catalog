@@ -66,7 +66,7 @@ export default function SearchItemNav({
 						"
 					>
 					{
-						paths.map(path => {
+						paths.map((path, i) => {
 							return <a
 								className={`
 									select-list-option
@@ -75,6 +75,7 @@ export default function SearchItemNav({
 								`}
 								title="Search {capitalizeWord(path.value)}"
 								href={'/' + path.value}
+								key={i}
 							>
 								{path.value}
 							</a>
