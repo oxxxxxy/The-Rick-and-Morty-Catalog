@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 
 
@@ -14,6 +13,7 @@ import SearchItemNav from "@/components/next/routes/SearchItemNav"
 export const metadata: Metadata = {
   title: "Home • " + APP_NAME,
   description: APP_NAME,
+
 };
 
 export default function Home() {
