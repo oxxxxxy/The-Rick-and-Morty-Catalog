@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 
 import {  
@@ -25,11 +25,18 @@ import { useGlobalContext } from '@/components/context/globalContext';
 
 export default function Header() {	
 	const [ cssClass_serverStatusIcon, setCssClass_serverStatusIcon ] = useState(getCssClassOKorERR(false));
-
 	const { wUrql } = useGlobalContext();
+	const didItExec = useRef(false);
 	
 	useEffect(() => {
 		const action = async ():Promise<void> => {
+			if(didItExec.current){
+				return;
+			}
+
+			didItExec.current = true;
+
+			
 			setCssClass_serverStatusIcon(
 				await checkServerStatus(wUrql)
 			);	
