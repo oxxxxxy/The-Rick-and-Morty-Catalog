@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 
 
@@ -64,19 +65,21 @@ export default function SearchItemNav({
 							d-flex
 						"
 					>
-					{#each _paths as path }
-						<a
-							className="
-								select-list-option
-								underline
-								{path.selected ? 'selected-select-list-option' : ''}
-							"
-							title="Search {capitalizeWord(path.value)}"
-							href="/{path.value}"
-						>
-							{path.value}
-						</a>
-					{/each}
+					{
+						paths.map(path => {
+							return <a
+								className={`
+									select-list-option
+									underline
+									${path.selected ? 'selected-select-list-option' : ''}
+								`}
+								title="Search {capitalizeWord(path.value)}"
+								href={'/' + path.value}
+							>
+								{path.value}
+							</a>
+						})
+					}
 					</div>
 					<span
 						className="
