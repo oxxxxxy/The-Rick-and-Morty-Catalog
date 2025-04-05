@@ -2,12 +2,8 @@
 import { useState, useEffect, useRef } from 'react';
 
 
-import { Metadata } from 'next';
-
-
 import { API_LOCATIONS__PATH } from '@tsCF/data';
 
-import { capitalizeWord } from '@tsLF/pages';
 import type {
 	TileBoard_SearchValue,
 	NonTilesResultsForDrawingSearchPageTileBoard
@@ -16,39 +12,75 @@ import type {
 import { initLocationsSearchPage	} from '@tsCF/pages';
   
 import type { QueryParamCompatible_Base	} from '@tsLF/forURLSP';
-import { getQPCBaseListFromURL	} from '@tsLF/forURLSP';
+import { getQPCBaseListFromURL } from '@tsLF/forURLSP';
 
 import type { GT } from '@tsC/api-graphql-to-ex';
 
 
-import { APP_NAME } from '@/components/data';
 import { useGlobalContext } from '@/components/context/globalContext';
 
 
 import SearchItemNav from '@/components/next/routes/SearchItemNav';
-import TileBoard from '@/components/next/tileBoard/TileBoard';
-// import TileBoard_Search from '@/components/next/tileBoard_Search/TileBoard_Search';
 // import LocationsSearch from '@/components/next/routes/Locations/LocationsSearch';
+import TileBoard from '@/components/next/tileBoard/TileBoard';
 import LocationTile from '@/components/next/tileBoard/tiles/LocationTile';
+// import TileBoard_Search from '@/components/next/tileBoard_Search/TileBoard_Search';
 
 
 
 
-// export const metadata: Metadata = {
-//   title: "Locations • " + APP_NAME,
-//   description: APP_NAME,
+const pathName = API_LOCATIONS__PATH.name;
 
-// };
+
+
 
 export default function Locations(
 	{
 		params,
 		searchParams
+	}:{
+		searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 	}
 ){
 
-	const didItExec = useRef(false);	
+	const { 
+		wUrql,
+		wLocationChangeEventEmitter
+	} = useGlobalContext();
+	const [
+		LocationsSearch__update_values,
+		set_LocationsSearch__update_values
+	] = useState<QueryParamCompatible_Base[]>([]);
+	const [
+		TileBoard_SearchUpdateValue,
+		set_TileBoard_SearchValue
+	] = useState<TileBoard_SearchValue | undefined>(undefined);
+	const [
+		tiles,
+		set_tiles
+	] = useState<
+		GT.LocationPreviewFieldsFragment[]
+		| NonTilesResultsForDrawingSearchPageTileBoard
+	>('LOADING');
+	// const {
+	// 	handlePaginationSelection,
+	// 	handleLocationsSearchApply,
+	// 	actionExecuterAfterMount,
+	// 	searchPageManager
+	// } = initLocationsSearchPage(
+	// 	{
+	// 		pathName,
+	// 		pushStateFn: pushState,
+	// 		set_tiles,
+	// 		set_TileBoard_SearchValue,
+	// 		set_LocationsSearch__update_values,
+	// 		wUrql,
+	// 		wLocationChangeEventEmitter
+	// 	}
+	// );
 
+
+	const didItExec = useRef(false);	
 	useEffect(() => {
 		const action = async ():Promise<void> => {
 			if(didItExec.current){
@@ -56,21 +88,36 @@ export default function Locations(
 			}
 
 			didItExec.current = true;
-	console.log(await params, await searchParams);
+
 			
+			//actionExecuterAfterMount.setReady();
+			
+			//searchPageManager.init(LocationsSearch__update_values);
+
+			// ??? nujno li teper???
+			// set_LocationsSearch__update_values(
+			// 	getQPCBaseListFromURL(new URL(window.location.href))
+			// );
+
+
+			// console.log(window.location.href)	
+			// console.log(await params, await searchParams);
+		
+
+
+
+
+
+
 		};
 
 		action();
-	});
+	}, []);
 
-const { 
-	wUrql,
-	wLocationChangeEventEmitter
-} = useGlobalContext();
 
 	return (
 		<>
-			<SearchItemNav pathName={API_LOCATIONS__PATH.name}>
+			<SearchItemNav pathName={pathName}>
 
 			</SearchItemNav>
 
@@ -83,33 +130,13 @@ const {
 
 
 
-// import { onMount } from 'svelte';
 
 // import { pushState } from '$app/navigation';
 
 
-// import { API_LOCATIONS__PATH } from '@tsCF/data';
-
-// import { capitalizeWord } from '@tsLF/pages';
-// import type {
-// 	TileBoard_SearchValue,
-// 	NonTilesResultsForDrawingSearchPageTileBoard
-// } from '@tsLF/pages';
-
-// import { initLocationsSearchPage	} from '@tsCF/pages';
-  
-// import type { QueryParamCompatible_Base	} from '@tsLF/forURLSP';
-// import { getQPCBaseListFromURL	} from '@tsLF/forURLSP';
-
-// import type { GT } from '@tsC/api-graphql-to-ex';
 
 
-// import { APP_NAME } from '$comps/data';
-// import g from '$comps/context/index.ts';
-// const { 
-// 	wUrql,
-// 	wLocationChangeEventEmitter
-// } = g();
+
 
 
 // import SearchItemNav from '$comps/svelte/routes/SearchItemNav.svelte';
@@ -124,8 +151,6 @@ const {
 // export let data;
 
 
-// const pageTitle = capitalizeWord(API_LOCATIONS__PATH.name);
-// const	pathName = data.psl.route.id.slice(1);
 
 
 // let LocationsSearch__exit_values: QueryParamCompatible_Base[] = [];
@@ -184,11 +209,6 @@ const {
 
 
 
-
-// <svelte:head>
-// 	<title>{ pageTitle } • { APP_NAME }</title>
-// 	<meta name="description" content="{ APP_NAME } { pageTitle }" />
-// </svelte:head>
 
 // <SearchItemNav {pathName}>
 // 	<LocationsSearch
