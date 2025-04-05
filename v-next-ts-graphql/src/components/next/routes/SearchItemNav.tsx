@@ -1,5 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+
+
+import Link from 'next/link';
 
 
 import type { SearchItemNav_Path } from '@tsCF/pages/src/routes/SearchItemNav.ts';
@@ -16,14 +19,20 @@ export default function SearchItemNav({
   pathName?: SearchItemNav_Path | string;
 }) {
 
-	const [ paths, setPaths ] = useState<SearchItemNav_Path[]>(searchNav.getPaths());
+	// const [ paths, setPaths ] = useState<SearchItemNav_Path[]>(searchNav.getPaths());
+
+	// if(pathName){
+	// 	setPaths(
+	// 		searchNav.setSelected(pathName).getPaths()
+	// 	);
+	// } 
+	
+	let paths = searchNav.getPaths();
 
 	if(pathName){
-		setPaths(
-			searchNav.setSelected(pathName).getPaths()
-		);
-	} 
-
+		paths = searchNav.setSelected(pathName).getPaths(); 
+	}
+		
 	return(
 		<div
 			className="
@@ -67,7 +76,7 @@ export default function SearchItemNav({
 					>
 					{
 						paths.map((path, i) => {
-							return <a
+							return <Link
 								className={`
 									select-list-option
 									underline
@@ -78,7 +87,7 @@ export default function SearchItemNav({
 								key={i}
 							>
 								{path.value}
-							</a>
+							</Link>
 						})
 					}
 					</div>

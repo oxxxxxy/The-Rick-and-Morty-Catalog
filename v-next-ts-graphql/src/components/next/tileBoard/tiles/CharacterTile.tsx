@@ -1,3 +1,6 @@
+import Link from 'next/link';
+
+
 import type { GT } from '@tsC/api-graphql-to-ex';
 
 import { 
@@ -32,13 +35,13 @@ export default function CharacterTile(
 					tile-img-box
 				"
 			>
-		    <a
+		    <Link
 					title={gen.name}
 		      href={gen.path}
 		      rel="noopener noreferrer"
 		    >
 					<img className="tile-img-item" alt={gen.name} src={gen.image}/>
-		    </a>
+		    </Link>
 			</div>
 			<div className="
 					tile-info-box
@@ -46,7 +49,7 @@ export default function CharacterTile(
 					fd-column
 				"
 			>
-		    <a
+		    <Link
 					className="
 						color--f5f5f5
 						tile-h
@@ -57,7 +60,7 @@ export default function CharacterTile(
 		      rel="noopener noreferrer"
 		    >
 						{ gen.name }
-		    </a>
+		    </Link>
 
 		    <span 
 					className="
@@ -75,7 +78,7 @@ export default function CharacterTile(
 					{ gen.status } - { gen.species }
 		    </span>
 
-				<a
+				<Link
 					className="
 						tile-line-box
 						no-underline
@@ -99,9 +102,9 @@ export default function CharacterTile(
 			    >
 						{ gen.location.name }
 		 	   </span>
-				</a>
+				</Link>
 
-				<a
+				<Link
 					className="
 						tile-line-box
 						no-underline
@@ -126,7 +129,7 @@ export default function CharacterTile(
 			    >
 			    {gen.origin.name}
 			    </span>
-				</a>
+				</Link>
 			</div>
 		</div>
 	);

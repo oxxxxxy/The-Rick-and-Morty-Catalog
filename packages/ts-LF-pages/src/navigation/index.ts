@@ -18,7 +18,7 @@ export class NavigationBar< T extends NavigationPath = NavigationPath> {
 		const T = this;
 
     if (path === null || path === undefined) {
-        throw new Error('path can`t be null or undefined.');
+      throw new Error('path can`t be null or undefined.');
     }
 
 		let index: number;

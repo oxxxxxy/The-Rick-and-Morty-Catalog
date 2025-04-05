@@ -1,3 +1,6 @@
+import Link from 'next/link';
+
+
 import type { GT } from '@tsC/api-graphql-to-ex';
 
 
@@ -29,7 +32,7 @@ export default function LocationTile(
 				d-flex
 			"
 		>
-			<a className="
+			<Link className="
 					tile-info-box
 					d-flex
 					fd-column
@@ -102,7 +105,7 @@ export default function LocationTile(
 						{ gen.dimension }
 			    </span>
 				</span>
-			</a>
+			</Link>
 		</div>
 	);
 }

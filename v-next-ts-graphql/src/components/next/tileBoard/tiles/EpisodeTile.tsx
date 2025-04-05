@@ -1,3 +1,6 @@
+import Link from 'next/link';
+
+
 import type { GT } from '@tsC/api-graphql-to-ex';
 
 
@@ -24,7 +27,7 @@ export default function EpisodeTile(
 				d-flex
 			"
 		>
-			<a className="
+			<Link className="
 					tile-info-box
 					d-flex
 					fd-column
@@ -96,7 +99,7 @@ export default function EpisodeTile(
 						{ gen.episode }
 			    </span>
 				</span>
-			</a> 
+			</Link> 
 		</div>
 	);
 }

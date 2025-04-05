@@ -47,8 +47,15 @@ export default function Locations(
 	}
 ){
 
+	const didItExec = useRef(false);	
+
 	useEffect(() => {
-		async function action(){
+		const action = async ():Promise<void> => {
+			if(didItExec.current){
+				return;
+			}
+
+			didItExec.current = true;
 	console.log(await params, await searchParams);
 			
 		};
@@ -62,7 +69,12 @@ const {
 } = useGlobalContext();
 
 	return (
-		<p>chlen</p>	
+		<>
+			<SearchItemNav pathName={API_LOCATIONS__PATH.name}>
+
+			</SearchItemNav>
+
+		</>	
 	);
 }
 
