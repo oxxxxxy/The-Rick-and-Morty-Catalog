@@ -1,4 +1,3 @@
-<script lang="ts">
 	import { onMount } from 'svelte';
 
 
@@ -17,7 +16,7 @@
 	import { U } from '@tsL/utils';
 
 
-	import InputText from '$comps/svelte/customForm/InputText.svelte';
+	import InputText from '@/components/next/customForm/InputText';
 
 
 
@@ -85,8 +84,13 @@
 		
 	})
 
-</script>
 
+
+
+
+export defualt function LocationsSearch(){
+
+	return (
 <div class="margin-10 w-100 d-flex jc-center">
   <div
     class="search--width d-flex jc-space-between fd-column"
@@ -170,3 +174,5 @@
     </button>
   </div>
 </div>
+	);
+}
