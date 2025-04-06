@@ -87,6 +87,8 @@ if(init_instanceOfInputText){
 
 	inputText = new _class(
 		{
+			// prosti menya, gospod'... no ya greshen...
+			// @ts-ignore-next-line
 			initData: init_CFIDC_InputText,
 
 			set_value,
@@ -96,45 +98,55 @@ if(init_instanceOfInputText){
 	);
 } 
 
+
+const [inputValue, setInputValue] = useState<string>('');
+
 	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
 	actionExecuterAfterMount.addAction(
 		() => {
-			_value = entry_value.value;
-			inputText.setValue(_value);
-			warning = warning; // bcz i don't trust svelte magic...
+			// _value = entry_value.value;
+			// inputText.setValue(_value);
+			// warning = warning; // bcz i don't trust svelte magic...
+			setInputValue(entry_value.value);
+			inputText.setValue(inputValue);
 		}
 	);
 
 
 	//$: _warning = warning; not work anymore...
-	$: _value = '';
-	$:{
-			inputText.setValue(_value);
+	// $: _value = '';
+	// $:{
+	// 		inputText.setValue(_value);
 
-			warning = warning; // bcz i don't trust svelte magic...
-		}
-	$:{
-		entry_value = entry_value;
+	// 		warning = warning; // bcz i don't trust svelte magic...
+	// 	}
+	// $:{
+	// 	entry_value = entry_value;
 		
-		actionExecuterAfterMount.exec();
-	}
+	// 	actionExecuterAfterMount.exec();
+	// }
 
 
 
 	const clear = () => (
-		_value = '',
+		// _value = '',
+		setInputValue(''),
 		inputText.clear()
 	);
 
 
-	onMount(() => {
-		actionExecuterAfterMount.setReady();
+	// onMount(() => {
+	// 	actionExecuterAfterMount.setReady();
 
-		if(init_cachedValue){
-			_value = init_cachedValue.value;
-		}
+	// 	if(init_cachedValue){
+	// 		_value = init_cachedValue.value;
+	// 	}
 
-	});
+	// });
+	
+	useEffect(() => {
+		
+	}, []);
 	
 
 
@@ -146,28 +158,33 @@ if(init_instanceOfInputText){
 			    <input
 			      className="text-input bg-color--b6b6b6 color--282828"
 			      type="text"
-			      placeholder="{placeholder}"
-			      bind:value={_value}
+			      placeholder={placeholder}
+			      value={inputValue}
+			      onChange={(e) => setInputValue(e.target.value)}
 			    />
 			  </div>
 				<button
 				  className="ai-center jc-center text-input-clear fill--999999 bg-color--181a1b
 					{!_value ? 'button--empty' : 'button--has-some'}
 				  "
-				  disabled="{!_value}"
-				  on:click={clear}
+				  disabled={!inputValue}
+				  onClick={clear}
 				>
 					<InputTextClearIcon />
 				</button>
 		  </div>
 		
-		  {#if warning}
-		 	 <div className="text-input-option d-flex w-100">
-					<span className="text-input-warning w-100">
-						{warning}
-					</span>
-				</div>
-			{/if}
+		  {
+		  	warning ?
+					( 
+						<div className="text-input-option d-flex w-100">
+							<span className="text-input-warning w-100">
+								{warning}
+							</span>
+						</div>
+					)
+				: null
+			}
 		
 		</div>
 	);
