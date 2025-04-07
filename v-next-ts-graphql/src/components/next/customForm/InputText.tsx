@@ -34,6 +34,8 @@ export default function InputText(
 	const [warning, set_warning] = useState<string>('');
 	// const [entryValue, set_entryValue] = useState<QPC_InputText>(entry_value);
 	const set_value = get_exitValue;
+	const [inputValue, setInputValue] = useState<string>(''); //_value
+	const [actionExecuterAfterMount] = useState(new U.ActionExecuterAfterCondition());
 
 
 
@@ -55,22 +57,58 @@ export default function InputText(
 // const set_placeholder = (p: string) => (placeholder = p);
 
 
-let inputText: InputText_ClassType_OneOf;
-	
+	const [inputText] = useState<InputText_ClassType_OneOf>(
+		(): InputText_ClassType_OneOf => {
+			
+			if(init_instanceOfInputText){
+				init_instanceOfInputText.setBridgeToExternalScope(
+					{
+						set_warning,
+						set_placeholder,
+						set_value
+					}
+				)
+			  
+				// inputText = init_instanceOfInputText;
+			
+				// const value = inputText.getValue();
+				const value = init_instanceOfInputText.getValue();
+			
+				if(value.value){
+					init_cachedValue = value;
+				}
 
-
-const [inputValue, setInputValue] = useState<string>('');
-
-	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
-	actionExecuterAfterMount.addAction(
-		() => {
-			// _value = entry_value.value;
-			// inputText.setValue(_value);
-			// warning = warning; // bcz i don't trust svelte magic...
-			setInputValue(entry_value.value);
-			inputText.setValue(inputValue);
+				return init_instanceOfInputText
+			} else {
+				if(!init_CFIDC_InputText){
+					throw new Error(`init_CFIDC_InputText or init_instanceOfInputText must be passed.`);
+				}
+			
+				if(init_cachedValue){
+					if(init_cachedValue.param != init_CFIDC_InputText.name){
+						throw new Error(`Value of the init_cachedValue.param is not equal to init_CFIDC_InputText.name. Check passed args. ` + JSON.stringify(init_cachedValue));
+					}
+				}
+			
+				const _class = CFIDCTypeBasedStrategyFn_InputText(init_CFIDC_InputText);
+			
+				// inputText = new _class(
+				return new _class(
+					{
+						// prosti menya, gospod'... no ya greshen...
+						// @ts-ignore-next-line
+						initData: init_CFIDC_InputText,
+			
+						set_value,
+						set_placeholder,
+						set_warning
+					}
+				);
+			} 
 		}
 	);
+
+
 
 
 	//$: _warning = warning; not work anymore...
@@ -86,7 +124,13 @@ const [inputValue, setInputValue] = useState<string>('');
 	// 	actionExecuterAfterMount.exec();
 	// }
 
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setInputValue(e.target.value);
 
+	 	inputText.setValue(e.target.value);
+
+	 	actionExecuterAfterMount.exec();
+	}
 
 	const clear = () => (
 		// _value = '',
@@ -112,52 +156,24 @@ const [inputValue, setInputValue] = useState<string>('');
 		didItExec.current = true;
 
 
-		if(init_instanceOfInputText){
-			init_instanceOfInputText.setBridgeToExternalScope(
-				{
-					set_warning,
-					set_placeholder,
-					set_value
-				}
-			)
-		  
-			inputText = init_instanceOfInputText;
-		
-			const value = inputText.getValue();
-		
-			if(value.value){
-				init_cachedValue = value;
-			}
-		} else {
-			if(!init_CFIDC_InputText){
-				throw new Error(`init_CFIDC_InputText or init_instanceOfInputText must be passed.`);
-			}
-		
-			if(init_cachedValue){
-				if(init_cachedValue.param != init_CFIDC_InputText.name){
-					throw new Error(`Value of the init_cachedValue.param is not equal to init_CFIDC_InputText.name. Check passed args. ` + JSON.stringify(init_cachedValue));
-				}
-			}
-		
-			const _class = CFIDCTypeBasedStrategyFn_InputText(init_CFIDC_InputText);
-		
-			inputText = new _class(
-				{
-					// prosti menya, gospod'... no ya greshen...
-					// @ts-ignore-next-line
-					initData: init_CFIDC_InputText,
-		
-					set_value,
-					set_placeholder,
-					set_warning
-				}
-			);
-		} 
 
+		actionExecuterAfterMount.addAction(
+			() => {
+				// _value = entry_value.value;
+				// inputText.setValue(_value);
+				// warning = warning; // bcz i don't trust svelte magic...
+
+				// setInputValue(entry_value.value);
+				// inputText.setValue(inputValue);
+			}
+		);
 		
 		actionExecuterAfterMount.setReady();
 
 		if(init_cachedValue){
+			//event
+			//remake
+			//or not???
 			setInputValue(init_cachedValue.value);
 		}
 
@@ -176,7 +192,7 @@ const [inputValue, setInputValue] = useState<string>('');
 			      type="text"
 			      placeholder={placeholder}
 			      value={inputValue}
-						onChange={(e) => setInputValue(e.target.value)}
+						onChange={onChange}
 			    />
 			  </div>
 				<button
