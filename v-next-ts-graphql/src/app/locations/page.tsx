@@ -31,7 +31,19 @@ import LocationTile from '@/components/next/tileBoard/tiles/LocationTile';
 
 const pathName = API_LOCATIONS__PATH.name;
 
+//DELETE ME
 
+	import {
+		API_LOCATIONS__PARAM__NAME,
+		API_LOCATIONS__PARAM__DIMENSION,
+		API_LOCATIONS__PARAM__TYPE,
+		API_LOCATIONS__PARAM_LIST
+	} from '@tsCF/data';
+
+import type { QPC_InputText } from '@tsLF/forURLSP';
+
+import InputText from '@/components/next/customForm/InputText';
+//DELETE ME
 
 
 export default function Locations(
@@ -115,12 +127,44 @@ export default function Locations(
 	}, []);
 
 
+	function LocationsSearch__getExitValues(v: any) {
+		console.log(arguments.callee.name, v)
+		
+	}
+
+	function InputText__get_exitValue(v: QPC_InputText) {
+		console.log(arguments.callee.name, v)
+		
+	}
+
 	return (
 		<>
 			<SearchItemNav pathName={pathName}>
 
-			</SearchItemNav>
+			<InputText 
+				init_CFIDC_InputText={API_LOCATIONS__PARAM__NAME}
+				get_exitValue={InputText__get_exitValue}
+				entry_value={({param:'pisya', value:''})}
+			/>
 
+				{/*
+				<LocationsSearch
+					exit_values = {
+						LocationsSearch__getExitValues
+					}
+					init_cachedValues = {
+						LocationsSearch__update_values
+					}
+					update_values = {
+						LocationsSearch__update_values
+					}
+				/>
+				
+
+					*/}
+			
+			</SearchItemNav>
+			chlen
 		</>	
 	);
 }
