@@ -34,35 +34,13 @@ export default function InputText(
 ){
 	const [placeholder, set_placeholder] = useState<string>('');
 	const [warning, set_warning] = useState<string>('');
-	// const [entryValue, set_entryValue] = useState<QPC_InputText>(entry_value);
 	const set_value = get_exitValue;
-	const [inputValue, setInputValue] = useState<string>(''); //_value
-	const [actionExecuterAfterMount] = useState(new U.ActionExecuterAfterCondition());
+	const [inputValue, setInputValue] = useState<string>('');
 	const [entry_valueJson, setEntry_valueJson] = useState<string>(JSON.stringify(entry_value));
-
-
-	console.log(entry_value)
-
-// export let exit_value: QPC_InputText;
-// export let entry_value: QPC_InputText;
-	
-// export let init_cachedValue: QPC_InputText;
-// export let init_CFIDC_InputText: CFIDC_InputText_Base;
-
-// export let init_instanceOfInputText: InputText_ClassType_OneOf;
-
-
-// let placeholder: string = '';
-// let warning: string = '';
-
-
-// const set_value = (v: QPC_InputText) => (exit_value = v);
-// const set_warning = (w: string) => (warning = w);
-// const set_placeholder = (p: string) => (placeholder = p);
-
-
 	const [inputText] = useState<InputText_ClassType_OneOf>(
 		(): InputText_ClassType_OneOf => {
+		
+			let inputText;
 			
 			if(init_instanceOfInputText){
 				init_instanceOfInputText.setBridgeToExternalScope(
@@ -73,16 +51,13 @@ export default function InputText(
 					}
 				)
 			  
-				// inputText = init_instanceOfInputText;
+				inputText = init_instanceOfInputText;
 			
-				// const value = inputText.getValue();
-				const value = init_instanceOfInputText.getValue();
+				const value = inputText.getValue();
 			
 				if(value.value){
 					init_cachedValue = value;
 				}
-
-				return init_instanceOfInputText
 			} else {
 				if(!init_CFIDC_InputText){
 					throw new Error(`init_CFIDC_InputText or init_instanceOfInputText must be passed.`);
@@ -96,8 +71,7 @@ export default function InputText(
 			
 				const _class = CFIDCTypeBasedStrategyFn_InputText(init_CFIDC_InputText);
 			
-				// inputText = new _class(
-				return new _class(
+				inputText = new _class(
 					{
 						// prosti menya, gospod'... no ya greshen...
 						// @ts-ignore-next-line
@@ -108,92 +82,45 @@ export default function InputText(
 						set_warning
 					}
 				);
-			} 
-		}
-	);
+			}
 
-
-	if(entry_valueJson !== JSON.stringify(entry_value)){
-		console.log('!==');
+			if(entry_value?.value){
 				setInputValue(entry_value.value);
 
 				inputText.setValue(entry_value.value);
 
 				setEntry_valueJson(JSON.stringify(entry_value));
+			}
+
+			if(init_cachedValue){
+				setInputValue(init_cachedValue.value);
+			}
+
+			return inputText;
+		}
+	);
+
+
+	if(entry_valueJson !== JSON.stringify(entry_value)){
+		setInputValue(entry_value.value);
+
+		inputText.setValue(entry_value.value);
+
+		setEntry_valueJson(JSON.stringify(entry_value));
 	}
 
-
-	//$: _warning = warning; not work anymore...
-	// $: _value = '';
-	// $:{
-	// 		inputText.setValue(_value);
-
-	// 		warning = warning; // bcz i don't trust svelte magic...
-	// 	}
-	// $:{
-	// 	entry_value = entry_value;
-		
-	// 	actionExecuterAfterMount.exec();
-	// }
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		console.log('change')
 		setInputValue(e.target.value);
 
 	 	inputText.setValue(e.target.value);
-
-	 	actionExecuterAfterMount.exec();
 	}
 
 	const clear = () => (
-		// _value = '',
 		setInputValue(''),
 		inputText.clear()
 	);
-
-
-	// onMount(() => {
-	// 	actionExecuterAfterMount.setReady();
-
-	// 	if(init_cachedValue){
-	// 		_value = init_cachedValue.value;
-	// 	}
-
-	// });
-	
-	const didItExec = useRef(false);	
-	useEffect(() => {
-		if(didItExec.current){
-			return;
-		}
-		didItExec.current = true;
-
-
-		console.log('useEffect')
-
-		actionExecuterAfterMount.addAction(
-			() => {
-				// _value = entry_value.value;
-				// inputText.setValue(_value);
-				// warning = warning; // bcz i don't trust svelte magic...
-
-				// setInputValue(entry_value.value);
-				// inputText.setValue(entry_value.value);
-			}
-		);
-		
-		actionExecuterAfterMount.setReady();
-
-		if(init_cachedValue){
-			//event
-			//remake
-			//or not???
-			setInputValue(init_cachedValue.value);
-		}
-
-		
-	}, []);
-	
 
 
 	return(

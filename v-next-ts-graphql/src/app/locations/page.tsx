@@ -91,7 +91,7 @@ export default function Locations(
 	// 	}
 	// );
 
-	const [entryValTest, setEn] = useState({param:'fff', value:''})
+	const [entryValTest, setEn] = useState({param:'fff', value:'0 zero'})
 
 	const didItExec = useRef(false);	
 	useEffect(() => {
