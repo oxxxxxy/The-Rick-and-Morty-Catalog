@@ -37,7 +37,9 @@ const pathName = API_LOCATIONS__PATH.name;
 		API_LOCATIONS__PARAM__NAME,
 		API_LOCATIONS__PARAM__DIMENSION,
 		API_LOCATIONS__PARAM__TYPE,
-		API_LOCATIONS__PARAM_LIST
+		API_LOCATIONS__PARAM_LIST,
+		API_EPISODES__PARAM__EPISODE,
+		API_EPISODES__PARAM__NAME
 	} from '@tsCF/data';
 
 import type { QPC_InputText } from '@tsLF/forURLSP';
@@ -156,7 +158,7 @@ const timerRef = useRef<NodeJS.Timeout>();
 			<SearchItemNav pathName={pathName}>
 
 			<InputText 
-				init_CFIDC_InputText={API_LOCATIONS__PARAM__NAME}
+				init_CFIDC_InputText={API_EPISODES__PARAM__EPISODE}
 				get_exitValue={InputText__get_exitValue}
 				entry_value={
 					//({param:'pisya', value:''})

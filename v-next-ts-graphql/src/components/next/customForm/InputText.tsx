@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 
 
 import type { CFIDC_InputText_Base } from '@tsLF/pages';
@@ -7,8 +7,6 @@ import type { InputText_ClassType_OneOf } from '@tsLF/pages';
 
 import type { QPC_InputText } from '@tsLF/forURLSP';
 
-import { U } from '@tsL/utils';
-	
 	
 import InputTextClearIcon from '@/components/next/customForm/icons/InputTextClearIcon';
 
@@ -111,15 +109,15 @@ export default function InputText(
 
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		console.log('change')
 		setInputValue(e.target.value);
 
 	 	inputText.setValue(e.target.value);
 	}
 
 	const clear = () => (
+		inputText.clear(),
 		setInputValue(''),
-		inputText.clear()
+		set_warning('')
 	);
 
 
