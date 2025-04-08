@@ -91,6 +91,7 @@ export default function Locations(
 	// 	}
 	// );
 
+	const [entryValTest, setEn] = useState({param:'fff', value:''})
 
 	const didItExec = useRef(false);	
 	useEffect(() => {
@@ -120,11 +121,23 @@ export default function Locations(
 
 
 
-
 		};
 
 		action();
 	}, []);
+
+const timerRef = useRef<NodeJS.Timeout>();
+	
+	useEffect(() => {
+
+				if(timerRef.current){return}
+				timerRef.current = setTimeout(
+					()=>{console.log('setEn');setEn({param:'name', value:'pizda'})}
+					, 2000
+				)
+
+			console.log('blyat, asdfa')
+	}, [])
 
 
 	function LocationsSearch__getExitValues(v: any) {
@@ -133,9 +146,10 @@ export default function Locations(
 	}
 
 	function InputText__get_exitValue(v: QPC_InputText) {
-		console.log(arguments.callee.name, v)
+		console.log(InputText__get_exitValue.name, v)
 		
 	}
+
 
 	return (
 		<>
@@ -144,7 +158,10 @@ export default function Locations(
 			<InputText 
 				init_CFIDC_InputText={API_LOCATIONS__PARAM__NAME}
 				get_exitValue={InputText__get_exitValue}
-				entry_value={({param:'pisya', value:''})}
+				entry_value={
+					//({param:'pisya', value:''})
+					entryValTest
+				}
 			/>
 
 				{/*

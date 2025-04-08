@@ -20,14 +20,16 @@ export default function InputText(
 		init_instanceOfInputText,
 		init_CFIDC_InputText,
 		init_cachedValue,
+
 		entry_value,
 		get_exitValue
 	}:{
 		entry_value: QPC_InputText;
+		get_exitValue: (v: QPC_InputText) => void;
+
 		init_cachedValue?: QPC_InputText;
 		init_CFIDC_InputText?: CFIDC_InputText_Base;
 		init_instanceOfInputText?: InputText_ClassType_OneOf;
-		get_exitValue: (v: QPC_InputText) => void;
 	}
 ){
 	const [placeholder, set_placeholder] = useState<string>('');
@@ -36,8 +38,10 @@ export default function InputText(
 	const set_value = get_exitValue;
 	const [inputValue, setInputValue] = useState<string>(''); //_value
 	const [actionExecuterAfterMount] = useState(new U.ActionExecuterAfterCondition());
+	const [entry_valueJson, setEntry_valueJson] = useState<string>(JSON.stringify(entry_value));
 
 
+	console.log(entry_value)
 
 // export let exit_value: QPC_InputText;
 // export let entry_value: QPC_InputText;
@@ -109,6 +113,14 @@ export default function InputText(
 	);
 
 
+	if(entry_valueJson !== JSON.stringify(entry_value)){
+		console.log('!==');
+				setInputValue(entry_value.value);
+
+				inputText.setValue(entry_value.value);
+
+				setEntry_valueJson(JSON.stringify(entry_value));
+	}
 
 
 	//$: _warning = warning; not work anymore...
@@ -125,6 +137,7 @@ export default function InputText(
 	// }
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		console.log('change')
 		setInputValue(e.target.value);
 
 	 	inputText.setValue(e.target.value);
@@ -156,6 +169,7 @@ export default function InputText(
 		didItExec.current = true;
 
 
+		console.log('useEffect')
 
 		actionExecuterAfterMount.addAction(
 			() => {
@@ -164,7 +178,7 @@ export default function InputText(
 				// warning = warning; // bcz i don't trust svelte magic...
 
 				// setInputValue(entry_value.value);
-				// inputText.setValue(inputValue);
+				// inputText.setValue(entry_value.value);
 			}
 		);
 		
