@@ -24,7 +24,7 @@ import SearchItemNav from '@/components/next/routes/SearchItemNav';
 import LocationsSearch from '@/components/next/routes/Locations/LocationsSearch';
 import TileBoard from '@/components/next/tileBoard/TileBoard';
 import LocationTile from '@/components/next/tileBoard/tiles/LocationTile';
-// import TileBoard_Search from '@/components/next/tileBoard_Search/TileBoard_Search';
+import TileBoard_Search from '@/components/next/tileBoard_Search/TileBoard_Search';
 
 
 
@@ -156,49 +156,68 @@ const timerRef = useRef<NodeJS.Timeout>();
 	return (
 		<>
 			<SearchItemNav pathName={pathName}>
-				
 				<LocationsSearch
 					get_exitValue = {
 						LocationsSearch__getExitValues
 					}
 					init_cachedValues = {
-						// LocationsSearch__update_values
-						[]
-					}
-					update_values = {
-						// LocationsSearch__update_values
-						[]
-					}
-				/>
-
-				{/*
-			<InputText 
-				init_CFIDC_InputText={API_EPISODES__PARAM__EPISODE}
-				get_exitValue={InputText__get_exitValue}
-				entry_value={
-					//({param:'pisya', value:''})
-					entryValTest
-				}
-			/>
-
-				{/*
-				<LocationsSearch
-					exit_values = {
-						LocationsSearch__getExitValues
-					}
-					init_cachedValues = {
 						LocationsSearch__update_values
 					}
 					update_values = {
 						LocationsSearch__update_values
 					}
 				/>
-				
-
-					*/}
-			
 			</SearchItemNav>
-			chlen
+
+			{
+				(
+					() => {
+				
+						if (tiles === 'ERR') {
+							return (
+								<TileBoard>
+									<p>Network Error. Try later or kill yourself. Thank you.</p>
+								</TileBoard>
+							);
+						} else if(tiles === 'LOADING') {
+							return (
+								<TileBoard>
+									<p>Loading...</p>
+								</TileBoard>
+							);
+						} else if (tiles === 'NOT FOUND'){
+							return (
+								<TileBoard>
+									<p>Nothing found.</p>
+								</TileBoard>
+							);
+						}else if (Array.isArray(tiles)){
+							let tileComponents = [];
+
+							for(let i = 0; i < tiles.length; i++){
+								tileComponents.push(
+									<LocationTile data={tiles[i]} key={i} />
+								);
+							}
+
+							return (
+								<TileBoard_Search
+									update_value={
+										TileBoard_SearchUpdateValue
+									}
+									pagination__exit_value={
+										pagination__exit_value
+									}
+								>
+									{tileComponents}
+								</TileBoard_Search>
+							);
+						}
+			
+					}
+				)()
+			}
+
 		</>	
 	);
 }
