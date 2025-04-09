@@ -8,3 +8,4 @@ export * from './fns';
 export * from './LittleChangeableStringElementDrawer.ts';
 export * from './itemPage';
 export * from './LimitedViewOfItems.ts';
+export * from './byLegacyForReact';

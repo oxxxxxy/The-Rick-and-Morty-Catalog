@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 
 import {
@@ -14,9 +14,11 @@ import type {
 } from '@tsLF/forURLSP';
 
 import { CustomFormHolder } from '@tsLF/pages';
-import type { ArgumentsFor_CustomFormHolder } from '@tsLF/pages';
-
-import { U } from '@tsL/utils';
+import type { 
+	ArgumentsFor_CustomFormHolder,
+	ValueStore,
+	objWithFnsForEachCFIDC__get_exitValue
+} from '@tsLF/pages';
 
 
 import InputText from '@/components/next/customForm/InputText';
@@ -35,25 +37,17 @@ export default function LocationsSearch(
 		get_exitValue: (v: QueryParamCompatible_Base[]) => void;
 	}
 ){
-// export let init_cachedValues: QueryParamCompatible_Base[];
-// export let update_values: QueryParamCompatible_Base[];
-	// export let exit_values: QueryParamCompatible_Base[];
-	
-	
-	// let isValid: boolean = true;
 	const [isValid, setIsValid] = useState<boolean>(true);
-	
+	const [update_valuesJson, setUpdate_valuesJson] = useState<string>(JSON.stringify(update_values));
 	const set_value = get_exitValue;
-	// const set_value = (v: QueryParamCompatible_Base[]) => (exit_values = v);
 	const set_applyActivity = (v: boolean) => setIsValid(v);
-	const [exitValueStore, setExitValueStore] = useState({});
-	const [entryValueStore, setEntryValueStore] = useState({});
+	
+	const [exitValueStore, setExitValueStore] = useState<ValueStore>({});
+	const [entryValueStore, setEntryValueStore] = useState<ValueStore>({});
 
-	const [get_exitValue__param_name, setFnGet_exitValue__param_name] = useState(()=>()=>{});
-
-	const [customFormHolder, setCFH] = useState(
+	const customFormHolder = useRef<CustomFormHolder>();
+	const [objWithFnsForEachCFIDC__get_exitValue] = useState<objWithFnsForEachCFIDC__get_exitValue>(
 		() => {
-
 			const CFIDCList = API_LOCATIONS__PARAM_LIST;
 			
 			const args: ArgumentsFor_CustomFormHolder = {
@@ -66,68 +60,55 @@ export default function LocationsSearch(
 			if(init_cachedValues){
 				args.cachedQPCValues = init_cachedValues;
 			} 
-
-			const customFormHolder = new CustomFormHolder(args);
+		
+			customFormHolder.current = new CustomFormHolder(args);
 			
-			// const exitValueStore = CustomFormHolder.makeValueStore(CFIDCList);
 			setExitValueStore(CustomFormHolder.makeValueStore(CFIDCList));
-			// let entryValueStore = CustomFormHolder.makeValueStore(CFIDCList);
 			setEntryValueStore(CustomFormHolder.makeValueStore(CFIDCList));
 
-			// const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
-			// actionExecuterAfterMount.addAction(
-			// 	() => {
-			// 		const storeValue = CustomFormHolder.makeValueStore(CFIDCList);
-					
-			// 		CustomFormHolder.setValuesToValueStore(storeValue, update_values);
+			if(update_values.length){
+				updateUpdate_values();
+			}
 
-			// 		entryValueStore = storeValue;
-
-			// 	}
-			// );
-			//
+			const objWithFnsForEachCFIDC__get_exitValue: objWithFnsForEachCFIDC__get_exitValue = {};
 			
-			setFnGet_exitValue__param_name(
-				() =>
-				(v: QPC_InputText) => {
-			exitValueStore[API_LOCATIONS__PARAM__NAME.name] = v;
-			setExitValueStore(exitValueStore);
-	customFormHolder.recieveExitValueStore(exitValueStore);
-
-		setCFH(customFormHolder);
-	console.log(v, API_LOCATIONS__PARAM__NAME.name, exitValueStore, customFormHolder.getExitValue(), 'pa')
-			
+			for(const el of CFIDCList){
+				objWithFnsForEachCFIDC__get_exitValue[el.name] = (v: QPC_InputText) => {
+					exitValueStore[el.name] = v;
+					setExitValueStore(exitValueStore);
+					// prosti menya, gospod'... no ya greshen...
+					// @ts-ignore-next-line
+					customFormHolder.current.recieveExitValueStore(exitValueStore);
 				}
-			);
+			}
 			
-			return customFormHolder;
+			return objWithFnsForEachCFIDC__get_exitValue;
 		}
 	);
 
 
-	console.log(get_exitValue__param_name)
-
-	const enabledDisabled = isValid ? {enabled: true} : {disabled: true};
-	// $:{
-	// 	customFormHolder.recieveExitValueStore(exitValueStore);
-
-	// 	isValid = isValid;
-	// }
-	// $:{
-	// 	actionExecuterAfterMount.exec();
-	
-	// 	//svelte magic again. WTF?
-	// 	update_values = update_values;
-	// 	entryValueStore = entryValueStore;
-	// }
+	if(!customFormHolder.current){
+		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
+	}
 
 
-	// onMount(() => {
-	// 	actionExecuterAfterMount.setReady();
-		
-	// })
+	function updateUpdate_values(){
+		const storeValue = CustomFormHolder.makeValueStore(API_LOCATIONS__PARAM_LIST);
+		CustomFormHolder.setValuesToValueStore(storeValue, update_values);
+		setEntryValueStore(storeValue);
+		setUpdate_valuesJson(JSON.stringify(update_values));
+	}
 
-	
+	if(update_valuesJson !== JSON.stringify(update_values)){
+		updateUpdate_values();
+	}
+
+
+	const apply = () => {
+		// prosti menya, gospod'... no ya greshen...
+		// @ts-ignore-next-line
+		customFormHolder.current.apply();
+	}
 
 
 	return (
@@ -139,66 +120,68 @@ export default function LocationsSearch(
 
 		<InputText
 			get_exitValue = {
-				// exitValueStore[
-				// 	API_LOCATIONS__PARAM__NAME
-				// 	.name
-				// ]
-				get_exitValue__param_name
+				objWithFnsForEachCFIDC__get_exitValue[
+					API_LOCATIONS__PARAM__NAME
+					.name
+				]
 			}
 			entry_value = {
 				entryValueStore[
 					API_LOCATIONS__PARAM__NAME
 					.name
 				]
-				// ({param: 'name', value: '123'})
 			}
+			// prosti menya, gospod'... no ya greshen...
+			// @ts-ignore-next-line
 			init_instanceOfInputText = {
-				customFormHolder.getInstanceOfCFItemFor(
+				customFormHolder.current.getInstanceOfCFItemFor(
 					API_LOCATIONS__PARAM__NAME
 				)
 			}
 		/>
-				{/*
 		<InputText
-			bind:exit_value = {
-				exitValueStore[
+			get_exitValue = {
+				objWithFnsForEachCFIDC__get_exitValue[
 					API_LOCATIONS__PARAM__TYPE
 					.name
 				]
 			}
-			bind:entry_value = {
+			entry_value = {
 				entryValueStore[
 					API_LOCATIONS__PARAM__TYPE
 					.name
 				]
 			}
+			// prosti menya, gospod'... no ya greshen...
+			// @ts-ignore-next-line
 			init_instanceOfInputText = {
-				customFormHolder.getInstanceOfCFItemFor(
+				customFormHolder.current.getInstanceOfCFItemFor(
 					API_LOCATIONS__PARAM__TYPE
 				)
 			}
 		/>
 		<InputText
-			bind:exit_value = {
-				exitValueStore[
+			get_exitValue = {
+				objWithFnsForEachCFIDC__get_exitValue[
 					API_LOCATIONS__PARAM__DIMENSION
 					.name
 				]
 			}
-			bind:entry_value = {
+			entry_value = {
 				entryValueStore[
 					API_LOCATIONS__PARAM__DIMENSION
 					.name
 				]
 			}
+			// prosti menya, gospod'... no ya greshen...
+			// @ts-ignore-next-line
 			init_instanceOfInputText = {
-				customFormHolder.getInstanceOfCFItemFor(
+				customFormHolder.current.getInstanceOfCFItemFor(
 					API_LOCATIONS__PARAM__DIMENSION
 				)
 			}
 		/>
 
-		*/}
 
     <div className="filter-select-box d-flex jc-center ai-center">
 
@@ -206,14 +189,14 @@ export default function LocationsSearch(
     </div>
 
     <button
-      className="
+      className={`
 				filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
-				{ isValid ? 'button--has-some': 'button--empty'}
-			"
+				${ isValid ? 'button--has-some': 'button--empty'}
+			`}
 
-			{...enabledDisabled}
+			disabled = {!isValid}
 
-		  onClick={() => (customFormHolder.apply())}
+		  onClick={apply}
     >
       Apply
     </button>

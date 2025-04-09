@@ -38,7 +38,7 @@ export type ArgumentsFor_CustomFormHolder = ArgumentsPart_setBridgeToExternalSco
 }
 
 export type ValueStore = {
-	[key: string]: QPC_OneOf | QueryParamCompatible_Base;
+	[key: string]: QueryParamCompatible_Base;
 }
 
 export class CustomFormHolder {
@@ -126,8 +126,6 @@ export class CustomFormHolder {
 
 	}
 
-	getExitValue(){return structuredClone(this. #exitValueStore)}
-
 	apply(){
 		this.#guard();
 
@@ -138,7 +136,7 @@ export class CustomFormHolder {
 
 			arr.push({...qpc});
 		}
-console.log('adfgggg',arr, this.#exitValueStore)
+
 		this.#setExternalValue(arr);
 	}
 
