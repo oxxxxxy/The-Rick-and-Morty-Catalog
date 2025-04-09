@@ -21,7 +21,7 @@ import { useGlobalContext } from '@/components/context/globalContext';
 
 
 import SearchItemNav from '@/components/next/routes/SearchItemNav';
-// import LocationsSearch from '@/components/next/routes/Locations/LocationsSearch';
+import LocationsSearch from '@/components/next/routes/Locations/LocationsSearch';
 import TileBoard from '@/components/next/tileBoard/TileBoard';
 import LocationTile from '@/components/next/tileBoard/tiles/LocationTile';
 // import TileBoard_Search from '@/components/next/tileBoard_Search/TileBoard_Search';
@@ -143,7 +143,7 @@ const timerRef = useRef<NodeJS.Timeout>();
 
 
 	function LocationsSearch__getExitValues(v: any) {
-		console.log(arguments.callee.name, v)
+		console.log('LocationsSearch__getExitValues', v)
 		
 	}
 
@@ -156,7 +156,22 @@ const timerRef = useRef<NodeJS.Timeout>();
 	return (
 		<>
 			<SearchItemNav pathName={pathName}>
+				
+				<LocationsSearch
+					get_exitValue = {
+						LocationsSearch__getExitValues
+					}
+					init_cachedValues = {
+						// LocationsSearch__update_values
+						[]
+					}
+					update_values = {
+						// LocationsSearch__update_values
+						[]
+					}
+				/>
 
+				{/*
 			<InputText 
 				init_CFIDC_InputText={API_EPISODES__PARAM__EPISODE}
 				get_exitValue={InputText__get_exitValue}

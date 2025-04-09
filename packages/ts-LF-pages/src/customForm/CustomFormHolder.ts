@@ -126,6 +126,8 @@ export class CustomFormHolder {
 
 	}
 
+	getExitValue(){return structuredClone(this. #exitValueStore)}
+
 	apply(){
 		this.#guard();
 
@@ -136,7 +138,7 @@ export class CustomFormHolder {
 
 			arr.push({...qpc});
 		}
-
+console.log('adfgggg',arr, this.#exitValueStore)
 		this.#setExternalValue(arr);
 	}
 
