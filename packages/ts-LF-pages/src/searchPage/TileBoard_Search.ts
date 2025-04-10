@@ -3,10 +3,10 @@ import type { PaginationBoardValue } from '@tsLF/pages';
 
 
 
-export type TileBoard_SearchValue = PaginationBoardValue 
-& {
-	buttonViewingLimit: undefined;
-	previousSelectedPage: undefined;
+export type TileBoard_SearchValue =  Omit<PaginationBoardValue, 
+		'buttonViewingLimit' 
+		| 'previousSelectedPage'
+> & {
 	availableItemsCount: number;
 	availableItemsTitle: string;
 }
@@ -64,7 +64,7 @@ export class TileBoard_SearchValueBuilder {
 			pageCount: T.#pageCount,
 			selectedPage: T.#selectedPage,
 			availableItemsCount: T.#availableItemsCount,
-			availableItemsTitle: T.#availableItemsTitle
+			availableItemsTitle: T.#availableItemsTitle ? T.#availableItemsTitle : ''
 		};
 	}
 }

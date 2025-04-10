@@ -10,7 +10,7 @@ import { PaginationBoard } from '@tsLF/pages';
 
 
 
-export default function PaginationBoardC(
+export default function PaginationBoardComponent(
 	{
 		entry_value,
 		getExit_value

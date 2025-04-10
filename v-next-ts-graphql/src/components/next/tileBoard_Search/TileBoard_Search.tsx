@@ -47,7 +47,18 @@ export default function TileBoard_Search(
 // 		}
 // 	}
 
+	const PaginationBoard__entry_value: PaginationBoardValue = {
+		// cho za huynya s typecheckerom???
+		pageCount : update_value.pageCount,
+		selectedPage: update_value.selectedPage,
+		buttonViewingLimit: 7
+	};
 
+	const getPaginationBoard__exit_value = (v: PaginationItem | undefined) => {
+		if(v){
+			getPagination__exit_value(v.pageNum);
+		}
+	};
 
 
 	return (
@@ -94,8 +105,9 @@ export default function TileBoard_Search(
 									entry_value={
 										PaginationBoard__entry_value
 									}
-									get_exit_value={
-										PaginationBoard__exit_value
+									getExit_value={
+										getPaginationBoard__exit_value
+										// PaginationBoard__exit_value
 									}
 								/>
 							);
