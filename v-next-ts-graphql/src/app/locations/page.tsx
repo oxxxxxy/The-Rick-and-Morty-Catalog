@@ -205,7 +205,7 @@ const timerRef = useRef<NodeJS.Timeout>();
 									update_value={
 										TileBoard_SearchUpdateValue
 									}
-									pagination__exit_value={
+									getPagination__exit_value={
 										pagination__exit_value
 									}
 								>
