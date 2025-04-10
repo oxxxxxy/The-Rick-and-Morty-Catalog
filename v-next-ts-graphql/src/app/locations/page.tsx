@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 
 import { API_LOCATIONS__PATH } from '@tsCF/data';
@@ -32,32 +32,16 @@ import TileBoard_Search from '@/components/next/tileBoard_Search/TileBoard_Searc
 
 const pathName = API_LOCATIONS__PATH.name;
 
-export default function Locations(
-	{
-		params,
-		searchParams
-	}:{
-		searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-	}
-){
+export default function Locations(){
 
 	const { 
 		wUrql,
 		wLocationChangeEventEmitter
 	} = useGlobalContext();
-	// const [
-	// 	LocationsSearch__update_values,
-	// 	forRenderSet_LocationsSearch__update_values
-	// ] = useState<QueryParamCompatible_Base[]>([]); //new URL(data.url)
-	// const REF__LocationsSearch__update_values = useRef<QueryParamCompatible_Base[]>([]); //new URL(data.url)
-	// const set_LocationsSearch__update_values = (v: QueryParamCompatible_Base[]) => {
-	// 	REF__LocationsSearch__update_values.current = v;
-	// 	forRenderSet_LocationsSearch__update_values(v);
-	// };
 	const [
 		LocationsSearch__update_values,
 		set_LocationsSearch__update_values
-	] = useState<QueryParamCompatible_Base[]>([]); //new URL(data.url)
+	] = useState<QueryParamCompatible_Base[]>([]); 
 	const [
 		TileBoard_SearchUpdateValue,
 		set_TileBoard_SearchValue
@@ -69,115 +53,54 @@ export default function Locations(
 		GT.LocationPreviewFieldsFragment[]
 		| NonTilesResultsForDrawingSearchPageTileBoard
 	>('LOADING');
-
-
 	const O = useRef(
-		initLocationsSearchPage(
-			{
-				pathName,
-				pushStateFn: pushStateByLegacy,
-				set_tiles,
-				set_TileBoard_SearchValue,
-				set_LocationsSearch__update_values,
-				wUrql,
+		initLocationsSearchPage(									              // prosti menya, gospod'... no ya greshen...
+			{                                                     //@ts-ignore
+				pathName,																						//@ts-ignore
+				pushStateFn: pushStateByLegacy,											//@ts-ignore
+				set_tiles,																					//@ts-ignore
+				set_TileBoard_SearchValue,													//@ts-ignore
+				set_LocationsSearch__update_values,									//@ts-ignore
+				wUrql,																							//@ts-ignore
 				wLocationChangeEventEmitter
 			}
 		)
 	);
-	/*
-	export type PushStateFnType = (path: string, windowHistoryState: Object) => void;
-
-	 */
-			const {
-				actionExecuterAfterMount,
-				searchPageManager
-			} = O.current;
-			
-			if(!actionExecuterAfterMount.isReady()){
-			
-
-			
-							set_LocationsSearch__update_values(
-					getQPCBaseListFromURL(
-						new URL(window.location.href)
-					)
-				);
-
-				
-				actionExecuterAfterMount.setReady();
-				
-				// searchPageManager.init(REF__LocationsSearch__update_values.current);
-				searchPageManager.init(LocationsSearch__update_values);
-				
-			}
-
-
-	
-	// useEffect(
-	// 	() => {
-	// 		const {
-	// 			actionExecuterAfterMount,
-	// 			searchPageManager
-	// 		} = O.current;
-			
-	// 		if(actionExecuterAfterMount.isReady()){
-	// 			return;
-	// 		}
-				
-	// 		async function action(){
-
-	// 			const params = await searchParams;
-
-	// 			console.log('params', params);
-				
-	// 			set_LocationsSearch__update_values(
-	// 				getQPCBaseListFromURL(
-	// 					new URL(params)
-	// 				)
-	// 			);
-
-				
-	// 			actionExecuterAfterMount.setReady();
-				
-	// 			searchPageManager.init(LocationsSearch__update_values);
-	// 		}
-			
-	// 		// action();
-			
-	// 						set_LocationsSearch__update_values(
-	// 				getQPCBaseListFromURL(
-	// 					new URL(window.location.href)
-	// 				)
-	// 			);
-
-				
-	// 			actionExecuterAfterMount.setReady();
-				
-	// 			searchPageManager.init(LocationsSearch__update_values);
-
-	// 	}
-	// 	,[]
-	// );
-
 	const {
 		handlePaginationSelection,
-		handleLocationsSearchApply
+		handleLocationsSearchApply,
+		actionExecuterAfterMount,
+		searchPageManager
 	} = O.current;
-
-
-	function get_LocationsSearch__exit_values(v: QueryParamCompatible_Base[]) {
-		console.log('LocationsSearch__getExitValues', v)
-		
+	const get_LocationsSearch__exit_values = (v: QueryParamCompatible_Base[]) => {
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore
 		handleLocationsSearchApply(v);
 	}
-
-	function get_pagination__exit_value(v: number | undefined) {
-		console.log('get_pagination__exit_value', v);
-		
+	const get_pagination__exit_value = (v: number | undefined) => {
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore
 		handlePaginationSelection(v);
 	}
+	
 
-
+	// prosti menya, gospod'... no ya greshen...
+	//@ts-ignore
+	if(!actionExecuterAfterMount.isReady()){
+		set_LocationsSearch__update_values(
+			getQPCBaseListFromURL(
+				new URL(window.location.href)
+			)
+		);
+		
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore
+		actionExecuterAfterMount.setReady();
+		
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore
+		searchPageManager.init(LocationsSearch__update_values);
+	}
 
 
 	return (

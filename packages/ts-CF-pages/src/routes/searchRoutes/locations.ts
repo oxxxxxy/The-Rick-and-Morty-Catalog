@@ -66,5 +66,6 @@ export const initLocationsSearchPage = (
 	delete searchPageDependencies.handleCFHSearchApply;
 
 	// blyat' menya tak besit, chto spellchecker rugaetsa
+	// upd: 10 apr 2025, blya, ril besit, no meni pihuy( ya ne viju smisla drochit' tut ( prostite... ) )
 	return searchPageDependencies;
 };
