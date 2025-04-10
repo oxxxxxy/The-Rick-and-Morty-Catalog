@@ -17,12 +17,9 @@ import {
 	URL__STATUS_RICKANDMORTYAPI,  
 	URL__APP_VER_GITHUB_REPO  
 } from '@/components/data'; 
-// import g from '@components/context'; 
-// const wUrql = g().wUrql; 
+
 import { useGlobalContext } from '@/components/context/globalContext';
 
-//const wUrql = getUrql();// don't forget to check uniques of it, BLYAT` ya hz kak...
-// make tests please
 
 
 

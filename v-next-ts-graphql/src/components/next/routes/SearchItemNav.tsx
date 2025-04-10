@@ -18,14 +18,6 @@ export default function SearchItemNav({
   children?: React.ReactNode;
   pathName?: SearchItemNav_Path | string;
 }) {
-
-	// const [ paths, setPaths ] = useState<SearchItemNav_Path[]>(searchNav.getPaths());
-
-	// if(pathName){
-	// 	setPaths(
-	// 		searchNav.setSelected(pathName).getPaths()
-	// 	);
-	// } 
 	
 	let paths = searchNav.getPaths();
 

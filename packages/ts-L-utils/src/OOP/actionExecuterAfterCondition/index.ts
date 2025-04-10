@@ -12,6 +12,10 @@ export class ActionExecuterAfterCondition{
 		}
 	}
 
+	isReady(): boolean{
+		return this.#ready;
+	}
+
 	setReady(){
 		this.#ready = true;
 	}

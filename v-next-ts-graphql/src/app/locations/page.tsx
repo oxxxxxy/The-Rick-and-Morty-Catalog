@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 
 import { API_LOCATIONS__PATH } from '@tsCF/data';
 
-import type {
+import {
 	TileBoard_SearchValue,
-	NonTilesResultsForDrawingSearchPageTileBoard
+	NonTilesResultsForDrawingSearchPageTileBoard,
+	pushStateByLegacy
 } from '@tsLF/pages';
 
 import { initLocationsSearchPage	} from '@tsCF/pages';
@@ -31,23 +32,6 @@ import TileBoard_Search from '@/components/next/tileBoard_Search/TileBoard_Searc
 
 const pathName = API_LOCATIONS__PATH.name;
 
-//DELETE ME
-
-	import {
-		API_LOCATIONS__PARAM__NAME,
-		API_LOCATIONS__PARAM__DIMENSION,
-		API_LOCATIONS__PARAM__TYPE,
-		API_LOCATIONS__PARAM_LIST,
-		API_EPISODES__PARAM__EPISODE,
-		API_EPISODES__PARAM__NAME
-	} from '@tsCF/data';
-
-import type { QPC_InputText } from '@tsLF/forURLSP';
-
-import InputText from '@/components/next/customForm/InputText';
-//DELETE ME
-
-
 export default function Locations(
 	{
 		params,
@@ -61,10 +45,19 @@ export default function Locations(
 		wUrql,
 		wLocationChangeEventEmitter
 	} = useGlobalContext();
+	// const [
+	// 	LocationsSearch__update_values,
+	// 	forRenderSet_LocationsSearch__update_values
+	// ] = useState<QueryParamCompatible_Base[]>([]); //new URL(data.url)
+	// const REF__LocationsSearch__update_values = useRef<QueryParamCompatible_Base[]>([]); //new URL(data.url)
+	// const set_LocationsSearch__update_values = (v: QueryParamCompatible_Base[]) => {
+	// 	REF__LocationsSearch__update_values.current = v;
+	// 	forRenderSet_LocationsSearch__update_values(v);
+	// };
 	const [
 		LocationsSearch__update_values,
 		set_LocationsSearch__update_values
-	] = useState<QueryParamCompatible_Base[]>([]);
+	] = useState<QueryParamCompatible_Base[]>([]); //new URL(data.url)
 	const [
 		TileBoard_SearchUpdateValue,
 		set_TileBoard_SearchValue
@@ -76,81 +69,115 @@ export default function Locations(
 		GT.LocationPreviewFieldsFragment[]
 		| NonTilesResultsForDrawingSearchPageTileBoard
 	>('LOADING');
-	// const {
-	// 	handlePaginationSelection,
-	// 	handleLocationsSearchApply,
-	// 	actionExecuterAfterMount,
-	// 	searchPageManager
-	// } = initLocationsSearchPage(
-	// 	{
-	// 		pathName,
-	// 		pushStateFn: pushState,
-	// 		set_tiles,
-	// 		set_TileBoard_SearchValue,
-	// 		set_LocationsSearch__update_values,
-	// 		wUrql,
-	// 		wLocationChangeEventEmitter
-	// 	}
-	// );
 
-	const [entryValTest, setEn] = useState({param:'fff', value:'0 zero'})
 
-	const didItExec = useRef(false);	
-	useEffect(() => {
-		const action = async ():Promise<void> => {
-			if(didItExec.current){
-				return;
+	const O = useRef(
+		initLocationsSearchPage(
+			{
+				pathName,
+				pushStateFn: pushStateByLegacy,
+				set_tiles,
+				set_TileBoard_SearchValue,
+				set_LocationsSearch__update_values,
+				wUrql,
+				wLocationChangeEventEmitter
+			}
+		)
+	);
+	/*
+	export type PushStateFnType = (path: string, windowHistoryState: Object) => void;
+
+	 */
+			const {
+				actionExecuterAfterMount,
+				searchPageManager
+			} = O.current;
+			
+			if(!actionExecuterAfterMount.isReady()){
+			
+
+			
+							set_LocationsSearch__update_values(
+					getQPCBaseListFromURL(
+						new URL(window.location.href)
+					)
+				);
+
+				
+				actionExecuterAfterMount.setReady();
+				
+				// searchPageManager.init(REF__LocationsSearch__update_values.current);
+				searchPageManager.init(LocationsSearch__update_values);
+				
 			}
 
-			didItExec.current = true;
 
-			
-			//actionExecuterAfterMount.setReady();
-			
-			//searchPageManager.init(LocationsSearch__update_values);
-
-			// ??? nujno li teper???
-			// set_LocationsSearch__update_values(
-			// 	getQPCBaseListFromURL(new URL(window.location.href))
-			// );
-
-
-			// console.log(window.location.href)	
-			// console.log(await params, await searchParams);
-		
-
-
-
-
-
-		};
-
-		action();
-	}, []);
-
-const timerRef = useRef<NodeJS.Timeout>();
 	
-	useEffect(() => {
+	// useEffect(
+	// 	() => {
+	// 		const {
+	// 			actionExecuterAfterMount,
+	// 			searchPageManager
+	// 		} = O.current;
+			
+	// 		if(actionExecuterAfterMount.isReady()){
+	// 			return;
+	// 		}
+				
+	// 		async function action(){
 
-				if(timerRef.current){return}
-				timerRef.current = setTimeout(
-					()=>{console.log('setEn');setEn({param:'name', value:'pizda'})}
-					, 2000
-				)
+	// 			const params = await searchParams;
 
-			console.log('blyat, asdfa')
-	}, [])
+	// 			console.log('params', params);
+				
+	// 			set_LocationsSearch__update_values(
+	// 				getQPCBaseListFromURL(
+	// 					new URL(params)
+	// 				)
+	// 			);
+
+				
+	// 			actionExecuterAfterMount.setReady();
+				
+	// 			searchPageManager.init(LocationsSearch__update_values);
+	// 		}
+			
+	// 		// action();
+			
+	// 						set_LocationsSearch__update_values(
+	// 				getQPCBaseListFromURL(
+	// 					new URL(window.location.href)
+	// 				)
+	// 			);
+
+				
+	// 			actionExecuterAfterMount.setReady();
+				
+	// 			searchPageManager.init(LocationsSearch__update_values);
+
+	// 	}
+	// 	,[]
+	// );
+
+	const {
+		handlePaginationSelection,
+		handleLocationsSearchApply
+	} = O.current;
 
 
-	function LocationsSearch__getExitValues(v: any) {
+	function get_LocationsSearch__exit_values(v: QueryParamCompatible_Base[]) {
 		console.log('LocationsSearch__getExitValues', v)
 		
+		handleLocationsSearchApply(v);
 	}
 
-	function InputText__get_exitValue(v: QPC_InputText) {
-		console.log(InputText__get_exitValue.name, v)
+	function get_pagination__exit_value(v: number | undefined) {
+		console.log('get_pagination__exit_value', v);
 		
+		handlePaginationSelection(v);
 	}
+
+
 
 
 	return (
@@ -158,7 +185,7 @@ const timerRef = useRef<NodeJS.Timeout>();
 			<SearchItemNav pathName={pathName}>
 				<LocationsSearch
 					get_exitValue = {
-						LocationsSearch__getExitValues
+						get_LocationsSearch__exit_values
 					}
 					init_cachedValues = {
 						LocationsSearch__update_values
@@ -200,13 +227,17 @@ const timerRef = useRef<NodeJS.Timeout>();
 								);
 							}
 
+							if(!TileBoard_SearchUpdateValue){
+								throw new Error('!TileBoard_SearchUpdateValue');
+							}
+
 							return (
 								<TileBoard_Search
 									update_value={
 										TileBoard_SearchUpdateValue
 									}
 									getPagination__exit_value={
-										pagination__exit_value
+										get_pagination__exit_value
 									}
 								>
 									{tileComponents}
@@ -221,130 +252,3 @@ const timerRef = useRef<NodeJS.Timeout>();
 		</>	
 	);
 }
-
-
-
-
-
-
-
-// import { pushState } from '$app/navigation';
-
-
-
-
-
-
-
-// import SearchItemNav from '$comps/svelte/routes/SearchItemNav.svelte';
-// import LocationsSearch from '$comps/svelte/routes/Locations/LocationsSearch.svelte';
-// import TileBoard from '$comps/svelte/tileBoard/TileBoard.svelte';
-// import LocationTile from '$comps/svelte/tileBoard/tiles/LocationTile.svelte';
-// import TileBoard_Search from '$comps/svelte/tileBoard_Search/TileBoard_Search.svelte';
-
-
-
-
-// export let data;
-
-
-
-
-// let LocationsSearch__exit_values: QueryParamCompatible_Base[] = [];
-// let pagination__exit_value: number | undefined;
-
-
-// let LocationsSearch__update_values: QueryParamCompatible_Base[] = getQPCBaseListFromURL(new URL(data.psl.url));
-// let TileBoard_SearchUpdateValue: TileBoard_SearchValue | undefined;
-// let tiles: GT.LocationPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard = 'LOADING';
-
-
-// const set_LocationsSearch__update_values = (v: QueryParamCompatible_Base[]) => (LocationsSearch__update_values = v);
-// const set_TileBoard_SearchValue = (v: TileBoard_SearchValue) => (TileBoard_SearchUpdateValue = v);
-// const set_tiles = (v: GT.LocationPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard) => (tiles = v);
-
-
-
-
-
-// const {
-// 	handlePaginationSelection,
-// 	handleLocationsSearchApply,
-// 	actionExecuterAfterMount,
-// 	searchPageManager
-// } = initLocationsSearchPage(
-// 	{
-// 		pathName,
-// 		pushStateFn: pushState,
-// 		set_tiles,
-// 		set_TileBoard_SearchValue,
-// 		set_LocationsSearch__update_values,
-// 		wUrql,
-// 		wLocationChangeEventEmitter
-// 	}
-// );
-
-
-// $:{
-// 	tiles = tiles;
-// } 
-// $:{
-// 	handleLocationsSearchApply(LocationsSearch__exit_values);
-// } 
-// $:{
-// 	handlePaginationSelection(pagination__exit_value);
-// } 
-
-
-// onMount(
-// 	() => {
-// 		actionExecuterAfterMount.setReady();
-		
-// 		searchPageManager.init(LocationsSearch__update_values);
-// 	}
-// );
-
-
-
-
-// <SearchItemNav {pathName}>
-// 	<LocationsSearch
-// 		bind:exit_values = {
-// 			LocationsSearch__exit_values
-// 		}
-// 		init_cachedValues = {
-// 			LocationsSearch__update_values
-// 		}
-// 		bind:update_values = {
-// 			LocationsSearch__update_values
-// 		}
-// 	/>
-// </SearchItemNav>
-
-
-// {#if tiles === 'ERR'}
-// 	<TileBoard>
-// 		<p>Network Error. Try later or kill yourself. Thank you.</p>
-// 	</TileBoard>
-// {:else if tiles === 'LOADING'}
-// 	<TileBoard>
-// 		<p>Loading...</p>
-// 	</TileBoard>
-// {:else if tiles === 'NOT FOUND'}
-// 	<TileBoard>
-// 		<p>Nothing found.</p>
-// 	</TileBoard>
-// {:else if Array.isArray(tiles)}
-// 	<TileBoard_Search
-// 		bind:update_value={
-// 			TileBoard_SearchUpdateValue
-// 		}
-// 		bind:pagination__exit_value={
-// 			pagination__exit_value
-// 		}
-// 	>
-// 	{#each tiles as tile }
-// 		<LocationTile data={tile} />
-// 	{/each}
-// 	</TileBoard_Search>
-// {/if}

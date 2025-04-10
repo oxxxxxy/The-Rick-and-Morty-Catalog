@@ -21,38 +21,18 @@ export default function TileBoard_Search(
 		children: React.ReactNode
 	}
 ) {
-// export let update_value: TileBoard_SearchValue;
-// export let pagination__exit_value: number | undefined;
-
 
 	if(!update_value){
 		throw new Error('update_value is required.');
 	}
 
 
-// 	let PaginationBoard__entry_value: PaginationBoardValue;
-// 	let PaginationBoard__exit_value: PaginationItem;
-
-
-// 	$:{
-// 		PaginationBoard__entry_value = {
-// 			pageCount : update_value.pageCount,
-// 			selectedPage: update_value.selectedPage,
-// 			buttonViewingLimit: 7
-// 		}
-// 	}
-// 	$:{
-// 		if(PaginationBoard__exit_value){
-// 			pagination__exit_value = PaginationBoard__exit_value.pageNum
-// 		}
-// 	}
-
 	const PaginationBoard__entry_value: PaginationBoardValue = {
-		// cho za huynya s typecheckerom???
 		pageCount : update_value.pageCount,
 		selectedPage: update_value.selectedPage,
 		buttonViewingLimit: 7
 	};
+
 
 	const getPaginationBoard__exit_value = (v: PaginationItem | undefined) => {
 		if(v){
@@ -63,13 +43,13 @@ export default function TileBoard_Search(
 
 	return (
 		<div
-			className={`
+			className="
 				main--font-size
 				color--b6b6b6
 				d-flex
 				ai-center
 				fd-column
-			`}	
+			"
 			style={{marginTop:'25px'}}
 		>
 			<div
@@ -92,7 +72,7 @@ export default function TileBoard_Search(
 				"
 			>
 				available { update_value.availableItemsTitle } : { update_value.availableItemsCount }
-				<br>
+				<br/>
 				page count : { update_value.pageCount }
 			</div>
 		
@@ -107,7 +87,6 @@ export default function TileBoard_Search(
 									}
 									getExit_value={
 										getPaginationBoard__exit_value
-										// PaginationBoard__exit_value
 									}
 								/>
 							);

@@ -19,9 +19,6 @@ export default function PaginationBoardComponent(
 		entry_value: PaginationBoardValue;
 	}
 ){
-	// export let exit_value: PaginationItem | undefined;
-	// export let entry_value: PaginationBoardValue;
-
 
 	if(!entry_value){
 		throw new Error('PaginationBoardValue is required.');
@@ -29,11 +26,7 @@ export default function PaginationBoardComponent(
 
 	
 	const [pages, setPages] = useState<PaginationItem[]>([]);
-
-	
 	const setSelected = getExit_value;
-	// const setSelected = (v: PaginationItem) => (exit_value = v);
-	// const setPages = (v: PaginationItem[]) => (pages = v);
 
 
 	const paginationBoard = useRef<PaginationBoard>();
@@ -47,8 +40,6 @@ export default function PaginationBoardComponent(
 		);
 	}
 	
-
-	// $: _pages = pages;
 
 	return (
 		<div
@@ -97,28 +88,6 @@ export default function PaginationBoardComponent(
 						}
 
 						return pageComponents;
-				// #each _pages as page (page.pageNum) }
-				// {#if page.selected}
-				// 	<a
-				// 		className="
-				// 			pagination-item
-				// 			pagination-item-selected
-				// 		"
-				// 	>
-				// 		{page.pageNum}
-				// 	</a>
-				// {:else}
-				// 	<a
-				// 		className="
-				// 			pagination-item
-				// 		"
-				// 		on:click={() => paginationBoard.select(page)}
-				// 	>
-				// 		{page.pageNum}
-				// 	</a>
-				// {/if}
-		  // {/each
-		  	
 					}
 				)()
 		  }
