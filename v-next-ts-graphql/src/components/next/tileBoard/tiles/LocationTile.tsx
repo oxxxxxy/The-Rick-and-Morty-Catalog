@@ -9,11 +9,6 @@ import { genLocationTileData } from '@tsCF/pages/src/tileBoard/tiles/LocationTil
 
 
 
-export let data: GT.LocationPreviewFieldsFragment;
-
-
-
-
 export default function LocationTile(
 	{
 		data

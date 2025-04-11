@@ -13,9 +13,6 @@ import { APP_NAME } from '@/components/data';
 
 const pageTitle = capitalizeWord(API_LOCATIONS__PATH.name);
 
-
-
-
 export const metadata: Metadata = {
   title: `${ pageTitle } • ${ APP_NAME }`,
   description: `${ APP_NAME } ${ pageTitle }`
