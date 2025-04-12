@@ -1,17 +1,21 @@
 'use client'
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 
 import type { GT } from '@tsC/api-graphql-to-ex';
 
-import type { NonTilesResultsForDrawingSearchPageTileBoard } from '@tsLF/pages';
+import type { 
+	NonTilesResultsForDrawingSearchPageTileBoard,
+	ItemPageManager
+} from '@tsLF/pages';
 import { capitalizeWord } from '@tsLF/pages';
 
-import { initLocationIdPage } from '@tsCF/pages';
+import { initLocationIdPage_V2 } from '@tsCF/pages';
 
 import { API_LOCATIONS__PATH } from '@tsCF/data';
 
 
+import { useGlobalContext } from '@/components/context/globalContext';
 import { APP_NAME } from '@/components/data';
 
 import BigLocationTile from '@/components/next/routes/Locations-id/BigLocationTile';
@@ -23,12 +27,12 @@ import TileBoard from '@/components/next/tileBoard/TileBoard';
 	// export let data;
 
 
-	let pageTitle = 'Location loading';
-	let bigTile: GT.LocationFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard = 'LOADING';
+	// let pageTitle = 'Location loading';
+	// let bigTile: GT.LocationFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard = 'LOADING';
 
 
-	const set_bigTile = (v: GT.LocationFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard) => (bigTile = v);
-	const set_pageTitle = (v: string) => (pageTitle = v);
+	// const set_bigTile = (v: GT.LocationFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard) => (bigTile = v);
+	// const set_pageTitle = (v: string) => (pageTitle = v);
 
 
 	// $:{
@@ -39,14 +43,6 @@ import TileBoard from '@/components/next/tileBoard/TileBoard';
 	// }
 
 
-	initLocationIdPage(
-		{
-			wUrql,
-			set_pageTitle,
-			set_bigTile,
-			location_id: data.psl.params.id
-		}
-	);
 
 
 
@@ -65,15 +61,36 @@ export default async function Locations_Id(
 ){
 
 	const { id } = await params;
+	const { wUrql } = useGlobalContext();
+	const [pageTitle, set_pageTitle] = useState<string>('');
+	const [bigTile, set_bigTile] = useState<GT.LocationFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard>('LOADING');
+	const REF_itemPageManager = useRef<ItemPageManager>();
+
+
+
+
+
+	if(!REF_itemPageManager.current){
+		REF_itemPageManager.current = initLocationIdPage_V2(
+			{
+				wUrql,
+				set_pageTitle,
+				set_bigTile,
+				location_id: id,
+				APP_NAME
+			}
+		);
+
+	}
+
+
 	// const wordInPluralForm = capitalizeWord(API_LOCATIONS__PATH.name);
 	// const TRAMCThemeObject = wordInPluralForm.slice(0, wordInPluralForm.length - 1);
 	// const pageTitle = `${TRAMCThemeObject} Id${id} loading`;
 
-	const [pageTitle, setPageTitle] = useState<string>('');
-	const set_pageTitle = (v: string) => {
+	// const set_pageTitle = (v: string) => {
 		
-	};
-	const [bigTile, set_bigTile] = useState<GT.LocationFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard>('LOADING');
+	// };
 
 
 	
@@ -83,6 +100,7 @@ export default async function Locations_Id(
 
 	// document.title = `${ pageTitle } • ${ APP_NAME }`;
 	// document.querySelector('meta[name="description"]').content = `${ APP_NAME } • ${ pageTitle }`;
+	// zagruzit li on prediduschee sostoyanie???
 
 
 	return (
