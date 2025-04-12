@@ -11,16 +11,17 @@ import { APP_NAME } from '@/components/data';
 
 
 
-export function generateMetadata(
+export async function generateMetadata(
 	{
 		params
 	}: {
-		params: string
+		params: Promise<{ id: string }>
 	}
-){
+): Promise<Metadata>{
+	const { id } = await params;
 	const wordInPluralForm = capitalizeWord(API_LOCATIONS__PATH.name);
 	const TRAMCThemeObject = wordInPluralForm.slice(0, wordInPluralForm.length - 1);
-	const pageTitle = `${TRAMCThemeObject} Id${params} loading`;
+	const pageTitle = `${TRAMCThemeObject} Id${id} loading`;
 
 	const metadata: Metadata = {
 	  title: `${ pageTitle } • ${ APP_NAME }`,

@@ -1,3 +1,7 @@
+'use client'
+import { useState } from 'react';
+
+
 import type { GT } from '@tsC/api-graphql-to-ex';
 
 import type { NonTilesResultsForDrawingSearchPageTileBoard } from '@tsLF/pages';
@@ -52,11 +56,25 @@ import TileBoard from '@/components/next/tileBoard/TileBoard';
 // 	<meta name="description" content="{ APP_NAME } { pageTitle }" />
 // </svelte:head>
 
-export default function Locations_Id(
+export default async function Locations_Id(
 	{
+		params
 	}:{
+		params: Promise<{ id: string }>
 	}
 ){
+
+	const { id } = await params;
+	// const wordInPluralForm = capitalizeWord(API_LOCATIONS__PATH.name);
+	// const TRAMCThemeObject = wordInPluralForm.slice(0, wordInPluralForm.length - 1);
+	// const pageTitle = `${TRAMCThemeObject} Id${id} loading`;
+
+	const [pageTitle, setPageTitle] = useState<string>('');
+	const set_pageTitle = (v: string) => {
+		
+	};
+	const [bigTile, set_bigTile] = useState<GT.LocationFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard>('LOADING');
+
 
 	
 	// const wordInPluralForm = capitalizeWord(API_LOCATIONS__PATH.name);

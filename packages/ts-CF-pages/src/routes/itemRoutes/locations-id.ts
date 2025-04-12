@@ -59,3 +59,49 @@ export const initLocationIdPage = (
 		}
 	);
 };
+
+export const initLocationIdPage_V2 = (
+	{
+		set_pageTitle,
+		set_bigTile,
+		location_id,
+		wUrql
+	} : ArgumentsFor_initLocationIdPage
+): ItemPageManager => {
+
+		const pageTitleDrawer = new LittleChangeableStringElementDrawer(
+		{
+			setElementValueFn: set_pageTitle,
+			elementCauseValues: [
+				{
+					cause: 'not found',
+					value: 'Location was not found'
+				},
+				{
+					cause: 'error',
+					value: 'Error'
+				},
+				{
+					cause: 'ok',
+					value: (data: GT.LocationFieldsFragment) => data.name
+				},
+				{
+					cause: 'loading',
+					value: 'Location loading'
+				}
+			]
+		}
+	);
+
+	const itemPageManager = new ItemPageManager(
+		{
+			set_bigTile,
+			pageTitleDrawer,
+			itemId: Number.parseInt(location_id),
+			makeReqFn: makeFnForItemPageManagerMakeReqFn(wUrql.q.GetLocation)
+		}
+	);
+
+	return itemPageManager
+};
+
