@@ -1,8 +1,11 @@
 import type { GT } from '@tsC/api-graphql-to-ex';
 
 import type { NonTilesResultsForDrawingSearchPageTileBoard } from '@tsLF/pages';
+import { capitalizeWord } from '@tsLF/pages';
 
 import { initLocationIdPage } from '@tsCF/pages';
+
+import { API_LOCATIONS__PATH } from '@tsCF/data';
 
 
 import { APP_NAME } from '@/components/data';
@@ -49,7 +52,20 @@ import TileBoard from '@/components/next/tileBoard/TileBoard';
 // 	<meta name="description" content="{ APP_NAME } { pageTitle }" />
 // </svelte:head>
 
-export default function Locations_Id(){
+export default function Locations_Id(
+	{
+	}:{
+	}
+){
+
+	
+	// const wordInPluralForm = capitalizeWord(API_LOCATIONS__PATH.name);
+	// const TRAMCThemeObject = wordInPluralForm.slice(0, wordInPluralForm.length - 1);
+	// const pageTitle = `${TRAMCThemeObject}: ${LocationName}`;
+
+	// document.title = `${ pageTitle } • ${ APP_NAME }`;
+	// document.querySelector('meta[name="description"]').content = `${ APP_NAME } • ${ pageTitle }`;
+
 
 	return (
 		<TileBoard>
