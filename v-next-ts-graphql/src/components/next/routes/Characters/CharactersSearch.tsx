@@ -1,30 +1,55 @@
-<script lang="ts">
-	import { onMount } from 'svelte';
+import { useState, useRef } from 'react';
 
 
-	import {
-		API_CHARACTERS__PARAM__STATUS,
-		API_CHARACTERS__PARAM__GENDER,
-		API_CHARACTERS__PARAM__NAME,
-		API_CHARACTERS__PARAM__SPECIES,
-		API_CHARACTERS__PARAM__TYPE
-	} from '@tsCF/data';
+import {
+	API_CHARACTERS__PARAM__STATUS,
+	API_CHARACTERS__PARAM__GENDER,
+	API_CHARACTERS__PARAM__NAME,
+	API_CHARACTERS__PARAM__SPECIES,
+	API_CHARACTERS__PARAM__TYPE,
+	API_CHARACTERS__PARAM_LIST
+} from '@tsCF/data';
 
-	import type { QueryParamCompatible_Base } from '@tsLF/forURLSP';
+import type { QueryParamCompatible_Base } from '@tsLF/forURLSP';
 
-	import { CustomFormHolder } from '@tsLF/pages';
-	import type { ArgumentsFor_CustomFormHolder } from '@tsLF/pages';
+import { CustomFormHolder } from '@tsLF/pages';
+import type { ArgumentsFor_CustomFormHolder } from '@tsLF/pages';
 
-	import { U } from '@tsL/utils';
-
-
-	import InputText from '$comps/svelte/customForm/InputText.svelte';
-	import SelectMenu from '$comps/svelte/customForm/SelectMenu.svelte';
+import { U } from '@tsL/utils';
 
 
+import InputText from '@/components/next/customForm/InputText';
+import SelectMenu from '@/components/next/customForm/SelectMenu';
 
 
-	export let init_cachedValues: QueryParamCompatible_Base[];
+
+
+export default function CharactersSearch(
+	{
+		init_cachedValues,
+		update_values,
+		get_exit_values
+	}: {
+		init_cachedValues: QueryParamCompatible_Base[];
+		update_values: QueryParamCompatible_Base[];
+		get_exit_values: (v: QueryParamCompatible_Base[]) => void;
+	}
+){
+
+	const [isValid, setIsValid] = useState<boolean>(true);
+	const [update_valuesJson, setUpdate_valuesJson] = useState<string>(JSON.stringify(update_values));
+	const set_value = get_exit_values;
+	const set_applyActivity = (v: boolean) => setIsValid(v);
+
+	const [exitValueStore, setExitValueStore] = useState<ValueStore>({});
+	const [entryValueStore, setEntryValueStore] = useState<ValueStore>({});
+
+	const customFormHolder = useRef<CustomFormHolder>();
+
+
+
+
+	/* export let init_cachedValues: QueryParamCompatible_Base[];
 	export let update_values: QueryParamCompatible_Base[];
 	export let exit_values: QueryParamCompatible_Base[];
 
@@ -36,13 +61,14 @@
 	const set_applyActivity = (v: boolean) => (isValid = v);
 
 
-	const CFIDCList = [
-		API_CHARACTERS__PARAM__STATUS,
-		API_CHARACTERS__PARAM__GENDER,
-		API_CHARACTERS__PARAM__NAME,
-		API_CHARACTERS__PARAM__SPECIES,
-		API_CHARACTERS__PARAM__TYPE
-	];
+	const CFIDCList = API_CHARACTERS__PARAM_LIST
+	// [
+	// 	API_CHARACTERS__PARAM__STATUS,
+	// 	API_CHARACTERS__PARAM__GENDER,
+	// 	API_CHARACTERS__PARAM__NAME,
+	// 	API_CHARACTERS__PARAM__SPECIES,
+	// 	API_CHARACTERS__PARAM__TYPE
+	// ];
 
 	const args: ArgumentsFor_CustomFormHolder = {
 		set_value,
@@ -93,7 +119,8 @@
 		
 	})
 
-</script>
+ */
+
 
 <div class="margin-10 w-100 d-flex jc-center">
   <div
