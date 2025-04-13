@@ -1,12 +1,15 @@
-	import type { 
-		PaginationBoardValue,
-		PaginationItem
-	} from '@tsLF/pages';
-	import {
-		LimitedViewOfItems
-	} from '@tsLF/pages';
+import { useState, useRef } from 'react';
 
-	import type { GT } from '@tsC/api-graphql-to-ex';
+
+import type { 
+	PaginationBoardValue,
+	PaginationItem
+} from '@tsLF/pages';
+import {
+	LimitedViewOfItems
+} from '@tsLF/pages';
+
+import type { GT } from '@tsC/api-graphql-to-ex';
 
 
 import CharacterTile from '@/components/next/tileBoard/tiles/CharacterTile';
@@ -23,6 +26,40 @@ export default function BigLocationTile(
 	}
 ){
 
+	const [PaginationBoard__entry_value, set_paginationBoard__entry_value] = useState<PaginationBoardValue>();
+	const [currentViewCharacters, set_currentViewCharacters] = useState<GT.CharacterPreviewFieldsFragment[]>([]);
+	const REF_limitedViewOfCharacters = useRef<LimitedViewOfItems>();
+	const viewCountOfCharacters = 40;
+	const [handleSelectedPage] = useState<(v: PaginationItem) => void>(
+		()=>{
+			let _handleSelectedPage = (v: PaginationItem) => {};
+
+			
+			if(data.residents && data.residents.length > viewCountOfCharacters){
+				const limitedViewOfCharacters = new LimitedViewOfItems(
+					{
+						viewCountOfItems: viewCountOfCharacters,
+						set_limitedItems: set_currentViewCharacters,
+						set_paginationBoard__entry_value,
+						thatArrayOfObjs: data.residents,
+						buttonViewingLimit: 5
+					}
+				);
+
+				REF_limitedViewOfCharacters.current = limitedViewOfCharacters;
+				
+				// prosti menya, gospod'... no ya greshen...
+				// @ts-ignore-next-line
+				_handleSelectedPage = (v: PaginationItem) => (console.log(v, 'hi2'), REF_limitedViewOfCharacters.current.recievePaginationBoard__exit_value(v));
+
+				limitedViewOfCharacters.init();
+			}
+
+			return _handleSelectedPage
+		}
+	);
+	
+
 	// let PaginationBoard__exit_value: PaginationItem;
 	// let PaginationBoard__entry_value: PaginationBoardValue;
 	// let currentViewCharacters: GT.CharacterPreviewFieldsFragment[] = [];
@@ -32,32 +69,28 @@ export default function BigLocationTile(
 	// const set_PaginationBoard__entry_value = (v: PaginationBoardValue) => (PaginationBoard__entry_value = v);
 
 
-	// const viewCountOfCharacters = 40;
 
-	// let handleSelectedPage = (v: PaginationItem) => {};
+function useForceUpdate() {
+  const [_, setValue] = useState({});
+  return () => setValue({}); // Новая ссылка на объект
+}
 
-	// if(data.residents && data.residents.length > viewCountOfCharacters){
-	// 	const limitedViewOfCharacters = new LimitedViewOfItems(
-	// 		{
-	// 			viewCountOfItems: viewCountOfCharacters,
-	// 			set_limitedItems: set_currentViewCharacters,
-	// 			set_paginationBoard__entry_value: set_PaginationBoard__entry_value,
-	// 			thatArrayOfObjs: data.residents,
-	// 			buttonViewingLimit: 5
-	// 		}
-	// 	);
-		
-	// 	handleSelectedPage = (v: PaginationItem) => (limitedViewOfCharacters.recievePaginationBoard__exit_value(v));
-
-	// 	limitedViewOfCharacters.init();
-	// }
+// Использование
 
 	// $:{
 	// 	if(PaginationBoard__exit_value){
 	// 		handleSelectedPage(PaginationBoard__exit_value);
 	// 	}
 	// }
+	console.log(PaginationBoard__entry_value, 'enternal')
+	const getPaginationBoard__exit_value = (v: PaginationItem | undefined) => {
+		if(v){
+			handleSelectedPage(v);
 
+			console.log(PaginationBoard__entry_value, 'hi0', REF_limitedViewOfCharacters.current)
+			set_paginationBoard__entry_value(PaginationBoard__entry_value);
+		}
+	}
 
 
 	return (
@@ -191,6 +224,38 @@ export default function BigLocationTile(
 				>
 					List of characters who have been seen in the location.
 				</div>
+				
+				{
+					(() =>{
+						if(data.residents.length > viewCountOfCharacters){
+							return (
+								<div
+									className="
+										d-flex
+										w-100
+										jc-center
+									"
+									style={{
+										marginBottom: '10px'
+									}}
+								>
+									<PaginationBoard 
+										// prosti menya, gospod'... no ya greshen...
+										// @ts-ignore-next-line
+										entry_value={
+											PaginationBoard__entry_value
+										}
+										getExit_value={
+											getPaginationBoard__exit_value
+										}
+									/>
+								</div>
+							);
+						}
+						
+						return null
+					})()
+				}
 					
 				{
 					(() =>{
@@ -198,33 +263,8 @@ export default function BigLocationTile(
 						
 						if(data.residents.length > viewCountOfCharacters){
 							for(let i = 0; i < currentViewCharacters.length; i++){
-								if(i === 0){
-									characterTiles.push(
-										<div
-											className="
-												d-flex
-												w-100
-												jc-center
-											"
-											style={{
-												marginBottom: '10px'
-											}}
-										>
-											<PaginationBoard 
-												
-												entry_value={
-													PaginationBoard__entry_value
-												}
-												getExit_value={
-													PaginationBoard__exit_value
-												}
-											/>
-										</div>
-									);
-								}
-
 								characterTiles.push(
-									<CharacterTile data={currentViewCharacters[i]} key={i} />
+									<CharacterTile data={currentViewCharacters[i]} key={currentViewCharacters[i].id} />
 								);
 							}
 						} else {

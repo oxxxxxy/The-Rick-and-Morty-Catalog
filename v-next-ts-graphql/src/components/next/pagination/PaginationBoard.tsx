@@ -19,11 +19,9 @@ export default function PaginationBoardComponent(
 		entry_value: PaginationBoardValue;
 	}
 ){
-
 	if(!entry_value){
 		throw new Error('PaginationBoardValue is required.');
 	}
-
 	
 	const [pages, setPages] = useState<PaginationItem[]>([]);
 	const setSelected = getExit_value;
@@ -59,7 +57,8 @@ export default function PaginationBoardComponent(
 						
 						for(let i = 0; i < pages.length; i++){
 							const page = pages[i];
-							
+						
+							const uni = Math.random() + '';
 							if(page.selected){
 								pageComponents.push(
 									<a
@@ -67,7 +66,7 @@ export default function PaginationBoardComponent(
 											pagination-item
 											pagination-item-selected
 										"
-										key={i}
+										key={`${i} ${uni}`}
 									>
 										{page.pageNum}
 									</a>
@@ -81,7 +80,7 @@ export default function PaginationBoardComponent(
 										// prosti menya, gospod'... no ya greshen...
 										// @ts-ignore-next-line
 										onClick={() => paginationBoard.current.select(page)}
-										key={i}
+										key={`${i} ${uni}`}
 									>
 										{page.pageNum}
 									</a>
