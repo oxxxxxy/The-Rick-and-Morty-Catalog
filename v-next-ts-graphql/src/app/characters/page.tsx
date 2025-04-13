@@ -1,43 +1,38 @@
-<script lang="ts">
-	import { onMount } from 'svelte';
-
-	import { pushState } from '$app/navigation';
+'use client';
+import { useState, useRef } from 'react';
 
 
-	import { API_CHARACTERS__PATH } from '@tsCF/data';
+import { API_CHARACTERS__PATH } from '@tsCF/data';
 
-	import { capitalizeWord } from '@tsLF/pages';
-	import type {
-		TileBoard_SearchValue,
-		NonTilesResultsForDrawingSearchPageTileBoard
-	} from '@tsLF/pages';
+import {
+	TileBoard_SearchValue,
+	NonTilesResultsForDrawingSearchPageTileBoard,
+	pushStateByLegacy
+} from '@tsLF/pages';
 
-	import { initCharactersSearchPage	} from '@tsCF/pages';
-	
-	import type { QueryParamCompatible_Base	} from '@tsLF/forURLSP';
-	import { getQPCBaseListFromURL	} from '@tsLF/forURLSP';
+import { initCharactersSearchPage	} from '@tsCF/pages';
+  
+import type { QueryParamCompatible_Base	} from '@tsLF/forURLSP';
+import { getQPCBaseListFromURL	} from '@tsLF/forURLSP';
 
-	import type { GT } from '@tsC/api-graphql-to-ex';
-
-
-	import { APP_NAME } from '$comps/data';
-	import g from '$comps/context/index.ts';
-	const { 
-		wUrql,
-		wLocationChangeEventEmitter
-	} = g();
+import type { GT } from '@tsC/api-graphql-to-ex';
 
 
-	import SearchItemNav from '$comps/svelte/routes/SearchItemNav.svelte';
-	import CharactersSearch from '$comps/svelte/routes/Characters/CharactersSearch.svelte';
-	import TileBoard from '$comps/svelte/tileBoard/TileBoard.svelte';
-	import CharacterTile from '$comps/svelte/tileBoard/tiles/CharacterTile.svelte';
-	import TileBoard_Search from '$comps/svelte/tileBoard_Search/TileBoard_Search.svelte';
+import { useGlobalContext } from '@/components/context/globalContext';
+
+
+import SearchItemNav from '@/components/next/routes/SearchItemNav';
+import CharactersSearch from '@/components/next/routes/Characters/CharactersSearch';
+import TileBoard from '@/components/next/tileBoard/TileBoard';
+import CharacterTile from '@/components/next/tileBoard/tiles/CharacterTile';
+import TileBoard_Search from '@/components/next/tileBoard_Search/TileBoard_Search';
 
 
 
 
-	export let data;
+const pathName = API_CHARACTERS__PATH.name;
+
+export default function Characters(){
 
 
 	const pageTitle = capitalizeWord(API_CHARACTERS__PATH.name);
