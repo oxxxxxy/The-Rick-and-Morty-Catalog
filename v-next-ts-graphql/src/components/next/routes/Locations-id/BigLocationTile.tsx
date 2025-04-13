@@ -41,6 +41,8 @@ export default function BigLocationTile(
 						viewCountOfItems: viewCountOfCharacters,
 						set_limitedItems: set_currentViewCharacters,
 						set_paginationBoard__entry_value,
+						// prosti menya, gospod'... no ya greshen...
+						// @ts-ignore-next-line
 						thatArrayOfObjs: data.residents,
 						buttonViewingLimit: 5
 					}
@@ -48,9 +50,10 @@ export default function BigLocationTile(
 
 				REF_limitedViewOfCharacters.current = limitedViewOfCharacters;
 				
+				_handleSelectedPage = (v: PaginationItem) => 
 				// prosti menya, gospod'... no ya greshen...
 				// @ts-ignore-next-line
-				_handleSelectedPage = (v: PaginationItem) => (console.log(v, 'hi2'), REF_limitedViewOfCharacters.current.recievePaginationBoard__exit_value(v));
+					REF_limitedViewOfCharacters.current.recievePaginationBoard__exit_value(v);
 
 				limitedViewOfCharacters.init();
 			}
@@ -58,55 +61,9 @@ export default function BigLocationTile(
 			return _handleSelectedPage
 		}
 	);
-	
-
-	// let PaginationBoard__exit_value: PaginationItem;
-	// let PaginationBoard__entry_value: PaginationBoardValue;
-	// let currentViewCharacters: GT.CharacterPreviewFieldsFragment[] = [];
-
-
-	// const set_currentViewCharacters = (v: GT.CharacterPreviewFieldsFragment[]) => (currentViewCharacters = v);
-	// const set_PaginationBoard__entry_value = (v: PaginationBoardValue) => (PaginationBoard__entry_value = v);
-
-
-
-function useForceUpdate() {
-  const [_, setValue] = useState({});
-  return () => setValue({}); // Новая ссылка на объект
-}
-
-// Использование
-
-	// $:{
-	// 	if(PaginationBoard__exit_value){
-	// 		handleSelectedPage(PaginationBoard__exit_value);
-	// 	}
-	// }
-	console.log(PaginationBoard__entry_value, 'enternal')
 	const getPaginationBoard__exit_value = (v: PaginationItem | undefined) => {
 		if(v){
 			handleSelectedPage(v);
-
-			console.log(
-				PaginationBoard__entry_value, 
-				v, 
-				'hi0',
-			)
-		
-			const asdf = REF_limitedViewOfCharacters.current.getPaginationBoardValue(v. pageNum);
-			console.log(asdf, 'asdf')
-			set_paginationBoard__entry_value(() => (
-				undefined	
-			))
-			set_paginationBoard__entry_value(() => (
-				{
-					...asdf
-				}
-			)
-			);
-			console.log(
-				PaginationBoard__entry_value, v, 'hi0-1', 
-			)
 		}
 	}
 
@@ -245,11 +202,7 @@ function useForceUpdate() {
 				
 				{
 					(() =>{
-						console.log('asdf', data.residents)
 						if(data.residents.length > viewCountOfCharacters){
-							console.log(`						if(data.residents.length > viewCountOfCharacters){
-`,
-												 structuredClone(PaginationBoard__entry_value))
 							return (
 								<div
 									className="
@@ -270,6 +223,7 @@ function useForceUpdate() {
 										getExit_value={
 											getPaginationBoard__exit_value
 										}
+										//vahui, blyat'!!!
 										key={JSON.stringify(PaginationBoard__entry_value)}
 									/>
 								</div>
@@ -291,50 +245,13 @@ function useForceUpdate() {
 						} else {
 							for(let i = 0; i < data.residents.length; i++){
 								characterTiles.push(
+									// prosti menya, gospod'... no ya greshen...
+									// @ts-ignore-next-line
 									<CharacterTile data={data.residents[i]} key={i} />
 								);
 							}
 						}
-					// {#each currentViewCharacters as char, i (char.id) }
-					// 	{#if i === 0}
-					// 	{/*
-					// 	<!-- 
-					// 		vot eto ebanoe gavnische tolko iz-za ebuchey uebischnoy svelte reactivity hueti
-					// 		kak je gorit s etogo ganvnischa
-					// 		rabotaet kogda kak, ebat' etu huynyu so vsemi razrabami v rot, chtobi vi suki v adu goreli mrazi
-					// 		poshli nahuy
-					// 	-->
-					// 	*/}
-					// 		<div
-					// 			className="
-					// 				d-flex
-					// 				w-100
-					// 				jc-center
-					// 			"
-					// 			style={{
-					// 				marginBottom: '10px'
-					// 			}}
-					// 		>
-					// 			<PaginationBoard 
-					// 				bind:entry_value={
-					// 					PaginationBoard__entry_value
-					// 				}
-					// 				bind:exit_value={
-					// 					PaginationBoard__exit_value
-					// 				}
-					// 			/>
-					// 		</div>
-					// 		<CharacterTile data={char} />
-					// 	{:else}
-					// 		<CharacterTile data={char} />
-					// 	{/if}
-					// {/each}
-					// 		}
-					// 	}else{
-					// {#each data.residents as char }
-					// 	<CharacterTile data={char} />
-					// {/each}
-						
+
 						return characterTiles
 					})()
 				}

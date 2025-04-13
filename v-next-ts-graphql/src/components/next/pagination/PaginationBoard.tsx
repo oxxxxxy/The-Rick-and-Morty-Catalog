@@ -19,7 +19,6 @@ export default function PaginationBoardComponent(
 		entry_value: PaginationBoardValue;
 	}
 ){
-	console.log('entry_value', entry_value)
 	if(!entry_value){
 		throw new Error('PaginationBoardValue is required.');
 	}

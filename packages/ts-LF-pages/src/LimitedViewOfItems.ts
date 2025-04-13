@@ -86,11 +86,8 @@ export class LimitedViewOfItems{
 		this.#setExternalLimitedItems(
 			this.getViewLimit(v.pageNum)
 		);
-		console.log('before')
 		this.#setExternalPaginationBoard__entry_value(
 			this.getPaginationBoardValue(v.pageNum)
 		);
-		console.log('after', 			this.getPaginationBoardValue(v.pageNum)
-)
 	}
 }
