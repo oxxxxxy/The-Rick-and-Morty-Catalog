@@ -159,7 +159,7 @@ export default function Characters(){
 		
 		// prosti menya, gospod'... no ya greshen...
 		//@ts-ignore
-		searchPageManager.init(LocationsSearch__update_values);
+		searchPageManager.init(CharactersSearch__update_values);
 	}
 
 
