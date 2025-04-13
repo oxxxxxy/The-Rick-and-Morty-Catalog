@@ -146,7 +146,7 @@ export default function Locations(){
 
 							for(let i = 0; i < tiles.length; i++){
 								tileComponents.push(
-									<LocationTile data={tiles[i]} key={i} />
+									<LocationTile data={tiles[i]} key={`${tiles[i].id} ${tiles[i].name}`} />
 								);
 							}
 

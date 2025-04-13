@@ -67,6 +67,7 @@ export default function PaginationBoardComponent(
 											pagination-item
 											pagination-item-selected
 										"
+										key={i}
 									>
 										{page.pageNum}
 									</a>
@@ -80,6 +81,7 @@ export default function PaginationBoardComponent(
 										// prosti menya, gospod'... no ya greshen...
 										// @ts-ignore-next-line
 										onClick={() => paginationBoard.current.select(page)}
+										key={i}
 									>
 										{page.pageNum}
 									</a>

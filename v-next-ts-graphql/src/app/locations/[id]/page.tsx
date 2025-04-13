@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 
 import type { GT } from '@tsC/api-graphql-to-ex';
@@ -52,7 +52,7 @@ import TileBoard from '@/components/next/tileBoard/TileBoard';
 // 	<meta name="description" content="{ APP_NAME } { pageTitle }" />
 // </svelte:head>
 
-export default async function Locations_Id(
+export default function Locations_Id(
 	{
 		params
 	}:{
@@ -60,28 +60,36 @@ export default async function Locations_Id(
 	}
 ){
 
-	const { id } = await params;
 	const { wUrql } = useGlobalContext();
 	const [pageTitle, set_pageTitle] = useState<string>('');
 	const [bigTile, set_bigTile] = useState<GT.LocationFieldsFragment | NonTilesResultsForDrawingSearchPageTileBoard>('LOADING');
 	const REF_itemPageManager = useRef<ItemPageManager>();
 
-
-
-
-
-	if(!REF_itemPageManager.current){
-		REF_itemPageManager.current = initLocationIdPage_V2(
-			{
-				wUrql,
-				set_pageTitle,
-				set_bigTile,
-				location_id: id,
-				APP_NAME
+	useEffect(
+		() => {
+			if(REF_itemPageManager.current){
+				return;
 			}
-		);
+			
+			const action = async () => {
+	
+				const { id } = await params;
+			
+				REF_itemPageManager.current = initLocationIdPage_V2(
+					{
+						wUrql,
+						set_pageTitle,
+						set_bigTile,
+						location_id: id,
+						APP_NAME
+					}
+				);
+			};
 
-	}
+			action();
+		}
+		, []
+	);
 
 
 	// const wordInPluralForm = capitalizeWord(API_LOCATIONS__PATH.name);
