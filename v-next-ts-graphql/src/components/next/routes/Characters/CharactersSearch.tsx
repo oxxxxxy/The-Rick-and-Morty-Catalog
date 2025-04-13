@@ -19,8 +19,6 @@ import type {
 	objWithFnsForEachCFIDC__get_exitValue
 } from '@tsLF/pages';
 
-import { U } from '@tsL/utils';
-
 
 import InputText from '@/components/next/customForm/InputText';
 import SelectMenu from '@/components/next/customForm/SelectMenu';
@@ -91,78 +89,6 @@ export default function CharactersSearch(
 		}
 	);
 
-
-	/* export let init_cachedValues: QueryParamCompatible_Base[];
-	export let update_values: QueryParamCompatible_Base[];
-	export let exit_values: QueryParamCompatible_Base[];
-
-
-	let isValid: boolean = true;
-
-
-	const set_value = (v: QueryParamCompatible_Base[]) => (exit_values = v);
-	const set_applyActivity = (v: boolean) => (isValid = v);
-
-
-	const CFIDCList = API_CHARACTERS__PARAM_LIST
-	// [
-	// 	API_CHARACTERS__PARAM__STATUS,
-	// 	API_CHARACTERS__PARAM__GENDER,
-	// 	API_CHARACTERS__PARAM__NAME,
-	// 	API_CHARACTERS__PARAM__SPECIES,
-	// 	API_CHARACTERS__PARAM__TYPE
-	// ];
-
-	const args: ArgumentsFor_CustomFormHolder = {
-		set_value,
-		set_applyActivity,
-
-		CFIDCList: CFIDCList
-	};
-
-	if(init_cachedValues){
-		args.cachedQPCValues = init_cachedValues;
-	}
-
-	const customFormHolder = new CustomFormHolder(args);
-	
-	const exitValueStore = CustomFormHolder.makeValueStore(CFIDCList);
-	let entryValueStore = CustomFormHolder.makeValueStore(CFIDCList);
-
-	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
-	actionExecuterAfterMount.addAction(
-		() => {
-			const storeValue = CustomFormHolder.makeValueStore(CFIDCList);
-			
-			CustomFormHolder.setValuesToValueStore(storeValue, update_values);
-
-			entryValueStore = storeValue;
-
-		}
-	);
-
-
-	$: enabledDisabled = isValid ? {enabled: true} : {disabled: true};
-	$:{
-		customFormHolder.recieveExitValueStore(exitValueStore);
-
-		isValid = isValid;
-	}
-	$:{
-		actionExecuterAfterMount.exec();
-	
-		//svelte magic again. WTF?
-		update_values = update_values;
-		entryValueStore = entryValueStore;
-	}
-
-
-	onMount(() => {
-		actionExecuterAfterMount.setReady();
-		
-	})
-
- */
 
 	if(!REF_customFormHolder.current){
 		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');

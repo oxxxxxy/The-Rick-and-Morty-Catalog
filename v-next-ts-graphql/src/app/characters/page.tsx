@@ -33,67 +33,6 @@ import TileBoard_Search from '@/components/next/tileBoard_Search/TileBoard_Searc
 const pathName = API_CHARACTERS__PATH.name;
 
 export default function Characters(){
-
-
-	// const pageTitle = capitalizeWord(API_CHARACTERS__PATH.name);
-	// const	pathName = data.psl.route.id.slice(1);
-
-
-	// let CharactersSearch__exit_values: QueryParamCompatible_Base[] = [];
-	// let pagination__exit_value: number | undefined;
-
-
-	// let CharactersSearch__update_values: QueryParamCompatible_Base[] = getQPCBaseListFromURL(new URL(data.psl.url));
-	// let TileBoard_SearchUpdateValue: TileBoard_SearchValue | undefined;
-	// let tiles: GT.CharacterPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard = 'LOADING';
-
-
-	// const set_CharactersSearch__update_values = (v: QueryParamCompatible_Base[]) => (CharactersSearch__update_values = v);
-	// const set_TileBoard_SearchValue = (v: TileBoard_SearchValue) => (TileBoard_SearchUpdateValue = v);
-	// const set_tiles = (v: GT.CharacterPreviewFieldsFragment[] | NonTilesResultsForDrawingSearchPageTileBoard) => (tiles = v);
-
-
-
-
-
-	// const {
-	// 	handlePaginationSelection,
-	// 	handleCharactersSearchApply,
-	// 	actionExecuterAfterMount,
-	// 	searchPageManager
-	// } = initCharactersSearchPage(
-	// 	{
-	// 		pathName,
-	// 		pushStateFn: pushState,
-	// 		set_tiles,
-	// 		set_TileBoard_SearchValue,
-	// 		set_CharactersSearch__update_values,
-	// 		wUrql,
-	// 		wLocationChangeEventEmitter
-	// 	}
-	// );
-
-
-	// $:{
-	// 	tiles = tiles;
-	// }
-	// $:{
-	// 	handleCharactersSearchApply(CharactersSearch__exit_values);
-	// }
-	// $:{
-	// 	handlePaginationSelection(pagination__exit_value);
-	// }
-
-
-	// onMount(
-	// 	() => {
-	// 		actionExecuterAfterMount.setReady();
-			
-	// 		searchPageManager.init(CharactersSearch__update_values);
-	// 	}
-	// );
-
-
 	const { 
 		wUrql,
 		wLocationChangeEventEmitter
@@ -163,12 +102,6 @@ export default function Characters(){
 	}
 
 
-
-// <svelte:head>
-// 	<title>{ pageTitle } • { APP_NAME }</title>
-// 	<meta name="description" content="{ APP_NAME } { pageTitle }" />
-// </svelte:head>
-
 	return (
 		<>
 			<SearchItemNav pathName={pathName}>
@@ -237,35 +170,6 @@ export default function Characters(){
 					}
 				)()
 			}
-
-			
-			{/*#if tiles === 'ERR'}
-				<TileBoard>
-					<p>Network Error. Try later or kill yourself. Thank you.</p>
-				</TileBoard>
-			{:else if tiles === 'LOADING'}
-				<TileBoard>
-					<p>Loading...</p>
-				</TileBoard>
-			{:else if tiles === 'NOT FOUND'}
-				<TileBoard>
-					<p>Nothing found.</p>
-				</TileBoard>
-			{:else if Array.isArray(tiles)}
-				<TileBoard_Search
-					bind:update_value={
-						TileBoard_SearchUpdateValue
-					}
-					bind:pagination__exit_value={
-						pagination__exit_value
-					}
-				>
-				{#each tiles as tile }
-					<CharacterTile data={tile} />
-				{/each}
-				</TileBoard_Search>
-			{/if*/}
-
 		</>
 	);
 }
