@@ -87,8 +87,26 @@ function useForceUpdate() {
 		if(v){
 			handleSelectedPage(v);
 
-			console.log(PaginationBoard__entry_value, 'hi0', REF_limitedViewOfCharacters.current)
-			set_paginationBoard__entry_value(PaginationBoard__entry_value);
+			console.log(
+				PaginationBoard__entry_value, 
+				v, 
+				'hi0',
+			)
+		
+			const asdf = REF_limitedViewOfCharacters.current.getPaginationBoardValue(v. pageNum);
+			console.log(asdf, 'asdf')
+			set_paginationBoard__entry_value(() => (
+				undefined	
+			))
+			set_paginationBoard__entry_value(() => (
+				{
+					...asdf
+				}
+			)
+			);
+			console.log(
+				PaginationBoard__entry_value, v, 'hi0-1', 
+			)
 		}
 	}
 
@@ -227,7 +245,11 @@ function useForceUpdate() {
 				
 				{
 					(() =>{
+						console.log('asdf', data.residents)
 						if(data.residents.length > viewCountOfCharacters){
+							console.log(`						if(data.residents.length > viewCountOfCharacters){
+`,
+												 structuredClone(PaginationBoard__entry_value))
 							return (
 								<div
 									className="
@@ -248,12 +270,11 @@ function useForceUpdate() {
 										getExit_value={
 											getPaginationBoard__exit_value
 										}
+										key={JSON.stringify(PaginationBoard__entry_value)}
 									/>
 								</div>
 							);
 						}
-						
-						return null
 					})()
 				}
 					
