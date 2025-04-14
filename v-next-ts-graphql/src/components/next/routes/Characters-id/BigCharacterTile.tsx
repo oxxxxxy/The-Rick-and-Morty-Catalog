@@ -1,23 +1,23 @@
-<script lang="ts">
+import { useState, useRef } from 'react';
 
-	import type { GT } from '@tsC/api-graphql-to-ex';
+
+import type { GT } from '@tsC/api-graphql-to-ex';
 	
-	import { 
-		getCssClass_CharacterStatusIcon
-	} from '@tsCF/pages';
+import { 
+	getCssClass_CharacterStatusIcon
+} from '@tsCF/pages';
 
 
-	import EpisodeTile from '$comps/svelte/tileBoard/tiles/EpisodeTile.svelte';
+import EpisodeTile from '@/components/next/tileBoard/tiles/EpisodeTile';
 
 
 
 
-	export let data: GT.CharacterFieldsFragment;
+export let data: GT.CharacterFieldsFragment;
 
 
-	const cssClass_CharacterStatusIcon = getCssClass_CharacterStatusIcon(data.status);
+const cssClass_CharacterStatusIcon = getCssClass_CharacterStatusIcon(data.status);
 
-</script>
 
 
 
