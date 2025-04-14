@@ -1,46 +1,43 @@
 import { useState, useRef } from 'react';
-
-
+ 
+ 
 import {
-	API_CHARACTERS__PARAM__STATUS,
-	API_CHARACTERS__PARAM__GENDER,
-	API_CHARACTERS__PARAM__NAME,
-	API_CHARACTERS__PARAM__SPECIES,
-	API_CHARACTERS__PARAM__TYPE,
-	API_CHARACTERS__PARAM_LIST
+	API_EPISODES__PARAM__EPISODE,
+	API_EPISODES__PARAM__NAME,
+	API_EPISODES__PARAM_LIST
 } from '@tsCF/data';
-
-import type { QueryParamCompatible_Base } from '@tsLF/forURLSP';
-
+ 
+import type { 
+	QueryParamCompatible_Base
+} from '@tsLF/forURLSP';
+ 
 import { CustomFormHolder } from '@tsLF/pages';
 import type { 
 	ArgumentsFor_CustomFormHolder,
 	ValueStore,
 	objWithFnsForEachCFIDC__get_exitValue
 } from '@tsLF/pages';
-
-
+ 
+ 
 import InputText from '@/components/next/customForm/InputText';
-import SelectMenu from '@/components/next/customForm/SelectMenu';
+ 
+ 
+ 
 
-
-
-
-export default function CharactersSearch(
+export default function EpisodesSearch(
 	{
 		init_cachedValues,
 		update_values,
-		get_exit_values
-	}: {
+		get_exitValue
+	}:{
 		init_cachedValues: QueryParamCompatible_Base[];
 		update_values: QueryParamCompatible_Base[];
-		get_exit_values: (v: QueryParamCompatible_Base[]) => void;
+		get_exitValue: (v: QueryParamCompatible_Base[]) => void;
 	}
 ){
-
 	const [isValid, setIsValid] = useState<boolean>(true);
 	const [update_valuesJson, setUpdate_valuesJson] = useState<string>(JSON.stringify(update_values));
-	const set_value = get_exit_values;
+	const set_value = get_exitValue;
 	const set_applyActivity = (v: boolean) => setIsValid(v);
 
 	const [exitValueStore, setExitValueStore] = useState<ValueStore>({});
@@ -51,7 +48,7 @@ export default function CharactersSearch(
 
 	const [objWithFnsForEachCFIDC__get_exitValue] = useState<objWithFnsForEachCFIDC__get_exitValue>(
 		() => {
-			const CFIDCList = API_CHARACTERS__PARAM_LIST;
+			const CFIDCList = API_EPISODES__PARAM_LIST;
 
 			const args: ArgumentsFor_CustomFormHolder = {
 				set_value,
@@ -95,7 +92,7 @@ export default function CharactersSearch(
 	}
 
 	function updateUpdate_values(){
-		const storeValue = CustomFormHolder.makeValueStore(API_CHARACTERS__PARAM_LIST);
+		const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
 		CustomFormHolder.setValuesToValueStore(storeValue, update_values);
 		setEntryValueStore(storeValue);
 		setUpdate_valuesJson(JSON.stringify(update_values));
@@ -107,7 +104,7 @@ export default function CharactersSearch(
 
 	const customFormHolder = REF_customFormHolder.current;
 
-
+	
 	return (
 		<div className="margin-10 w-100 d-flex jc-center">
 		  <div
@@ -118,34 +115,34 @@ export default function CharactersSearch(
 				<InputText
 					get_exitValue = {
 						objWithFnsForEachCFIDC__get_exitValue[
-							API_CHARACTERS__PARAM__NAME
+							API_EPISODES__PARAM__NAME
 							.name
 						]
 					}
 					entry_value = {
 						entryValueStore[
-							API_CHARACTERS__PARAM__NAME
+							API_EPISODES__PARAM__NAME
 							.name
 						]
 					}
 					// prosti menya, gospod'... no ya greshen...
-					// @ts-ignore-next-line
+					// @ts-ignore
 					init_instanceOfInputText = {
 						customFormHolder.getInstanceOfCFItemFor(
-							API_CHARACTERS__PARAM__NAME
+							API_EPISODES__PARAM__NAME
 						)
 					}
 				/>
 				<InputText
 					get_exitValue = {
 						objWithFnsForEachCFIDC__get_exitValue[
-							API_CHARACTERS__PARAM__SPECIES
+							API_EPISODES__PARAM__EPISODE
 							.name
 						]
 					}
 					entry_value = {
 						entryValueStore[
-							API_CHARACTERS__PARAM__SPECIES
+							API_EPISODES__PARAM__EPISODE
 							.name
 						]
 					}
@@ -153,94 +150,21 @@ export default function CharactersSearch(
 					// @ts-ignore-next-line
 					init_instanceOfInputText = {
 						customFormHolder.getInstanceOfCFItemFor(
-							API_CHARACTERS__PARAM__SPECIES
-						)
-					}
-				/>
-				<InputText
-					get_exitValue = {
-						objWithFnsForEachCFIDC__get_exitValue[
-							API_CHARACTERS__PARAM__TYPE
-							.name
-						]
-					}
-					entry_value = {
-						entryValueStore[
-							API_CHARACTERS__PARAM__TYPE
-							.name
-						]
-					}
-					// prosti menya, gospod'... no ya greshen...
-					// @ts-ignore-next-line
-					init_instanceOfInputText = {
-						customFormHolder.getInstanceOfCFItemFor(
-							API_CHARACTERS__PARAM__TYPE
+							API_EPISODES__PARAM__EPISODE
 						)
 					}
 				/>
 		
 		    <div className="filter-select-box d-flex jc-center ai-center">
 		
-					<SelectMenu 
-						get_exitValue = {
-							objWithFnsForEachCFIDC__get_exitValue[
-								API_CHARACTERS__PARAM__STATUS
-								.name
-							]
-						}
-						// prosti menya, gospod'... no ya greshen...
-						// @ts-ignore-next-line
-						entry_value = {
-							entryValueStore[
-								API_CHARACTERS__PARAM__STATUS
-								.name
-							]
-						}
-						// prosti menya, gospod'... no ya greshen...
-						// @ts-ignore-next-line
-						init_instanceOfSelectMenu = {
-							customFormHolder.getInstanceOfCFItemFor(
-								API_CHARACTERS__PARAM__STATUS
-							)
-						}
-					/>
-		
-		      <div
-		        className="show-if-desktop-size"
-		        style={{marginLeft: '5px', height: "100%"}}
-		      ></div>
-		
-					<SelectMenu 
-						get_exitValue = {
-							objWithFnsForEachCFIDC__get_exitValue[
-								API_CHARACTERS__PARAM__GENDER
-								.name
-							]
-						}
-						// prosti menya, gospod'... no ya greshen...
-						// @ts-ignore-next-line
-						entry_value = {
-							entryValueStore[
-								API_CHARACTERS__PARAM__GENDER
-								.name
-							]
-						}
-						// prosti menya, gospod'... no ya greshen...
-						// @ts-ignore-next-line
-						init_instanceOfSelectMenu = {
-							customFormHolder.getInstanceOfCFItemFor(
-								API_CHARACTERS__PARAM__GENDER
-							)
-						}
-					/>
 		
 		    </div>
 		
 		    <button
-      className={`
-				filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
-				${ isValid ? 'button--has-some': 'button--empty'}
-			`}
+		      className={`
+						filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
+						${ isValid ? 'button--has-some': 'button--empty'}
+					`}
 		
 					disabled = {!isValid}
 		
