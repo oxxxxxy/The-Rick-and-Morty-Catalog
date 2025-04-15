@@ -18,14 +18,13 @@ import PaginationBoard from '@/components/next/pagination/PaginationBoard';
 
 
 
-export default function BigLocationTile(
+export default function BigEpisodeTile(
 	{
 		data
 	}:{
-		data: GT.LocationFieldsFragment	
+		data: GT.EpisodeFieldsFragment;
 	}
 ){
-
 	const [PaginationBoard__entry_value, set_paginationBoard__entry_value] = useState<PaginationBoardValue>();
 	const [currentViewCharacters, set_currentViewCharacters] = useState<GT.CharacterPreviewFieldsFragment[]>([]);
 	const REF_limitedViewOfCharacters = useRef<LimitedViewOfItems>();
@@ -34,16 +33,15 @@ export default function BigLocationTile(
 		()=>{
 			let _handleSelectedPage = (v: PaginationItem) => {};
 
-			
-			if(data.residents && data.residents.length > viewCountOfCharacters){
+			if(data.characters && data.characters.length > viewCountOfCharacters){
 				const limitedViewOfCharacters = new LimitedViewOfItems(
 					{
 						viewCountOfItems: viewCountOfCharacters,
 						set_limitedItems: set_currentViewCharacters,
 						set_paginationBoard__entry_value,
 						// prosti menya, gospod'... no ya greshen...
-						// @ts-ignore-next-line
-						thatArrayOfObjs: data.residents,
+						// @ts-ignore
+						thatArrayOfObjs: data.characters,
 						buttonViewingLimit: 5
 					}
 				);
@@ -55,18 +53,19 @@ export default function BigLocationTile(
 				// @ts-ignore
 					REF_limitedViewOfCharacters.current.recievePaginationBoard__exit_value(v);
 
+
 				limitedViewOfCharacters.init();
 			}
 
-			return _handleSelectedPage
+			return _handleSelectedPage;
 		}
 	);
+
 	const getPaginationBoard__exit_value = (v: PaginationItem | undefined) => {
 		if(v){
 			handleSelectedPage(v);
 		}
 	}
-
 
 	return (
 		<>
@@ -96,7 +95,7 @@ export default function BigLocationTile(
 							tile-line
 						"
 			    >
-							Location card
+							Episode card
 			    </span>
 					<span
 						className="
@@ -129,13 +128,13 @@ export default function BigLocationTile(
 							font-weight--normal
 						"
 					>
-						Type:
+						Air date:
 				    <span 
 							className="
 								color--f5f5f5
 							"
 						>
-							{ data.type }
+							{ data.air_date }
 						</span>
 			    </span>
 			
@@ -145,13 +144,13 @@ export default function BigLocationTile(
 							font-weight--normal
 						"
 					>
-						Dimension:
+						Notation:
 				    <span 
 							className="
 								color--f5f5f5
 							"
 						>
-							{ data.dimension }
+							{ data.episode }
 						</span>
 			    </span>
 			
@@ -162,13 +161,13 @@ export default function BigLocationTile(
 							font-weight--normal
 						"
 					>
-						Resident count:
+						Count of characters who have been seen in the episode:
 				    <span 
 							className="
 								color--f5f5f5
 							"
 						>
-							{ data.residents.length }
+							{ data.characters.length }
 						</span>
 			    </span>
 			
@@ -197,12 +196,12 @@ export default function BigLocationTile(
 						marginBottom: '10px'
 					}}
 				>
-					List of characters who have been seen in the location.
+					List of characters who have been seen in the episode.
 				</div>
-				
+		
 				{
 					(() =>{
-						if(data.residents.length > viewCountOfCharacters){
+						if(data.characters.length > viewCountOfCharacters){
 							return (
 								<div
 									className="
@@ -216,7 +215,7 @@ export default function BigLocationTile(
 								>
 									<PaginationBoard 
 										// prosti menya, gospod'... no ya greshen...
-										// @ts-ignore-next-line
+										// @ts-ignore
 										entry_value={
 											PaginationBoard__entry_value
 										}
@@ -233,25 +232,26 @@ export default function BigLocationTile(
 				}
 					
 				{
-					(() =>{
+					(() => {
 						const characterTiles = [];
 						
-						if(data.residents.length > viewCountOfCharacters){
-							for(let i = 0; i < currentViewCharacters.length; i++){
+						if(data.characters.length > viewCountOfCharacters){
+							for(let i=0; i < currentViewCharacters.length; i++){
 								characterTiles.push(
 									<CharacterTile data={currentViewCharacters[i]} key={currentViewCharacters[i].id} />
 								);
+
 							}
-						} else {
-							for(let i = 0; i < data.residents.length; i++){
+						}else{
+							for(let i = 0; i < data.characters.length; i++){
 								characterTiles.push(
 									// prosti menya, gospod'... no ya greshen...
-									// @ts-ignore-next-line
-									<CharacterTile data={data.residents[i]} key={i} />
+									// @ts-ignore
+									<CharacterTile data={data.characters[i]} key={data.characters[i].id} />
 								);
 							}
 						}
-
+						
 						return characterTiles
 					})()
 				}
