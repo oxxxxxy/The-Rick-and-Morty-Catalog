@@ -1,3 +1,6 @@
+import dynamic from 'next/dynamic';
+
+
 import { useState, useRef } from 'react';
 
 
@@ -21,8 +24,11 @@ import type {
 
 
 import InputText from '@/components/next/customForm/InputText';
-import SelectMenu from '@/components/next/customForm/SelectMenu';
-
+// import SelectMenu from '@/components/next/customForm/SelectMenu';
+const SelectMenu = dynamic(
+  () => import('@/components/next/customForm/SelectMenu'),
+  { ssr: false } // Отключаем SSR для этого компонента
+);
 
 
 
@@ -180,7 +186,6 @@ export default function CharactersSearch(
 				/>
 		
 		    <div className="filter-select-box d-flex jc-center ai-center">
-		
 					<SelectMenu 
 						get_exitValue = {
 							objWithFnsForEachCFIDC__get_exitValue[
@@ -233,6 +238,7 @@ export default function CharactersSearch(
 							)
 						}
 					/>
+
 		
 		    </div>
 		

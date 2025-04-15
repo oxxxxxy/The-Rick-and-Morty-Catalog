@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 
 import { API_CHARACTERS__PATH } from '@tsCF/data';
@@ -52,8 +52,23 @@ export default function Characters(){
 		GT.CharacterPreviewFieldsFragment[]
 		| NonTilesResultsForDrawingSearchPageTileBoard
 	>('LOADING');
-	const O = useRef(
-		initCharactersSearchPage(									              // prosti menya, gospod'... no ya greshen...
+	const [
+		get_CharactersSearch__exit_values,
+		setGet_CharactersSearch__exit_values
+	] = useState<(v: QueryParamCompatible_Base[]) => void>(() => (v: QueryParamCompatible_Base[]) => {});
+	const [
+		get_pagination__exit_value,
+		setGet_pagination__exit_value
+	] = useState<(v: number | undefined) => void>(() => (v: number | undefined) => {});
+	
+	const REF_initOutput = useRef();
+	useEffect(
+		() => {
+			if(REF_initOutput.current){
+				return;
+			}
+
+			REF_initOutput.current = initCharactersSearchPage(			// prosti menya, gospod'... no ya greshen...
 			{                                                     //@ts-ignore
 				pathName,																						//@ts-ignore
 				pushStateFn: pushStateByLegacy,											//@ts-ignore
@@ -63,43 +78,51 @@ export default function Characters(){
 				wUrql,																							//@ts-ignore
 				wLocationChangeEventEmitter
 			}
-		)
-	);
-	const {
-		handlePaginationSelection,
-		handleCharactersSearchApply,
-		actionExecuterAfterMount,
-		searchPageManager
-	} = O.current;
-	const get_CharactersSearch__exit_values = (v: QueryParamCompatible_Base[]) => {
-		// prosti menya, gospod'... no ya greshen...
-		//@ts-ignore
-		handleCharactersSearchApply(v);
-	}
-	const get_pagination__exit_value = (v: number | undefined) => {
-		// prosti menya, gospod'... no ya greshen...
-		//@ts-ignore
-		handlePaginationSelection(v);
-	}
-	
+			);
 
-	// prosti menya, gospod'... no ya greshen...
-	//@ts-ignore
-	if(!actionExecuterAfterMount.isReady()){
-		set_CharactersSearch__update_values(
-			getQPCBaseListFromURL(
-				new URL(window.location.href)
-			)
-		);
-		
-		// prosti menya, gospod'... no ya greshen...
-		//@ts-ignore
-		actionExecuterAfterMount.setReady();
-		
-		// prosti menya, gospod'... no ya greshen...
-		//@ts-ignore
-		searchPageManager.init(CharactersSearch__update_values);
-	}
+			const {
+				handlePaginationSelection,
+				handleCharactersSearchApply,
+				actionExecuterAfterMount,
+				searchPageManager
+			} = REF_initOutput.current;
+
+			setGet_CharactersSearch__exit_values(() =>
+				(v: QueryParamCompatible_Base[]) => {
+					// prosti menya, gospod'... no ya greshen...
+					//@ts-ignore
+					handleCharactersSearchApply(v);
+				}
+			);
+			setGet_pagination__exit_value(() => 
+				(v: number | undefined) => {
+					// prosti menya, gospod'... no ya greshen...
+					//@ts-ignore
+					handlePaginationSelection(v);
+				}
+			);
+			
+
+			// prosti menya, gospod'... no ya greshen...
+			//@ts-ignore
+			if(!actionExecuterAfterMount.isReady()){
+				set_CharactersSearch__update_values(
+					getQPCBaseListFromURL(
+						new URL(window.location.href)
+					)
+				);
+				
+				// prosti menya, gospod'... no ya greshen...
+				//@ts-ignore
+				actionExecuterAfterMount.setReady();
+				
+				// prosti menya, gospod'... no ya greshen...
+				//@ts-ignore
+				searchPageManager.init(CharactersSearch__update_values);
+			}
+		},
+		[]
+	);
 
 
 	return (

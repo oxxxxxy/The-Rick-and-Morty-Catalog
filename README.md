@@ -6,4 +6,5 @@ Primarily programming paradigms/principles/architectures/etc: OOP, FP, SOLID, YA
 
 
 # [Svelte TypeScript GraphQL version](https://github.com/oxxxxxy/The-Rick-and-Morty-Catalog/tree/main/v-svelte-ts-graphql)
+# [Next TypeScript GraphQL version](https://github.com/oxxxxxy/The-Rick-and-Morty-Catalog/tree/main/v-next-ts-graphql)
 

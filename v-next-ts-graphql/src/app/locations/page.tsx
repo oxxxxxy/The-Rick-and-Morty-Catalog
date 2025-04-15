@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 
 import { API_LOCATIONS__PATH } from '@tsCF/data';
@@ -53,54 +53,76 @@ export default function Locations(){
 		GT.LocationPreviewFieldsFragment[]
 		| NonTilesResultsForDrawingSearchPageTileBoard
 	>('LOADING');
-	const O = useRef(
-		initLocationsSearchPage(									              // prosti menya, gospod'... no ya greshen...
-			{                                                     //@ts-ignore
-				pathName,																						//@ts-ignore
-				pushStateFn: pushStateByLegacy,											//@ts-ignore
-				set_tiles,																					//@ts-ignore
-				set_TileBoard_SearchValue,													//@ts-ignore
-				set_LocationsSearch__update_values,									//@ts-ignore
-				wUrql,																							//@ts-ignore
-				wLocationChangeEventEmitter
-			}
-		)
-	);
-	const {
-		handlePaginationSelection,
-		handleLocationsSearchApply,
-		actionExecuterAfterMount,
-		searchPageManager
-	} = O.current;
-	const get_LocationsSearch__exit_values = (v: QueryParamCompatible_Base[]) => {
-		// prosti menya, gospod'... no ya greshen...
-		//@ts-ignore
-		handleLocationsSearchApply(v);
-	}
-	const get_pagination__exit_value = (v: number | undefined) => {
-		// prosti menya, gospod'... no ya greshen...
-		//@ts-ignore
-		handlePaginationSelection(v);
-	}
+	const [
+		get_LocationsSearch__exit_values,
+		setGet_LocationsSearch__exit_values
+	] = useState<(v: QueryParamCompatible_Base[]) => void>(() => (v: QueryParamCompatible_Base[]) => {});
+	const [
+		get_pagination__exit_value,
+		setGet_pagination__exit_value
+	] = useState<(v: number | undefined) => void>(() => (v: number | undefined) => {});
 	
+	const REF_initOutput = useRef();
+	useEffect(
+		() => {
+			if(REF_initOutput.current){
+				return;
+			}
 
-	// prosti menya, gospod'... no ya greshen...
-	//@ts-ignore
-	if(!actionExecuterAfterMount.isReady()){
-		set_LocationsSearch__update_values(
-			getQPCBaseListFromURL(
-				new URL(window.location.href)
+			REF_initOutput.current = initLocationsSearchPage(				// prosti menya, gospod'... no ya greshen...
+				{                                                     //@ts-ignore
+					pathName,																						//@ts-ignore
+					pushStateFn: pushStateByLegacy,											//@ts-ignore
+					set_tiles,																					//@ts-ignore
+					set_TileBoard_SearchValue,													//@ts-ignore
+					set_LocationsSearch__update_values,									//@ts-ignore
+					wUrql,																							//@ts-ignore
+					wLocationChangeEventEmitter
+				}
+			);
+
+			const {
+				handlePaginationSelection,
+				handleLocationsSearchApply,
+				actionExecuterAfterMount,
+				searchPageManager
+			} = REF_initOutput.current;
+
+			setGet_LocationsSearch__exit_values(() => 
+				(v: QueryParamCompatible_Base[]) => {
+					// prosti menya, gospod'... no ya greshen...
+					//@ts-ignore
+					handleLocationsSearchApply(v);
+				}
 			)
-		);
-		
-		// prosti menya, gospod'... no ya greshen...
-		//@ts-ignore
-		actionExecuterAfterMount.setReady();
-		
-		// prosti menya, gospod'... no ya greshen...
-		//@ts-ignore
-		searchPageManager.init(LocationsSearch__update_values);
-	}
+			setGet_pagination__exit_value(() => 
+				(v: number | undefined) => {
+					// prosti menya, gospod'... no ya greshen...
+					//@ts-ignore
+					handlePaginationSelection(v);
+				}
+			)
+
+			// prosti menya, gospod'... no ya greshen...
+			//@ts-ignore
+			if(!actionExecuterAfterMount.isReady()){
+				set_LocationsSearch__update_values(
+					getQPCBaseListFromURL(
+						new URL(window.location.href)
+					)
+				);
+				
+				// prosti menya, gospod'... no ya greshen...
+				//@ts-ignore
+				actionExecuterAfterMount.setReady();
+				
+				// prosti menya, gospod'... no ya greshen...
+				//@ts-ignore
+				searchPageManager.init(LocationsSearch__update_values);
+			}
+		}, 
+		[]
+	);
 
 
 	return (
