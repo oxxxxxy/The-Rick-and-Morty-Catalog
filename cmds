@@ -1,1 +1,38 @@
+npm install;
+
+cd ./packages/js-L-pagination;
+npm install;
+cd ../ts-C-api-graphql-to-external;
+npm install;
+cd ../ts-CF-data;
+npm install;
+cd ../ts-CF-pages;
+npm install;
+cd ../ts-config;
+npm install;
+cd ../ts-L-pagination;
+npm install;
+cd ../ts-L-patterns;
+npm install;
+cd ../ts-L-types;
+npm install;
+cd ../ts-L-utils;
+npm install;
+cd ../ts-LF-forURLSearchParams;
+npm install;
+cd ../ts-LF-MouseEventObservable;
+npm install;
+cd ../ts-LF-pages;
+npm install;
+cd ../ts-LF-wLocationChangeEvent;
+npm install;
+cd ../urql-generate-wrapper;
+npm install;
+cd ../;
+
+
+
+cd v-next-ts-graphql;
+npm install;
+npm run build;
 

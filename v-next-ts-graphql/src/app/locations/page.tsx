@@ -90,6 +90,7 @@ export default function Locations(){
 
 			setGet_LocationsSearch__exit_values(() => 
 				(v: QueryParamCompatible_Base[]) => {
+					console.log(v)
 					// prosti menya, gospod'... no ya greshen...
 					//@ts-ignore
 					handleLocationsSearchApply(v);
@@ -138,6 +139,7 @@ export default function Locations(){
 					update_values = {
 						LocationsSearch__update_values
 					}
+					key={get_LocationsSearch__exit_values.toString()}
 				/>
 			</SearchItemNav>
 
