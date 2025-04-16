@@ -101,14 +101,12 @@ export const initSearchPage = (
 		ActionId_ApplyDataFromCFHSearch,
 		makeFn_ignoreFnExecAfterExitValueTransferOnce(
 			(CFHSearch__exit_values: QueryParamCompatible_Base[]) => {
-				console.log(CFHSearch__exit_values, 'CFHSearch__exit_values');
 				searchPageManager.applyCustomForm(CFHSearch__exit_values)
 			}
 		)
 	);
 
 	const handleCFHSearchApply = (CFHSearch__exit_values: QueryParamCompatible_Base[]) => (
-		console.log('CFH'),
 		actionExecuterAfterMount.execById(
 			ActionId_ApplyDataFromCFHSearch,
 			[CFHSearch__exit_values]

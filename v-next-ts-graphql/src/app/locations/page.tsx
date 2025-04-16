@@ -90,7 +90,6 @@ export default function Locations(){
 
 			setGet_LocationsSearch__exit_values(() => 
 				(v: QueryParamCompatible_Base[]) => {
-					console.log(v)
 					// prosti menya, gospod'... no ya greshen...
 					//@ts-ignore
 					handleLocationsSearchApply(v);
@@ -120,6 +119,9 @@ export default function Locations(){
 				// prosti menya, gospod'... no ya greshen...
 				//@ts-ignore
 				searchPageManager.init(LocationsSearch__update_values);
+
+				//crutch by svelte legacy crutch
+				handleLocationsSearchApply([]);
 			}
 		}, 
 		[]

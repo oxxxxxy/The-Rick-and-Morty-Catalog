@@ -90,10 +90,9 @@ export default function Characters(){
 
 			setGet_CharactersSearch__exit_values(() =>
 				(v: QueryParamCompatible_Base[]) => {
-					console.log(v, CharactersSearch__update_values)
 					// prosti menya, gospod'... no ya greshen...
 					//@ts-ignore
-					REF_initOutput.current.handleCharactersSearchApply(v);
+					handleCharactersSearchApply(v);
 				}
 			);
 			setGet_pagination__exit_value(() => 
@@ -121,78 +120,31 @@ export default function Characters(){
 				// prosti menya, gospod'... no ya greshen...
 				//@ts-ignore
 				searchPageManager.init(CharactersSearch__update_values);
+
+				//crutch by svelte legacy crutch
+				handleCharactersSearchApply([]);
 			}
 		},
-		[
-			CharactersSearch__update_values,
-			get_CharactersSearch__exit_values,
-			REF_initOutput
-		]
+		[]
 	);
 
-	if(REF_initOutput.current){
-		
-			// get_CharactersSearch__exit_values = _get_CharactersSearch__exit_values
-		
-			const {
-				handlePaginationSelection,
-				handleCharactersSearchApply,
-				actionExecuterAfterMount,
-				searchPageManager
-			} = REF_initOutput.current;
-			// // prosti menya, gospod'... no ya greshen...
-			// //@ts-ignore
-			// if(!actionExecuterAfterMount.isReady()){
-			// 	set_CharactersSearch__update_values(
-			// 		getQPCBaseListFromURL(
-			// 			new URL(window.location.href)
-			// 		)
-			// 	);
-				
-			// 	// prosti menya, gospod'... no ya greshen...
-			// 	//@ts-ignore
-			// 	actionExecuterAfterMount.setReady();
-				
-			// 	// prosti menya, gospod'... no ya greshen...
-			// 	//@ts-ignore
-			// 	searchPageManager.init(CharactersSearch__update_values);
-			// }
-
-	}
 
 	return (
 		<>
-						{/*
-			{
-				(() => {
-					if(CharactersSearch__update_values){
-						if(!REF_initOutput.current){
-							return null
-						}
+			<SearchItemNav pathName={pathName}>
+				<CharactersSearch
+					get_exit_values = {
+						get_CharactersSearch__exit_values
 					}
-					
-					return (
-			*/}
-						<SearchItemNav pathName={pathName}>
-							<CharactersSearch
-								get_exit_values = {
-									get_CharactersSearch__exit_values
-								}
-								init_cachedValues = {
-									CharactersSearch__update_values
-								}
-								update_values = {
-									CharactersSearch__update_values
-								}
-								key={get_CharactersSearch__exit_values.toString()}
-							/>
-						</SearchItemNav>
-						{/*
-					);
-				})()
-			}
-
-			*/}
+					init_cachedValues = {
+						CharactersSearch__update_values
+					}
+					update_values = {
+						CharactersSearch__update_values
+					}
+					key={get_CharactersSearch__exit_values.toString()}
+				/>
+			</SearchItemNav>
 		
 			{
 				(

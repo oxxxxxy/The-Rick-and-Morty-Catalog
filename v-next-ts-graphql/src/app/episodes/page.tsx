@@ -120,10 +120,14 @@ export default function Episodes(){
 				// prosti menya, gospod'... no ya greshen...
 				//@ts-ignore
 				searchPageManager.init(EpisodesSearch__update_values);
+
+				//crutch by svelte legacy crutch
+				handleEpisodesSearchApply([]);
 			}
 		}
 		,[]
 	);
+
 
 	return (
 		<>
@@ -138,6 +142,7 @@ export default function Episodes(){
 					update_values = {
 						EpisodesSearch__update_values
 					}
+					key={get_EpisodesSearch__exit_values.toString()}
 				/>
 			</SearchItemNav>
 

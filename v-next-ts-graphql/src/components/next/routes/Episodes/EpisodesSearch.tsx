@@ -38,7 +38,7 @@ export default function EpisodesSearch(
 	const [isValid, setIsValid] = useState<boolean>(true);
 	const [update_valuesJson, setUpdate_valuesJson] = useState<string>(JSON.stringify(update_values));
 	const set_value = get_exitValue;
-	const set_applyActivity = (v: boolean) => setIsValid(v);
+	const set_applyActivity = setIsValid;
 
 	const [exitValueStore, setExitValueStore] = useState<ValueStore>({});
 	const [entryValueStore, setEntryValueStore] = useState<ValueStore>({});
@@ -85,11 +85,6 @@ export default function EpisodesSearch(
 			return objWithFnsForEachCFIDC__get_exitValue;
 		}
 	);
-
-
-	if(!REF_customFormHolder.current){
-		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
-	}
 
 	function updateUpdate_values(){
 		const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
