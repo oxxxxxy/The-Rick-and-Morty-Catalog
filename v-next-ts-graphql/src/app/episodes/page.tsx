@@ -56,11 +56,11 @@ export default function Episodes(){
 	const [
 		get_EpisodesSearch__exit_values,
 		setGet_EpisodesSearch__exit_values
-	] = useState<(v: QueryParamCompatible_Base[]) => void>(() => (v: QueryParamCompatible_Base[]) => {});
+	] = useState<(v: QueryParamCompatible_Base[]) => void>(() => (_v: QueryParamCompatible_Base[]) => {});
 	const [
 		get_pagination__exit_value,
 		setGet_pagination__exit_value
-	] = useState<(v: number | undefined) => void>(() => (v: number | undefined) => {});
+	] = useState<(v: number | undefined) => void>(() => (_v: number | undefined) => {});
 
 
 	const REF_initOutput = useRef();
@@ -71,13 +71,13 @@ export default function Episodes(){
 			}
 
 			REF_initOutput.current = initEpisodesSearchPage(				// prosti menya, gospod'... no ya greshen...
-				{                                                     //@ts-ignore
-					pathName,																						//@ts-ignore
-					pushStateFn: pushStateByLegacy,											//@ts-ignore
-					set_tiles,																					//@ts-ignore
-					set_TileBoard_SearchValue,													//@ts-ignore
-					set_EpisodesSearch__update_values,									//@ts-ignore
-					wUrql,																							//@ts-ignore
+				{                                                     //@ts-ignore-next-line
+					pathName,																						//@ts-ignore-next-line
+					pushStateFn: pushStateByLegacy,											//@ts-ignore-next-line
+					set_tiles,																					//@ts-ignore-next-line
+					set_TileBoard_SearchValue,													//@ts-ignore-next-line
+					set_EpisodesSearch__update_values,									//@ts-ignore-next-line
+					wUrql,																							//@ts-ignore-next-line
 					wLocationChangeEventEmitter
 				}
 			);
@@ -92,20 +92,20 @@ export default function Episodes(){
 			setGet_EpisodesSearch__exit_values(() => 
 				(v: QueryParamCompatible_Base[]) => {
 					// prosti menya, gospod'... no ya greshen...
-					//@ts-ignore
+					//@ts-ignore-next-line
 					handleEpisodesSearchApply(v);
 				}
 			);
 			setGet_pagination__exit_value(() => 
 				(v: number | undefined) => {
 					// prosti menya, gospod'... no ya greshen...
-					//@ts-ignore
+					//@ts-ignore-next-line
 					handlePaginationSelection(v);
 				}
 			);
 
 			// prosti menya, gospod'... no ya greshen...
-			//@ts-ignore
+			//@ts-ignore-next-line
 			if(!actionExecuterAfterMount.isReady()){
 				set_EpisodesSearch__update_values(
 					getQPCBaseListFromURL(
@@ -114,18 +114,18 @@ export default function Episodes(){
 				);
 				
 				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore
+				//@ts-ignore-next-line
 				actionExecuterAfterMount.setReady();
 				
 				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore
+				//@ts-ignore-next-line
 				searchPageManager.init(EpisodesSearch__update_values);
 
 				//crutch by svelte legacy crutch
 				handleEpisodesSearchApply([]);
 			}
-		}
-		,[]
+		},
+		[]
 	);
 
 

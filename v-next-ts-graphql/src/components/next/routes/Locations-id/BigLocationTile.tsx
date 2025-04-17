@@ -32,7 +32,7 @@ export default function BigLocationTile(
 	const viewCountOfCharacters = 40;
 	const [handleSelectedPage] = useState<(v: PaginationItem) => void>(
 		()=>{
-			let _handleSelectedPage = (v: PaginationItem) => {};
+			let _handleSelectedPage = (_v: PaginationItem) => {};
 
 			
 			if(data.residents && data.residents.length > viewCountOfCharacters){
@@ -42,7 +42,7 @@ export default function BigLocationTile(
 						set_limitedItems: set_currentViewCharacters,
 						set_paginationBoard__entry_value,
 						// prosti menya, gospod'... no ya greshen...
-						// @ts-ignore
+						// @ts-ignore-next-line
 						thatArrayOfObjs: data.residents,
 						buttonViewingLimit: 5
 					}
@@ -52,7 +52,7 @@ export default function BigLocationTile(
 				
 				_handleSelectedPage = (v: PaginationItem) => 
 				// prosti menya, gospod'... no ya greshen...
-				// @ts-ignore
+				// @ts-ignore-next-line
 					REF_limitedViewOfCharacters.current.recievePaginationBoard__exit_value(v);
 
 				limitedViewOfCharacters.init();

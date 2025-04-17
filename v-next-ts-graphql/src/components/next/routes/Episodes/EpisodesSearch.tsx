@@ -121,7 +121,7 @@ export default function EpisodesSearch(
 						]
 					}
 					// prosti menya, gospod'... no ya greshen...
-					// @ts-ignore
+					// @ts-ignore-next-line
 					init_instanceOfInputText = {
 						customFormHolder.getInstanceOfCFItemFor(
 							API_EPISODES__PARAM__NAME

@@ -31,7 +31,7 @@ export default function BigEpisodeTile(
 	const viewCountOfCharacters = 40;
 	const [handleSelectedPage] = useState<(v: PaginationItem) => void>(
 		()=>{
-			let _handleSelectedPage = (v: PaginationItem) => {};
+			let _handleSelectedPage = (_v: PaginationItem) => {};
 
 			if(data.characters && data.characters.length > viewCountOfCharacters){
 				const limitedViewOfCharacters = new LimitedViewOfItems(
@@ -40,7 +40,7 @@ export default function BigEpisodeTile(
 						set_limitedItems: set_currentViewCharacters,
 						set_paginationBoard__entry_value,
 						// prosti menya, gospod'... no ya greshen...
-						// @ts-ignore
+						// @ts-ignore-next-line
 						thatArrayOfObjs: data.characters,
 						buttonViewingLimit: 5
 					}
@@ -50,7 +50,7 @@ export default function BigEpisodeTile(
 				
 				_handleSelectedPage = (v: PaginationItem) => 
 				// prosti menya, gospod'... no ya greshen...
-				// @ts-ignore
+				// @ts-ignore-next-line
 					REF_limitedViewOfCharacters.current.recievePaginationBoard__exit_value(v);
 
 
@@ -215,7 +215,7 @@ export default function BigEpisodeTile(
 								>
 									<PaginationBoard 
 										// prosti menya, gospod'... no ya greshen...
-										// @ts-ignore
+										// @ts-ignore-next-line
 										entry_value={
 											PaginationBoard__entry_value
 										}
@@ -246,7 +246,7 @@ export default function BigEpisodeTile(
 							for(let i = 0; i < data.characters.length; i++){
 								characterTiles.push(
 									// prosti menya, gospod'... no ya greshen...
-									// @ts-ignore
+									// @ts-ignore-next-line
 									<CharacterTile data={data.characters[i]} key={data.characters[i].id} />
 								);
 							}
