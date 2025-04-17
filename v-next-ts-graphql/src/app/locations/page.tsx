@@ -168,7 +168,7 @@ export default function Locations(){
 								</TileBoard>
 							);
 						}else if (Array.isArray(tiles)){
-							let tileComponents = [];
+							const tileComponents = [];
 
 							for(let i = 0; i < tiles.length; i++){
 								tileComponents.push(

@@ -43,7 +43,7 @@ export default function SelectMenuC(
 	const [options, set_options] = useState<QPC_IndexedSelectOption[]>([]);
 	const set_selected = get_exitValue;
 
-	let REF_selectMenu = useRef<SelectMenu>();
+	const REF_selectMenu = useRef<SelectMenu>();
 	const [entry_valueJson, setEntry_valueJson] = useState<string>(
 		() => {
 			let selectMenu: SelectMenu;

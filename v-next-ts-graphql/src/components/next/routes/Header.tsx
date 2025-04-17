@@ -44,7 +44,7 @@ export default function Header() {
 
 		action();
 	});
-	
+
   return (
 		<header className="
 				header-homePapiGit
@@ -89,7 +89,7 @@ export default function Header() {
 						  >
 									{ noProtocolLink }
 						  </a>
-							's server status
+							&apos;s server status
 						</span>
 						<span 
 							className={`

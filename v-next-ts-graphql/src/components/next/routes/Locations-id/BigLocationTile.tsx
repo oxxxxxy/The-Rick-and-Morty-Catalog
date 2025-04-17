@@ -42,7 +42,7 @@ export default function BigLocationTile(
 						set_limitedItems: set_currentViewCharacters,
 						set_paginationBoard__entry_value,
 						// prosti menya, gospod'... no ya greshen...
-						// @ts-ignore-next-line
+						// @ts-ignore
 						thatArrayOfObjs: data.residents,
 						buttonViewingLimit: 5
 					}

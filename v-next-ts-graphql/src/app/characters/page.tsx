@@ -52,7 +52,6 @@ export default function Characters(){
 		GT.CharacterPreviewFieldsFragment[]
 		| NonTilesResultsForDrawingSearchPageTileBoard
 	>('LOADING');
-	// let get_CharactersSearch__exit_values = (v: QueryParamCompatible_Base[]) => {};
 	const [
 		get_CharactersSearch__exit_values,
 		setGet_CharactersSearch__exit_values
@@ -169,7 +168,7 @@ export default function Characters(){
 								</TileBoard>
 							);
 						}else if (Array.isArray(tiles)){
-							let tileComponents = [];
+							const tileComponents = [];
 
 							for(let i = 0; i < tiles.length; i++){
 								tileComponents.push(
