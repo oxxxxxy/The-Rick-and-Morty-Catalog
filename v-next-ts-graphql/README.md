@@ -7,11 +7,14 @@ Primarily programming paradigms/principles/architectures/etc: OOP, FP, SOLID, YA
 Tech stack:
  - Programming language: TypeScript
  - Front-end framework: Next/React
+ - GraphQL client: urql
  - Linter: ESLint
  - Formatter: Prettier
- - Browser compatibility testing: Playwright
- - Unit testing: Vitest
- - GraphQL client: urql
+ - Testing: 
+    - Unit testing: Jest
+    - Integration testing: Jest
+    - Snapshot test: Jest 
+    - E2E testing: Playwright, Cypress
 
 
 to check demo you can watch [vid with svelte ver](https://rutube.ru/video/private/4632af03d052eb634a06911a48473310/?p=b8ULNNNeQwfs3wnh_rjtiQ), bcz clients look the same.

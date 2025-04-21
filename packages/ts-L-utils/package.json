@@ -8,6 +8,10 @@
     "../*"
   ],
   "dependencies": {
-    "nanoid": "^5.0.7"
+    "lodash": "^4.17.21",
+    "nanoid": "^5.0.7",
+    "ramda": "^0.30.1",
+    "url-join": "^5.0.0",
+    "validator": "^13.15.0"
   }
 }

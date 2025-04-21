@@ -22,9 +22,6 @@ interface ContextedValues {
 
 
 
-// const CONTEXT_KEY = '$$$CoNtExTKeyForThatApp123451488228282';
-// const context = createContext(CONTEXT_KEY);
-
 const contextedValues: ContextedValues = {
 	wUrql: wUrql,
 	cntxtedMouseEventObservable: new MouseEventObservable(),
@@ -46,19 +43,4 @@ export default function GlobalContextProvider (
 export function useGlobalContext(){
 	return useContext(GlobalContext);
 }
-// export const g = (): ContextedValues => {
-// 	const doesExist: ContextedValues | undefined = getContext(CONTEXT_KEY);
-	
-// 	if(doesExist){
-// 		return doesExist;
-// 	}
-
-// 	setContext(
-// 		CONTEXT_KEY, 
-// 		contextedValues
-// 	);
-
-// 	return getContext(CONTEXT_KEY);
-// };
-
 
