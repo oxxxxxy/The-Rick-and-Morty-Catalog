@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { 
 	screen,
@@ -18,7 +17,6 @@ import type {
 	QPC_InputText
 } from '@tsLF/forURLSP';
 
-// import * as CustomFormHolder from '@tsLF/pages';
 import { CustomFormHolder } from '@tsLF/pages';
 import type { ValueStore } from '@tsLF/pages';
 
@@ -53,21 +51,21 @@ console.log(CustomFormHolder)
 
 		
 		// oshibka tut
-		// render(<InputText {...props} />);
-		render(
-			<InputText 
-				entry_value={
-					entryValueStore[
-						API_EPISODES__PARAM__EPISODE.name
-					]
-					// props.entry_value
-				}
+		render(<InputText {...props} />);
+		// render(
+		// 	<InputText 
+		// 		entry_value={
+		// 			entryValueStore[
+		// 				API_EPISODES__PARAM__EPISODE.name
+		// 			]
+		// 			// props.entry_value
+		// 		}
 
-				get_exitValue={get_exitValue}
+		// 		get_exitValue={get_exitValue}
 
-				init_CFIDC_InputText={API_EPISODES__PARAM__EPISODE}
-			/>
-		)	
+		// 		init_CFIDC_InputText={API_EPISODES__PARAM__EPISODE}
+		// 	/>
+		// )	
 
 		// expect(component).toThrowError()
 	})

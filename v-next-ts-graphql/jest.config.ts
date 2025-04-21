@@ -28,10 +28,10 @@ const config: Config = {
 
 
 	},
-	transform:{
+	/* transform:{
     '^.+\\.tsx?$': 'ts-jest', // Для TypeScript-файлов
     '^.+\\.jsx?$': 'babel-jest', // Для JavaScript-файлов
-	},
+	}, */
 	/* transform: {
     '^.+\\.(t|j)sx?$': '@swc/jest',
   }, */
@@ -54,6 +54,7 @@ const config: Config = {
 	transformIgnorePatterns: [
 		// 'node_modules',
 		// 'packages'
+		// 'node_modules/(?!(url-join)/)'
 	],
 	/* transformIgnorePatterns:[
 		"/node_modules/(?!(@ts\w+)/)"

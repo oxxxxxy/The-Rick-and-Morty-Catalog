@@ -1,8 +1,10 @@
 import { LooseObject, PositiveInteger } from '@tsL/types';
 
-import _urlJoin from 'url-join';
+// import _urlJoin from 'url-join';
+const _urlJoin = require('url-join');
 
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
+const _n = require('nanoid');
 
 import {
 	ActionExecuterAfterCondition,
@@ -13,7 +15,7 @@ import {
 
 
 export const U: LooseObject = {
-	nanoid,
+	nanoid: _n.nanoid,
 	ActionExecuterAfterCondition,
 	IgnoreFewTimesCrutch,
 
