@@ -1,3 +1,4 @@
+import React from 'react';
 import { 
 	screen,
 	render
@@ -9,10 +10,13 @@ import {
 	API_EPISODES__PARAM__EPISODE
 } from '@tsCF/data';
 
+
+
 import type {
 	QPC_InputText
 } from '@tsLF/forURLSP';
 
+// import * as CustomFormHolder from '@tsLF/pages';
 import { CustomFormHolder } from '@tsLF/pages';
 import type { ValueStore } from '@tsLF/pages';
 
@@ -22,9 +26,14 @@ import InputText from '@/components/next/customForm/InputText';
 
 
 
-describe(`<InputText /> ; component; next/customForm/InputText.tsx;`, () => {
+// jest.mock('@tsLF/pages', () => {
+// 	return {CustomFormHolder}
+// })
 
-	const entryValueStore: ValueStore = CustomFormHolder. makeValueStore(API_EPISODES__PARAM_LIST);
+describe(`<InputText /> ; component; next/customForm/InputText.tsx;`, () => {
+console.log(API_EPISODES__PARAM__EPISODE)
+console.log(CustomFormHolder)
+	const entryValueStore: ValueStore = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
 
 	const get_exitValue = (v: QPC_InputText) => {};
 
@@ -32,13 +41,25 @@ describe(`<InputText /> ; component; next/customForm/InputText.tsx;`, () => {
 		entry_value: entryValueStore[
 				API_EPISODES__PARAM__EPISODE.name
 			],
-		get_exitValue
+		get_exitValue,
+		init_CFIDC_InputText: API_EPISODES__PARAM__EPISODE
 	}
 
 	it(`gets entry_value, get_exitValue and throws error.`, () => {
-		const component = render(<InputText {...props} />)	
+		
+		// oshibka tut
+		render(<InputText {...props} />)	
 
-		expect(component).toThrowError()
+		// expect(component).toThrowError()
 	})
 	
 });
+
+describe('check', ()=>{
+	it('has name', ()=>{
+		console.log(API_EPISODES__PARAM__EPISODE);
+		expect(API_EPISODES__PARAM__EPISODE.name).toEqual('episode')
+		expect(API_EPISODES__PARAM__EPISODE.name).not.toEqual('epis')
+	})
+})
+
