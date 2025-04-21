@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import { 
 	screen,
@@ -9,7 +11,7 @@ import {
 	API_EPISODES__PARAM_LIST,
 	API_EPISODES__PARAM__EPISODE
 } from '@tsCF/data';
-
+console.log(API_EPISODES__PARAM__EPISODE)
 
 
 import type {
@@ -41,14 +43,31 @@ console.log(CustomFormHolder)
 		entry_value: entryValueStore[
 				API_EPISODES__PARAM__EPISODE.name
 			],
+		// entry_value: { param: '', value: '' },
 		get_exitValue,
 		init_CFIDC_InputText: API_EPISODES__PARAM__EPISODE
 	}
 
 	it(`gets entry_value, get_exitValue and throws error.`, () => {
+	
+
 		
 		// oshibka tut
-		render(<InputText {...props} />)	
+		// render(<InputText {...props} />);
+		render(
+			<InputText 
+				entry_value={
+					entryValueStore[
+						API_EPISODES__PARAM__EPISODE.name
+					]
+					// props.entry_value
+				}
+
+				get_exitValue={get_exitValue}
+
+				init_CFIDC_InputText={API_EPISODES__PARAM__EPISODE}
+			/>
+		)	
 
 		// expect(component).toThrowError()
 	})

@@ -3,13 +3,14 @@
     "parser": {
       "syntax": "typescript",
       "tsx": true,
-      "decorators": true
+      "decorators": true,
+      "dynamicImport": true
     },
     "transform": {
       "react": {
         "runtime": "automatic"
       }
     },
-    "target": "es2015"
+    "target": "es5"
   }
 }
