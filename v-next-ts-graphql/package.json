@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "jest-test": "jest",
+    "jest-test:watch": "jest --watch",
+    "vitest-test": "vitest"
   },
   "dependencies": {
     "next": "^14.2.26",
@@ -27,16 +28,20 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^4.4.1",
     "babel-jest": "^29.7.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^26.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.1.2"
   },
   "type": "module",
   "workspaces": [

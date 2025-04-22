@@ -28,6 +28,15 @@ const config: Config = {
 
 
 	},
+
+//	testMatch: [
+//		"**/*.jest-test.tsx",
+//		"**/*.jest-test.ts",
+ //		"**/*.jest-test.jsx",
+ //   "**/*.jest-test.js"
+ // ],
+ 
+
 	/* transform:{
     '^.+\\.tsx?$': 'ts-jest', // Для TypeScript-файлов
     '^.+\\.jsx?$': 'babel-jest', // Для JavaScript-файлов
