@@ -1,3 +1,7 @@
+import { expect, describe, it } from 'vitest'
+
+
+
 
 describe('Zatichka', () => {
 	it('should say yes', () => {
