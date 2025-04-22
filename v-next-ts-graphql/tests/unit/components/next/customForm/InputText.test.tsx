@@ -46,12 +46,16 @@ describe(`<InputText /> ; next/customForm/InputText.tsx;`, () => {
 	it(`gets entry_value, get_exitValue and throws error.`, () => {
 		const _props = {...props};
 		delete _props.init_CFIDC_InputText;
-		
+
+		const originalError = console.error;
+		console.error = () => {};
+
 		const check = () => {
 			render(<InputText {..._props} />);
 		}
 
 		expect(check).toThrowError();
+		console.error = originalError;
 	})
 
 	it(`gets entry_value, get_exitValue and init_CFIDC_InputText and render it`, () => {
@@ -68,11 +72,15 @@ describe(`<InputText /> ; next/customForm/InputText.tsx;`, () => {
 		const _props = {...props};
 		_props.init_cachedValue = { param: "not episode", value: "doesn't matter" };
 
+		const originalError = console.error;
+		console.error = () => {};
+
 		const check = () => {
 			const component = render(<InputText {..._props} />);
 		}
 		
 		expect(check).toThrowError();
+		console.error = originalError;
 	})
 	
 	it(`gets entry_value, get_exitValue and init_instanceOfInputText and render it`, () => {
