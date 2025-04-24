@@ -86,8 +86,44 @@ describe(`<LocationsSearch /> ; next/routes/Locations/LocationsSearch.tsx`, () =
 		expect(check).not.toThrowError();
 	})
 
-	/*
-	
+	it(`checks returning user inputs after apply`, async () => {
+		const userInput = 'Just words...';
 
-	*/
+		let checkStep = 'returning just words';
+		
+		const _props = {...props};
+		_props.get_exitValue = v => {
+			if(checkStep === 'returning just words'){
+				expect(!!userInput.match(v[0].value)).toBe(true);
+			}else{
+				expect(v.length).toBe(0);
+			}
+		}
+		
+		const component = render(<LocationsSearch {..._props} />);
+		
+		const inputs = component.container.querySelectorAll('input.text-input');
+		const applyButton = component.container.querySelector('button.filter-button');
+
+		let paramNameInputField;
+
+		for(let i = 0; i< 3; i++){
+			if(inputs[i].placeholder.match(capitalizeWord(API_LOCATIONS__PARAM__NAME.name))
+			){
+				paramNameInputField = inputs[i];
+			}
+		}
+
+		await userEvent.type(paramNameInputField, userInput);
+		await userEvent.click(applyButton)
+
+		checkStep = 'clearing by hands';
+		
+		await userEvent.clear(paramNameInputField);
+		await userEvent.click(applyButton)
+		
+		component.unmount();
+	})
+
+	
 });
