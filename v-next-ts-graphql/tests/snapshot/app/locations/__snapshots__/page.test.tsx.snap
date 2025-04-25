@@ -1,0 +1,258 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`matches snapshot 1`] = `
+<div>
+  <div
+    class="
+				d-flex
+				ai-center
+				jc-center
+				fd-column
+				color--b6b6b6
+				main--font-size
+			"
+  >
+    <div
+      class="
+					d-flex
+					jc-center
+					margin-10
+					w-100
+				"
+    >
+      <div
+        class="
+						search--width
+						d-flex
+						ai-center
+						jc-center
+						fd-if-d-row-if-m-column
+					"
+      >
+        <span
+          class="
+							search-word
+						"
+        >
+          Search :
+        </span>
+        <div
+          class="
+							select-list-option-line
+							d-flex
+						"
+        >
+          <a
+            class="
+									select-list-option
+									underline
+									
+								"
+            href="/characters"
+            title="Search {capitalizeWord(path.value)}"
+          >
+            characters
+          </a>
+          <a
+            class="
+									select-list-option
+									underline
+									selected-select-list-option
+								"
+            href="/locations"
+            title="Search {capitalizeWord(path.value)}"
+          >
+            locations
+          </a>
+          <a
+            class="
+									select-list-option
+									underline
+									
+								"
+            href="/episodes"
+            title="Search {capitalizeWord(path.value)}"
+          >
+            episodes
+          </a>
+        </div>
+        <span
+          class="
+							search-word-dot
+						"
+        >
+          .
+        </span>
+      </div>
+    </div>
+    <div
+      class="margin-10 w-100 d-flex jc-center"
+    >
+      <div
+        class="search--width d-flex jc-space-between fd-column"
+        title="characters"
+      >
+        <div
+          class="text-input-option d-flex w-100 fd-column"
+        >
+          <div
+            class="fd-row d-flex w-100"
+          >
+            <div
+              class="text-input-box"
+            >
+              <div
+                class="text-input-underline bg-color--282828"
+              />
+              <input
+                class="text-input bg-color--b6b6b6 color--282828"
+                placeholder="Name (e.g. Earth (Replacement Dimension))"
+                type="text"
+                value=""
+              />
+            </div>
+            <button
+              class="
+				  	ai-center jc-center text-input-clear fill--999999 bg-color--181a1b
+						button--empty
+				  "
+              disabled=""
+            >
+              <svg
+                class="text-input-clear-icon"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"
+                />
+                <path
+                  d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="text-input-option d-flex w-100 fd-column"
+        >
+          <div
+            class="fd-row d-flex w-100"
+          >
+            <div
+              class="text-input-box"
+            >
+              <div
+                class="text-input-underline bg-color--282828"
+              />
+              <input
+                class="text-input bg-color--b6b6b6 color--282828"
+                placeholder="Type (e.g. Planet)"
+                type="text"
+                value=""
+              />
+            </div>
+            <button
+              class="
+				  	ai-center jc-center text-input-clear fill--999999 bg-color--181a1b
+						button--empty
+				  "
+              disabled=""
+            >
+              <svg
+                class="text-input-clear-icon"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"
+                />
+                <path
+                  d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="text-input-option d-flex w-100 fd-column"
+        >
+          <div
+            class="fd-row d-flex w-100"
+          >
+            <div
+              class="text-input-box"
+            >
+              <div
+                class="text-input-underline bg-color--282828"
+              />
+              <input
+                class="text-input bg-color--b6b6b6 color--282828"
+                placeholder="Dimension (e.g. Replacement Dimension)"
+                type="text"
+                value=""
+              />
+            </div>
+            <button
+              class="
+				  	ai-center jc-center text-input-clear fill--999999 bg-color--181a1b
+						button--empty
+				  "
+              disabled=""
+            >
+              <svg
+                class="text-input-clear-icon"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"
+                />
+                <path
+                  d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="filter-select-box d-flex jc-center ai-center"
+        />
+        <button
+          class="
+				filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
+				button--has-some
+			"
+        >
+          Apply
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="
+				main--font-size
+				color--b6b6b6
+				d-flex
+				ai-center
+				fd-column
+			"
+  >
+    <div
+      class="
+					result-board
+				"
+    >
+      <p>
+        Loading...
+      </p>
+    </div>
+  </div>
+</div>
+`;
