@@ -32,7 +32,7 @@ const props = {
 	update_values: []
 }
 
-describe(`<EpisodesSearch /> ; next/routes/Locations/LocationsSearch.tsx`, () => {
+describe(`<EpisodesSearch /> ; next/routes/Locations/EpisodesSearch.tsx`, () => {
 	it(`Initiates rendering with empty update_value, init_cachedValue without errors`, () => {
 
 		const check = () => {
@@ -85,42 +85,139 @@ describe(`<EpisodesSearch /> ; next/routes/Locations/LocationsSearch.tsx`, () =>
 		expect(check).not.toThrowError();
 	})
 
-	it(`checks availability to apply an empty/part-filled custom form and returning of user input`, async () => {
-		const check = () => {
-			const component = render(<EpisodesSearch {...props} />);
-			
-			const inputs = component.container.querySelectorAll('input.text-input');
-			const applyButton = component.container.querySelector('button.filter-button');
+	it(`checks returning user inputs after apply`, async () => {
+		const userInput = 'Just words...';
 
-			expect(applyButton.disabled).toBe(true);
-			// TODO
-
-			console.log(applyButton)
-
-			expect(inputs.length).toEqual(2);
-
-			let params = 0;
-
-			for(let i = 0; i< 2; i++){
-				if(
-					!!API_EPISODES__PARAM_LIST.find(
-						e => 
-							inputs[i].placeholder
-							.match(capitalizeWord(e.name))
-					)
-				){
-					++params;
-				}
+		let checkStep = 'returning just words';
+		
+		const _props = {...props};
+		_props.get_exitValue = v => {
+			if(checkStep === 'returning just words'){
+				expect(!!userInput.match(v[0].value)).toBe(true);
+			}else{
+				expect(v.length).toBe(0);
 			}
+		}
+		
+		const component = render(<EpisodesSearch {..._props} />);
+		
+		const inputs = component.container.querySelectorAll('input.text-input');
+		const applyButton = component.container.querySelector('button.filter-button');
 
-			expect(params).toBe(2);
+		let paramNameInputField;
 
-			component.unmount();
+		for(let i = 0; i< 2; i++){
+			if(inputs[i].placeholder.match(capitalizeWord(API_EPISODES__PARAM__NAME.name))
+			){
+				paramNameInputField = inputs[i];
+			}
 		}
 
-		expect(check).not.toThrowError();
+		await userEvent.type(paramNameInputField, userInput);
+		await userEvent.click(applyButton)
+
+		checkStep = 'clearing by hands';
+		
+		await userEvent.clear(paramNameInputField);
+		await userEvent.click(applyButton)
+		
+		component.unmount();
 	})
 
-	
+	it(`gets new update_values and display it on custom form`, async () => {
+		const update_values = [{param: 'name', value: 'name input'}];
+
+		let checkStep = 'no update_values 1';
+		
+		const _props = {...props};
+		_props.get_exitValue = v => {
+			if(checkStep === 'no update_values 1'){
+				expect(v.length).toBe(0);
+			}else if(checkStep === 'update_values'){
+				expect(!!update_values[0].value.match(v[0].value)).toBe(true);
+			} else if( checkStep === 'no update_values 2' ){
+				expect(v.length).toBe(0);
+			}
+		}
+		
+		const component = render(<EpisodesSearch {..._props} />);
+		
+		const inputs = component.container.querySelectorAll('input.text-input');
+		const applyButton = component.container.querySelector('button.filter-button');
+
+		let paramNameInputField;
+
+		for(let i = 0; i< 2; i++){
+			if(inputs[i].placeholder.match(capitalizeWord(API_EPISODES__PARAM__NAME.name))
+			){
+				paramNameInputField = inputs[i];
+			}
+		}
+
+		await userEvent.click(applyButton)
+
+		component.rerender(<EpisodesSearch update_values={ update_values }/>)
+
+		checkStep = 'update_values';
+		
+		await userEvent.click(applyButton);
+
+		checkStep = 'no update_values 2';
+
+		await userEvent.clear(paramNameInputField);
+		await userEvent.click(applyButton);
+
+		component.unmount();
+	})
+
+	it(`gets new incorrect update_values and disables apply on custom form`, async () => {
+		const update_values = [{param: 'episode', value: 'incorrect input'}];
+		const correctValueForEpisodeInputField = 'S02E11';
+		let checkStep = 'no update_values 1';
+		
+		const _props = {...props};
+		_props.get_exitValue = v => {
+			if(checkStep === 'no update_values 1'){
+				expect(v.length).toBe(0);
+			}else if(checkStep === 'incorrect update_values'){
+				expect(vi.fn()).not.toBeCalled();
+			} else if( checkStep === 'correct update_values' ){
+				expect(!!correctValueForEpisodeInputField.match(v[0].value)).toBe(true);
+			}
+		}
+		
+		const component = render(<EpisodesSearch {..._props} />);
+		
+		const inputs = component.container.querySelectorAll('input.text-input');
+		const applyButton = component.container.querySelector('button.filter-button');
+
+		let paramEpisodeInputField;
+
+		for(let i = 0; i< 2; i++){
+			if(inputs[i].placeholder.match(capitalizeWord(API_EPISODES__PARAM__EPISODE.name))
+			){
+				paramEpisodeInputField = inputs[i];
+			}
+		}
+
+		await userEvent.click(applyButton)
+
+		checkStep = 'incorrect update_values';
+
+		component.rerender(<EpisodesSearch update_values={ update_values }/>)
+
+		expect(applyButton.disabled).toBe(true);
+
+		await userEvent.click(applyButton);
+
+		checkStep = 'correct update_values';
+
+		await userEvent.clear(paramEpisodeInputField);
+		await userEvent.type(paramEpisodeInputField, correctValueForEpisodeInputField)
+		await userEvent.click(applyButton);
+
+		component.unmount();
+	})
+
 });
 

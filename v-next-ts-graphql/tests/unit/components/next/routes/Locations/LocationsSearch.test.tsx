@@ -14,8 +14,6 @@ import type {
 
 import {
 	API_LOCATIONS__PARAM__NAME,
-	API_LOCATIONS__PARAM__DIMENSION,
-	API_LOCATIONS__PARAM__TYPE,
 	API_LOCATIONS__PARAM_LIST
 } from '@tsCF/data';
 
@@ -125,5 +123,49 @@ describe(`<LocationsSearch /> ; next/routes/Locations/LocationsSearch.tsx`, () =
 		component.unmount();
 	})
 
-	
+	it(`gets new update_values and display it on custom form`, async () => {
+		const update_values = [{param: 'name', value: 'name input'}];
+
+		let checkStep = 'no update_values 1';
+		
+		const _props = {...props};
+		_props.get_exitValue = v => {
+			if(checkStep === 'no update_values 1'){
+				expect(v.length).toBe(0);
+			}else if(checkStep === 'update_values'){
+				expect(!!update_values[0].value.match(v[0].value)).toBe(true);
+			} else if( checkStep === 'no update_values 2' ){
+				expect(v.length).toBe(0);
+			}
+		}
+		
+		const component = render(<LocationsSearch {..._props} />);
+		
+		const inputs = component.container.querySelectorAll('input.text-input');
+		const applyButton = component.container.querySelector('button.filter-button');
+
+		let paramNameInputField;
+
+		for(let i = 0; i< 3; i++){
+			if(inputs[i].placeholder.match(capitalizeWord(API_LOCATIONS__PARAM__NAME.name))
+			){
+				paramNameInputField = inputs[i];
+			}
+		}
+
+		await userEvent.click(applyButton)
+
+		component.rerender(<LocationsSearch update_values={ update_values }/>)
+
+		checkStep = 'update_values';
+		
+		await userEvent.click(applyButton);
+
+		checkStep = 'no update_values 2';
+
+		await userEvent.clear(paramNameInputField);
+		await userEvent.click(applyButton);
+
+		component.unmount();
+	})	
 });
