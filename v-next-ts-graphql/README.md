@@ -11,9 +11,8 @@ Tech stack:
  - Linter: ESLint
  - Formatter: Prettier
  - Testing: 
-    - Unit testing: Jest
-    - Integration testing: Jest
-    - Snapshot test: Jest 
+    - Unit, integration testing: Vitest
+    - Snapshot test: Vitest
     - E2E testing: Playwright, Cypress
 
 
