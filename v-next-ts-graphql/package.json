@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest --silent"
+    "test": "vitest --silent",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "next": "^14.2.26",
@@ -23,6 +24,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4.4.1",
+    "cypress": "^14.3.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "jsdom": "^26.1.0",
