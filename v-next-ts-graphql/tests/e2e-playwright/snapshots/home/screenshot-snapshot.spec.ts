@@ -13,7 +13,21 @@ test.describe('home-snapshot', () => {
 		await page.goto('localhost:3000/'); 
 	
 		await expect(page.locator('header')).toHaveScreenshot('header-screenshot.png');
-		//add after loading
+
+
+		await page.waitForFunction(
+			() => {
+				if(
+					document.querySelector('span.server-status-icon')
+						.classList.contains('server-status-icon_OK')
+				){
+					return true;
+				}
+			},
+			{ timeout: 5000 }
+		);
+
+		await expect(page.locator('header')).toHaveScreenshot('header-after-loading.png');
 	}); 
 
 	test('poster', async ({ page }) => { 
@@ -22,7 +36,7 @@ test.describe('home-snapshot', () => {
 		await expect(page.locator('div.poster--bg')).toHaveScreenshot('poster.png');
 	});
 
-	test('search routes', async ({ page }) => { 
+	test('search routes navigation', async ({ page }) => { 
 		await page.goto('localhost:3000/'); 
 
 		let searchRoutesNav;

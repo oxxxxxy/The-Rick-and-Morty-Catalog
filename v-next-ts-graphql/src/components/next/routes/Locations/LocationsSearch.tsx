@@ -115,7 +115,7 @@ export default function LocationsSearch(
 <div className="margin-10 w-100 d-flex jc-center">
   <div
     className="search--width d-flex jc-space-between fd-column"
-    title="characters"
+    title="locations"
   >
 
 		<InputText
