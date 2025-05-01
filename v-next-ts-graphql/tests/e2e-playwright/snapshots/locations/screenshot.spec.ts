@@ -9,9 +9,38 @@ test.describe('locations-snapshot', () => {
 	test('full page screenshot without params and with params', async ({ page }) => { 
 		await page.goto('localhost:3000/locations'); 
 	
-		await expect(page).toHaveScreenshot('full page without params.png');
+		await expect(page).toHaveScreenshot('full page without params before.png');
 		
+		await page.waitForFunction(
+			() => {
+				const tiles = [...document.querySelector('div.result-board').children];
+				
+				if(
+					tiles.every(e => [...e.classList].includes('tile-box'))
+				){
+					return true;
+				}
+			},
+			{ timeout: 5000 }
+		);
+		
+		await expect(page).toHaveScreenshot('full page without params after.png');
+	
+
 		await page.goto('localhost:3000/locations' + params); 
+		
+		await page.waitForFunction(
+			() => {
+				const tiles = [...document.querySelector('div.result-board').children];
+				
+				if(
+					tiles.every(e => [...e.classList].includes('tile-box'))
+				){
+					return true;
+				}
+			},
+			{ timeout: 5000 }
+		);
 		
 		await expect(page).toHaveScreenshot('full page with params.png');
 	}); 
@@ -67,10 +96,8 @@ test.describe('locations-snapshot', () => {
 				.locator('div.margin-10.w-100.d-flex.jc-center')
 				.all()
 		){
-			const div = l.locator(`div.search--width.d-flex.jc-space-between.fd-column`)
 			if(
-				await div.count()
-				&& await div.getByTitle('locations').count()
+				await l.getByTitle('locations').count()
 			){
 				locationsFilter = l;
 			}
@@ -91,10 +118,8 @@ test.describe('locations-snapshot', () => {
 				.locator('div.margin-10.w-100.d-flex.jc-center')
 				.all()
 		){
-			const div = l.locator(`div.search--width.d-flex.jc-space-between.fd-column`)
 			if(
-				await div.count()
-				&& await div.getByTitle('locations').count()
+				await l.getByTitle('locations').count()
 			){
 				locationsFilter = l;
 			}
@@ -107,28 +132,61 @@ test.describe('locations-snapshot', () => {
 		await expect(locationsFilter).toHaveScreenshot('locations filter with params.png');
 	});
 
-	test('locations results without params before and after', async ({ page }) => { 
+	test('locations results without params before and after and with params', async ({ page }) => { 
 		await page.goto('localhost:3000/locations'); 
 
-		let locationsFilter;
+		let locationsResults;
 		for(const l of await page
-				.locator('div.margin-10.w-100.d-flex.jc-center')
+				.locator('div.main--font-size.color--b6b6b6.d-flex.ai-center.fd-column')
 				.all()
 		){
-			const div = l.locator(`div.search--width.d-flex.jc-space-between.fd-column`)
+			const div = l.locator(`div.result-board`)
 			if(
 				await div.count()
-				&& await div.getByTitle('locations').count()
+				&& (await div.innerText() === 'Loading...')
 			){
-				locationsFilter = l;
+				locationsResults = l;
 			}
 		}
 
-		if(!locationsFilter){
-			throw new Error('!locationsFilter');
+		if(!locationsResults){
+			throw new Error('!locationsResults');
 		}
 
-		await expect(locationsFilter).toHaveScreenshot('locations filter with params.png');
+		await expect(locationsResults).toHaveScreenshot('locations results without params before.png');
+
+		await page.waitForFunction(
+			() => {
+				const tiles = [...document.querySelector('div.result-board').children];
+				
+				if(
+					tiles.every(e => [...e.classList].includes('tile-box'))
+				){
+					return true;
+				}
+			},
+			{ timeout: 5000 }
+		);
+		
+		await expect(locationsResults).toHaveScreenshot('locations results without params after.png');
+		
+		await page.goto('localhost:3000/locations' + params); 
+		
+		await page.waitForFunction(
+			() => {
+				const tiles = [...document.querySelector('div.result-board').children];
+				
+				if(
+					tiles.every(e => [...e.classList].includes('tile-box'))
+				){
+					return true;
+				}
+			},
+			{ timeout: 5000 }
+		);
+		
+		await expect(locationsResults).toHaveScreenshot('locations results with params.png');
+
 	});
 	
 });
