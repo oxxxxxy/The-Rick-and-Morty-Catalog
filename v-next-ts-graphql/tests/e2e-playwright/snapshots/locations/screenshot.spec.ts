@@ -3,10 +3,17 @@ import { test, expect } from '@playwright/test';
 
 
 test.describe('locations-snapshot', () => {
-	test('full page screenshot without params', async ({ page }) => { 
+
+	const params = '?type=Planet'
+
+	test('full page screenshot without params and with params', async ({ page }) => { 
 		await page.goto('localhost:3000/locations'); 
 	
 		await expect(page).toHaveScreenshot('full page without params.png');
+		
+		await page.goto('localhost:3000/locations' + params); 
+		
+		await expect(page).toHaveScreenshot('full page with params.png');
 	}); 
 	
 	test('header', async ({ page }) => { 
@@ -75,6 +82,53 @@ test.describe('locations-snapshot', () => {
 
 		await expect(locationsFilter).toHaveScreenshot('locations filter without params.png');
 	});
+	
+	test('locations filter with params', async ({ page }) => { 
+		await page.goto('localhost:3000/locations' + params); 
 
+		let locationsFilter;
+		for(const l of await page
+				.locator('div.margin-10.w-100.d-flex.jc-center')
+				.all()
+		){
+			const div = l.locator(`div.search--width.d-flex.jc-space-between.fd-column`)
+			if(
+				await div.count()
+				&& await div.getByTitle('locations').count()
+			){
+				locationsFilter = l;
+			}
+		}
+
+		if(!locationsFilter){
+			throw new Error('!locationsFilter');
+		}
+
+		await expect(locationsFilter).toHaveScreenshot('locations filter with params.png');
+	});
+
+	test('locations results without params before and after', async ({ page }) => { 
+		await page.goto('localhost:3000/locations'); 
+
+		let locationsFilter;
+		for(const l of await page
+				.locator('div.margin-10.w-100.d-flex.jc-center')
+				.all()
+		){
+			const div = l.locator(`div.search--width.d-flex.jc-space-between.fd-column`)
+			if(
+				await div.count()
+				&& await div.getByTitle('locations').count()
+			){
+				locationsFilter = l;
+			}
+		}
+
+		if(!locationsFilter){
+			throw new Error('!locationsFilter');
+		}
+
+		await expect(locationsFilter).toHaveScreenshot('locations filter with params.png');
+	});
 	
 });
