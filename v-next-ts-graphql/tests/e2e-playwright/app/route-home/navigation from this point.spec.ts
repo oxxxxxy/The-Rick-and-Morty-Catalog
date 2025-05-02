@@ -3,18 +3,23 @@ import { test, expect } from '@playwright/test';
 
 
 
-test.describe(`navigation from localhost:port/`, () => {
-	test(``, () => {
-		
-	})
+test(`navigation from localhost:port/`, async ({page}) => {
+	await page.goto('localhost:3000'); 
 
 
-	/*
-go to git repo via logo, poster
-go to rickandmortyapi status via header
-go to rickandmorty via poster
+	await page.getByTitle('Search characters').click()
+
+	expect(
+		await page.waitForURL(/00\/characters$/, {timeout: 2000})
+	).toBe(undefined);
+
+	
+	await page.getByTitle('Home').click();
+
+	expect(
+		await page.waitForURL(/3000\/$/, {timeout: 2000})
+	).toBe(undefined);
 
 
-		 
-	 */
+
 });

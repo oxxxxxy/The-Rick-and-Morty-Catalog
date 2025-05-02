@@ -86,6 +86,7 @@ export default function Header() {
 						  <a
 						    href={URL__STATUS_RICKANDMORTYAPI}
 						    target="_blank"
+						    title="check RickAndMortyApi status"
 						  >
 									{ noProtocolLink }
 						  </a>
@@ -115,6 +116,7 @@ export default function Header() {
 						  <a
 						    href={URL__STATUS_RICKANDMORTYAPI}
 						    target="_blank"
+						    title="check RickAndMortyApi status"
 						  >
 									server
 						  </a>
