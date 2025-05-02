@@ -71,7 +71,7 @@ export default function SearchItemNav({
 									underline
 									${path.selected ? 'selected-select-list-option' : ''}
 								`}
-								title="Search {capitalizeWord(path.value)}"
+								title={`Search ${path.value}`}
 								href={'/' + path.value}
 								key={i}
 							>
