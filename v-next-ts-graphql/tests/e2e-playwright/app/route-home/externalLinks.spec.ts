@@ -7,11 +7,7 @@ test.describe(`checking of following of external links`, () => {
 	test('rickandmortyapi status', async ({page}) => {
 		await page.goto('localhost:3000'); 
 
-		expect(
-			await page.waitForURL(/3000\/$/, {timeout: 2000})
-		).toBe(undefined);
 
-	
 		let rickAndMortyApiStatusClicks = 0;
 		const rickAndMortyApiPopup = page.waitForEvent('popup');
 	

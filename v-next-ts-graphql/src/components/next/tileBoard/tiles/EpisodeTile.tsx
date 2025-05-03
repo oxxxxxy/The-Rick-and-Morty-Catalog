@@ -26,6 +26,7 @@ export default function EpisodeTile(
 				bg-color--181a1b
 				d-flex
 			"
+			data-episode-tile=""
 		>
 			<Link className="
 					tile-info-box

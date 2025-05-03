@@ -26,6 +26,7 @@ export default function LocationTile(
 				bg-color--181a1b
 				d-flex
 			"
+			data-location-tile=""
 		>
 			<Link className="
 					tile-info-box

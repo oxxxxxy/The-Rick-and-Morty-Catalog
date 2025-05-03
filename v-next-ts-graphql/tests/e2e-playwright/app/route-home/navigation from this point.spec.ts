@@ -21,5 +21,8 @@ test(`navigation from localhost:port/`, async ({page}) => {
 	).toBe(undefined);
 
 
+	await page.
+
+		suka ves' den' spal... ne beyte.
 
 });

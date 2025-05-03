@@ -29,6 +29,7 @@ export default function CharacterTile(
 				bg-color--181a1b
 				d-flex
 			"
+			data-character-tile=""
 		>
 			<div
 				className="
