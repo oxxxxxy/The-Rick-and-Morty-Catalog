@@ -24,6 +24,7 @@ test.describe('home-snapshot', () => {
 					return true;
 				}
 			},
+			null,
 			{ timeout: 5000 }
 		);
 

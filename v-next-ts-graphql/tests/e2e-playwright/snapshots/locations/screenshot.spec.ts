@@ -21,6 +21,7 @@ test.describe('locations-snapshot', () => {
 					return true;
 				}
 			},
+			null,
 			{ timeout: 5000 }
 		);
 		
@@ -39,6 +40,7 @@ test.describe('locations-snapshot', () => {
 					return true;
 				}
 			},
+			null,
 			{ timeout: 5000 }
 		);
 		
@@ -60,6 +62,7 @@ test.describe('locations-snapshot', () => {
 					return true;
 				}
 			},
+			null,
 			{ timeout: 5000 }
 		);
 
@@ -165,6 +168,7 @@ test.describe('locations-snapshot', () => {
 					return true;
 				}
 			},
+			null,
 			{ timeout: 5000 }
 		);
 		
@@ -182,6 +186,7 @@ test.describe('locations-snapshot', () => {
 					return true;
 				}
 			},
+			null,
 			{ timeout: 5000 }
 		);
 		
