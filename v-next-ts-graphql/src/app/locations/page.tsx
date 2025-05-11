@@ -103,29 +103,80 @@ export default function Locations(){
 				}
 			)
 
-			// prosti menya, gospod'... no ya greshen...
-			//@ts-ignore-next-line
-			if(!actionExecuterAfterMount.isReady()){
-				set_LocationsSearch__update_values(
-					getQPCBaseListFromURL(
-						new URL(window.location.href)
-					)
-				);
-				
-				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore-next-line
-				actionExecuterAfterMount.setReady();
-				
-				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore-next-line
-				searchPageManager.init(LocationsSearch__update_values);
+// 			// prosti menya, gospod'... no ya greshen...
+// 			//@ts-ignore-next-line
+// 			if(!actionExecuterAfterMount.isReady()){
+// 				set_LocationsSearch__update_values(
+// 					getQPCBaseListFromURL(
+// 						new URL(window.location.href)
+// 					)
+// 				);
+			
+// 				console.log(
+// 					TileBoard_SearchUpdateValue, 
+// 				JSON.stringify(						LocationsSearch__update_values
 
-				//crutch by svelte legacy crutch
-				handleLocationsSearchApply([]);
-			}
+// 											), 					
+// 					getQPCBaseListFromURL(
+// 						new URL(window.location.href)
+// 					)
+// )
+// 				// prosti menya, gospod'... no ya greshen...
+// 				//@ts-ignore-next-line
+// 				actionExecuterAfterMount.setReady();
+				
+// 				// prosti menya, gospod'... no ya greshen...
+// 				//@ts-ignore-next-line
+// 				searchPageManager.init(LocationsSearch__update_values);
+
+// 				//crutch by svelte legacy crutch
+// 				// handleLocationsSearchApply([]);
+// 				//
+// 				console.log(TileBoard_SearchUpdateValue, LocationsSearch__update_values)
+// 			}
 		},
 		[]
 	);
+
+			// prosti menya, gospod'... no ya greshen...
+			//@ts-ignore-next-line
+			if(REF_initOutput.current && !REF_initOutput.current.actionExecuterAfterMount.isReady()){
+				const init_LocationsSearch__update_values = 					getQPCBaseListFromURL(
+						new URL(window.location.href)
+					)
+
+				set_LocationsSearch__update_values(
+					init_LocationsSearch__update_values
+				);
+			
+				console.log(
+					TileBoard_SearchUpdateValue, 
+				JSON.stringify(						LocationsSearch__update_values
+
+											), 					
+					getQPCBaseListFromURL(
+						new URL(window.location.href)
+					)
+)
+				// prosti menya, gospod'... no ya greshen...
+				//@ts-ignore-next-line
+				REF_initOutput.current.actionExecuterAfterMount.setReady();
+				
+				// prosti menya, gospod'... no ya greshen...
+				//@ts-ignore-next-line
+				REF_initOutput.current.searchPageManager.init(
+								getQPCBaseListFromURL(
+						new URL(window.location.href)
+					)
+
+					//		LocationsSearch__update_values
+				);
+
+				//crutch by svelte legacy crutch
+				REF_initOutput.current.handleLocationsSearchApply(init_LocationsSearch__update_values);
+				//
+				console.log(TileBoard_SearchUpdateValue, LocationsSearch__update_values)
+			}
 
 
 	return (
