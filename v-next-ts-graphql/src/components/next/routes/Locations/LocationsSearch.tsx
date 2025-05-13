@@ -86,7 +86,7 @@ export default function LocationsSearch(
 		}
 	);
 
-
+console.log(JSON.stringify(update_values), 'locations search')
 	if(!customFormHolder.current){
 		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
 	}
@@ -138,8 +138,26 @@ export default function LocationsSearch(
 					API_LOCATIONS__PARAM__NAME
 				)
 			}
+
+			key={
+				JSON.stringify(
+				entryValueStore[
+					API_LOCATIONS__PARAM__NAME
+					.name
+				]
+				)
+				//delete all of me
+			}
 		/>
 		<InputText
+			key={
+				JSON.stringify(
+				entryValueStore[
+					API_LOCATIONS__PARAM__TYPE
+					.name
+				]
+				)
+			}
 			get_exitValue = {
 				objWithFnsForEachCFIDC__get_exitValue[
 					API_LOCATIONS__PARAM__TYPE
@@ -161,6 +179,14 @@ export default function LocationsSearch(
 			}
 		/>
 		<InputText
+			key={
+				JSON.stringify(
+				entryValueStore[
+					API_LOCATIONS__PARAM__DIMENSION
+					.name
+				]
+				)
+			}
 			get_exitValue = {
 				objWithFnsForEachCFIDC__get_exitValue[
 					API_LOCATIONS__PARAM__DIMENSION

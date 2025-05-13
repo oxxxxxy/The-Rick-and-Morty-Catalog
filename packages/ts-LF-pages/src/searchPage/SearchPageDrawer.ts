@@ -70,6 +70,7 @@ export class SearchPageDrawer{
 	}
 
 	drawCustomForm(v: QueryParamCompatible_Base[]){
+		console.log(JSON.stringify(v), 'searchPageDrawer drawCustomForm')
 		this.#setExternalCFHSearch__update_values(v);
 	}
 

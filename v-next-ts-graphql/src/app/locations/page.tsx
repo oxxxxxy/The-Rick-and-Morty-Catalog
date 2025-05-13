@@ -141,6 +141,9 @@ export default function Locations(){
 			// prosti menya, gospod'... no ya greshen...
 			//@ts-ignore-next-line
 			if(REF_initOutput.current && !REF_initOutput.current.actionExecuterAfterMount.isReady()){
+
+
+
 				const init_LocationsSearch__update_values = 					getQPCBaseListFromURL(
 						new URL(window.location.href)
 					)
@@ -178,7 +181,9 @@ export default function Locations(){
 				console.log(TileBoard_SearchUpdateValue, LocationsSearch__update_values)
 			}
 
+			// console.log(get_LocationsSearch__exit_values.toString())
 
+			console.log(JSON.stringify(LocationsSearch__update_values), ' locations ')
 	return (
 		<>
 			<SearchItemNav pathName={pathName}>
@@ -192,7 +197,7 @@ export default function Locations(){
 					update_values = {
 						LocationsSearch__update_values
 					}
-					key={get_LocationsSearch__exit_values.toString()}
+					key={get_LocationsSearch__exit_values.toString() + LocationsSearch__update_values.toString()}
 				/>
 			</SearchItemNav>
 
