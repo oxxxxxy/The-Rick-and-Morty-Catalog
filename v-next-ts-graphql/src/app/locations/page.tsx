@@ -144,7 +144,7 @@ export default function Locations(){
 
 
 
-				const init_LocationsSearch__update_values = 					getQPCBaseListFromURL(
+				const init_LocationsSearch__update_values = getQPCBaseListFromURL(
 						new URL(window.location.href)
 					)
 

@@ -22,6 +22,7 @@ import type {
 
 
 import InputText from '@/components/next/customForm/InputText';
+import { log } from 'console';
 
 
 
@@ -79,6 +80,18 @@ export default function LocationsSearch(
 					// prosti menya, gospod'... no ya greshen...
 					// @ts-ignore-next-line
 					customFormHolder.current.recieveExitValueStore(exitValueStore);
+
+
+					console.log(
+						JSON.stringify(
+							[
+								v,
+								exitValueStore
+							]
+						),
+						customFormHolder
+						, 'exit value in customFormHolder'
+					)
 				}
 			}
 			
@@ -100,6 +113,7 @@ export default function LocationsSearch(
 	}
 
 	if(update_valuesJson !== JSON.stringify(update_values)){
+		console.log('updateUpdate_values')
 		updateUpdate_values();
 	}
 
@@ -140,8 +154,8 @@ export default function LocationsSearch(
 			}
 
 			key={
-						// API_LOCATIONS__PARAM__NAME
-						// .name + 
+				API_LOCATIONS__PARAM__NAME.name + 
+				new Date().getTime() +
 				JSON.stringify(
 					entryValueStore[
 						API_LOCATIONS__PARAM__NAME
@@ -172,8 +186,8 @@ export default function LocationsSearch(
 			}
 			
 			key={
-						// API_LOCATIONS__PARAM__TYPE
-						// .name +
+				API_LOCATIONS__PARAM__TYPE.name +
+				new Date().getTime() +
 				JSON.stringify(
 					entryValueStore[
 						API_LOCATIONS__PARAM__TYPE
@@ -204,8 +218,8 @@ export default function LocationsSearch(
 			}
 
 			key={
-						// API_LOCATIONS__PARAM__DIMENSION
-						// .name + 
+				API_LOCATIONS__PARAM__DIMENSION.name + 
+				new Date().getTime() +
 				JSON.stringify(
 					entryValueStore[
 						API_LOCATIONS__PARAM__DIMENSION
