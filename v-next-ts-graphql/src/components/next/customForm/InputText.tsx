@@ -99,13 +99,13 @@ export default function InputText(
 	);
 
 
-	if(entry_valueJson !== JSON.stringify(entry_value)){
-		setInputValue(entry_value.value);
+	// if(entry_valueJson !== JSON.stringify(entry_value)){
+	// 	setInputValue(entry_value.value);
 
-		inputText.setValue(entry_value.value);
+	// 	inputText.setValue(entry_value.value);
 
-		setEntry_valueJson(JSON.stringify(entry_value));
-	}
+	// 	setEntry_valueJson(JSON.stringify(entry_value));
+	// }
 
 	console.log(entry_value,'input', entry_valueJson)
 
@@ -113,8 +113,6 @@ export default function InputText(
 		setInputValue(e.target.value);
 
 	 	inputText.setValue(e.target.value);
-	
-		// setEntry_valueJson(e.target.value);
 	}
 
 	const clear = () => (

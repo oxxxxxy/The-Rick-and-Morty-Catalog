@@ -101,7 +101,7 @@ export class SearchPageDrawer{
 			.build();
 
 		const T = this;
-
+console.log(JSON.stringify(tileBoard_SearchValue), 'searchPageDrawer drawDataFromReq')
 		T.#svelteCrutch_drawDataFromReq_lastTimeout = setTimeout(
 			() => {
 				T.#setExternalTileBoard_SearchValue(tileBoard_SearchValue);

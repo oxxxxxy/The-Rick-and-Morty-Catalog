@@ -121,7 +121,7 @@ export class SearchPageManager extends Observer{
 		}
 
 		this.#QPCListHolder.setQPCList(qpcList);
-	'blyat'	
+		
 		pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
 
 		this.#finishNewRequest();
@@ -133,6 +133,7 @@ export class SearchPageManager extends Observer{
 		this.#QPCListHolder.setQPCList(exit_values);
 
 		this.#searchPageDrawer.drawCustomForm(this.#QPCListHolder.getQPCList());
+
 		pushIntoWindowHistory(this.#QPCListHolder.getQPCList(), this.#pathName, this.#pushStateFn);
 
 		this.#finishNewRequest();

@@ -86,7 +86,7 @@ export default function LocationsSearch(
 		}
 	);
 
-console.log(JSON.stringify(update_values), 'locations search', new Date())
+
 	if(!customFormHolder.current){
 		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
 	}
@@ -140,25 +140,17 @@ console.log(JSON.stringify(update_values), 'locations search', new Date())
 			}
 
 			key={
+						// API_LOCATIONS__PARAM__NAME
+						// .name + 
 				JSON.stringify(
-				entryValueStore[
-					API_LOCATIONS__PARAM__NAME
-					.name
-				]
+					entryValueStore[
+						API_LOCATIONS__PARAM__NAME
+						.name
+					]
 				)
-				//delete all of me
 			}
 		/>
-		{/*
 		<InputText
-			key={
-				JSON.stringify(
-				entryValueStore[
-					API_LOCATIONS__PARAM__TYPE
-					.name
-				]
-				)
-			}
 			get_exitValue = {
 				objWithFnsForEachCFIDC__get_exitValue[
 					API_LOCATIONS__PARAM__TYPE
@@ -178,16 +170,19 @@ console.log(JSON.stringify(update_values), 'locations search', new Date())
 					API_LOCATIONS__PARAM__TYPE
 				)
 			}
-		/>
-		<InputText
+			
 			key={
+						// API_LOCATIONS__PARAM__TYPE
+						// .name +
 				JSON.stringify(
-				entryValueStore[
-					API_LOCATIONS__PARAM__DIMENSION
-					.name
-				]
+					entryValueStore[
+						API_LOCATIONS__PARAM__TYPE
+						.name
+					]
 				)
 			}
+		/>
+		<InputText
 			get_exitValue = {
 				objWithFnsForEachCFIDC__get_exitValue[
 					API_LOCATIONS__PARAM__DIMENSION
@@ -207,8 +202,18 @@ console.log(JSON.stringify(update_values), 'locations search', new Date())
 					API_LOCATIONS__PARAM__DIMENSION
 				)
 			}
+
+			key={
+						// API_LOCATIONS__PARAM__DIMENSION
+						// .name + 
+				JSON.stringify(
+					entryValueStore[
+						API_LOCATIONS__PARAM__DIMENSION
+						.name
+					]
+				)
+			}
 		/>
-		*/}
 
 
     <div className="filter-select-box d-flex jc-center ai-center">
