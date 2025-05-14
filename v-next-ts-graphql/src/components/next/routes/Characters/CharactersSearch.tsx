@@ -291,7 +291,7 @@ export default function CharactersSearch(
 							.name + 
 							new Date().getTime() +
 							JSON.stringify(
-							API_CHARACTERS__PARAM__GENDER
+								API_CHARACTERS__PARAM__GENDER
 							)
 						}
 					/>

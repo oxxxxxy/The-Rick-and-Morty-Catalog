@@ -70,23 +70,21 @@ export default function Episodes(){
 				return;
 			}
 
-			REF_initOutput.current = initEpisodesSearchPage(				// prosti menya, gospod'... no ya greshen...
-				{                                                     //@ts-ignore-next-line
-					pathName,																						//@ts-ignore-next-line
-					pushStateFn: pushStateByLegacy,											//@ts-ignore-next-line
-					set_tiles,																					//@ts-ignore-next-line
-					set_TileBoard_SearchValue,													//@ts-ignore-next-line
-					set_EpisodesSearch__update_values,									//@ts-ignore-next-line
-					wUrql,																							//@ts-ignore-next-line
+			REF_initOutput.current = initEpisodesSearchPage(	// prosti menya, gospod'... no ya greshen...
+				{                                               //@ts-ignore-next-line
+					pathName,									//@ts-ignore-next-line
+					pushStateFn: pushStateByLegacy,				//@ts-ignore-next-line
+					set_tiles,									//@ts-ignore-next-line
+					set_TileBoard_SearchValue,					//@ts-ignore-next-line
+					set_EpisodesSearch__update_values,			//@ts-ignore-next-line
+					wUrql,										//@ts-ignore-next-line
 					wLocationChangeEventEmitter
 				}
 			);
 
 			const {
 				handlePaginationSelection,
-				handleEpisodesSearchApply,
-				actionExecuterAfterMount,
-				searchPageManager
+				handleEpisodesSearchApply
 			} = REF_initOutput.current;
 
 			setGet_EpisodesSearch__exit_values(() => 
@@ -103,31 +101,34 @@ export default function Episodes(){
 					handlePaginationSelection(v);
 				}
 			);
-
-			// prosti menya, gospod'... no ya greshen...
-			//@ts-ignore-next-line
-			if(!actionExecuterAfterMount.isReady()){
-				set_EpisodesSearch__update_values(
-					getQPCBaseListFromURL(
-						new URL(window.location.href)
-					)
-				);
-				
-				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore-next-line
-				actionExecuterAfterMount.setReady();
-				
-				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore-next-line
-				searchPageManager.init(EpisodesSearch__update_values);
-
-				//crutch by svelte legacy crutch
-				handleEpisodesSearchApply([]);
-			}
 		},
 		[]
 	);
 
+	// prosti menya, gospod'... no ya greshen...
+	//@ts-ignore-next-line
+	if(REF_initOutput.current && !REF_initOutput.current.actionExecuterAfterMount.isReady()){
+		const init_EpisodesSearch__update_values = getQPCBaseListFromURL(
+			new URL(window.location.href)
+		)
+
+		set_EpisodesSearch__update_values(
+			init_EpisodesSearch__update_values
+		);
+	
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore-next-line
+		REF_initOutput.current.actionExecuterAfterMount.setReady();
+		
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore-next-line
+		REF_initOutput.current.searchPageManager.init(init_EpisodesSearch__update_values);
+
+		//crutch by svelte legacy crutch
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore-next-line
+		REF_initOutput.current.handleLocationsSearchApply(init_EpisodesSearch__update_values);
+	}
 
 	return (
 		<>
@@ -142,7 +143,14 @@ export default function Episodes(){
 					update_values = {
 						EpisodesSearch__update_values
 					}
-					key={get_EpisodesSearch__exit_values.toString()}
+
+					key={
+						// IS IT OKAY??? wtf...
+						get_EpisodesSearch__exit_values.toString()
+						+ EpisodesSearch__update_values.toString()
+						+ new Date().getTime()
+						+ 'episodes'
+					}
 				/>
 			</SearchItemNav>
 

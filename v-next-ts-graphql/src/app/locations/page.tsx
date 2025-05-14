@@ -76,16 +76,14 @@ export default function Locations(){
 					set_tiles,										//@ts-ignore-next-line
 					set_TileBoard_SearchValue,						//@ts-ignore-next-line
 					set_LocationsSearch__update_values,				//@ts-ignore-next-line
-					wUrql,																							//@ts-ignore-next-line
+					wUrql,											//@ts-ignore-next-line
 					wLocationChangeEventEmitter
 				}
 			);
 
 			const {
 				handlePaginationSelection,
-				handleLocationsSearchApply,
-				actionExecuterAfterMount,
-				searchPageManager
+				handleLocationsSearchApply
 			} = REF_initOutput.current;
 
 			setGet_LocationsSearch__exit_values(() => 
@@ -103,37 +101,6 @@ export default function Locations(){
 				}
 			)
 
-// 			// prosti menya, gospod'... no ya greshen...
-// 			//@ts-ignore-next-line
-// 			if(!actionExecuterAfterMount.isReady()){
-// 				set_LocationsSearch__update_values(
-// 					getQPCBaseListFromURL(
-// 						new URL(window.location.href)
-// 					)
-// 				);
-			
-// 				console.log(
-// 					TileBoard_SearchUpdateValue, 
-// 				JSON.stringify(						LocationsSearch__update_values
-
-// 											), 					
-// 					getQPCBaseListFromURL(
-// 						new URL(window.location.href)
-// 					)
-// )
-// 				// prosti menya, gospod'... no ya greshen...
-// 				//@ts-ignore-next-line
-// 				actionExecuterAfterMount.setReady();
-				
-// 				// prosti menya, gospod'... no ya greshen...
-// 				//@ts-ignore-next-line
-// 				searchPageManager.init(LocationsSearch__update_values);
-
-// 				//crutch by svelte legacy crutch
-// 				// handleLocationsSearchApply([]);
-// 				//
-// 				console.log(TileBoard_SearchUpdateValue, LocationsSearch__update_values)
-// 			}
 		},
 		[]
 	);
@@ -162,8 +129,6 @@ export default function Locations(){
 		//@ts-ignore-next-line
 		REF_initOutput.current.handleLocationsSearchApply(init_LocationsSearch__update_values);
 	}
-
-	console.log(JSON.stringify(LocationsSearch__update_values), ' locations ')
 
 	return (
 		<>

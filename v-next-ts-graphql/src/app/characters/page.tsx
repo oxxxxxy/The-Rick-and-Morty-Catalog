@@ -68,23 +68,21 @@ export default function Characters(){
 				return;
 			}
 
-			REF_initOutput.current = initCharactersSearchPage(			// prosti menya, gospod'... no ya greshen...
-			{                                                     //@ts-ignore-next-line
-				pathName,																						//@ts-ignore-next-line
-				pushStateFn: pushStateByLegacy,											//@ts-ignore-next-line
-				set_tiles,																					//@ts-ignore-next-line
-				set_TileBoard_SearchValue,													//@ts-ignore-next-line
-				set_CharactersSearch__update_values,								//@ts-ignore-next-line
-				wUrql,																							//@ts-ignore-next-line
+			REF_initOutput.current = initCharactersSearchPage(	// prosti menya, gospod'... no ya greshen...
+			{                                                   //@ts-ignore-next-line
+				pathName,										//@ts-ignore-next-line
+				pushStateFn: pushStateByLegacy,					//@ts-ignore-next-line
+				set_tiles,										//@ts-ignore-next-line
+				set_TileBoard_SearchValue,						//@ts-ignore-next-line
+				set_CharactersSearch__update_values,			//@ts-ignore-next-line
+				wUrql,											//@ts-ignore-next-line
 				wLocationChangeEventEmitter
 			}
 			);
 
 			const {
 				handlePaginationSelection,
-				handleCharactersSearchApply,
-				actionExecuterAfterMount,
-				searchPageManager
+				handleCharactersSearchApply
 			} = REF_initOutput.current;
 
 			setGet_CharactersSearch__exit_values(() =>
@@ -101,32 +99,35 @@ export default function Characters(){
 					handlePaginationSelection(v);
 				}
 			);
-			
-
-			// prosti menya, gospod'... no ya greshen...
-			//@ts-ignore-next-line
-			if(!actionExecuterAfterMount.isReady()){
-				set_CharactersSearch__update_values(
-					getQPCBaseListFromURL(
-						new URL(window.location.href)
-					)
-				);
-				
-				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore-next-line
-				actionExecuterAfterMount.setReady();
-				
-				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore-next-line
-				searchPageManager.init(CharactersSearch__update_values);
-
-				//crutch by svelte legacy crutch
-				handleCharactersSearchApply([]);
-			}
 		},
 		[]
 	);
 
+
+	// prosti menya, gospod'... no ya greshen...
+	//@ts-ignore-next-line
+	if(REF_initOutput.current && !REF_initOutput.current.actionExecuterAfterMount.isReady()){
+		const init_CharactersSearch__update_values = getQPCBaseListFromURL(
+			new URL(window.location.href)
+		)
+
+		set_CharactersSearch__update_values(
+			init_CharactersSearch__update_values
+		);
+	
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore-next-line
+		REF_initOutput.current.actionExecuterAfterMount.setReady();
+		
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore-next-line
+		REF_initOutput.current.searchPageManager.init(init_CharactersSearch__update_values);
+
+		//crutch by svelte legacy crutch
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore-next-line
+		REF_initOutput.current.handleLocationsSearchApply(init_CharactersSearch__update_values);
+	}
 
 	return (
 		<>
