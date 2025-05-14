@@ -107,12 +107,14 @@ export default function InputText(
 		setEntry_valueJson(JSON.stringify(entry_value));
 	}
 
-	console.log(entry_value,'input')
+	console.log(entry_value,'input', entry_valueJson)
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
 
 	 	inputText.setValue(e.target.value);
+	
+		// setEntry_valueJson(e.target.value);
 	}
 
 	const clear = () => (

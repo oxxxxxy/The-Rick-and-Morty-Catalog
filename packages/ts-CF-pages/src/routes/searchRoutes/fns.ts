@@ -101,6 +101,7 @@ export const initSearchPage = (
 		ActionId_ApplyDataFromCFHSearch,
 		makeFn_ignoreFnExecAfterExitValueTransferOnce(
 			(CFHSearch__exit_values: QueryParamCompatible_Base[]) => {
+				console.log(JSON.stringify(CFHSearch__exit_values), 'actionExecuterAfterMount')
 				searchPageManager.applyCustomForm(CFHSearch__exit_values)
 			}
 		)

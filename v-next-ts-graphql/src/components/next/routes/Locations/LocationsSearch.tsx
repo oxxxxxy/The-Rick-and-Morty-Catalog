@@ -86,7 +86,7 @@ export default function LocationsSearch(
 		}
 	);
 
-console.log(JSON.stringify(update_values), 'locations search')
+console.log(JSON.stringify(update_values), 'locations search', new Date())
 	if(!customFormHolder.current){
 		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
 	}
@@ -149,6 +149,7 @@ console.log(JSON.stringify(update_values), 'locations search')
 				//delete all of me
 			}
 		/>
+		{/*
 		<InputText
 			key={
 				JSON.stringify(
@@ -207,6 +208,7 @@ console.log(JSON.stringify(update_values), 'locations search')
 				)
 			}
 		/>
+		*/}
 
 
     <div className="filter-select-box d-flex jc-center ai-center">
