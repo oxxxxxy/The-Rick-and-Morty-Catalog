@@ -86,6 +86,11 @@ export default function EpisodesSearch(
 		}
 	);
 
+	
+	if(!REF_customFormHolder.current){
+		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
+	}
+
 	function updateUpdate_values(){
 		const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
 		CustomFormHolder.setValuesToValueStore(storeValue, update_values);
@@ -127,6 +132,19 @@ export default function EpisodesSearch(
 							API_EPISODES__PARAM__NAME
 						)
 					}
+					
+					key={
+						//is it okay? wtf...
+						API_EPISODES__PARAM__NAME
+						.name + 
+						new Date().getTime() +
+						JSON.stringify(
+							entryValueStore[
+								API_EPISODES__PARAM__NAME
+								.name
+							]
+						)
+					}
 				/>
 				<InputText
 					get_exitValue = {
@@ -146,6 +164,19 @@ export default function EpisodesSearch(
 					init_instanceOfInputText = {
 						customFormHolder.getInstanceOfCFItemFor(
 							API_EPISODES__PARAM__EPISODE
+						)
+					}
+					
+					key={
+						//is it okay? wtf...
+						API_EPISODES__PARAM__EPISODE
+						.name + 
+						new Date().getTime() +
+						JSON.stringify(
+							entryValueStore[
+								API_EPISODES__PARAM__EPISODE
+								.name
+							]
 						)
 					}
 				/>

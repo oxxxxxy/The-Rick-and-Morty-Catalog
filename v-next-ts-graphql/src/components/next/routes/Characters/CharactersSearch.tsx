@@ -53,8 +53,6 @@ export default function CharactersSearch(
 	const [entryValueStore, setEntryValueStore] = useState<ValueStore>({});
 
 	const REF_customFormHolder = useRef<CustomFormHolder>();
-
-
 	const [objWithFnsForEachCFIDC__get_exitValue] = useState<objWithFnsForEachCFIDC__get_exitValue>(
 		() => {
 			const CFIDCList = API_CHARACTERS__PARAM_LIST;
@@ -141,6 +139,19 @@ export default function CharactersSearch(
 							API_CHARACTERS__PARAM__NAME
 						)
 					}
+					
+					key={
+						//is it okay? wtf...
+						API_CHARACTERS__PARAM__NAME
+						.name + 
+						new Date().getTime() +
+						JSON.stringify(
+							entryValueStore[
+								API_CHARACTERS__PARAM__NAME
+								.name
+							]
+						)
+					}
 				/>
 				<InputText
 					get_exitValue = {
@@ -162,6 +173,19 @@ export default function CharactersSearch(
 							API_CHARACTERS__PARAM__SPECIES
 						)
 					}
+					
+					key={
+						//is it okay? wtf...
+						API_CHARACTERS__PARAM__SPECIES
+						.name + 
+						new Date().getTime() +
+						JSON.stringify(
+							entryValueStore[
+								API_CHARACTERS__PARAM__SPECIES
+								.name
+							]
+						)
+					}
 				/>
 				<InputText
 					get_exitValue = {
@@ -181,6 +205,19 @@ export default function CharactersSearch(
 					init_instanceOfInputText = {
 						customFormHolder.getInstanceOfCFItemFor(
 							API_CHARACTERS__PARAM__TYPE
+						)
+					}
+					
+					key={
+						//is it okay? wtf...
+						API_CHARACTERS__PARAM__TYPE
+						.name + 
+						new Date().getTime() +
+						JSON.stringify(
+							entryValueStore[
+								API_CHARACTERS__PARAM__TYPE
+								.name
+							]
 						)
 					}
 				/>
@@ -205,6 +242,16 @@ export default function CharactersSearch(
 						// @ts-ignore-next-line
 						init_instanceOfSelectMenu = {
 							customFormHolder.getInstanceOfCFItemFor(
+								API_CHARACTERS__PARAM__STATUS
+							)
+						}
+					
+						key={
+							//is it okay? wtf...
+							API_CHARACTERS__PARAM__STATUS
+							.name + 
+							new Date().getTime() +
+							JSON.stringify(
 								API_CHARACTERS__PARAM__STATUS
 							)
 						}
@@ -235,6 +282,16 @@ export default function CharactersSearch(
 						init_instanceOfSelectMenu = {
 							customFormHolder.getInstanceOfCFItemFor(
 								API_CHARACTERS__PARAM__GENDER
+							)
+						}
+					
+						key={
+							//is it okay? wtf...
+							API_CHARACTERS__PARAM__GENDER
+							.name + 
+							new Date().getTime() +
+							JSON.stringify(
+							API_CHARACTERS__PARAM__GENDER
 							)
 						}
 					/>

@@ -22,7 +22,6 @@ import type {
 
 
 import InputText from '@/components/next/customForm/InputText';
-import { log } from 'console';
 
 
 
@@ -46,7 +45,7 @@ export default function LocationsSearch(
 	const [exitValueStore, setExitValueStore] = useState<ValueStore>({});
 	const [entryValueStore, setEntryValueStore] = useState<ValueStore>({});
 
-	const customFormHolder = useRef<CustomFormHolder>();
+	const REF_customFormHolder = useRef<CustomFormHolder>();
 	const [objWithFnsForEachCFIDC__get_exitValue] = useState<objWithFnsForEachCFIDC__get_exitValue>(
 		() => {
 			const CFIDCList = API_LOCATIONS__PARAM_LIST;
@@ -62,7 +61,7 @@ export default function LocationsSearch(
 				args.cachedQPCValues = init_cachedValues;
 			} 
 		
-			customFormHolder.current = new CustomFormHolder(args);
+			REF_customFormHolder.current = new CustomFormHolder(args);
 			
 			setExitValueStore(CustomFormHolder.makeValueStore(CFIDCList));
 			setEntryValueStore(CustomFormHolder.makeValueStore(CFIDCList));
@@ -79,19 +78,7 @@ export default function LocationsSearch(
 					setExitValueStore(exitValueStore);
 					// prosti menya, gospod'... no ya greshen...
 					// @ts-ignore-next-line
-					customFormHolder.current.recieveExitValueStore(exitValueStore);
-
-
-					console.log(
-						JSON.stringify(
-							[
-								v,
-								exitValueStore
-							]
-						),
-						customFormHolder
-						, 'exit value in customFormHolder'
-					)
+					REF_customFormHolder.current.recieveExitValueStore(exitValueStore);
 				}
 			}
 			
@@ -100,7 +87,7 @@ export default function LocationsSearch(
 	);
 
 
-	if(!customFormHolder.current){
+	if(!REF_customFormHolder.current){
 		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
 	}
 
@@ -113,141 +100,138 @@ export default function LocationsSearch(
 	}
 
 	if(update_valuesJson !== JSON.stringify(update_values)){
-		console.log('updateUpdate_values')
 		updateUpdate_values();
 	}
 
+	const customFormHolder = REF_customFormHolder.current;
 
-	const apply = () => {
-		// prosti menya, gospod'... no ya greshen...
-		// @ts-ignore-next-line
-		customFormHolder.current.apply();
-	}
-
-
+	
 	return (
-<div className="margin-10 w-100 d-flex jc-center">
-  <div
-    className="search--width d-flex jc-space-between fd-column"
-    title="locations"
-  >
-
-		<InputText
-			get_exitValue = {
-				objWithFnsForEachCFIDC__get_exitValue[
-					API_LOCATIONS__PARAM__NAME
-					.name
-				]
-			}
-			entry_value = {
-				entryValueStore[
-					API_LOCATIONS__PARAM__NAME
-					.name
-				]
-			}
-			// prosti menya, gospod'... no ya greshen...
-			// @ts-ignore-next-line
-			init_instanceOfInputText = {
-				customFormHolder.current.getInstanceOfCFItemFor(
-					API_LOCATIONS__PARAM__NAME
-				)
-			}
-
-			key={
-				API_LOCATIONS__PARAM__NAME.name + 
-				new Date().getTime() +
-				JSON.stringify(
-					entryValueStore[
-						API_LOCATIONS__PARAM__NAME
-						.name
-					]
-				)
-			}
-		/>
-		<InputText
-			get_exitValue = {
-				objWithFnsForEachCFIDC__get_exitValue[
-					API_LOCATIONS__PARAM__TYPE
-					.name
-				]
-			}
-			entry_value = {
-				entryValueStore[
-					API_LOCATIONS__PARAM__TYPE
-					.name
-				]
-			}
-			// prosti menya, gospod'... no ya greshen...
-			// @ts-ignore-next-line
-			init_instanceOfInputText = {
-				customFormHolder.current.getInstanceOfCFItemFor(
-					API_LOCATIONS__PARAM__TYPE
-				)
-			}
-			
-			key={
-				API_LOCATIONS__PARAM__TYPE.name +
-				new Date().getTime() +
-				JSON.stringify(
-					entryValueStore[
-						API_LOCATIONS__PARAM__TYPE
-						.name
-					]
-				)
-			}
-		/>
-		<InputText
-			get_exitValue = {
-				objWithFnsForEachCFIDC__get_exitValue[
-					API_LOCATIONS__PARAM__DIMENSION
-					.name
-				]
-			}
-			entry_value = {
-				entryValueStore[
-					API_LOCATIONS__PARAM__DIMENSION
-					.name
-				]
-			}
-			// prosti menya, gospod'... no ya greshen...
-			// @ts-ignore-next-line
-			init_instanceOfInputText = {
-				customFormHolder.current.getInstanceOfCFItemFor(
-					API_LOCATIONS__PARAM__DIMENSION
-				)
-			}
-
-			key={
-				API_LOCATIONS__PARAM__DIMENSION.name + 
-				new Date().getTime() +
-				JSON.stringify(
-					entryValueStore[
-						API_LOCATIONS__PARAM__DIMENSION
-						.name
-					]
-				)
-			}
-		/>
-
-
-    <div className="filter-select-box d-flex jc-center ai-center">
-
-
-    </div>
-
-    <button
-      className={`
-				filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
-				${ isValid ? 'button--has-some': 'button--empty'}
-			`}
-
-			disabled = {!isValid}
-
-		  onClick={apply}
-    >
-      Apply
-    </button>
-  </div>
-</div>
+		<div className="margin-10 w-100 d-flex jc-center">
+		  <div
+		    className="search--width d-flex jc-space-between fd-column"
+		    title="locations"
+		  >
+		
+				<InputText
+					get_exitValue = {
+						objWithFnsForEachCFIDC__get_exitValue[
+							API_LOCATIONS__PARAM__NAME
+							.name
+						]
+					}
+					entry_value = {
+						entryValueStore[
+							API_LOCATIONS__PARAM__NAME
+							.name
+						]
+					}
+					// prosti menya, gospod'... no ya greshen...
+					// @ts-ignore-next-line
+					init_instanceOfInputText = {
+						customFormHolder.getInstanceOfCFItemFor(
+							API_LOCATIONS__PARAM__NAME
+						)
+					}
+		
+					key={
+						//is it okay? wtf...
+						API_LOCATIONS__PARAM__NAME.name + 
+						new Date().getTime() +
+						JSON.stringify(
+							entryValueStore[
+								API_LOCATIONS__PARAM__NAME
+								.name
+							]
+						)
+					}
+				/>
+				<InputText
+					get_exitValue = {
+						objWithFnsForEachCFIDC__get_exitValue[
+							API_LOCATIONS__PARAM__TYPE
+							.name
+						]
+					}
+					entry_value = {
+						entryValueStore[
+							API_LOCATIONS__PARAM__TYPE
+							.name
+						]
+					}
+					// prosti menya, gospod'... no ya greshen...
+					// @ts-ignore-next-line
+					init_instanceOfInputText = {
+						customFormHolder.getInstanceOfCFItemFor(
+							API_LOCATIONS__PARAM__TYPE
+						)
+					}
+					
+					key={
+						//is it okay? wtf...
+						API_LOCATIONS__PARAM__TYPE.name +
+						new Date().getTime() +
+						JSON.stringify(
+							entryValueStore[
+								API_LOCATIONS__PARAM__TYPE
+								.name
+							]
+						)
+					}
+				/>
+				<InputText
+					get_exitValue = {
+						objWithFnsForEachCFIDC__get_exitValue[
+							API_LOCATIONS__PARAM__DIMENSION
+							.name
+						]
+					}
+					entry_value = {
+						entryValueStore[
+							API_LOCATIONS__PARAM__DIMENSION
+							.name
+						]
+					}
+					// prosti menya, gospod'... no ya greshen...
+					// @ts-ignore-next-line
+					init_instanceOfInputText = {
+						customFormHolder.getInstanceOfCFItemFor(
+							API_LOCATIONS__PARAM__DIMENSION
+						)
+					}
+		
+					key={
+						//is it okay? wtf...
+						API_LOCATIONS__PARAM__DIMENSION.name + 
+						new Date().getTime() +
+						JSON.stringify(
+							entryValueStore[
+								API_LOCATIONS__PARAM__DIMENSION
+								.name
+							]
+						)
+					}
+				/>
+		
+		
+		    <div className="filter-select-box d-flex jc-center ai-center">
+		
+		
+		    </div>
+		
+		    <button
+		      className={`
+						filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
+						${ isValid ? 'button--has-some': 'button--empty'}
+					`}
+		
+					disabled = {!isValid}
+		
+					onClick={() => customFormHolder.apply()}
+		    >
+		      Apply
+		    </button>
+		  </div>
+		</div>
 	);
 }

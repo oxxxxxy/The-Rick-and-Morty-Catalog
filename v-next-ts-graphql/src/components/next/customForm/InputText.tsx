@@ -81,17 +81,12 @@ export default function InputText(
 					}
 				);
 			}
+				
+			setInputValue(entry_value.value);
 
-			if(!entry_value.value){
-				console.log(
-					entry_value
-					,'if(!entry_value.value){')
-			}	
-				setInputValue(entry_value.value);
+			inputText.setValue(entry_value.value);
 
-				inputText.setValue(entry_value.value);
-
-				setEntry_valueJson(JSON.stringify(entry_value));
+			setEntry_valueJson(JSON.stringify(entry_value));
 
 			if(init_cachedValue){
 				setInputValue(init_cachedValue.value);
@@ -101,18 +96,6 @@ export default function InputText(
 		}
 	);
 
-
-	// if(entry_valueJson !== JSON.stringify(entry_value)){
-	// 	setInputValue(entry_value.value);
-
-	// 	inputText.setValue(entry_value.value);
-
-	// 	setEntry_valueJson(JSON.stringify(entry_value));
-	// }
-
-			if(!entry_value.value || entry_value.param === 'type'){
-	console.log(entry_value,'input', entry_valueJson, inputValue)
-			}	
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);

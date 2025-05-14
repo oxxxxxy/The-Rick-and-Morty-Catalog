@@ -69,13 +69,13 @@ export default function Locations(){
 				return;
 			}
 
-			REF_initOutput.current = initLocationsSearchPage(				// prosti menya, gospod'... no ya greshen...
-				{                                                     //@ts-ignore-next-line
-					pathName,																						//@ts-ignore-next-line
-					pushStateFn: pushStateByLegacy,											//@ts-ignore-next-line
-					set_tiles,																					//@ts-ignore-next-line
-					set_TileBoard_SearchValue,													//@ts-ignore-next-line
-					set_LocationsSearch__update_values,									//@ts-ignore-next-line
+			REF_initOutput.current = initLocationsSearchPage(		// prosti menya, gospod'... no ya greshen...
+				{                                                   //@ts-ignore-next-line
+					pathName,										//@ts-ignore-next-line
+					pushStateFn: pushStateByLegacy,					//@ts-ignore-next-line
+					set_tiles,										//@ts-ignore-next-line
+					set_TileBoard_SearchValue,						//@ts-ignore-next-line
+					set_LocationsSearch__update_values,				//@ts-ignore-next-line
 					wUrql,																							//@ts-ignore-next-line
 					wLocationChangeEventEmitter
 				}
@@ -138,52 +138,33 @@ export default function Locations(){
 		[]
 	);
 
-			// prosti menya, gospod'... no ya greshen...
-			//@ts-ignore-next-line
-			if(REF_initOutput.current && !REF_initOutput.current.actionExecuterAfterMount.isReady()){
+	// prosti menya, gospod'... no ya greshen...
+	//@ts-ignore-next-line
+	if(REF_initOutput.current && !REF_initOutput.current.actionExecuterAfterMount.isReady()){
+		const init_LocationsSearch__update_values = getQPCBaseListFromURL(
+			new URL(window.location.href)
+		)
 
+		set_LocationsSearch__update_values(
+			init_LocationsSearch__update_values
+		);
+	
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore-next-line
+		REF_initOutput.current.actionExecuterAfterMount.setReady();
+		
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore-next-line
+		REF_initOutput.current.searchPageManager.init(init_LocationsSearch__update_values);
 
+		//crutch by svelte legacy crutch
+		// prosti menya, gospod'... no ya greshen...
+		//@ts-ignore-next-line
+		REF_initOutput.current.handleLocationsSearchApply(init_LocationsSearch__update_values);
+	}
 
-				const init_LocationsSearch__update_values = getQPCBaseListFromURL(
-						new URL(window.location.href)
-					)
+	console.log(JSON.stringify(LocationsSearch__update_values), ' locations ')
 
-				set_LocationsSearch__update_values(
-					init_LocationsSearch__update_values
-				);
-			
-				console.log(
-					TileBoard_SearchUpdateValue, 
-				JSON.stringify(						LocationsSearch__update_values
-
-											), 					
-					getQPCBaseListFromURL(
-						new URL(window.location.href)
-					)
-)
-				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore-next-line
-				REF_initOutput.current.actionExecuterAfterMount.setReady();
-				
-				// prosti menya, gospod'... no ya greshen...
-				//@ts-ignore-next-line
-				REF_initOutput.current.searchPageManager.init(
-								getQPCBaseListFromURL(
-						new URL(window.location.href)
-					)
-
-					//		LocationsSearch__update_values
-				);
-
-				//crutch by svelte legacy crutch
-				REF_initOutput.current.handleLocationsSearchApply(init_LocationsSearch__update_values);
-				//
-				console.log(TileBoard_SearchUpdateValue, LocationsSearch__update_values)
-			}
-
-			// console.log(get_LocationsSearch__exit_values.toString())
-
-			console.log(JSON.stringify(LocationsSearch__update_values), ' locations ')
 	return (
 		<>
 			<SearchItemNav pathName={pathName}>
@@ -197,7 +178,14 @@ export default function Locations(){
 					update_values = {
 						LocationsSearch__update_values
 					}
-					key={get_LocationsSearch__exit_values.toString() + LocationsSearch__update_values.toString()}
+
+					key={
+						// IS IT OKAY??? wtf...
+						get_LocationsSearch__exit_values.toString()
+						+ LocationsSearch__update_values.toString()
+						+ new Date().getTime()
+						+ 'locations'
+					}
 				/>
 			</SearchItemNav>
 
