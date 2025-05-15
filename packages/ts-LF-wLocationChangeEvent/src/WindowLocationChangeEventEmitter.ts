@@ -41,7 +41,6 @@ export class WindowLocationChangeEventEmitter extends Observable{
 				);
 			}
 
-			console.log(data?.search, 'wLocChaEventEmi')
 			T.notify(data);
 		};
 		

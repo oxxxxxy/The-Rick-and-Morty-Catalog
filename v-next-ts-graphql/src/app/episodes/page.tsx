@@ -127,7 +127,7 @@ export default function Episodes(){
 		//crutch by svelte legacy crutch
 		// prosti menya, gospod'... no ya greshen...
 		//@ts-ignore-next-line
-		REF_initOutput.current.handleLocationsSearchApply(init_EpisodesSearch__update_values);
+		REF_initOutput.current.handleEpisodesSearchApply(init_EpisodesSearch__update_values);
 	}
 
 	return (

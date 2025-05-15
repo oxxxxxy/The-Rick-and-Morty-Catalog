@@ -81,12 +81,16 @@ export default function InputText(
 					}
 				);
 			}
-				
+			
+			// if(!entry_value.warning){
+
 			setInputValue(entry_value.value);
 
 			inputText.setValue(entry_value.value);
 
 			setEntry_valueJson(JSON.stringify(entry_value));
+
+			// }
 
 			if(init_cachedValue){
 				setInputValue(init_cachedValue.value);
@@ -97,6 +101,15 @@ export default function InputText(
 	);
 
 
+	if(entry_valueJson !== JSON.stringify(entry_value)){
+		setInputValue(entry_value.value);
+
+		inputText.setValue(entry_value.value);
+	
+		setEntry_valueJson(JSON.stringify(entry_value));
+	}
+
+	
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
 

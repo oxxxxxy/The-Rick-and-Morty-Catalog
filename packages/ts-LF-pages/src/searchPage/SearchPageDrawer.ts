@@ -70,7 +70,6 @@ export class SearchPageDrawer{
 	}
 
 	drawCustomForm(v: QueryParamCompatible_Base[]){
-		console.log(JSON.stringify(v), 'searchPageDrawer drawCustomForm')
 		this.#setExternalCFHSearch__update_values(v);
 	}
 
@@ -101,7 +100,7 @@ export class SearchPageDrawer{
 			.build();
 
 		const T = this;
-console.log(JSON.stringify(tileBoard_SearchValue), 'searchPageDrawer drawDataFromReq')
+
 		T.#svelteCrutch_drawDataFromReq_lastTimeout = setTimeout(
 			() => {
 				T.#setExternalTileBoard_SearchValue(tileBoard_SearchValue);

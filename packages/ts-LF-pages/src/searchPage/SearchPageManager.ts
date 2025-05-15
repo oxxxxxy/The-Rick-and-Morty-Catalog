@@ -93,7 +93,7 @@ export class SearchPageManager extends Observer{
 		const qpcList = getQPCBaseListFromURLSearchParams(urlSP);
 		
 		this.#QPCListHolder.setQPCList(qpcList);
-	console.log(JSON.stringify(qpcList), 'SearchPageManager loadFromHistoryLocationSearch')	
+		
 		this.#searchPageDrawer.drawCustomForm(this.#QPCListHolder.getQPCList());
 
 		this.#finishNewRequest();

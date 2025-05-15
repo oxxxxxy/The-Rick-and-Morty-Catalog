@@ -94,14 +94,13 @@ export const initSearchPage = (
 
 
 	const actionExecuterAfterMount = new U.ActionExecuterAfterCondition();
-	
-		const ActionId_ApplyDataFromCFHSearch = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
-	
-		actionExecuterAfterMount.addIdAction(
-			ActionId_ApplyDataFromCFHSearch,
+  
+	const ActionId_ApplyDataFromCFHSearch = 'ya realno debil ili tekuschee reshenie norm? ya huy znaet, ya prosto borus` za okonchanie proektika etogo...';
+  
+	actionExecuterAfterMount.addIdAction(
+		ActionId_ApplyDataFromCFHSearch,
 		makeFn_ignoreFnExecAfterExitValueTransferOnce(
 			(CFHSearch__exit_values: QueryParamCompatible_Base[]) => {
-				console.log(JSON.stringify(CFHSearch__exit_values), 'actionExecuterAfterMount')
 				searchPageManager.applyCustomForm(CFHSearch__exit_values)
 			}
 		)

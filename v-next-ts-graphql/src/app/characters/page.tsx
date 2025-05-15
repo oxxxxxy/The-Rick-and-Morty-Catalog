@@ -126,7 +126,7 @@ export default function Characters(){
 		//crutch by svelte legacy crutch
 		// prosti menya, gospod'... no ya greshen...
 		//@ts-ignore-next-line
-		REF_initOutput.current.handleLocationsSearchApply(init_CharactersSearch__update_values);
+		REF_initOutput.current.handleCharactersSearchApply(init_CharactersSearch__update_values);
 	}
 
 	return (
@@ -142,7 +142,14 @@ export default function Characters(){
 					update_values = {
 						CharactersSearch__update_values
 					}
-					key={get_CharactersSearch__exit_values.toString()}
+
+					key={
+						// IS IT OKAY??? wtf...
+						get_CharactersSearch__exit_values.toString()
+						+ CharactersSearch__update_values.toString()
+						+ new Date().getTime()
+						+ 'episodes'
+					}
 				/>
 			</SearchItemNav>
 		
