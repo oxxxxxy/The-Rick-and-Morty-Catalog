@@ -41,6 +41,7 @@ export default function EpisodesSearch(
 	const set_applyActivity = setIsValid;
 
 	const [exitValueStore, setExitValueStore] = useState<ValueStore>({});
+	const [exitValueStoreJson, setExitValueStoreJson] = useState<string>('')
 	const [entryValueStore, setEntryValueStore] = useState<ValueStore>({});
 
 	const REF_customFormHolder = useRef<CustomFormHolder>();
@@ -67,7 +68,13 @@ export default function EpisodesSearch(
 			setEntryValueStore(CustomFormHolder.makeValueStore(CFIDCList));
 
 			if(update_values.length){
+				const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
+				CustomFormHolder.setValuesToValueStore(storeValue, update_values);
+				setExitValueStore(storeValue);
+
 				updateUpdate_values();
+
+				
 			}
 
 			const objWithFnsForEachCFIDC__get_exitValue: objWithFnsForEachCFIDC__get_exitValue = {};
@@ -78,7 +85,17 @@ export default function EpisodesSearch(
 					setExitValueStore(exitValueStore);
 					// prosti menya, gospod'... no ya greshen...
 					// @ts-ignore-next-line
+					console.log(
+						JSON.stringify(v),
+						'before recieveExitValueStore',
+						JSON.stringify(exitValueStore)
+					)
 					REF_customFormHolder.current.recieveExitValueStore(exitValueStore);
+
+	if(exitValueStoreJson !== JSON.stringify(exitValueStore)){
+		updateUpdate_values();
+		console.log('updateUpdate_values, exitValueStoreJson')
+	}
 				}
 			}
 			
@@ -94,16 +111,35 @@ export default function EpisodesSearch(
 	function updateUpdate_values(){
 		const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
 		CustomFormHolder.setValuesToValueStore(storeValue, update_values);
+		CustomFormHolder.setValuesToValueStore(
+			storeValue,
+			CustomFormHolder.makeQPCListFromValueStore(
+				exitValueStore
+			)
+		);
 		setEntryValueStore(storeValue);
 		setUpdate_valuesJson(JSON.stringify(update_values));
 	}
 
-	if(update_valuesJson !== JSON.stringify(update_values)){
-		updateUpdate_values();
-	}
+	// if(update_valuesJson !== JSON.stringify(update_values)){
+	// 	updateUpdate_values();
+	// 	console.log('updateUpdate_values, HIIIIIIIIIIIIIIIII')
+	// 	alert('sosal?')
+	// ne rabotaet vasche
+	// }
 
 	const customFormHolder = REF_customFormHolder.current;
 
+	console.log(
+		JSON.stringify(
+			entryValueStore
+		),
+		'EpisodesSearch', '\n',
+		JSON.stringify(
+			update_values
+		),
+		'update_values'
+	)
 	
 	return (
 		<div className="margin-10 w-100 d-flex jc-center">

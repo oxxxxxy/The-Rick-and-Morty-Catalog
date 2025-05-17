@@ -82,7 +82,6 @@ export default function InputText(
 				);
 			}
 			
-			// if(!entry_value.warning){
 
 			setInputValue(entry_value.value);
 
@@ -90,7 +89,6 @@ export default function InputText(
 
 			setEntry_valueJson(JSON.stringify(entry_value));
 
-			// }
 
 			if(init_cachedValue){
 				setInputValue(init_cachedValue.value);

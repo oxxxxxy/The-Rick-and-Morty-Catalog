@@ -129,13 +129,7 @@ export class CustomFormHolder {
 	apply(){
 		this.#guard();
 
-		const arr = [];
-
-		for(const k in this.#exitValueStore){
-			const qpc = this.#exitValueStore[k];
-
-			arr.push({...qpc});
-		}
+		const arr = CustomFormHolder.makeQPCListFromValueStore(this.#exitValueStore);
 
 		this.#setExternalValue(arr);
 	}
@@ -207,6 +201,18 @@ export class CustomFormHolder {
 		}
 
 		this.#setExternalApplyActivity(applyActivity);
+	}
+
+	static makeQPCListFromValueStore(valueStore: ValueStore): QueryParamCompatible_Base[]{
+		const arr: QueryParamCompatible_Base[] = [];
+		
+		for(const k in valueStore){
+			const qpc = valueStore[k];
+
+			arr.push({...qpc});
+		}
+
+		return arr;
 	}
 
 	static makeValueStore(CFIDCList: CustomFormInitDataCompatible_List): ValueStore {
