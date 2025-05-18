@@ -24,10 +24,9 @@ import type {
 
 
 import InputText from '@/components/next/customForm/InputText';
-// import SelectMenu from '@/components/next/customForm/SelectMenu';
 const SelectMenu = dynamic(
   () => import('@/components/next/customForm/SelectMenu'),
-  { ssr: false } // Отключаем SSR для этого компонента
+  { ssr: false }
 );
 
 
@@ -45,7 +44,6 @@ export default function CharactersSearch(
 ){
 
 	const [isValid, setIsValid] = useState<boolean>(true);
-	const [update_valuesJson, setUpdate_valuesJson] = useState<string>(JSON.stringify(update_values));
 	const set_value = get_exit_values;
 	const set_applyActivity = (v: boolean) => setIsValid(v);
 
@@ -74,7 +72,9 @@ export default function CharactersSearch(
 			setEntryValueStore(CustomFormHolder.makeValueStore(CFIDCList));
 
 			if(update_values.length){
-				updateUpdate_values();
+				const storeValue = CustomFormHolder.makeValueStore(API_CHARACTERS__PARAM_LIST);
+				CustomFormHolder.setValuesToValueStore(storeValue, update_values);
+				setEntryValueStore(storeValue);
 			}
 
 			const objWithFnsForEachCFIDC__get_exitValue: objWithFnsForEachCFIDC__get_exitValue = {};
@@ -98,19 +98,7 @@ export default function CharactersSearch(
 		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
 	}
 
-	function updateUpdate_values(){
-		const storeValue = CustomFormHolder.makeValueStore(API_CHARACTERS__PARAM_LIST);
-		CustomFormHolder.setValuesToValueStore(storeValue, update_values);
-		setEntryValueStore(storeValue);
-		setUpdate_valuesJson(JSON.stringify(update_values));
-	}
-
-	if(update_valuesJson !== JSON.stringify(update_values)){
-		updateUpdate_values();
-	}
-
 	const customFormHolder = REF_customFormHolder.current;
-
 
 	return (
 		<div className="margin-10 w-100 d-flex jc-center">
@@ -139,19 +127,6 @@ export default function CharactersSearch(
 							API_CHARACTERS__PARAM__NAME
 						)
 					}
-					
-					key={
-						//is it okay? wtf...
-						API_CHARACTERS__PARAM__NAME
-						.name + 
-						new Date().getTime() +
-						JSON.stringify(
-							entryValueStore[
-								API_CHARACTERS__PARAM__NAME
-								.name
-							]
-						)
-					}
 				/>
 				<InputText
 					get_exitValue = {
@@ -173,19 +148,6 @@ export default function CharactersSearch(
 							API_CHARACTERS__PARAM__SPECIES
 						)
 					}
-					
-					key={
-						//is it okay? wtf...
-						API_CHARACTERS__PARAM__SPECIES
-						.name + 
-						new Date().getTime() +
-						JSON.stringify(
-							entryValueStore[
-								API_CHARACTERS__PARAM__SPECIES
-								.name
-							]
-						)
-					}
 				/>
 				<InputText
 					get_exitValue = {
@@ -205,19 +167,6 @@ export default function CharactersSearch(
 					init_instanceOfInputText = {
 						customFormHolder.getInstanceOfCFItemFor(
 							API_CHARACTERS__PARAM__TYPE
-						)
-					}
-					
-					key={
-						//is it okay? wtf...
-						API_CHARACTERS__PARAM__TYPE
-						.name + 
-						new Date().getTime() +
-						JSON.stringify(
-							entryValueStore[
-								API_CHARACTERS__PARAM__TYPE
-								.name
-							]
 						)
 					}
 				/>
@@ -242,16 +191,6 @@ export default function CharactersSearch(
 						// @ts-ignore-next-line
 						init_instanceOfSelectMenu = {
 							customFormHolder.getInstanceOfCFItemFor(
-								API_CHARACTERS__PARAM__STATUS
-							)
-						}
-					
-						key={
-							//is it okay? wtf...
-							API_CHARACTERS__PARAM__STATUS
-							.name + 
-							new Date().getTime() +
-							JSON.stringify(
 								API_CHARACTERS__PARAM__STATUS
 							)
 						}
@@ -281,16 +220,6 @@ export default function CharactersSearch(
 						// @ts-ignore-next-line
 						init_instanceOfSelectMenu = {
 							customFormHolder.getInstanceOfCFItemFor(
-								API_CHARACTERS__PARAM__GENDER
-							)
-						}
-					
-						key={
-							//is it okay? wtf...
-							API_CHARACTERS__PARAM__GENDER
-							.name + 
-							new Date().getTime() +
-							JSON.stringify(
 								API_CHARACTERS__PARAM__GENDER
 							)
 						}

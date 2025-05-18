@@ -42,7 +42,7 @@ export default function SelectMenuC(
 	const [active, set_active] = useState<boolean>(false);
 	const [options, set_options] = useState<QPC_IndexedSelectOption[]>([]);
 	const set_selected = get_exitValue;
-
+	
 	const [selectMenu] = useState<SelectMenu>(
 		() => {
 			let selectMenu: SelectMenu;
@@ -70,7 +70,7 @@ export default function SelectMenuC(
 			if(init_cachedValue){
 				selectMenu.setValue(init_cachedValue);
 			}else if(entry_value){
-				selectMenu.setValue(entry_value);
+				selectMenu.setValue(entry_value.value);
 			}
 
 			cntxtedMouseEventObservable.attachListener('click', selectMenu);

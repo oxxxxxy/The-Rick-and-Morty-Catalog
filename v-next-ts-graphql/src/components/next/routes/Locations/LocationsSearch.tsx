@@ -38,7 +38,6 @@ export default function LocationsSearch(
 	}
 ){
 	const [isValid, setIsValid] = useState<boolean>(true);
-	const [update_valuesJson, setUpdate_valuesJson] = useState<string>(JSON.stringify(update_values));
 	const set_value = get_exitValue;
 	const set_applyActivity = (v: boolean) => setIsValid(v);
 	
@@ -67,7 +66,9 @@ export default function LocationsSearch(
 			setEntryValueStore(CustomFormHolder.makeValueStore(CFIDCList));
 
 			if(update_values.length){
-				updateUpdate_values();
+				const storeValue = CustomFormHolder.makeValueStore(API_LOCATIONS__PARAM_LIST);
+				CustomFormHolder.setValuesToValueStore(storeValue, update_values);
+				setEntryValueStore(storeValue);
 			}
 
 			const objWithFnsForEachCFIDC__get_exitValue: objWithFnsForEachCFIDC__get_exitValue = {};
@@ -91,17 +92,6 @@ export default function LocationsSearch(
 		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
 	}
 
-
-	function updateUpdate_values(){
-		const storeValue = CustomFormHolder.makeValueStore(API_LOCATIONS__PARAM_LIST);
-		CustomFormHolder.setValuesToValueStore(storeValue, update_values);
-		setEntryValueStore(storeValue);
-		setUpdate_valuesJson(JSON.stringify(update_values));
-	}
-
-	if(update_valuesJson !== JSON.stringify(update_values)){
-		updateUpdate_values();
-	}
 
 	const customFormHolder = REF_customFormHolder.current;
 
@@ -133,18 +123,6 @@ export default function LocationsSearch(
 							API_LOCATIONS__PARAM__NAME
 						)
 					}
-		
-					key={
-						//is it okay? wtf...
-						API_LOCATIONS__PARAM__NAME.name + 
-						new Date().getTime() +
-						JSON.stringify(
-							entryValueStore[
-								API_LOCATIONS__PARAM__NAME
-								.name
-							]
-						)
-					}
 				/>
 				<InputText
 					get_exitValue = {
@@ -166,18 +144,6 @@ export default function LocationsSearch(
 							API_LOCATIONS__PARAM__TYPE
 						)
 					}
-					
-					key={
-						//is it okay? wtf...
-						API_LOCATIONS__PARAM__TYPE.name +
-						new Date().getTime() +
-						JSON.stringify(
-							entryValueStore[
-								API_LOCATIONS__PARAM__TYPE
-								.name
-							]
-						)
-					}
 				/>
 				<InputText
 					get_exitValue = {
@@ -197,18 +163,6 @@ export default function LocationsSearch(
 					init_instanceOfInputText = {
 						customFormHolder.getInstanceOfCFItemFor(
 							API_LOCATIONS__PARAM__DIMENSION
-						)
-					}
-		
-					key={
-						//is it okay? wtf...
-						API_LOCATIONS__PARAM__DIMENSION.name + 
-						new Date().getTime() +
-						JSON.stringify(
-							entryValueStore[
-								API_LOCATIONS__PARAM__DIMENSION
-								.name
-							]
 						)
 					}
 				/>
