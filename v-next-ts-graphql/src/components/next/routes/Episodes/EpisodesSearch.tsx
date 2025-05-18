@@ -36,7 +36,7 @@ export default function EpisodesSearch(
 	}
 ){
 	const [isValid, setIsValid] = useState<boolean>(true);
-	const [update_valuesJson, setUpdate_valuesJson] = useState<string>(JSON.stringify(update_values));
+	// const [update_valuesJson, setUpdate_valuesJson] = useState<string>(JSON.stringify(update_values));
 	const set_value = get_exitValue;
 	const set_applyActivity = setIsValid;
 
@@ -68,9 +68,9 @@ export default function EpisodesSearch(
 			setEntryValueStore(CustomFormHolder.makeValueStore(CFIDCList));
 
 			if(update_values.length){
-				const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
-				CustomFormHolder.setValuesToValueStore(storeValue, update_values);
-				setExitValueStore(storeValue);
+				// const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
+				// CustomFormHolder.setValuesToValueStore(storeValue, update_values);
+				// setExitValueStore(storeValue);
 
 				updateUpdate_values();
 
@@ -90,12 +90,13 @@ export default function EpisodesSearch(
 						'before recieveExitValueStore',
 						JSON.stringify(exitValueStore)
 					)
+
 					REF_customFormHolder.current.recieveExitValueStore(exitValueStore);
 
-	if(exitValueStoreJson !== JSON.stringify(exitValueStore)){
-		updateUpdate_values();
-		console.log('updateUpdate_values, exitValueStoreJson')
-	}
+	// if(exitValueStoreJson !== JSON.stringify(exitValueStore)){
+		// updateUpdate_values();
+	// 	console.log('updateUpdate_values, exitValueStoreJson')
+	// }
 				}
 			}
 			
@@ -118,8 +119,10 @@ export default function EpisodesSearch(
 			)
 		);
 		setEntryValueStore(storeValue);
-		setUpdate_valuesJson(JSON.stringify(update_values));
+		// setUpdate_valuesJson(JSON.stringify(update_values));
 	}
+
+
 
 	// if(update_valuesJson !== JSON.stringify(update_values)){
 	// 	updateUpdate_values();
@@ -138,7 +141,9 @@ export default function EpisodesSearch(
 		JSON.stringify(
 			update_values
 		),
-		'update_values'
+		'update_values', '\n',
+		isValid, 'isValid', '\n'
+
 	)
 	
 	return (
@@ -221,6 +226,14 @@ export default function EpisodesSearch(
 		
 		
 		    </div>
+
+{/*
+2 stula
+	1 stul
+		sdelat' knopku apply otdelno i v nee pihat' vso, chto ee kasaetsa, mb, budet tolko ona obnovlyatsa
+	2 stul
+		kidat' focus v inputText.tsx
+*/}	
 		
 		    <button
 		      className={`

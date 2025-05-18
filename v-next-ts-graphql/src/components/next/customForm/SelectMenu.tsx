@@ -43,8 +43,7 @@ export default function SelectMenuC(
 	const [options, set_options] = useState<QPC_IndexedSelectOption[]>([]);
 	const set_selected = get_exitValue;
 
-	const REF_selectMenu = useRef<SelectMenu>();
-	const [entry_valueJson, setEntry_valueJson] = useState<string>(
+	const [selectMenu] = useState<SelectMenu>(
 		() => {
 			let selectMenu: SelectMenu;
 
@@ -62,8 +61,6 @@ export default function SelectMenuC(
 				selectMenu = new SelectMenu(args);
 			}
 
-			REF_selectMenu.current = selectMenu;
-
 			selectMenu.setBridgeToExternalScope({
 				set_active,
 				set_selected,
@@ -75,20 +72,10 @@ export default function SelectMenuC(
 			}
 
 			cntxtedMouseEventObservable.attachListener('click', selectMenu);
-			
-			
-			return JSON.stringify(entry_value);
+
+			return selectMenu
 		}
 	);
-
-
-	const selectMenu = REF_selectMenu.current;
-
-	if(entry_valueJson !== JSON.stringify(entry_value)){
-		selectMenu.setValue(entry_value.value);
-
-		setEntry_valueJson(JSON.stringify(entry_value));
-	}
 
 	
 	return (
