@@ -20,6 +20,7 @@ import type {
  
  
 import InputText from '@/components/next/customForm/InputText';
+import Butt_on from './Button';
  
  
  
@@ -36,12 +37,10 @@ export default function EpisodesSearch(
 	}
 ){
 	const [isValid, setIsValid] = useState<boolean>(true);
-	// const [update_valuesJson, setUpdate_valuesJson] = useState<string>(JSON.stringify(update_values));
 	const set_value = get_exitValue;
 	const set_applyActivity = setIsValid;
 
 	const [exitValueStore, setExitValueStore] = useState<ValueStore>({});
-	const [exitValueStoreJson, setExitValueStoreJson] = useState<string>('')
 	const [entryValueStore, setEntryValueStore] = useState<ValueStore>({});
 
 	const REF_customFormHolder = useRef<CustomFormHolder>();
@@ -68,13 +67,9 @@ export default function EpisodesSearch(
 			setEntryValueStore(CustomFormHolder.makeValueStore(CFIDCList));
 
 			if(update_values.length){
-				// const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
-				// CustomFormHolder.setValuesToValueStore(storeValue, update_values);
-				// setExitValueStore(storeValue);
-
-				updateUpdate_values();
-
-				
+				const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
+				CustomFormHolder.setValuesToValueStore(storeValue, update_values);
+				setEntryValueStore(storeValue);
 			}
 
 			const objWithFnsForEachCFIDC__get_exitValue: objWithFnsForEachCFIDC__get_exitValue = {};
@@ -82,21 +77,12 @@ export default function EpisodesSearch(
 			for(const el of CFIDCList){
 				objWithFnsForEachCFIDC__get_exitValue[el.name] = (v: QueryParamCompatible_Base) => {
 					exitValueStore[el.name] = v;
+				
 					setExitValueStore(exitValueStore);
+
 					// prosti menya, gospod'... no ya greshen...
 					// @ts-ignore-next-line
-					console.log(
-						JSON.stringify(v),
-						'before recieveExitValueStore',
-						JSON.stringify(exitValueStore)
-					)
-
 					REF_customFormHolder.current.recieveExitValueStore(exitValueStore);
-
-	// if(exitValueStoreJson !== JSON.stringify(exitValueStore)){
-		// updateUpdate_values();
-	// 	console.log('updateUpdate_values, exitValueStoreJson')
-	// }
 				}
 			}
 			
@@ -109,42 +95,9 @@ export default function EpisodesSearch(
 		throw new Error('OMG WE\'RE ALL GOING TO DIE!!!! Let\'s fuck in the asses, dudes.');
 	}
 
-	function updateUpdate_values(){
-		const storeValue = CustomFormHolder.makeValueStore(API_EPISODES__PARAM_LIST);
-		CustomFormHolder.setValuesToValueStore(storeValue, update_values);
-		CustomFormHolder.setValuesToValueStore(
-			storeValue,
-			CustomFormHolder.makeQPCListFromValueStore(
-				exitValueStore
-			)
-		);
-		setEntryValueStore(storeValue);
-		// setUpdate_valuesJson(JSON.stringify(update_values));
-	}
-
-
-
-	// if(update_valuesJson !== JSON.stringify(update_values)){
-	// 	updateUpdate_values();
-	// 	console.log('updateUpdate_values, HIIIIIIIIIIIIIIIII')
-	// 	alert('sosal?')
-	// ne rabotaet vasche
-	// }
 
 	const customFormHolder = REF_customFormHolder.current;
 
-	console.log(
-		JSON.stringify(
-			entryValueStore
-		),
-		'EpisodesSearch', '\n',
-		JSON.stringify(
-			update_values
-		),
-		'update_values', '\n',
-		isValid, 'isValid', '\n'
-
-	)
 	
 	return (
 		<div className="margin-10 w-100 d-flex jc-center">
@@ -173,19 +126,6 @@ export default function EpisodesSearch(
 							API_EPISODES__PARAM__NAME
 						)
 					}
-					
-					key={
-						//is it okay? wtf...
-						API_EPISODES__PARAM__NAME
-						.name + 
-						new Date().getTime() +
-						JSON.stringify(
-							entryValueStore[
-								API_EPISODES__PARAM__NAME
-								.name
-							]
-						)
-					}
 				/>
 				<InputText
 					get_exitValue = {
@@ -207,35 +147,11 @@ export default function EpisodesSearch(
 							API_EPISODES__PARAM__EPISODE
 						)
 					}
-					
-					key={
-						//is it okay? wtf...
-						API_EPISODES__PARAM__EPISODE
-						.name + 
-						new Date().getTime() +
-						JSON.stringify(
-							entryValueStore[
-								API_EPISODES__PARAM__EPISODE
-								.name
-							]
-						)
-					}
 				/>
 		
-		    <div className="filter-select-box d-flex jc-center ai-center">
-		
-		
-		    </div>
+		    <div className="filter-select-box d-flex jc-center ai-center"></div>
 
-{/*
-2 stula
-	1 stul
-		sdelat' knopku apply otdelno i v nee pihat' vso, chto ee kasaetsa, mb, budet tolko ona obnovlyatsa
-	2 stul
-		kidat' focus v inputText.tsx
-*/}	
-		
-		    <button
+			<button
 		      className={`
 						filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
 						${ isValid ? 'button--has-some': 'button--empty'}
@@ -247,6 +163,7 @@ export default function EpisodesSearch(
 		    >
 		      Apply
 		    </button>
+
 		  </div>
 		</div>
 	);

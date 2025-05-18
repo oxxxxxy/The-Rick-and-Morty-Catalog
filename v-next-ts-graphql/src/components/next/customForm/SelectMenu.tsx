@@ -69,6 +69,8 @@ export default function SelectMenuC(
 
 			if(init_cachedValue){
 				selectMenu.setValue(init_cachedValue);
+			}else if(entry_value){
+				selectMenu.setValue(entry_value);
 			}
 
 			cntxtedMouseEventObservable.attachListener('click', selectMenu);
