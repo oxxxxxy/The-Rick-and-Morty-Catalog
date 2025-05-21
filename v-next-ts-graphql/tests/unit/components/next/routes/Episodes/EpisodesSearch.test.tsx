@@ -204,7 +204,7 @@ describe(`<EpisodesSearch /> ; next/routes/Locations/EpisodesSearch.tsx`, () => 
 
 		checkStep = 'incorrect update_values';
 
-		component.rerender(<EpisodesSearch update_values={ update_values }/>)
+		await component.rerender(<EpisodesSearch update_values={ update_values }/>)
 
 		expect(applyButton.disabled).toBe(true);
 

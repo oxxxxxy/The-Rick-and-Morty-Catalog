@@ -49,7 +49,7 @@ exports[`matches snapshot 1`] = `
 									
 								"
             href="/characters"
-            title="Search {capitalizeWord(path.value)}"
+            title="Search characters"
           >
             characters
           </a>
@@ -60,7 +60,7 @@ exports[`matches snapshot 1`] = `
 									selected-select-list-option
 								"
             href="/locations"
-            title="Search {capitalizeWord(path.value)}"
+            title="Search locations"
           >
             locations
           </a>
@@ -71,7 +71,7 @@ exports[`matches snapshot 1`] = `
 									
 								"
             href="/episodes"
-            title="Search {capitalizeWord(path.value)}"
+            title="Search episodes"
           >
             episodes
           </a>
@@ -90,7 +90,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="search--width d-flex jc-space-between fd-column"
-        title="characters"
+        title="locations"
       >
         <div
           class="text-input-option d-flex w-100 fd-column"
@@ -226,9 +226,9 @@ exports[`matches snapshot 1`] = `
         />
         <button
           class="
-				filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
-				button--has-some
-			"
+						filter-button color--b6b6b6 bg-color--181a1b tt-uppercase 
+						button--has-some
+					"
         >
           Apply
         </button>

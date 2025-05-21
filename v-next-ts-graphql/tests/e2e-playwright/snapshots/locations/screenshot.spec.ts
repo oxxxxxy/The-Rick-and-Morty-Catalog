@@ -6,7 +6,7 @@ test.describe('locations-snapshot', () => {
 
 	const params = '?type=Planet'
 
-	test('full page screenshot without params and with params', async ({ page }) => { 
+	test('full page screenshots without params and with params', async ({ page }) => { 
 		await page.goto('localhost:3000/locations'); 
 	
 		await expect(page).toHaveScreenshot('full page without params before.png');

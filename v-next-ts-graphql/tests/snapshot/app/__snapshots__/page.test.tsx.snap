@@ -140,7 +140,7 @@ exports[`matches snapshot 1`] = `
 									
 								"
               href="/characters"
-              title="Search {capitalizeWord(path.value)}"
+              title="Search characters"
             >
               characters
             </a>
@@ -151,7 +151,7 @@ exports[`matches snapshot 1`] = `
 									
 								"
               href="/locations"
-              title="Search {capitalizeWord(path.value)}"
+              title="Search locations"
             >
               locations
             </a>
@@ -162,7 +162,7 @@ exports[`matches snapshot 1`] = `
 									
 								"
               href="/episodes"
-              title="Search {capitalizeWord(path.value)}"
+              title="Search episodes"
             >
               episodes
             </a>

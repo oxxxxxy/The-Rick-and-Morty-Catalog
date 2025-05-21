@@ -37,7 +37,7 @@ test.describe('home-snapshot', () => {
 		await expect(page.locator('div.poster--bg')).toHaveScreenshot('poster.png');
 	});
 
-	test('search routes navigation', async ({ page }) => { 
+	test('search routes navigation; SearchItemNav.tsx', async ({ page }) => { 
 		await page.goto('localhost:3000/'); 
 
 		let searchRoutesNav;

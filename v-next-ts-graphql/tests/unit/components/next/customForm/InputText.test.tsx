@@ -151,36 +151,36 @@ describe(`<InputText /> ; next/customForm/InputText.tsx;`, () => {
 	})
 	
 	it('throws warning if user input value is incorrect, then clears it and checks', async () => {
-		let testStep = 'throws warning';
-
-		const userInputText = 'NOTS02E03';
 		const _props = {...props};
-		_props.get_exitValue = v => {
-			if(testStep === 'throws warning'){
-				expect(!!v.warning).toBe(true);
-			}else if(testStep === 'clears it and checks'){
-				expect(!!v.value).toBe(false);
-			}
-		}
-
+		_props.get_exitValue = vi.fn()
 
 		const component = render(<InputText {..._props} />);
 		const input = component.container.querySelector('input.text-input');
 
 		expect(!!component.container.querySelector('span.text-input-warning')).toBe(false);
-		expect(!!component.container.querySelector('button').disabled).toBe(true);
+		expect(component.container.querySelector('button').disabled).toBe(true);
 
-		await userEvent.type(input, userInputText);
+		await userEvent.type(input, 'NOT valid data');
 
-		expect(!!component.container.querySelector('span.text-input-warning')).toBe(true);
-		expect(!!component.container.querySelector('button').disabled).toBe(false);
+ 		await vi.waitFor(() => {
+  			expect(_props.get_exitValue).toHaveBeenCalledWith(
+  			  expect.objectContaining({ warning: _props.init_CFIDC_InputText.warning })
+  			);
+ 			 
+ 			expect(!!component.container.querySelector('span.text-input-warning')).toBe(true);
+ 			expect(component.container.querySelector('button').disabled).toBe(false);
+ 		});
 		
-		testStep = 'clears it and checks';
 		await userEvent.click(component.container.querySelector('button'));
-
-		expect(!!component.container.querySelector('span.text-input-warning')).toBe(false);
-		expect(!!component.container.querySelector('button').disabled).toBe(true);
-
+ 		
+		await vi.waitFor(() => {
+ 			expect(_props.get_exitValue).toHaveBeenCalledWith(
+ 			  expect.objectContaining({ warning: '', value: '' })
+ 			);
+		  
+			expect(!!component.container.querySelector('span.text-input-warning')).toBe(false);
+			expect(component.container.querySelector('button').disabled).toBe(true);
+ 		});
 
 		component.unmount();
 	})
