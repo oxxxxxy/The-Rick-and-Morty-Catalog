@@ -34,7 +34,6 @@ export default function InputText(
 	const [warning, set_warning] = useState<string>('');
 	const set_value = get_exitValue;
 	const [inputValue, setInputValue] = useState<string>('');
-	// const [entry_valueJson, setEntry_valueJson] = useState<string>(JSON.stringify(entry_value));
 	const [inputText] = useState<InputText_ClassType_OneOf>(
 		(): InputText_ClassType_OneOf => {
 		
@@ -86,8 +85,6 @@ export default function InputText(
 			setInputValue(entry_value.value);
 
 			inputText.setValue(entry_value.value);
-
-			// setEntry_valueJson(JSON.stringify(entry_value));
 			
 			if(init_cachedValue){
 				setInputValue(init_cachedValue.value);
@@ -97,14 +94,6 @@ export default function InputText(
 		}
 	);
 
-
-	// if(entry_valueJson !== JSON.stringify(entry_value)){
-	// 	setInputValue(entry_value.value);
-
-	// 	inputText.setValue(entry_value.value);
-
-	// 	setEntry_valueJson(JSON.stringify(entry_value));
-	// }
 	
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
