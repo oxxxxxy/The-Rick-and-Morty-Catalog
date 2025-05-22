@@ -84,41 +84,55 @@ describe(`<LocationsSearch /> ; next/routes/Locations/LocationsSearch.tsx`, () =
 		expect(check).not.toThrowError();
 	})
 
-	it(`checks returning user inputs after apply`, async () => {
-		const userInput = 'Just words...';
+	const getNameParamInput = component => {
+		const inputs = component.container.querySelectorAll('input.text-input');
 
-		let checkStep = 'returning just words';
-		
-		const _props = {...props};
-		_props.get_exitValue = v => {
-			if(checkStep === 'returning just words'){
-				expect(!!userInput.match(v[0].value)).toBe(true);
-			}else{
-				expect(v.length).toBe(0);
+		for(const inp of inputs){
+			if(inp.placeholder.match(capitalizeWord(API_LOCATIONS__PARAM__NAME.name))
+			){
+				return inp;
 			}
 		}
+	}
+
+	it(`checks returning user inputs after apply`, async () => {
+		const userInput = 'Just words...';
+		
+		const _props = {...props};
+		_props.get_exitValue = vi.fn();
+	
 		
 		const component = render(<LocationsSearch {..._props} />);
 		
-		const inputs = component.container.querySelectorAll('input.text-input');
-		const applyButton = component.container.querySelector('button.filter-button');
 
-		let paramNameInputField;
+		await userEvent.type(getNameParamInput(component), userInput);
+		await userEvent.click(
+			//LocationsSearch filter apply button
+			component.container.querySelector('button.filter-button')
+		)
 
-		for(let i = 0; i< 3; i++){
-			if(inputs[i].placeholder.match(capitalizeWord(API_LOCATIONS__PARAM__NAME.name))
-			){
-				paramNameInputField = inputs[i];
-			}
-		}
-
-		await userEvent.type(paramNameInputField, userInput);
-		await userEvent.click(applyButton)
-
-		checkStep = 'clearing by hands';
+		await vi.waitFor(() => {
+  			expect(_props.get_exitValue).toHaveBeenCalledWith(
+				[
+ 					{
+ 				    	"param": "name",
+ 				    	"value": userInput,
+ 				   	}
+ 				]
+			);
+ 		});
+	
 		
-		await userEvent.clear(paramNameInputField);
-		await userEvent.click(applyButton)
+		await userEvent.clear(getNameParamInput(component));
+		await userEvent.click(
+			//LocationsSearch filter apply button
+			component.container.querySelector('button.filter-button')
+		)
+
+		await vi.waitFor(() => {
+  			expect(_props.get_exitValue).toHaveBeenCalledWith([]);
+ 		});
+	
 		
 		component.unmount();
 	})
@@ -126,45 +140,45 @@ describe(`<LocationsSearch /> ; next/routes/Locations/LocationsSearch.tsx`, () =
 	it(`gets new update_values and display it on custom form`, async () => {
 		const update_values = [{param: 'name', value: 'name input'}];
 
-		let checkStep = 'no update_values 1';
 		
 		const _props = {...props};
-		_props.get_exitValue = v => {
-			if(checkStep === 'no update_values 1'){
-				expect(v.length).toBe(0);
-			}else if(checkStep === 'update_values'){
-				expect(!!update_values[0].value.match(v[0].value)).toBe(true);
-			} else if( checkStep === 'no update_values 2' ){
-				expect(v.length).toBe(0);
-			}
-		}
+		_props.get_exitValue = vi.fn();
+	
 		
 		const component = render(<LocationsSearch {..._props} />);
 		
-		const inputs = component.container.querySelectorAll('input.text-input');
-		const applyButton = component.container.querySelector('button.filter-button');
+		await userEvent.click(
+			//LocationsSearch filter apply button
+			component.container.querySelector('button.filter-button')
+		)
 
-		let paramNameInputField;
+		await vi.waitFor(() => {
+  			expect(_props.get_exitValue).toHaveBeenCalledWith([]);
+ 		});
 
-		for(let i = 0; i< 3; i++){
-			if(inputs[i].placeholder.match(capitalizeWord(API_LOCATIONS__PARAM__NAME.name))
-			){
-				paramNameInputField = inputs[i];
-			}
-		}
 
-		await userEvent.click(applyButton)
+		component.rerender(<LocationsSearch {...({..._props, update_values: update_values}) } key ={'1'}/>)
 
-		component.rerender(<LocationsSearch update_values={ update_values }/>)
-
-		checkStep = 'update_values';
+		await userEvent.click(
+			//LocationsSearch filter apply button
+			component.container.querySelector('button.filter-button')
+		)
 		
-		await userEvent.click(applyButton);
+		await vi.waitFor(() => {
+  			expect(_props.get_exitValue).toHaveBeenCalledWith(update_values);
+ 		});
 
-		checkStep = 'no update_values 2';
 
-		await userEvent.clear(paramNameInputField);
-		await userEvent.click(applyButton);
+		await userEvent.clear(getNameParamInput(component));
+		await userEvent.click(
+			//LocationsSearch filter apply button
+			component.container.querySelector('button.filter-button')
+		)
+
+		await vi.waitFor(() => {
+  			expect(_props.get_exitValue).toHaveBeenCalledWith([]);
+ 		});
+
 
 		component.unmount();
 	})	
